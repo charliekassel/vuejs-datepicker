@@ -1,8 +1,19 @@
 {
   "name": "datepicker",
-  "description": "A Vue.js project",
-  "author": "Charlie Kassel <charlie.kassel@vice.com>",
-  "private": true,
+  "version": "0.1.0",
+  "description": "A Vue.js datepicker component",
+  "keywords": [
+    "vue",
+    "datepicker",
+    "date-picker",
+    "calendar"
+  ],
+  "author": "Charlie Kassel <ck@charliekassel.com>",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/charliekassel/vuejs-datepicker"
+  },
+  "private": false,
   "scripts": {
     "dev": "watchify -vd -p browserify-hmr -e src/main.js -o dist/build.js & http-server -c 1 -a localhost",
     "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > dist/build.js",
