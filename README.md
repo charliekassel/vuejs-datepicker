@@ -1,5 +1,11 @@
 # Datepicker
 
+## Install
+
+``` bash
+npm i vuejs-datepicker
+```
+
 ## Usage
 ``` html
 
