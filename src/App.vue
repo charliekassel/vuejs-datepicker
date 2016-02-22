@@ -45,10 +45,7 @@ export default {
 
             if (typeof this.state1.to === 'undefined') {
                 this.state1 = Object.assign({}, this.state1, {
-                    // dates:[],
-                    // days: [],
                     to: null,
-                    // from: null
                 });
             }
 
@@ -59,9 +56,6 @@ export default {
 
             if (typeof this.state1.from === 'undefined') {
                 this.state1 = Object.assign({}, this.state1, {
-                    // dates:[],
-                    // days: [],
-                    // to: null,
                     from: null
                 });
             }
@@ -76,7 +70,5 @@ export default {
 <style>
 body {
   font-family: Helvetica, sans-serif;
-
-
 }
 </style>

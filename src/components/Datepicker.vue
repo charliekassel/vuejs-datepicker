@@ -540,7 +540,7 @@ $width = 300px;
 
 .calendar 
     position absolute
-    z-index 1
+    z-index 100
     background white
     width $width
     border 1px solid #ccc
