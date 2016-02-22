@@ -1,14 +1,20 @@
-# datepicker
+# Datepicker
 
 ## Usage
 ``` html
 
 <datepicker value="2016-02-22"></datepicker>
+<datepicker value="2016-02-22" name="uniquename"></datepicker>
+<datepicker value="2016-02-22" name="uniquename" :disabled="state.disabled"></datepicker>
+
+
+var state = {
+    to: new Date(2016, 0, 25),
+    from: new Date(2016, 6, 1)    
+}
 
 ```
 
-
-> A Vue.js project
 
 ## Build Setup
 
