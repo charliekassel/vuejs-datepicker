@@ -1,6 +1,6 @@
 {
   "name": "vuejs-datepicker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Vue.js datepicker component",
   "keywords": [
     "vue",
@@ -10,8 +10,8 @@
   ],
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/charliekassel/vuejs-datepicker"
+    "type": "git",
+    "url": "https://github.com/charliekassel/vuejs-datepicker"
   },
   "private": false,
   "scripts": {
