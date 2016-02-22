@@ -9,8 +9,10 @@
 
 
 var state = {
-    to: new Date(2016, 0, 25),
-    from: new Date(2016, 6, 1)    
+    disabled: {
+        to: new Date(2016, 0, 25),
+        from: new Date(2016, 6, 1)    
+    }
 }
 
 ```
