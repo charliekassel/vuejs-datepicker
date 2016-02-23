@@ -55,15 +55,21 @@ describe('Datepicker.vue', () => {
     })
 });
 
-describe('Datepicker.vue test2', () => {
+describe('Datepicker.vue set by object', () => {
     beforeEach((done) => {
       vm = new Vue({
-        template: '<div><datepicker value="2016-02-15" format="yyyy-MM-dd"></datepicker></div>',
-        components: { Datepicker }
+        template: '<div><datepicker :value="value" :format="format"></datepicker></div>',
+        components: { Datepicker },
+        data: function() {
+            return {
+                value: new Date(2016, 1, 20),
+                format: 'yyyy-MM-dd'
+            }
+        }
       }).$mount();
       vm.$nextTick(done)
     })
     it('should format a string prop value', ()=> {
-        expect(vm.$el.querySelector('input').value).toBe('2016-02-15')
+        expect(vm.$el.querySelector('input').value).toBe('2016-02-20')
     })
 })

@@ -42,5 +42,3 @@ npm run lint
 # run unit tests
 npm test
 ```
-
-For more information see the [docs for vueify](https://github.com/vuejs/vueify).

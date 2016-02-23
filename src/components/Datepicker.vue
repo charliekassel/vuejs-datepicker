@@ -211,9 +211,15 @@ export default {
             let d = new Date(timestamp);
             this.formattedValue = this.formatDate(d, this.format);
 
-            this.$dispatch('datepicker.' + this.name, {
-                value: timestamp
-            })
+            this.dispatchEvent(timestamp);
+        },
+
+        dispatchEvent(timestamp) {
+            if (this.name) {
+                this.$dispatch('datepicker.' + this.name, {
+                    value: timestamp
+                })
+            }
         },
 
         selectDate(day) {
@@ -578,9 +584,9 @@ $width = 300px;
         text-align center
         vertical-align middle
         border 1px solid transparent
-        &:not(.blank).day
-        &:not(.blank).month
-        &:not(.blank).year
+        &:not(.blank):not(.disabled).day
+        &:not(.blank):not(.disabled).month
+        &:not(.blank):not(.disabled).year
             cursor pointer
             &:hover
                 border 1px solid #4bd
