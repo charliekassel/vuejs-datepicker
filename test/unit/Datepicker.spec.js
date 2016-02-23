@@ -56,13 +56,17 @@ describe('Datepicker.vue', () => {
 });
 
 describe('Datepicker.vue set by object', () => {
+    
+    var state;
+
     beforeEach((done) => {
+      state = new Date(2016, 1, 20)
       vm = new Vue({
         template: '<div><datepicker :value="value" :format="format"></datepicker></div>',
         components: { Datepicker },
         data: function() {
             return {
-                value: new Date(2016, 1, 20),
+                value: state,
                 format: 'yyyy-MM-dd'
             }
         }
@@ -71,5 +75,9 @@ describe('Datepicker.vue set by object', () => {
     })
     it('should format a string prop value', ()=> {
         expect(vm.$el.querySelector('input').value).toBe('2016-02-20')
+    })
+    it('should allow value to be changed outside of component', ()=> {
+        state = new Date(2016, 2, 15)
+        expect(vm.$el.querySelector('input').value).toBe('2016-03-15')
     })
 })

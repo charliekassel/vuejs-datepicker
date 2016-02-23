@@ -115,6 +115,11 @@ export default {
             formattedValue: null
         }
     },
+    watch: {
+        value(value) {
+            this.setValue(value)
+        }
+    },
     computed: {
         currMonthName() {
             const d = new Date(this.currDate);
@@ -512,16 +517,21 @@ export default {
             }
 
             return disabled;
+        },
+
+
+        setValue(value) {
+            const date = new Date(Date.parse(value));
+            this.selectedDate = date;
+            this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
+            this.formattedValue = this.formatDate(date, this.format);
         }
 
 
     },
     compiled() {
         if (this.value) {            
-            const date = new Date(Date.parse(this.value));
-            this.selectedDate = date;
-            this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
-            this.formattedValue = this.formatDate(date, this.format);
+            this.setValue(this.value)
         }
     },
     ready() {
