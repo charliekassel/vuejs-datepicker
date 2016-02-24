@@ -521,6 +521,9 @@ export default {
 
 
         setValue(value) {
+            if (!value) {
+                return this.selectedDate = this.currDate = this.formattedValue = value;
+            }
             const date = new Date(Date.parse(value));
             this.selectedDate = date;
             this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
