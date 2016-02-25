@@ -12,10 +12,8 @@
         </div>
 
         <div class="example">
-            <h3>Set value as date object</h3>
+            <h3>Sync picked value to external object</h3>
             <datepicker :value.sync="state.date1"></datepicker>
-            
-
             <pre>
 &lt;datepicker :value.sync="state.date1"&gt;&lt;/datepicker&gt;
     
@@ -24,8 +22,8 @@ var state = {
 }  
             </pre>
             <div class="settings">
-                <h5>Settings</h5>
-                <p>state.date1 = {{ state | json }}</p>
+                <h5>External state</h5>
+                <p>state = {{ state | json }}</p>
             </div>
         </div>
 

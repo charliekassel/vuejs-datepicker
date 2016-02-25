@@ -260,7 +260,6 @@ export default {
         getDecade() {
             let d = new Date(this.currDate);
             let sD = Math.floor(d.getFullYear() / 10) * 10;
-            // let eD = sD + 10;
             return sD + '\'s'
         },
         
@@ -521,7 +520,10 @@ export default {
             return disabled;
         },
 
-
+        /** 
+         * Set the datepicker value
+         * @param {Date|null} date
+         */
         setValue(date) {
             if (!date) {
                 return this.selectedDate = this.currDate = this.formattedValue = null;
@@ -577,6 +579,24 @@ $width = 300px;
         .next
             width (100/7)%
             float left
+            text-indent -1000px
+            position relative
+            &:after
+                content ''
+                position absolute
+                left 50%
+                top 50%
+                transform translateX(-50%) translateY(-50%)
+                border 6px solid transparent
+
+        .prev
+            &:after
+                border-right 10px solid #000
+                margin-left -5px
+        .next
+            &:after
+                border-left 10px solid #000
+                margin-left 5px
 
         .prev:not(.disabled)
         .next:not(.disabled)

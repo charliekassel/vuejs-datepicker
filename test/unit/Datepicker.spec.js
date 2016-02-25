@@ -9,8 +9,13 @@ describe('Datepicker.vue', () => {
 
     beforeEach((done) => {
       vm = new Vue({
-        template: '<div><datepicker value="2016-02-15" format="yyyy-MM-d"></datepicker></div>',
-        components: { Datepicker }
+        template: '<div><datepicker :value="value" format="yyyy-MM-d"></datepicker></div>',
+        components: { Datepicker },
+        data: function() {
+            return {
+                value: new Date(2016, 1, 15)
+            }
+        }
       }).$mount();
       vm.$nextTick(done)
     })
