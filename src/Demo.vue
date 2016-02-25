@@ -12,6 +12,24 @@
         </div>
 
         <div class="example">
+            <h3>Set value as date object</h3>
+            <datepicker :value.sync="state.date1"></datepicker>
+            
+
+            <pre>
+&lt;datepicker :value.sync="state.date1"&gt;&lt;/datepicker&gt;
+    
+var state = {
+    date1 = new Date()
+}  
+            </pre>
+            <div class="settings">
+                <h5>Settings</h5>
+                <p>state.date1 = {{ state | json }}</p>
+            </div>
+        </div>
+
+        <div class="example">
             <h3>Format datepicker</h3>
             <datepicker :format="format"></datepicker>   
             <code>
@@ -47,9 +65,9 @@
 
         <div class="example">
             <h3>With minimum and maximum date range</h3>
-            <datepicker value="2016-02-17" :disabled="disabled"></datepicker>   
+            <datepicker :disabled="disabled"></datepicker>   
             <code>
-                &lt;datepicker value="2016-02-17" :disabled="disabled"&gt;&lt;/datepicker&gt;   
+                &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;   
             </code>
             <div class="settings">
                 <h5>Settings</h5>
@@ -72,6 +90,10 @@
 
 import Datepicker from './components/Datepicker.vue'
 
+var state = {
+    date1: new Date()
+}
+
 export default {
     components: {
         Datepicker
@@ -80,7 +102,8 @@ export default {
         return {
             format: 'd MMMM yyyy',
             disabled: {},
-            eventMsg: null
+            eventMsg: null,
+            state: state
         }
     },
     ready() {
@@ -132,7 +155,8 @@ select {
     margin-bottom: 2em;
 }
 
-code {
+code,
+pre {
     margin: 1em 0;
     padding: 1em;
     border: 1px solid #bbb;

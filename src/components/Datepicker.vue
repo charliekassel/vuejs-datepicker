@@ -1,6 +1,6 @@
 <template>
   <div class="datepicker">
-    <input class="" type="text" @click="showCalendar" v-model="formattedValue" value="{{ formattedValue }}">
+    <input class="" type="text" @click="showCalendar" value="{{ formattedValue }}">
 
         <!-- Day View -->
         <div class="calendar" v-show="showDayView">
@@ -74,7 +74,9 @@ export default {
 
     props: {
         value: {
-            // type: String
+            validator: function (val) {
+                return val === null || val instanceof Date
+            }
         },
         name: {
             value: String
@@ -210,7 +212,7 @@ export default {
         },
 
         setDate(timestamp) {
-            this.selectedDate = new Date(timestamp);
+            this.value = this.selectedDate = new Date(timestamp);
             this.currDate = timestamp;
 
             let d = new Date(timestamp);
@@ -520,11 +522,10 @@ export default {
         },
 
 
-        setValue(value) {
-            if (!value) {
-                return this.selectedDate = this.currDate = this.formattedValue = value;
+        setValue(date) {
+            if (!date) {
+                return this.selectedDate = this.currDate = this.formattedValue = null;
             }
-            const date = new Date(Date.parse(value));
             this.selectedDate = date;
             this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
             this.formattedValue = this.formatDate(date, this.format);

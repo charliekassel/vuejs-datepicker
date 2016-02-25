@@ -78,6 +78,8 @@ describe('Datepicker.vue set by object', () => {
     })
     it('should allow value to be changed outside of component', ()=> {
         state = new Date(2016, 2, 15)
-        expect(vm.$el.querySelector('input').value).toBe('2016-03-15')
+        vm.$nextTick(function() {
+            expect(vm.$el.querySelector('input').value).toBe('2016-03-15')
+        });
     })
 })
