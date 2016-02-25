@@ -3,21 +3,27 @@
 ## Install
 
 ``` bash
-npm i vuejs-datepicker
+npm install vuejs-datepicker --save
 ```
 
 ## Usage
+
+*value* prop if passed should be a Date object
+
 ``` html
 
-<datepicker value="2016-02-22"></datepicker>
-<datepicker value="2016-02-22" name="uniquename"></datepicker>
-<datepicker value="2016-02-22" name="uniquename" :disabled="state.disabled"></datepicker>
+<datepicker></datepicker>
+<datepicker :value="state.value" name="uniquename"></datepicker>
+<datepicker :value.sync="state.value" name="uniquename" :disabled="state.disabled"></datepicker>
+```
 
+``` javascript
 
 var state = {
+    value: new Date(2016, 0, 15),
     disabled: {
-        to: new Date(2016, 0, 25),
-        from: new Date(2016, 6, 1)    
+        to: new Date(2016, 0, 5),
+        from: new Date(2016, 0, 26)    
     }
 }
 
