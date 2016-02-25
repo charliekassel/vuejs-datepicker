@@ -593,10 +593,14 @@ $width = 300px;
             &:after
                 border-right 10px solid #000
                 margin-left -5px
+            &.disabled:after
+                border-right 10px solid #ddd
         .next
             &:after
                 border-left 10px solid #000
                 margin-left 5px
+            &.disabled:after
+                border-left 10px solid #ddd
 
         .prev:not(.disabled)
         .next:not(.disabled)
