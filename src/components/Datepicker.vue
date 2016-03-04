@@ -1,6 +1,6 @@
 <template>
   <div class="datepicker">
-    <input class="" type="text" @click="showCalendar" value="{{ formattedValue }}">
+    <input class="" type="text" @click="showCalendar" value="{{ formattedValue }}" readonly>
 
         <!-- Day View -->
         <div class="calendar" v-show="showDayView">
@@ -550,7 +550,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 
 $width = 300px;
 
