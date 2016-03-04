@@ -8,6 +8,7 @@
     "date-picker",
     "calendar"
   ],
+  "main": "src/components/Datepicker.vue",
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
     "type": "git",
