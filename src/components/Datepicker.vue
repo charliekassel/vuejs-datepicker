@@ -272,7 +272,7 @@ export default {
             this.currDate = d.getTime();
         },
         previousMonthDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
                 return false;
             }
             let d = new Date(this.currDate);
@@ -293,7 +293,7 @@ export default {
             this.currDate = d.getTime();
         },
         nextMonthDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
                 return false;
             }
             let d = new Date(this.currDate);
@@ -314,7 +314,7 @@ export default {
             this.currDate = d.getTime();
         },
         previousYearDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
                 return false
             }
             let d = new Date(this.currDate);
@@ -332,7 +332,7 @@ export default {
             this.currDate = d.getTime();
         },
         nextYearDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
                 return false
             }
             let d = new Date(this.currDate);
@@ -351,7 +351,7 @@ export default {
             this.currDate = d.getTime();
         },
         previousDecadeDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
                 return false;
             }
             let d = new Date(this.currDate);
@@ -369,7 +369,7 @@ export default {
             this.currDate = d.getTime();
         },
         nextDecadeDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined') {
+            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
                 return false;
             }
             let d = new Date(this.currDate);
@@ -431,10 +431,10 @@ export default {
                     }
                 });
             }
-            if (typeof this.disabled.to !== 'undefined' && date < this.disabled.to) {
+            if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
                 disabled = true;
             }
-            if (typeof this.disabled.from !== 'undefined' && date > this.disabled.from) {
+            if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
                 disabled = true;
             }
             if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
@@ -466,7 +466,7 @@ export default {
                 return false;
             }
 
-            if (typeof this.disabled.to !== 'undefined') {
+            if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
                 if (
                     (date.getMonth() < this.disabled.to.getMonth() && date.getFullYear() <= this.disabled.to.getFullYear())
                     || date.getFullYear() < this.disabled.to.getFullYear()
@@ -474,7 +474,7 @@ export default {
                     disabled = true;
                 }
             }
-            if (typeof this.disabled.from !== 'undefined') {
+            if (typeof this.disabled.from !== 'undefined'  && this.disabled.from) {
                 if (
                     this.disabled.from &&
                     (date.getMonth() > this.disabled.from.getMonth() && date.getFullYear() >= this.disabled.from.getFullYear())
@@ -502,16 +502,16 @@ export default {
          */
         isDisabledYear(date) {
             let disabled = false;
-            if (typeof this.disabled === 'undefined') {
+            if (typeof this.disabled === 'undefined' || !this.disabled) {
                 return false;
             }
 
-            if (typeof this.disabled.to !== 'undefined') {
+            if (typeof this.disabled.to !== 'undefined'  && this.disabled.to) {
                 if (date.getFullYear() < this.disabled.to.getFullYear()) {
                     disabled = true;
                 }
             }
-            if (typeof this.disabled.from !== 'undefined') {
+            if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
                 if (date.getFullYear() > this.disabled.from.getFullYear()) {
                     disabled = true;
                 }
@@ -526,7 +526,9 @@ export default {
          */
         setValue(date) {
             if (!date) {
-                return this.selectedDate = this.currDate = this.formattedValue = null;
+                const d = new Date()
+                this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime();        
+                return this.selectedDate = this.formattedValue = null;
             }
             this.selectedDate = date;
             this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
