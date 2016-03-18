@@ -581,7 +581,7 @@ $width = 300px;
         .next
             width (100/7)%
             float left
-            text-indent -1000px
+            text-indent -10000px
             position relative
             &:after
                 content ''
