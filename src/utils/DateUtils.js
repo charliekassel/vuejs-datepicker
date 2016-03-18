@@ -62,6 +62,12 @@ module.exports = {
      * @return {Number}
      */
     dayDiff(start, end) {
-        return Math.floor((end - start) / (1000*60*60*24));
+        const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+        // Discard the time and time-zone information.
+        let startUTC = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+        let endUTC = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+
+        return Math.floor((endUTC - startUTC) / MS_PER_DAY);
     }
 }
