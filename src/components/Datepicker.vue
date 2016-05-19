@@ -219,7 +219,7 @@ export default {
             this.currDate = timestamp;
 
             let d = new Date(timestamp);
-            this.formattedValue = this.formatDate(d, this.format);
+            this.formattedValue = DateUtils.formatDate(d, this.format);
 
             this.dispatchEvent(timestamp);
         },
@@ -382,29 +382,6 @@ export default {
             return false
         },
         
-        /**
-         * Formats date object
-         * @param {Date}
-         * @return {String}
-         */
-        formatDate(date, format) {
-            let year = date.getFullYear()
-            let month = date.getMonth() + 1
-            let day = date.getDate()
-            let monthName = DateUtils.getMonthName(date.getMonth())
-            let str = format
-                .replace(/yyyy/g, year)
-                .replace(/yy/g, String(year).slice(2))
-                .replace(/MMMM/g, DateUtils.getMonthName(date.getMonth()))
-                .replace(/MMM/g, DateUtils.getMonthNameAbbr(date.getMonth()))
-                .replace(/MM/g, ('0' + month).slice(-2))
-                .replace(/M(?!a)/g, month)
-                .replace(/dd/g, ('0' + day).slice(-2))
-                .replace(/d/g, day)
-
-            return str;
-        },
-
         /** 
          * Whether a day is selected
          * @param {Date}
@@ -535,7 +512,7 @@ export default {
             }
             this.selectedDate = date;
             this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
-            this.formattedValue = this.formatDate(date, this.format);
+            this.formattedValue = DateUtils.formatDate(date, this.format);
         }
 
 
