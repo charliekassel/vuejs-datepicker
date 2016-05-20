@@ -146,6 +146,7 @@ module.exports = {
             .replace(/dd/, ('0' + day).slice(-2))
             .replace(/d/, day)
             .replace(/S/, this.getNthSuffix(date.getDate()))
+            .replace(/D/, this.getDayNameAbbr(date))
 
         return str;
     },
