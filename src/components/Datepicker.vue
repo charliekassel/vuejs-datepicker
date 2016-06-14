@@ -3,7 +3,7 @@
     <input class="" type="text" @click="showCalendar" value="{{ formattedValue }}" readonly>
 
         <!-- Day View -->
-        <div class="calendar" v-show="showDayView">
+        <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span 
                     @click="previousMonth" 
@@ -66,8 +66,7 @@
 </template>
 
 <script>
-
-import DateUtils from  '../utils/DateUtils.js'
+import DateUtils from '../utils/DateUtils.js'
 
 /**
  * TODO
@@ -117,7 +116,11 @@ export default {
              * Helper arrays for names
              */
             dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            formattedValue: null
+            formattedValue: null,
+            /**
+             * Positioning
+             */
+            calendarHeight: 0
         }
     },
     watch: {
@@ -188,6 +191,16 @@ export default {
                 dObj.setFullYear(dObj.getFullYear() + 1);
             }
             return years;
+        },
+        calendarStyle() {
+            let elSize = this.$el.getBoundingClientRect();
+            let heightNeeded = elSize.top + elSize.height + this.calendarHeight;
+            // if the calendar doesn't fit on the window without scrolling position it above the input
+            if (heightNeeded > window.innerHeight) {
+                return {
+                    'bottom': elSize.height + 'px'
+                }
+            }
         }
     },
     methods: {
@@ -203,7 +216,10 @@ export default {
         showDayCalendar() {
             this.close();
             this.showDayView = true;
-
+            // set the calendar height property once is has been rendered
+            this.$nextTick(function() {
+                this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height;
+            });
         },
         showMonthCalendar() {
             this.close();
