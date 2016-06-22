@@ -1,6 +1,6 @@
 <template>
   <div class="datepicker">
-    <input class="" type="text" @click="showCalendar" value="{{ formattedValue }}" readonly>
+    <input class="" name="{{ name }}" type="text" @click="showCalendar" value="{{ formattedValue }}" readonly>
 
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
