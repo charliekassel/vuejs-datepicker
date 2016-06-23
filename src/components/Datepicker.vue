@@ -5,19 +5,19 @@
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
-                <span 
-                    @click="previousMonth" 
+                <span
+                    @click="previousMonth"
                     class="prev"
                     v-bind:class="{ 'disabled' : previousMonthDisabled(currDate) }">&lt;</span>
                 <span @click="showMonthCalendar" class="up">{{ currMonthName }} {{ currYear }}</span>
-                <span 
-                    @click="nextMonth" 
+                <span
+                    @click="nextMonth"
                     class="next"
                     v-bind:class="{ 'disabled' : nextMonthDisabled(currDate) }">&gt;</span>
             </header>
-            <span class="cell day-header" v-for="d in dayNames">{{ d }}</span>
+            <span class="cell day-header" v-for="d in translation.days">{{ d }}</span>
             <span class="cell day blank" v-for="d in blankDays"></span><!--
-            --><span class="cell day" 
+            --><span class="cell day"
                 v-for="day in days"
                 track-by="$index"
                 v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled }"
@@ -28,8 +28,8 @@
         <!-- Month View -->
         <div class="calendar" v-show="showMonthView">
             <header>
-                <span 
-                    @click="previousYear" 
+                <span
+                    @click="previousYear"
                     class="prev"
                     v-bind:class="{ 'disabled' : previousYearDisabled(currDate) }">&lt;</span>
                 <span @click="showYearCalendar" class="up">{{ getYear() }}</span>
@@ -38,7 +38,7 @@
                     class="next"
                     v-bind:class="{ 'disabled' : nextYearDisabled(currDate) }">&gt;</span>
             </header>
-            <span class="cell month" 
+            <span class="cell month"
                 v-for="month in months"
                 track-by="$index"
                 v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
@@ -54,7 +54,7 @@
                 <span @click="nextDecade" class="next"
                     v-bind:class="{ 'disabled' : nextMonthDisabled(currDate) }">&gt;</span>
             </header>
-            <span 
+            <span
                 class="cell year"
                 v-for="year in years"
                 track-by="$index"
@@ -67,6 +67,7 @@
 
 <script>
 import DateUtils from '../utils/DateUtils.js'
+import DateLanguages from '../utils/DateLanguages.js';
 
 /**
  * TODO
@@ -87,7 +88,10 @@ export default {
             value: String,
             default: 'dd MMM yyyy'
         },
-
+        language: {
+            value: String,
+            default: 'en'
+        },
         disabled: {
             type: Object
         }
@@ -95,12 +99,12 @@ export default {
 
     data() {
         return {
-            /* 
+            /*
              * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
              * {Number}
              */
             currDate: new Date().getTime(),
-            /* 
+            /*
              * Selected Date
              * {Date}
              */
@@ -115,7 +119,7 @@ export default {
             /**
              * Helper arrays for names
              */
-            dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            translation: DateLanguages.translations[this.language],
             formattedValue: null,
             /**
              * Positioning
@@ -131,7 +135,7 @@ export default {
     computed: {
         currMonthName() {
             const d = new Date(this.currDate);
-            return DateUtils.getMonthNameAbbr(d.getMonth())
+            return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
         },
         currYear() {
             const d = new Date(this.currDate);
@@ -166,7 +170,7 @@ export default {
             let dObj = new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes());
             for (let i = 0; i < 12; i++) {
                 months.push({
-                    month: DateUtils.getMonthName(i),
+                    month: DateUtils.getMonthName(i, this.translation.months.original),
                     timestamp: dObj.getTime(),
                     isSelected: this.isSelectedMonth(dObj),
                     isDisabled: this.isDisabledMonth(dObj),
@@ -235,7 +239,7 @@ export default {
             this.currDate = timestamp;
 
             let d = new Date(timestamp);
-            this.formattedValue = DateUtils.formatDate(d, this.format);
+            this.formattedValue = DateUtils.formatDate(d, this.format, this.translation);
 
             this.dispatchEvent(timestamp);
         },
@@ -281,7 +285,7 @@ export default {
             let sD = Math.floor(d.getFullYear() / 10) * 10;
             return sD + '\'s'
         },
-        
+
         previousMonth() {
             if (this.previousMonthDisabled()) {
                 return false;
@@ -360,7 +364,7 @@ export default {
             }
             return false
         },
-        
+
         previousDecade() {
             if (this.previousDecadeDisabled()) {
                 return false;
@@ -397,8 +401,8 @@ export default {
             }
             return false
         },
-        
-        /** 
+
+        /**
          * Whether a day is selected
          * @param {Date}
          * @return {Boolean}
@@ -412,9 +416,9 @@ export default {
          * @param {Date}
          * @return {Boolean}
          */
-        isDisabledDate(date) {          
+        isDisabledDate(date) {
             let disabled = false;
-            
+
             if (typeof this.disabled === 'undefined') {
                 return false;
             }
@@ -439,7 +443,7 @@ export default {
             return disabled;
         },
 
-        /** 
+        /**
          * Whether the selected date is in this month
          * @param {Date}
          * @return {Boolean}
@@ -457,7 +461,7 @@ export default {
          */
         isDisabledMonth(date) {
             let disabled = false;
-            
+
             if (typeof this.disabled === 'undefined') {
                 return false;
             }
@@ -516,25 +520,25 @@ export default {
             return disabled;
         },
 
-        /** 
+        /**
          * Set the datepicker value
          * @param {Date|null} date
          */
         setValue(date) {
             if (!date) {
                 const d = new Date()
-                this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime();        
+                this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
                 return this.selectedDate = this.formattedValue = null;
             }
             this.selectedDate = date;
-            this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();        
-            this.formattedValue = DateUtils.formatDate(date, this.format);
+            this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+            this.formattedValue = DateUtils.formatDate(date, this.format, this.translation);
         }
 
 
     },
     compiled() {
-        if (this.value) {            
+        if (this.value) {
             this.setValue(this.value)
         }
     },
@@ -552,13 +556,13 @@ export default {
 
 $width = 300px;
 
-* 
+*
     box-sizing border-box
 
 .datepicker
     position relative
 
-.calendar 
+.calendar
     position absolute
     z-index 100
     background white
@@ -572,7 +576,7 @@ $width = 300px;
             text-align center
             width (100 - (100/7)*2)%
             float left
-            
+
         .prev
         .next
             width (100/7)%
@@ -602,16 +606,16 @@ $width = 300px;
 
         .prev:not(.disabled)
         .next:not(.disabled)
-        .up:not(.disabled)  
+        .up:not(.disabled)
             cursor pointer
             &:hover
                 background #eee
-     
+
     .disabled
         color #ddd
         cursor default
 
-    .cell 
+    .cell
         display inline-block
         padding 0 5px
         width (100/7)%
@@ -632,10 +636,10 @@ $width = 300px;
                 background #4bd
         &.grey
             color #888
-        
+
             &:hover
                 background inherit
-        
+
 
         &.day-header
             font-size 75%
@@ -646,6 +650,6 @@ $width = 300px;
     .month,
     .year
         width 33.333%
-    
+
 
 </style>
