@@ -5,7 +5,7 @@
 
         <div class="example">
             <h3>Default datepicker</h3>
-            <datepicker language="fr"></datepicker>
+            <datepicker></datepicker>
             <code>
                 &lt;datepicker&gt;&lt;/datepicker&gt;
             </code>
