@@ -14,6 +14,7 @@ module.exports = {
     /**
      * Return abbreviated week day name
      * @param {Date}
+     * @param {Array}
      * @return {String}
      */
     getDayNameAbbr(date, days) {
@@ -26,6 +27,7 @@ module.exports = {
     /**
      * Return name of the month
      * @param {Number|Date}
+     * @param {Array}
      * @return {String}
      */
     getMonthName(month, months) {
@@ -126,20 +128,22 @@ module.exports = {
     /**
      * Formats date object
      * @param {Date}
+     * @param {String}
+     * @param {Object}
      * @return {String}
      */
-    formatDate(date, format, traslation) {
+    formatDate(date, format, translation) {
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
-        let monthName = this.getMonthName(date.getMonth(), traslation.months.original)
+        let monthName = this.getMonthName(date.getMonth(), translation.months.original)
         let str = format
             .replace(/S/, this.getNthSuffix(date.getDate()))
-            .replace(/D/, this.getDayNameAbbr(date, traslation.days))
+            .replace(/D/, this.getDayNameAbbr(date, translation.days))
             .replace(/yyyy/, year)
             .replace(/yy/, String(year).slice(2))
-            .replace(/MMMM/, this.getMonthName(date.getMonth(), traslation.months.original))
-            .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), traslation.months.abbr))
+            .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
+            .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.months.abbr))
             .replace(/MM/, ('0' + month).slice(-2))
             .replace(/M(?!a)/, month)
             .replace(/dd/, ('0' + day).slice(-2))
