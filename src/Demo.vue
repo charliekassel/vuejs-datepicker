@@ -1,13 +1,13 @@
 <template>
     <div id="app">
-        
+
         <h1>Datepicker Examples</h1>
 
         <div class="example">
             <h3>Default datepicker</h3>
-            <datepicker></datepicker>   
+            <datepicker></datepicker>
             <code>
-                &lt;datepicker&gt;&lt;/datepicker&gt;   
+                &lt;datepicker&gt;&lt;/datepicker&gt;
             </code>
         </div>
 
@@ -16,10 +16,10 @@
             <datepicker :value.sync="state.date1"></datepicker>
             <pre>
 &lt;datepicker :value.sync="state.date1"&gt;&lt;/datepicker&gt;
-    
+
 var state = {
     date1 = new Date()
-}  
+}
             </pre>
             <div class="settings">
                 <h5>External state</h5>
@@ -29,9 +29,9 @@ var state = {
 
         <div class="example">
             <h3>Format datepicker</h3>
-            <datepicker :format="format"></datepicker>   
+            <datepicker :format="format"></datepicker>
             <code>
-                &lt;datepicker :format="format"&gt;&lt;/datepicker&gt;   
+                &lt;datepicker :format="format"&gt;&lt;/datepicker&gt;
             </code>
             <div class="settings">
                 <h5>Settings</h5>
@@ -48,9 +48,9 @@ var state = {
 
         <div class="example">
             <h3>Events</h3>
-            <datepicker name="eventtest"></datepicker>   
+            <datepicker name="eventtest"></datepicker>
             <code>
-                &lt;datepicker  name="eventtest"&gt;&lt;/datepicker&gt;   
+                &lt;datepicker  name="eventtest"&gt;&lt;/datepicker&gt;
             </code>
             <div class="settings">
                 <h5>Output</h5>
@@ -63,22 +63,36 @@ var state = {
 
         <div class="example">
             <h3>With minimum and maximum date range</h3>
-            <datepicker :disabled="disabled"></datepicker>   
+            <datepicker :disabled="disabled"></datepicker>
             <code>
-                &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;   
+                &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
             </code>
             <div class="settings">
                 <h5>Settings</h5>
                 <div class="form-group">
                     <label>Disabled to:</label>
                     <datepicker name="to"></datepicker>
-                </div>                
+                </div>
                 <div class="form-group">
                     <label>Disabled from:</label>
                     <datepicker name="from"></datepicker>
                 </div>
                 <pre>disabled: {{ disabled | json }}</pre>
             </div>
+        </div>
+
+        <div class="example">
+            <h3>Translations</h3>
+            <h5>Spanish datepicker</h5>
+            <datepicker language="es"></datepicker>
+            <code>
+                &lt;datepicker language="es"&gt;&lt;/datepicker&gt;
+            </code>
+            <h5>French datepicker</h5>
+            <datepicker language="fr"></datepicker>
+            <code>
+                &lt;datepicker language="fr"&gt;&lt;/datepicker&gt;
+            </code>
         </div>
 
     </div>

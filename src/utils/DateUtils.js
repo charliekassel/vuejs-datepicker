@@ -14,28 +14,28 @@ module.exports = {
     /**
      * Return abbreviated week day name
      * @param {Date}
+     * @param {Array}
      * @return {String}
      */
-    getDayNameAbbr(date) {
+    getDayNameAbbr(date, days) {
         if (typeof date !== 'object') {
             throw TypeError('Invalid Type');
         }
-        let dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        return dayNames[date.getDay()];
+        return days[date.getDay()];
     },
 
     /**
      * Return name of the month
      * @param {Number|Date}
+     * @param {Array}
      * @return {String}
      */
-    getMonthName(month) {
-        let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    getMonthName(month, months) {
         if (typeof month === 'object') {
-            return monthNames[month.getMonth()];
+            return months[month.getMonth()];
         }
         if (typeof month === 'number') {
-            return monthNames[month];
+            return months[month];
         }
         throw TypeError('Invalid type');
     },
@@ -45,13 +45,12 @@ module.exports = {
      * @param {Number|Date}
      * @return {String}
      */
-    getMonthNameAbbr(month) {
-        let monthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    getMonthNameAbbr(month, monthsAbbr) {
         if (typeof month === 'object') {
-            return monthAbbr[month.getMonth()];
+            return monthsAbbr[month.getMonth()];
         }
         if (typeof month === 'number') {
-            return monthAbbr[month];
+            return monthsAbbr[month];
         }
         throw TypeError('Invalid type');
     },
@@ -129,24 +128,26 @@ module.exports = {
     /**
      * Formats date object
      * @param {Date}
+     * @param {String}
+     * @param {Object}
      * @return {String}
      */
-    formatDate(date, format) {
+    formatDate(date, format, translation) {
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
-        let monthName = this.getMonthName(date.getMonth())
+        let monthName = this.getMonthName(date.getMonth(), translation.months.original)
         let str = format
+            .replace(/S/, this.getNthSuffix(date.getDate()))
+            .replace(/D/, this.getDayNameAbbr(date, translation.days))
             .replace(/yyyy/, year)
             .replace(/yy/, String(year).slice(2))
-            .replace(/MMMM/, this.getMonthName(date.getMonth()))
-            .replace(/MMM/, this.getMonthNameAbbr(date.getMonth()))
+            .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
+            .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.months.abbr))
             .replace(/MM/, ('0' + month).slice(-2))
             .replace(/M(?!a)/, month)
             .replace(/dd/, ('0' + day).slice(-2))
-            .replace(/d/, day)
-            .replace(/S/, this.getNthSuffix(date.getDate()))
-            .replace(/D/, this.getDayNameAbbr(date))
+            .replace(/d/, day);
 
         return str;
     },

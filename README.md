@@ -30,6 +30,16 @@ var state = {
 ```
 
 
+#### Translations
+Added support to Spanish and French languages. *(Default: en)*.
+
+``` html
+
+<datepicker language="es"></datepicker>
+<datepicker language="fr"></datepicker>
+```
+
+
 ## Build Setup
 
 ``` bash
