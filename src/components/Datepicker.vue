@@ -1,6 +1,13 @@
 <template>
   <div class="datepicker">
-    <input class="" name="{{ name }}" type="text" @click="showCalendar" value="{{ formattedValue }}" readonly>
+    <input
+        type="text"
+        class=""
+        name="{{ name }}"
+        @click="showCalendar"
+        value="{{ formattedValue }}"
+        placeholder="{{ placeholder }}"
+        readonly>
 
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
@@ -94,6 +101,9 @@ export default {
         },
         disabled: {
             type: Object
+        },
+        placeholder: {
+            type: String
         }
     },
 
