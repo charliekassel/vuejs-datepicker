@@ -138,8 +138,6 @@ module.exports = {
         let day = date.getDate()
         let monthName = this.getMonthName(date.getMonth(), translation.months.original)
         let str = format
-            .replace(/S/, this.getNthSuffix(date.getDate()))
-            .replace(/D/, this.getDayNameAbbr(date, translation.days))
             .replace(/yyyy/, year)
             .replace(/yy/, String(year).slice(2))
             .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
@@ -147,7 +145,9 @@ module.exports = {
             .replace(/MM/, ('0' + month).slice(-2))
             .replace(/M(?!a)/, month)
             .replace(/dd/, ('0' + day).slice(-2))
-            .replace(/d/, day);
+            .replace(/d/, day)
+            .replace(/su/, this.getNthSuffix(date.getDate()))
+            .replace(/D/, this.getDayNameAbbr(date, translation.days));
 
         return str;
     },
