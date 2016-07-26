@@ -31,14 +31,18 @@ var state = {
 
 
 #### Translations
-Added support to Spanish and French languages. *(Default: en)*.
+Added support to languages.
 
 ``` html
-
 <datepicker language="es"></datepicker>
-<datepicker language="fr"></datepicker>
 ```
-
+###### Languages available
+| Abbr        | Language         |          |
+| ----------- |:----------------:|---------:|
+| en          | English          | *Default*| 
+| es          | Spanish          |          |
+| fr          | French           |          |
+| pt-br       | Portuguese-Brazil|          |
 
 ## Build Setup
 
