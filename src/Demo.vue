@@ -97,6 +97,14 @@ var state = {
             </code>
         </div>
 
+        <div class="example">
+            <h3>Inline datepicker</h3>
+            <datepicker :inline="true"></datepicker>
+            <code>
+                &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
+            </code>
+        </div>
+
     </div>
 </template>
 
