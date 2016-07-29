@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     translations: {
         'en': {
             'months': {
