@@ -1,7 +1,7 @@
 <template>
   <div class="datepicker">
     <input
-        type="text"
+        type="{{inline ? 'hidden' : 'text'}}"
         class=""
         name="{{ name }}"
         @click="showCalendar"
@@ -33,7 +33,7 @@
         </div>
 
         <!-- Month View -->
-        <div class="calendar" v-show="showMonthView">
+        <div class="calendar" v-show="showMonthView" v-bind:style="calendarStyleSecondary">
             <header>
                 <span
                     @click="previousYear"
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Year View -->
-        <div class="calendar" v-show="showYearView">
+        <div class="calendar" v-show="showYearView" v-bind:style="calendarStyleSecondary">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(currDate) }">&lt;</span>
@@ -104,6 +104,9 @@ export default {
         },
         placeholder: {
             type: String
+        },
+        inline: {
+            type: Boolean
         }
     },
 
@@ -209,12 +212,21 @@ export default {
         calendarStyle() {
             let elSize = this.$el.getBoundingClientRect();
             let heightNeeded = elSize.top + elSize.height + this.calendarHeight;
+            let styles = {};
             // if the calendar doesn't fit on the window without scrolling position it above the input
             if (heightNeeded > window.innerHeight) {
-                return {
+                styles = {
                     'bottom': elSize.height + 'px'
                 }
             }
+            if (this.isInline()) {
+                styles.position = 'static'
+            }
+
+            return styles;
+        },
+        calendarStyleSecondary() {
+            return (this.isInline()) ? { 'position': "static" } : {}
         }
     },
     methods: {
@@ -224,7 +236,13 @@ export default {
         isOpen() {
             return (this.showDayView || this.showMonthView || this.showYearView) ? true : false;
         },
+        isInline() {
+            return (typeof this.inline !== 'undefined' && this.inline) ? true : false
+        },
         showCalendar() {
+            if (this.isInline()) {
+                return
+            }
             (this.isOpen()) ? this.close() : this.showDayCalendar();
         },
         showDayCalendar() {
@@ -267,7 +285,7 @@ export default {
                 return false;
             }
             this.setDate(day.timestamp);
-            this.close();
+            (this.isInline()) ? this.showDayCalendar() : this.close()
         },
 
         selectMonth(month) {
@@ -553,9 +571,12 @@ export default {
         }
     },
     ready() {
+        if (this.isInline()) {
+            this.showDayCalendar()
+        }
         document.addEventListener('click', (e)=> {
             if (this.$el && !this.$el.contains(e.target)) {
-                this.close()
+                (this.isInline()) ? this.showDayCalendar() : this.close();
             }
         }, false);
     }
