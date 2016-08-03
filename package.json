@@ -28,6 +28,8 @@
     ]
   },
   "dependencies": {
+    "stylus": "^0.53.0",
+    "stylus-loader": "^2.1.2",
     "vue": "^1.0.0"
   },
   "devDependencies": {
