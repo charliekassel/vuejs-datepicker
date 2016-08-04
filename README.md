@@ -1,6 +1,6 @@
 # Datepicker
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshots/screenshot.png)
 
 ## Install
 
