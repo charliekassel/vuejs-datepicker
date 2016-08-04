@@ -15,6 +15,7 @@ npm install vuejs-datepicker --save
 <datepicker></datepicker>
 <datepicker :value="state.value" name="uniquename"></datepicker>
 <datepicker :value.sync="state.value" name="uniquename" :disabled="state.disabled"></datepicker>
+<datepicker :inline="true"></datepicker>
 ```
 
 ``` javascript
