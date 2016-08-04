@@ -15,7 +15,7 @@
     "url": "https://github.com/charliekassel/vuejs-datepicker"
   },
   "private": false,
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "dev": "watchify -vd -p browserify-hmr -e src/main.js -o dist/build.js & http-server -c 1 -a localhost",
     "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > dist/build.js",
@@ -53,6 +53,7 @@
     "phantomjs-prebuilt": "^2.1.3",
     "proxyquireify": "^3.0.1",
     "stylus": "^0.53.0",
+    "stylus-loader": "^2.1.2",
     "uglify-js": "^2.5.0",
     "vue-hot-reload-api": "^1.2.2",
     "vueify": "^8.0.0",
