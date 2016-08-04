@@ -29,7 +29,10 @@ describe('Datepicker.vue', () => {
 
     it('should set currdate to be now', ()=> {
         const data = Datepicker.data()
-        expect(data.currDate).toBe(new Date().getTime())
+        const d = new Date(data.currDate)
+        expect(d.getFullYear()).toBe(new Date().getFullYear())
+        expect(d.getMonth()).toBe(new Date().getMonth())
+        expect(d.getDay()).toBe(new Date().getDay())
     })
 
     it('should format date strings', ()=> {
