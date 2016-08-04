@@ -1,5 +1,7 @@
 # Datepicker
 
+![Screenshot](screenshot.png)
+
 ## Install
 
 ``` bash
