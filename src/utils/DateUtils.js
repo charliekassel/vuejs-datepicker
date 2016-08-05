@@ -3,12 +3,13 @@ module.exports = {
     /**
      * Validates a date object
      * @param {Date} date - an object instantiated with the new Date constructor
+     * @return {Boolean}
      */
     isValidDate(date) {
-        if (Object.prototype.toString.call(date) !== "[object Date]") {
-            return false;
+        if (Object.prototype.toString.call(date) !== '[object Date]') {
+            return false
         }
-        return !isNaN(date.getTime());
+        return !isNaN(date.getTime())
     },
 
     /**
@@ -19,9 +20,9 @@ module.exports = {
      */
     getDayNameAbbr(date, days) {
         if (typeof date !== 'object') {
-            throw TypeError('Invalid Type');
+            throw TypeError('Invalid Type')
         }
-        return days[date.getDay()];
+        return days[date.getDay()]
     },
 
     /**
@@ -32,12 +33,12 @@ module.exports = {
      */
     getMonthName(month, months) {
         if (typeof month === 'object') {
-            return months[month.getMonth()];
+            return months[month.getMonth()]
         }
         if (typeof month === 'number') {
-            return months[month];
+            return months[month]
         }
-        throw TypeError('Invalid type');
+        throw TypeError('Invalid type')
     },
 
     /**
@@ -47,14 +48,13 @@ module.exports = {
      */
     getMonthNameAbbr(month, monthsAbbr) {
         if (typeof month === 'object') {
-            return monthsAbbr[month.getMonth()];
+            return monthsAbbr[month.getMonth()]
         }
         if (typeof month === 'number') {
-            return monthsAbbr[month];
+            return monthsAbbr[month]
         }
-        throw TypeError('Invalid type');
+        throw TypeError('Invalid type')
     },
-
 
     /**
      * Returns a UTC date with timezone information removed
@@ -62,9 +62,8 @@ module.exports = {
      * @return {Date}
      */
     convertToUTC(date) {
-        return new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+        return new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
     },
-
 
     /**
      * Return the number of days in the month
@@ -73,7 +72,7 @@ module.exports = {
      * @return {Number}
      */
     daysInMonth(year, month) {
-        return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+        return new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
     },
 
     /**
@@ -83,7 +82,7 @@ module.exports = {
      * @return {Number}
      */
     getDaysInMonth(y, m) {
-       return /8|3|5|10/.test(--m)?30:m==1?(!(y%4)&&y%100)||!(y%400)?29:28:31;
+        return /8|3|5|10/.test(--m) ? 30 : m === 1 ? (!(y % 4) && y % 100) || !(y % 400) ? 29 : 28 : 31
     },
 
     /**
@@ -93,15 +92,14 @@ module.exports = {
      * @return {Number}
      */
     dayDiff(start, end) {
-        const MS_PER_DAY = 1000 * 60 * 60 * 24;
+        const MS_PER_DAY = 1000 * 60 * 60 * 24
 
         // Discard the time and time-zone information.
-        let utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
-        let utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+        let utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())
+        let utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
 
-        return Math.floor((utc2 - utc1) / MS_PER_DAY);
+        return Math.floor((utc2 - utc1) / MS_PER_DAY)
     },
-
 
     /**
      * Get nth suffix for date
@@ -110,18 +108,18 @@ module.exports = {
      */
     getNthSuffix(day) {
         switch (day) {
-            case 1:
-            case 21:
-            case 31:
-                return 'st';
-            case 2:
-            case 22:
-                return 'nd';
-            case 3:
-            case 23:
-                return 'rd';
-            default:
-                return 'th';
+        case 1:
+        case 21:
+        case 31:
+            return 'st'
+        case 2:
+        case 22:
+            return 'nd'
+        case 3:
+        case 23:
+            return 'rd'
+        default:
+            return 'th'
         }
     },
 
@@ -136,7 +134,6 @@ module.exports = {
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
-        let monthName = this.getMonthName(date.getMonth(), translation.months.original)
         let str = format
             .replace(/yyyy/, year)
             .replace(/yy/, String(year).slice(2))
@@ -147,9 +144,9 @@ module.exports = {
             .replace(/dd/, ('0' + day).slice(-2))
             .replace(/d/, day)
             .replace(/su/, this.getNthSuffix(date.getDate()))
-            .replace(/D/, this.getDayNameAbbr(date, translation.days));
+            .replace(/D/, this.getDayNameAbbr(date, translation.days))
 
-        return str;
+        return str
     },
 
     /**
@@ -159,12 +156,12 @@ module.exports = {
      * @return {Array}
      */
     createDateArray(start, end) {
-        let dates = [];
+        let dates = []
         while (start <= end) {
             dates.push(new Date(start))
-            start.setDate(start.getDate() + 1);
+            start.setDate(start.getDate() + 1)
         }
-        return dates;
+        return dates
     }
 
 }

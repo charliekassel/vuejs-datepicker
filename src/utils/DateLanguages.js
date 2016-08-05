@@ -32,4 +32,4 @@ module.exports = {
             'days': ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
         }
     }
-};
+}
