@@ -1,5 +1,7 @@
 # Datepicker
 
+![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master)
+
 ![Screenshot](screenshots/screenshot.png)
 
 ## Install
