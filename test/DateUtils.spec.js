@@ -1,7 +1,6 @@
 /* global describe, it, expect */
 
 import DateUtils from '../src/utils/DateUtils'
-import DateLanguages from '../src/utils/DateLanguages'
 
 describe('DateUtils', () => {
 
@@ -29,20 +28,17 @@ describe('DateUtils', () => {
         expect(DateUtils.daysInMonth(2016, 11)).toBe(31)
     })
 
-    it('should format date strings', ()=> {
-        let str
-        let translation = DateLanguages.translations['en']
-
-        str = DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy', translation)
-        expect(str).toBe('1 January 2016')
-
-        str = DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yyyy', translation)
-        expect(str).toBe('09 Jan 2016')
-
-        str = DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yy', translation)
-        expect(str).toBe('09 Jan 16')
-
-        str = DateUtils.formatDate(new Date(2016, 2, 9), 'yyyy-MM-dd', translation)
-        expect(str).toBe('2016-03-09')
+    it('should format date strings correctly in English', ()=> {
+        expect(DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy')).toBe('1 January 2016')
+        expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yyyy')).toBe('09 Jan 2016')
+        expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yy')).toBe('09 Jan 16')
+        expect(DateUtils.formatDate(new Date(2016, 2, 9), 'yyyy-MM-dd')).toBe('2016-03-09')
+        expect(DateUtils.formatDate(new Date(2016, 2, 9), 'dsu MMMM yyyy')).toBe('9th March 2016')
+        expect(DateUtils.formatDate(new Date(2016, 2, 1), 'dsu MMMM yyyy')).toBe('1st March 2016')
+        expect(DateUtils.formatDate(new Date(2016, 2, 2), 'dsu MMMM yyyy')).toBe('2nd March 2016')
+        expect(DateUtils.formatDate(new Date(2016, 2, 3), 'dsu MMMM yyyy')).toBe('3rd March 2016')
+        expect(DateUtils.formatDate(new Date(2016, 7, 1), 'D dsu MMMM yyyy')).toBe('Mon 1st August 2016')
+        expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy')).toBe('Thu 1st September 2016')
     })
+
 })

@@ -1,3 +1,5 @@
+import DateLanguages from './DateLanguages'
+
 export default {
 
     /**
@@ -22,7 +24,7 @@ export default {
         if (typeof date !== 'object') {
             throw TypeError('Invalid Type')
         }
-        return days[date.getDay()]
+        return days[(date.getDay() - 1)]
     },
 
     /**
@@ -131,6 +133,7 @@ export default {
      * @return {String}
      */
     formatDate(date, format, translation) {
+        translation = (!translation) ? DateLanguages.translations.en : translation
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
