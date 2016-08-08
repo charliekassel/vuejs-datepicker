@@ -5,7 +5,7 @@ module.exports = {
      * @param {Date} date - an object instantiated with the new Date constructor
      * @return {Boolean}
      */
-    isValidDate(date) {
+    isValidDate: function(date) {
         if (Object.prototype.toString.call(date) !== '[object Date]') {
             return false
         }
@@ -18,7 +18,7 @@ module.exports = {
      * @param {Array}
      * @return {String}
      */
-    getDayNameAbbr(date, days) {
+    getDayNameAbbr: function(date, days) {
         if (typeof date !== 'object') {
             throw TypeError('Invalid Type')
         }
@@ -31,7 +31,7 @@ module.exports = {
      * @param {Array}
      * @return {String}
      */
-    getMonthName(month, months) {
+    getMonthName: function(month, months) {
         if (typeof month === 'object') {
             return months[month.getMonth()]
         }
@@ -46,7 +46,7 @@ module.exports = {
      * @param {Number|Date}
      * @return {String}
      */
-    getMonthNameAbbr(month, monthsAbbr) {
+    getMonthNameAbbr: function(month, monthsAbbr) {
         if (typeof month === 'object') {
             return monthsAbbr[month.getMonth()]
         }
@@ -61,7 +61,7 @@ module.exports = {
      * @param {Date} date
      * @return {Date}
      */
-    convertToUTC(date) {
+    convertToUTC: function(date) {
         return new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
     },
 
@@ -71,7 +71,7 @@ module.exports = {
      * @param {Number} month
      * @return {Number}
      */
-    daysInMonth(year, month) {
+    daysInMonth: function(year, month) {
         return new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
     },
 
@@ -81,7 +81,7 @@ module.exports = {
      * @param {Number} m
      * @return {Number}
      */
-    getDaysInMonth(y, m) {
+    getDaysInMonth: function(y, m) {
         return /8|3|5|10/.test(--m) ? 30 : m === 1 ? (!(y % 4) && y % 100) || !(y % 400) ? 29 : 28 : 31
     },
 
@@ -91,12 +91,12 @@ module.exports = {
      * @param {Date} end
      * @return {Number}
      */
-    dayDiff(start, end) {
+    dayDiff: function(start, end) {
         const MS_PER_DAY = 1000 * 60 * 60 * 24
 
         // Discard the time and time-zone information.
-        let utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())
-        let utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
+        var utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())
+        var utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
 
         return Math.floor((utc2 - utc1) / MS_PER_DAY)
     },
@@ -106,7 +106,7 @@ module.exports = {
      * @param {Number} day
      * @return {String}
      */
-    getNthSuffix(day) {
+    getNthSuffix: function(day) {
         switch (day) {
         case 1:
         case 21:
@@ -130,11 +130,11 @@ module.exports = {
      * @param {Object}
      * @return {String}
      */
-    formatDate(date, format, translation) {
-        let year = date.getFullYear()
-        let month = date.getMonth() + 1
-        let day = date.getDate()
-        let str = format
+    formatDate: function(date, format, translation) {
+        var year = date.getFullYear()
+        var month = date.getMonth() + 1
+        var day = date.getDate()
+        var str = format
             .replace(/yyyy/, year)
             .replace(/yy/, String(year).slice(2))
             .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
@@ -155,8 +155,8 @@ module.exports = {
      * @param {Date} end
      * @return {Array}
      */
-    createDateArray(start, end) {
-        let dates = []
+    createDateArray: function(start, end) {
+        var dates = []
         while (start <= end) {
             dates.push(new Date(start))
             start.setDate(start.getDate() + 1)
