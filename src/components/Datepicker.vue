@@ -153,10 +153,15 @@ export default {
             const d = new Date(this.currDate)
             return d.getFullYear()
         },
+        /**
+         * Returns the day number of the week less one for the first of the current month
+         * Used to show amount of empty cells before the first in the day calendar layout
+         * @return {Number}
+         */
         blankDays() {
             const d = new Date(this.currDate)
             let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-            return dObj.getDay()
+            return dObj.getDay() - 1
         },
         days() {
             const d = new Date(this.currDate)

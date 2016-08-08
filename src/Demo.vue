@@ -5,7 +5,7 @@
 
         <div class="example">
             <h3>Default datepicker</h3>
-            <datepicker placeholder="Hello"></datepicker>
+            <datepicker placeholder="Select Date"></datepicker>
             <code>
                 &lt;datepicker&gt;&lt;/datepicker&gt;
             </code>
