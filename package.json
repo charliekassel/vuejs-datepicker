@@ -8,7 +8,7 @@
     "date-picker",
     "calendar"
   ],
-  "main": "src/components/Datepicker.vue",
+  "main": "dist/build.js",
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
     "type": "git",
@@ -20,11 +20,12 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "dev": "watchify -vd -p browserify-hmr -e src/main.js -o dist/build.js & http-server -c 1 -a localhost",
+    "dev": "watchify -vd -p browserify-hmr -e demo/main.js -o dist/build.js & http-server -c 1 -a localhost",
     "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > dist/build.js",
     "lint": "eslint --ext .js,.vue src test/unit",
     "test": "karma start karma.conf.js"
   },
+  "prepublish": "npm run build",
   "browserify": {
     "transform": [
       "vueify",
