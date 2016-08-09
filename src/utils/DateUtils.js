@@ -24,7 +24,7 @@ export default {
         if (typeof date !== 'object') {
             throw TypeError('Invalid Type')
         }
-        return days[(date.getDay() - 1)]
+        return days[date.getDay()]
     },
 
     /**
