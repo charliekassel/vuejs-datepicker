@@ -109,8 +109,7 @@ var state = {
 </template>
 
 <script>
-
-import Datepicker from './components/Datepicker.vue'
+import Datepicker from '../src/Datepicker.vue'
 
 var state = {
     date1: new Date()

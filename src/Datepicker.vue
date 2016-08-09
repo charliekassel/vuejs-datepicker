@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import DateUtils from '../utils/DateUtils.js'
-import DateLanguages from '../utils/DateLanguages.js'
+import DateUtils from './utils/DateUtils.js'
+import DateLanguages from './utils/DateLanguages.js'
 
 /**
  * TODO
@@ -587,7 +587,7 @@ export default {
 
 <style lang="stylus">
 
-$width = 300px;
+$width = 300px
 
 *
     box-sizing border-box

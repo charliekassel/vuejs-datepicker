@@ -1,7 +1,7 @@
 /* global describe, it, expect, beforeEach */
 
 import Vue from 'vue'
-import Datepicker from '../src/components/Datepicker.vue'
+import Datepicker from '../src/Datepicker.vue'
 
 let vm
 

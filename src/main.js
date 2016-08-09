@@ -1,11 +1,8 @@
 import Vue from 'vue'
-import Demo from './Demo.vue'
-
-Vue.config.debug = true;
-
+import Datepicker from './Datepicker.vue'
 
 /* eslint-disable no-new */
-let vm = new Vue({
+new Vue({
   el: 'body',
-  components: { Demo }
+  components: { Datepicker }
 })
