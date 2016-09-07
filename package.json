@@ -20,48 +20,31 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "dev": "watchify -vd -p browserify-hmr -e demo/main.js & http-server -c 1 -a localhost",
-    "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > dist/build.js",
-    "lint": "eslint --ext .js,.vue src test/unit",
-    "test": "karma start karma.conf.js"
-  },
-  "prepublish": "npm run build",
-  "browserify": {
-    "transform": [
-      "vueify",
-      "babelify"
-    ]
+    "dev": "webpack-dev-server --inline --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "vue": "^1.0.0"
+    "vue": "^1.0.0",
+    "babel-runtime": "^6.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
     "babel-plugin-transform-runtime": "^6.0.0",
     "babel-preset-es2015": "^6.0.0",
     "babel-preset-stage-2": "^6.0.0",
-    "babel-runtime": "^5.8.0",
-    "babelify": "^7.2.0",
-    "browserify": "^12.0.1",
-    "browserify-hmr": "^0.3.1",
-    "cross-env": "^1.0.5",
-    "eslint": "^1.10.3",
-    "eslint-plugin-html": "^1.1.0",
-    "http-server": "^0.8.5",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.15",
-    "karma-browserify": "^4.4.2",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-spec-reporter": "0.0.23",
-    "phantomjs-prebuilt": "^2.1.3",
-    "proxyquireify": "^3.0.1",
-    "stylus": "^0.53.0",
-    "stylus-loader": "^2.1.2",
-    "uglify-js": "^2.5.0",
-    "vue-hot-reload-api": "^1.2.2",
-    "vueify": "^8.0.0",
-    "vueify-insert-css": "^1.0.0",
-    "watchify": "^3.4.0"
+    "cross-env": "^1.0.6",
+    "css-loader": "^0.23.0",
+    "file-loader": "^0.8.4",
+    "json-loader": "^0.5.4",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^2.3.1",
+    "url-loader": "^0.5.7",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^8.2.1",
+    "vue-style-loader": "^1.0.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0"
   }
 }
