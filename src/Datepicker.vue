@@ -82,506 +82,506 @@ import DateLanguages from './utils/DateLanguages.js'
  */
 export default {
 
-    props: {
-        value: {
-            validator: function(val) {
-                return val === null || val instanceof Date
-            }
-        },
-        name: {
-            value: String
-        },
-        format: {
-            value: String,
-            default: 'dd MMM yyyy'
-        },
-        language: {
-            value: String,
-            default: 'en'
-        },
-        disabled: {
-            type: Object
-        },
-        placeholder: {
-            type: String
-        },
-        inline: {
-            type: Boolean
-        }
+  props: {
+    value: {
+      validator: function (val) {
+        return val === null || val instanceof Date
+      }
     },
-    data() {
-        return {
-            /*
-             * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
-             * {Number}
-             */
-            currDate: new Date().getTime(),
-            /*
-             * Selected Date
-             * {Date}
-             */
-            selectedDate: null,
-            /**
-             * Flags to show calendar views
-             * {Boolean}
-             */
-            showDayView: false,
-            showMonthView: false,
-            showYearView: false,
-            /**
-             * Helper arrays for names
-             */
-            translation: DateLanguages.translations[this.language],
-            formattedValue: null,
-            /**
-             * Positioning
-             */
-            calendarHeight: 0
-        }
+    name: {
+      value: String
     },
-    watch: {
-        value(value) {
-            this.setValue(value)
-        }
+    format: {
+      value: String,
+      default: 'dd MMM yyyy'
     },
-    computed: {
-        currMonthName() {
-            const d = new Date(this.currDate)
-            return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
-        },
-        currYear() {
-            const d = new Date(this.currDate)
-            return d.getFullYear()
-        },
-        /**
-         * Returns the day number of the week less one for the first of the current month
-         * Used to show amount of empty cells before the first in the day calendar layout
-         * @return {Number}
-         */
-        blankDays() {
-            const d = new Date(this.currDate)
-            let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-            return dObj.getDay() - 1
-        },
-        days() {
-            const d = new Date(this.currDate)
-            let days = []
-            // set up a new date object to the beginning of the current 'page'
-            let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-            let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
-            for (let i = 0; i < daysInMonth; i++) {
-                days.push({
-                    date: dObj.getDate(),
-                    timestamp: dObj.getTime(),
-                    isSelected: this.isSelectedDate(dObj),
-                    isDisabled: this.isDisabledDate(dObj)
-                })
-                dObj.setDate(dObj.getDate() + 1)
-            }
-            return days
-        },
-        months() {
-            const d = new Date(this.currDate)
-            let months = []
-            // set up a new date object to the beginning of the current 'page'
-            let dObj = new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
-            for (let i = 0; i < 12; i++) {
-                months.push({
-                    month: DateUtils.getMonthName(i, this.translation.months.original),
-                    timestamp: dObj.getTime(),
-                    isSelected: this.isSelectedMonth(dObj),
-                    isDisabled: this.isDisabledMonth(dObj)
-                })
-                dObj.setMonth(dObj.getMonth() + 1)
-            }
-            return months
-        },
-        years() {
-            const d = new Date(this.currDate)
-            let years = []
-            // set up a new date object to the beginning of the current 'page'
-            let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
-            for (let i = 0; i < 10; i++) {
-                years.push({
-                    year: dObj.getFullYear(),
-                    timestamp: dObj.getTime(),
-                    isSelected: this.isSelectedYear(dObj),
-                    isDisabled: this.isDisabledYear(dObj)
-                })
-                dObj.setFullYear(dObj.getFullYear() + 1)
-            }
-            return years
-        },
-        calendarStyle() {
-            let elSize = this.$el.getBoundingClientRect()
-            let heightNeeded = elSize.top + elSize.height + this.calendarHeight
-            let styles = {}
-            // if the calendar doesn't fit on the window without scrolling position it above the input
-            if (heightNeeded > window.innerHeight) {
-                styles = {
-                    'bottom': elSize.height + 'px'
-                }
-            }
-            if (this.isInline()) {
-                styles.position = 'static'
-            }
-
-            return styles
-        },
-        calendarStyleSecondary() {
-            return (this.isInline()) ? { 'position': 'static' } : {}
-        }
+    language: {
+      value: String,
+      default: 'en'
     },
-    methods: {
-        close() {
-            this.showDayView = this.showMonthView = this.showYearView = false
-        },
-        isOpen() {
-            return this.showDayView || this.showMonthView || this.showYearView
-        },
-        isInline() {
-            return typeof this.inline !== 'undefined' && this.inline
-        },
-        showCalendar() {
-            if (this.isInline()) {
-                return
-            }
-            (this.isOpen()) ? this.close() : this.showDayCalendar()
-        },
-        showDayCalendar() {
-            this.close()
-            this.showDayView = true
-            // set the calendar height property once is has been rendered
-            this.$nextTick(function() {
-                this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
-            })
-        },
-        showMonthCalendar() {
-            this.close()
-            this.showMonthView = true
-        },
-        showYearCalendar() {
-            this.close()
-            this.showYearView = true
-        },
-
-        setDate(timestamp) {
-            this.value = this.selectedDate = new Date(timestamp)
-            this.currDate = timestamp
-
-            let d = new Date(timestamp)
-            this.formattedValue = DateUtils.formatDate(d, this.format, this.translation)
-
-            this.dispatchEvent(timestamp)
-        },
-
-        dispatchEvent(timestamp) {
-            if (this.name) {
-                this.$dispatch('datepicker.' + this.name, {
-                    value: timestamp
-                })
-            }
-        },
-
-        selectDate(day) {
-            if (day.isDisabled) {
-                return false
-            }
-            this.setDate(day.timestamp)
-            this.isInline() ? this.showDayCalendar() : this.close()
-        },
-
-        selectMonth(month) {
-            if (month.isDisabled) {
-                return false
-            }
-            this.currDate = month.timestamp
-            this.showDayCalendar()
-        },
-
-        selectYear(year) {
-            if (year.isDisabled) {
-                return false
-            }
-            this.currDate = year.timestamp
-            this.showMonthCalendar()
-        },
-
-        getYear() {
-            let d = new Date(this.currDate)
-            return d.getFullYear()
-        },
-        getDecade() {
-            let d = new Date(this.currDate)
-            let sD = Math.floor(d.getFullYear() / 10) * 10
-            return sD + '\'s'
-        },
-
-        previousMonth() {
-            if (this.previousMonthDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setMonth(d.getMonth() - 1)
-            this.currDate = d.getTime()
-        },
-        previousMonthDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (
-                this.disabled.to.getMonth() >= d.getMonth() &&
-                this.disabled.to.getFullYear() >= d.getFullYear()
-            ) {
-                return true
-            }
-            return false
-        },
-        nextMonth() {
-            if (this.nextMonthDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setMonth(d.getMonth() + 1)
-            this.currDate = d.getTime()
-        },
-        nextMonthDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (
-                this.disabled.from.getMonth() <= d.getMonth() &&
-                this.disabled.from.getFullYear() <= d.getFullYear()
-            ) {
-                return true
-            }
-            return false
-        },
-        previousYear() {
-            if (this.previousYearDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setYear(d.getFullYear() - 1)
-            this.currDate = d.getTime()
-        },
-        previousYearDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (this.disabled.to.getFullYear() >= d.getFullYear()) {
-                return true
-            }
-            return false
-        },
-        nextYear() {
-            if (this.nextYearDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setYear(d.getFullYear() + 1)
-            this.currDate = d.getTime()
-        },
-        nextYearDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (this.disabled.from.getFullYear() <= d.getFullYear()) {
-                return true
-            }
-            return false
-        },
-
-        previousDecade() {
-            if (this.previousDecadeDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setYear(d.getFullYear() - 10)
-            this.currDate = d.getTime()
-        },
-        previousDecadeDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 <= Math.floor(d.getFullYear() / 10) * 10) {
-                return true
-            }
-            return false
-        },
-        nextDecade() {
-            if (this.nextDecadeDisabled()) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            d.setYear(d.getFullYear() + 10)
-            this.currDate = d.getTime()
-        },
-        nextDecadeDisabled() {
-            if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
-                return false
-            }
-            let d = new Date(this.currDate)
-            if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 >= Math.ceil(d.getFullYear() / 10) * 10) {
-                return true
-            }
-            return false
-        },
-
-        /**
-         * Whether a day is selected
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isSelectedDate(dObj) {
-            return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
-        },
-
-        /**
-         * Whether a day is disabled
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isDisabledDate(date) {
-            let disabled = false
-
-            if (typeof this.disabled === 'undefined') {
-                return false
-            }
-
-            if (typeof this.disabled.dates !== 'undefined') {
-                this.disabled.dates.forEach(function(d) {
-                    if (date.toDateString() === d.toDateString()) {
-                        disabled = true
-                        return true
-                    }
-                })
-            }
-            if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
-                disabled = true
-            }
-            if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
-                disabled = true
-            }
-            if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
-                disabled = true
-            }
-            return disabled
-        },
-
-        /**
-         * Whether the selected date is in this month
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isSelectedMonth(date) {
-            return (this.selectedDate &&
-                this.selectedDate.getFullYear() === date.getFullYear() &&
-                this.selectedDate.getMonth() === date.getMonth())
-        },
-
-        /**
-         * Whether a month is disabled
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isDisabledMonth(date) {
-            let disabled = false
-
-            if (typeof this.disabled === 'undefined') {
-                return false
-            }
-
-            if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
-                if (
-                    (date.getMonth() < this.disabled.to.getMonth() && date.getFullYear() <= this.disabled.to.getFullYear()) ||
-                    date.getFullYear() < this.disabled.to.getFullYear()
-                ) {
-                    disabled = true
-                }
-            }
-            if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
-                if (
-                    this.disabled.from &&
-                    (date.getMonth() > this.disabled.from.getMonth() && date.getFullYear() >= this.disabled.from.getFullYear()) ||
-                    date.getFullYear() > this.disabled.from.getFullYear()
-                ) {
-                    disabled = true
-                }
-            }
-            return disabled
-        },
-
-        /**
-         * Whether a year is disabled
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isSelectedYear(date) {
-            return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
-        },
-
-        /**
-         * Whether a month is disabled
-         * @param {Date}
-         * @return {Boolean}
-         */
-        isDisabledYear(date) {
-            let disabled = false
-            if (typeof this.disabled === 'undefined' || !this.disabled) {
-                return false
-            }
-
-            if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
-                if (date.getFullYear() < this.disabled.to.getFullYear()) {
-                    disabled = true
-                }
-            }
-            if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
-                if (date.getFullYear() > this.disabled.from.getFullYear()) {
-                    disabled = true
-                }
-            }
-
-            return disabled
-        },
-
-        /**
-         * Set the datepicker value
-         * @param {Date|null} date
-         */
-        setValue(date) {
-            if (!date) {
-                const d = new Date()
-                this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
-                this.selectedDate = this.formattedValue = null
-                return
-            }
-            this.selectedDate = date
-            this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
-            this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
-        }
+    disabled: {
+      type: Object
     },
-    compiled() {
-        if (this.value) {
-            this.setValue(this.value)
-        }
+    placeholder: {
+      type: String
     },
-    ready() {
-        if (this.isInline()) {
-            this.showDayCalendar()
-        }
-        document.addEventListener('click', (e)=> {
-            if (this.$el && !this.$el.contains(e.target)) {
-                (this.isInline()) ? this.showDayCalendar() : this.close()
-            }
-        }, false)
+    inline: {
+      type: Boolean
     }
+  },
+  data () {
+    return {
+      /*
+       * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
+       * {Number}
+       */
+      currDate: new Date().getTime(),
+      /*
+       * Selected Date
+       * {Date}
+       */
+      selectedDate: null,
+      /**
+       * Flags to show calendar views
+       * {Boolean}
+       */
+      showDayView: false,
+      showMonthView: false,
+      showYearView: false,
+      /**
+       * Helper arrays for names
+       */
+      translation: DateLanguages.translations[this.language],
+      formattedValue: null,
+      /**
+       * Positioning
+       */
+      calendarHeight: 0
+    }
+  },
+  watch: {
+    value (value) {
+      this.setValue(value)
+    }
+  },
+  computed: {
+    currMonthName () {
+      const d = new Date(this.currDate)
+      return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
+    },
+    currYear () {
+      const d = new Date(this.currDate)
+      return d.getFullYear()
+    },
+    /**
+     * Returns the day number of the week less one for the first of the current month
+     * Used to show amount of empty cells before the first in the day calendar layout
+     * @return {Number}
+     */
+    blankDays () {
+      const d = new Date(this.currDate)
+      let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      return dObj.getDay() - 1
+    },
+    days () {
+      const d = new Date(this.currDate)
+      let days = []
+      // set up a new date object to the beginning of the current 'page'
+      let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
+      for (let i = 0; i < daysInMonth; i++) {
+        days.push({
+          date: dObj.getDate(),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedDate(dObj),
+          isDisabled: this.isDisabledDate(dObj)
+        })
+        dObj.setDate(dObj.getDate() + 1)
+      }
+      return days
+    },
+    months () {
+      const d = new Date(this.currDate)
+      let months = []
+      // set up a new date object to the beginning of the current 'page'
+      let dObj = new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
+      for (let i = 0; i < 12; i++) {
+        months.push({
+          month: DateUtils.getMonthName(i, this.translation.months.original),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedMonth(dObj),
+          isDisabled: this.isDisabledMonth(dObj)
+        })
+        dObj.setMonth(dObj.getMonth() + 1)
+      }
+      return months
+    },
+    years () {
+      const d = new Date(this.currDate)
+      let years = []
+      // set up a new date object to the beginning of the current 'page'
+      let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+      for (let i = 0; i < 10; i++) {
+        years.push({
+          year: dObj.getFullYear(),
+          timestamp: dObj.getTime(),
+          isSelected: this.isSelectedYear(dObj),
+          isDisabled: this.isDisabledYear(dObj)
+        })
+        dObj.setFullYear(dObj.getFullYear() + 1)
+      }
+      return years
+    },
+    calendarStyle () {
+      let elSize = this.$el.getBoundingClientRect()
+      let heightNeeded = elSize.top + elSize.height + this.calendarHeight
+      let styles = {}
+      // if the calendar doesn't fit on the window without scrolling position it above the input
+      if (heightNeeded > window.innerHeight) {
+        styles = {
+          'bottom': elSize.height + 'px'
+        }
+      }
+      if (this.isInline()) {
+        styles.position = 'static'
+      }
+
+      return styles
+    },
+    calendarStyleSecondary () {
+      return (this.isInline()) ? { 'position': 'static' } : {}
+    }
+  },
+  methods: {
+    close () {
+      this.showDayView = this.showMonthView = this.showYearView = false
+    },
+    isOpen () {
+      return this.showDayView || this.showMonthView || this.showYearView
+    },
+    isInline () {
+      return typeof this.inline !== 'undefined' && this.inline
+    },
+    showCalendar () {
+      if (this.isInline()) {
+        return
+      }
+      (this.isOpen()) ? this.close() : this.showDayCalendar()
+    },
+    showDayCalendar () {
+      this.close()
+      this.showDayView = true
+      // set the calendar height property once is has been rendered
+      this.$nextTick(() => {
+        this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
+      })
+    },
+    showMonthCalendar () {
+      this.close()
+      this.showMonthView = true
+    },
+    showYearCalendar () {
+      this.close()
+      this.showYearView = true
+    },
+
+    setDate (timestamp) {
+      this.value = this.selectedDate = new Date(timestamp)
+      this.currDate = timestamp
+
+      let d = new Date(timestamp)
+      this.formattedValue = DateUtils.formatDate(d, this.format, this.translation)
+
+      this.dispatchEvent(timestamp)
+    },
+
+    dispatchEvent (timestamp) {
+      if (this.name) {
+        this.$dispatch('datepicker.' + this.name, {
+          value: timestamp
+        })
+      }
+    },
+
+    selectDate (day) {
+      if (day.isDisabled) {
+        return false
+      }
+      this.setDate(day.timestamp)
+      this.isInline() ? this.showDayCalendar() : this.close()
+    },
+
+    selectMonth (month) {
+      if (month.isDisabled) {
+        return false
+      }
+      this.currDate = month.timestamp
+      this.showDayCalendar()
+    },
+
+    selectYear (year) {
+      if (year.isDisabled) {
+        return false
+      }
+      this.currDate = year.timestamp
+      this.showMonthCalendar()
+    },
+
+    getYear () {
+      let d = new Date(this.currDate)
+      return d.getFullYear()
+    },
+    getDecade () {
+      let d = new Date(this.currDate)
+      let sD = Math.floor(d.getFullYear() / 10) * 10
+      return sD + '\'s'
+    },
+
+    previousMonth () {
+      if (this.previousMonthDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setMonth(d.getMonth() - 1)
+      this.currDate = d.getTime()
+    },
+    previousMonthDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (
+        this.disabled.to.getMonth() >= d.getMonth() &&
+        this.disabled.to.getFullYear() >= d.getFullYear()
+      ) {
+        return true
+      }
+      return false
+    },
+    nextMonth () {
+      if (this.nextMonthDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setMonth(d.getMonth() + 1)
+      this.currDate = d.getTime()
+    },
+    nextMonthDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (
+        this.disabled.from.getMonth() <= d.getMonth() &&
+        this.disabled.from.getFullYear() <= d.getFullYear()
+      ) {
+        return true
+      }
+      return false
+    },
+    previousYear () {
+      if (this.previousYearDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setYear(d.getFullYear() - 1)
+      this.currDate = d.getTime()
+    },
+    previousYearDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (this.disabled.to.getFullYear() >= d.getFullYear()) {
+        return true
+      }
+      return false
+    },
+    nextYear () {
+      if (this.nextYearDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setYear(d.getFullYear() + 1)
+      this.currDate = d.getTime()
+    },
+    nextYearDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (this.disabled.from.getFullYear() <= d.getFullYear()) {
+        return true
+      }
+      return false
+    },
+
+    previousDecade () {
+      if (this.previousDecadeDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setYear(d.getFullYear() - 10)
+      this.currDate = d.getTime()
+    },
+    previousDecadeDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 <= Math.floor(d.getFullYear() / 10) * 10) {
+        return true
+      }
+      return false
+    },
+    nextDecade () {
+      if (this.nextDecadeDisabled()) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      d.setYear(d.getFullYear() + 10)
+      this.currDate = d.getTime()
+    },
+    nextDecadeDisabled () {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+        return false
+      }
+      let d = new Date(this.currDate)
+      if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 >= Math.ceil(d.getFullYear() / 10) * 10) {
+        return true
+      }
+      return false
+    },
+
+    /**
+     * Whether a day is selected
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedDate (dObj) {
+      return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
+    },
+
+    /**
+     * Whether a day is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledDate (date) {
+      let disabled = false
+
+      if (typeof this.disabled === 'undefined') {
+        return false
+      }
+
+      if (typeof this.disabled.dates !== 'undefined') {
+        this.disabled.dates.forEach((d) => {
+          if (date.toDateString() === d.toDateString()) {
+            disabled = true
+            return true
+          }
+        })
+      }
+      if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
+        disabled = true
+      }
+      if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
+        disabled = true
+      }
+      if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
+        disabled = true
+      }
+      return disabled
+    },
+
+    /**
+     * Whether the selected date is in this month
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedMonth (date) {
+      return (this.selectedDate &&
+        this.selectedDate.getFullYear() === date.getFullYear() &&
+        this.selectedDate.getMonth() === date.getMonth())
+    },
+
+    /**
+     * Whether a month is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledMonth (date) {
+      let disabled = false
+
+      if (typeof this.disabled === 'undefined') {
+        return false
+      }
+
+      if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
+        if (
+          (date.getMonth() < this.disabled.to.getMonth() && date.getFullYear() <= this.disabled.to.getFullYear()) ||
+          date.getFullYear() < this.disabled.to.getFullYear()
+        ) {
+          disabled = true
+        }
+      }
+      if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
+        if (
+          this.disabled.from &&
+          (date.getMonth() > this.disabled.from.getMonth() && date.getFullYear() >= this.disabled.from.getFullYear()) ||
+          date.getFullYear() > this.disabled.from.getFullYear()
+        ) {
+          disabled = true
+        }
+      }
+      return disabled
+    },
+
+    /**
+     * Whether a year is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isSelectedYear (date) {
+      return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
+    },
+
+    /**
+     * Whether a month is disabled
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isDisabledYear (date) {
+      let disabled = false
+      if (typeof this.disabled === 'undefined' || !this.disabled) {
+        return false
+      }
+
+      if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
+        if (date.getFullYear() < this.disabled.to.getFullYear()) {
+          disabled = true
+        }
+      }
+      if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
+        if (date.getFullYear() > this.disabled.from.getFullYear()) {
+          disabled = true
+        }
+      }
+
+      return disabled
+    },
+
+    /**
+     * Set the datepicker value
+     * @param {Date|null} date
+     */
+    setValue (date) {
+      if (!date) {
+        const d = new Date()
+        this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
+        this.selectedDate = this.formattedValue = null
+        return
+      }
+      this.selectedDate = date
+      this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
+      this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
+    }
+  },
+  compiled () {
+    if (this.value) {
+      this.setValue(this.value)
+    }
+  },
+  ready () {
+    if (this.isInline()) {
+      this.showDayCalendar()
+    }
+    document.addEventListener('click', (e) => {
+      if (this.$el && !this.$el.contains(e.target)) {
+        (this.isInline()) ? this.showDayCalendar() : this.close()
+      }
+    }, false)
+  }
 }
 </script>
 
