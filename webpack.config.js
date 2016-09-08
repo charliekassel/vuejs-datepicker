@@ -7,7 +7,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'build.js',
+    library: 'vuejs-datepicker',
+    libraryTarget: 'commonjs2'
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules'),
