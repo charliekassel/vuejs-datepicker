@@ -9,6 +9,9 @@
     "calendar"
   ],
   "main": "dist/build.js",
+  "files": [
+    "dist/build.js"
+  ],
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
     "type": "git",
