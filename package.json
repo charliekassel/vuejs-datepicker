@@ -9,9 +9,6 @@
     "calendar"
   ],
   "main": "dist/build.js",
-  "files": [
-    "dist/build.js"
-  ],
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
     "type": "git",
@@ -25,7 +22,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test": "karma start test/karma.conf.js --single-run"
+    "test": "karma start test/karma.conf.js --single-run",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "vue": "^1.0.0",
