@@ -121,19 +121,19 @@ export default {
        * {Date}
        */
       selectedDate: null,
-      /**
+      /*
        * Flags to show calendar views
        * {Boolean}
        */
       showDayView: false,
       showMonthView: false,
       showYearView: false,
-      /**
+      /*
        * Helper arrays for names
        */
       translation: DateLanguages.translations[this.language],
       formattedValue: null,
-      /**
+      /*
        * Positioning
        */
       calendarHeight: 0
@@ -161,7 +161,7 @@ export default {
     blankDays () {
       const d = new Date(this.currDate)
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      return dObj.getDay() - 1
+      return dObj.getDay() > 0 ? dObj.getDay() - 1 : 0
     },
     days () {
       const d = new Date(this.currDate)
