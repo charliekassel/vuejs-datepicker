@@ -161,7 +161,7 @@ export default {
     blankDays () {
       const d = new Date(this.currDate)
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      return dObj.getDay() > 0 ? dObj.getDay() - 1 : 0
+      return dObj.getDay()
     },
     days () {
       const d = new Date(this.currDate)

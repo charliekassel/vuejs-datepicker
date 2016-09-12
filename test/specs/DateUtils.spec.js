@@ -40,4 +40,8 @@ describe('DateUtils', () => {
     expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy')).to.equal('Thu 1st September 2016')
     expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy')).to.equal('Sun 7th August 2016')
   })
+
+  it('should give the correct day', () => {
+    expect(DateUtils.formatDate(new Date(2016, 8, 12), 'D')).to.equal('Mon')
+  })
 })
