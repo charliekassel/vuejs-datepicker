@@ -251,6 +251,7 @@ export default {
     showDayCalendar () {
       this.close()
       this.showDayView = true
+      this.dispatchOpenEvent()
       // set the calendar height property once is has been rendered
       this.$nextTick(() => {
         this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
@@ -272,14 +273,20 @@ export default {
       let d = new Date(timestamp)
       this.formattedValue = DateUtils.formatDate(d, this.format, this.translation)
 
-      this.dispatchEvent(timestamp)
+      this.dispatchSelectEvent(timestamp)
     },
 
-    dispatchEvent (timestamp) {
+    dispatchSelectEvent (timestamp) {
       if (this.name) {
         this.$dispatch('datepicker.' + this.name, {
           value: timestamp
         })
+      }
+    },
+
+    dispatchOpenEvent () {
+      if (this.name) {
+        this.$dispatch('datepicker.' + this.name + '.open')
       }
     },
 
