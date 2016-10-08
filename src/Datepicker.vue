@@ -1,12 +1,12 @@
 <template>
   <div class="datepicker">
     <input
-        type="{{inline ? 'hidden' : 'text'}}"
+        :type="inline ? 'hidden' : 'text'"
         class=""
-        name="{{ name }}"
+        :name="name"
         @click="showCalendar"
-        value="{{ formattedValue }}"
-        placeholder="{{ placeholder }}"
+        :value="formattedValue"
+        :placeholder="placeholder"
         readonly>
 
         <!-- Day View -->
@@ -26,7 +26,7 @@
             <span class="cell day blank" v-for="d in blankDays"></span><!--
             --><span class="cell day"
                 v-for="day in days"
-                track-by="$index"
+                track-by="timestamp"
                 v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled }"
                 @click="selectDate(day)">{{ day.date }}</span>
 
@@ -47,7 +47,7 @@
             </header>
             <span class="cell month"
                 v-for="month in months"
-                track-by="$index"
+                track-by="timestamp"
                 v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
                 @click.stop="selectMonth(month)">{{ month.month }}</span>
         </div>
@@ -64,7 +64,7 @@
             <span
                 class="cell year"
                 v-for="year in years"
-                track-by="$index"
+                track-by="timestamp"
                 v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
                 @click.stop="selectYear(year)">{{ year.year }}</span>
         </div>
@@ -252,10 +252,6 @@ export default {
       this.close()
       this.showDayView = true
       this.dispatchOpenEvent()
-      // set the calendar height property once is has been rendered
-      this.$nextTick(() => {
-        this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
-      })
     },
     showMonthCalendar () {
       this.close()
@@ -574,15 +570,18 @@ export default {
       this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
     }
   },
-  compiled () {
+  mounted () {
     if (this.value) {
       this.setValue(this.value)
     }
-  },
-  ready () {
     if (this.isInline()) {
       this.showDayCalendar()
     }
+
+    this.$nextTick(() => {
+      this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
+    })
+
     document.addEventListener('click', (e) => {
       if (this.$el && !this.$el.contains(e.target)) {
         (this.isInline()) ? this.showDayCalendar() : this.close()

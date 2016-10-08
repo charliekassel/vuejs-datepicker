@@ -147,8 +147,7 @@ export default {
       .replace(/dd/, ('0' + day).slice(-2))
       .replace(/d/, day)
       .replace(/su/, this.getNthSuffix(date.getDate()))
-      .replace(/D/, this.getDayNameAbbr(date, translation.days))
-
+      .replace(/D(?!e)/, this.getDayNameAbbr(date, translation.days))
     return str
   },
 
