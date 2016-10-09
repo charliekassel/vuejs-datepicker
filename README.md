@@ -2,6 +2,10 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master)
 
+## Demo
+
+http://www.webpackbin.com/N1vgz1XRb
+
 ## Install
 
 ``` bash
