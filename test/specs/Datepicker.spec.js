@@ -7,7 +7,7 @@ let vm
 
 function dpc (state = {}) {
   return {
-    template: '<div><datepicker :value="value" format="yyyy-MM-d" v-ref:component></datepicker></div>',
+    template: '<div><datepicker :value="value" format="yyyy-MM-dd" name="dp1" v-ref:component></datepicker></div>',
     components: { Datepicker },
     data: function () {
       return state
@@ -49,6 +49,13 @@ describe('Datepicker: mounted component', () => {
     vm.$refs.component.setValue(newDate)
     expect(vm.$refs.component.selectedDate).to.equal(newDate)
     expect(vm.$refs.component.formattedValue).to.equal('2016-10-15')
+    const now = new Date()
+    vm.$refs.component.setValue()
+    expect(vm.$refs.component.selectedDate).to.equal(null)
+    const currDate = new Date(vm.$refs.component.currDate)
+    expect(currDate.getYear()).to.equal(now.getYear())
+    expect(currDate.getMonth()).to.equal(now.getMonth())
+    expect(currDate.getDate()).to.equal(1)
   })
 
   it('knows the selected year', () => {
@@ -74,12 +81,20 @@ describe('Datepicker: mounted component', () => {
     expect(vm.$refs.component.isSelectedDate(newDate)).to.equal(true)
     expect(vm.$refs.component.isSelectedDate(new Date(2017, 1, 1))).to.equal(false)
   })
+
+  it('sets the date', () => {
+    const date = new Date(2016, 9, 9)
+    const vm = new Vue(dpc()).$mount()
+    vm.$refs.component.setDate(date.getTime())
+    expect(vm.$refs.component.value.getTime()).to.equal(date.getTime())
+    expect(vm.$refs.component.formattedValue).to.equal('2016-10-09')
+  })
 })
 
 describe('Datepicker.vue', () => {
   beforeEach(() => {
     vm = new Vue({
-      template: '<div><datepicker :value="value" format="yyyy-MM-d"></datepicker></div>',
+      template: '<div><datepicker :value="value" name="dp2" format="yyyy-MM-d" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data: function () {
         return {
@@ -125,8 +140,75 @@ describe('Datepicker.vue', () => {
       Datepicker.methods.close()
       expect(Datepicker.methods.isOpen()).to.equal(false)
 
+      Datepicker.methods.showDayCalendar()
+      expect(Datepicker.methods.isOpen()).to.equal(true)
       done()
     })
+  })
+
+  it('can select a day', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    expect(vm.$refs.component.currDate).to.equal(date.getTime())
+    expect(vm.$refs.component.showDayView).to.equal(false)
+  })
+
+  it('can select a month', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectMonth({timestamp: date.getTime()})
+    expect(vm.$refs.component.currDate).to.equal(date.getTime())
+    expect(vm.$refs.component.showDayView).to.equal(true)
+  })
+
+  it('can select a year', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectYear({timestamp: date.getTime()})
+    expect(vm.$refs.component.currDate).to.equal(date.getTime())
+    expect(vm.$refs.component.showMonthView).to.equal(true)
+  })
+
+  it('can set the next month', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.nextMonth()
+    expect(vm.$refs.component.getMonth()).to.equal(10)
+  })
+
+  it('can set the previous month', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.previousMonth()
+    expect(vm.$refs.component.getMonth()).to.equal(8)
+    vm.$refs.component.previousMonth()
+    expect(vm.$refs.component.getMonth()).to.equal(7)
+  })
+
+  it('can set the next year', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.nextYear()
+    expect(vm.$refs.component.getYear()).to.equal(2017)
+  })
+
+  it('can set the previous year', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.previousYear()
+    expect(vm.$refs.component.getYear()).to.equal(2015)
+  })
+
+  it('can set the next decade', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.nextDecade()
+    expect(vm.$refs.component.getDecade()).to.equal('2020\'s')
+  })
+
+  it('can set the previous decade', () => {
+    const date = new Date(2016, 9, 9)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.previousDecade()
+    expect(vm.$refs.component.getDecade()).to.equal('2000\'s')
   })
 })
 
@@ -153,17 +235,26 @@ describe('Datepicker.vue set by object', () => {
       done()
     })
   })
+})
 
-  // it('should set the date', (done) => {
-  //   vm.$nextTick(() => {
-  //     const date = new Date(2016, 9, 8)
-  //     // expect(date.getTime()).to.equal(1)
-  //     console.log(vm)
+describe('Datepicker.vue inline', () => {
+  let state = {}
+  beforeEach(() => {
+    vm = new Vue({
+      template: '<div><datepicker :inline="true" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data: function () {
+        return state
+      }
+    }).$mount()
+  })
 
-  //     vm.methods.setDate(date.getTime())
-  //     // console.log(data)
-  //     expect(vm.data().selectedDate).to.equal(date)
-  //     done()
-  //   })
-  // })
+  it('should not showCalendar as already open', () => {
+    expect(vm.$refs.component.showCalendar()).to.equal(false)
+    expect(vm.$refs.component.isInline()).to.equal(true)
+  })
+})
+
+describe('Datepicker disabled dates', () => {
+  // TODO
 })

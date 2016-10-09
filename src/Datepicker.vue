@@ -244,7 +244,7 @@ export default {
     },
     showCalendar () {
       if (this.isInline()) {
-        return
+        return false
       }
       (this.isOpen()) ? this.close() : this.showDayCalendar()
     },
@@ -286,6 +286,9 @@ export default {
       }
     },
 
+    /**
+     * @param {Object} day
+     */
     selectDate (day) {
       if (day.isDisabled) {
         return false
@@ -294,6 +297,9 @@ export default {
       this.isInline() ? this.showDayCalendar() : this.close()
     },
 
+    /**
+     * @param {Object} month
+     */
     selectMonth (month) {
       if (month.isDisabled) {
         return false
@@ -302,6 +308,9 @@ export default {
       this.showDayCalendar()
     },
 
+    /**
+     * @param {Object} year
+     */
     selectYear (year) {
       if (year.isDisabled) {
         return false
@@ -310,10 +319,25 @@ export default {
       this.showMonthCalendar()
     },
 
+    /**
+     * @return {Number}
+     */
+    getMonth () {
+      let d = new Date(this.currDate)
+      return d.getMonth()
+    },
+
+    /**
+     * @return {Number}
+     */
     getYear () {
       let d = new Date(this.currDate)
       return d.getFullYear()
     },
+
+    /**
+     * @return {String}
+     */
     getDecade () {
       let d = new Date(this.currDate)
       let sD = Math.floor(d.getFullYear() / 10) * 10
@@ -328,6 +352,7 @@ export default {
       d.setMonth(d.getMonth() - 1)
       this.currDate = d.getTime()
     },
+
     previousMonthDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
         return false
@@ -341,6 +366,7 @@ export default {
       }
       return false
     },
+
     nextMonth () {
       if (this.nextMonthDisabled()) {
         return false
@@ -349,6 +375,7 @@ export default {
       d.setMonth(d.getMonth() + 1)
       this.currDate = d.getTime()
     },
+
     nextMonthDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
         return false
@@ -362,6 +389,7 @@ export default {
       }
       return false
     },
+
     previousYear () {
       if (this.previousYearDisabled()) {
         return false
@@ -370,6 +398,7 @@ export default {
       d.setYear(d.getFullYear() - 1)
       this.currDate = d.getTime()
     },
+
     previousYearDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
         return false
@@ -380,6 +409,7 @@ export default {
       }
       return false
     },
+
     nextYear () {
       if (this.nextYearDisabled()) {
         return false
@@ -388,6 +418,7 @@ export default {
       d.setYear(d.getFullYear() + 1)
       this.currDate = d.getTime()
     },
+
     nextYearDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
         return false
@@ -407,6 +438,7 @@ export default {
       d.setYear(d.getFullYear() - 10)
       this.currDate = d.getTime()
     },
+
     previousDecadeDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
         return false
@@ -417,6 +449,7 @@ export default {
       }
       return false
     },
+
     nextDecade () {
       if (this.nextDecadeDisabled()) {
         return false
@@ -425,6 +458,7 @@ export default {
       d.setYear(d.getFullYear() + 10)
       this.currDate = d.getTime()
     },
+
     nextDecadeDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
         return false
