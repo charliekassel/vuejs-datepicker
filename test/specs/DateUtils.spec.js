@@ -1,6 +1,7 @@
 /* global describe, it, expect */
 
 import DateUtils from '../../src/utils/DateUtils'
+import DateLanguages from '../../src/utils/DateLanguages'
 
 describe('DateUtils', () => {
   it('should detect invalid date object', () => {
@@ -45,5 +46,68 @@ describe('DateUtils', () => {
 
   it('should give the correct day', () => {
     expect(DateUtils.formatDate(new Date(2016, 8, 12), 'D')).to.equal('Mon')
+  })
+
+  it('can create an array of dates', () => {
+    const start = new Date(2016, 9, 12)
+    const end = new Date(2016, 9, 16)
+    const dates = DateUtils.createDateArray(start, end)
+    expect(dates.length).to.equal(5)
+    let day = 12
+    dates.forEach((date) => {
+      expect(date.getDate()).to.equal(day)
+      day++
+    })
+  })
+
+  it('gives total days between two dates', () => {
+    expect(DateUtils.dayDiff(new Date(2016, 9, 5), new Date(2016, 9, 6))).to.equal(1)
+  })
+
+  it('gives days in a month', () => {
+    expect(DateUtils.daysInMonth(2016, 0)).to.equal(31)
+    expect(DateUtils.daysInMonth(2016, 1)).to.equal(29)
+    expect(DateUtils.daysInMonth(2016, 2)).to.equal(31)
+  })
+
+  it('converts to UTC. This is not a test...', () => {
+    const d = new Date()
+    expect(DateUtils.convertToUTC(d).getTime()).to.equal(d.getTime() + (d.getTimezoneOffset() * 60000))
+  })
+
+  it('getDayNameAbbr moans if date is not a Date object', () => {
+    expect(() => DateUtils.getDayNameAbbr(123, DateLanguages.translations.en.months.original)).to.throw(TypeError)
+  })
+
+  it('getMonthName moans if date is not a Date object', () => {
+    expect(() => DateUtils.getMonthName('string', DateLanguages.translations.en.months.original)).to.throw(TypeError)
+  })
+
+  it('getMonthName complains if missing months array', () => {
+    expect(() => DateUtils.getMonthName(new Date())).to.throw(Error)
+  })
+
+  it('getMonthName accepts a number', () => {
+    expect(DateUtils.getMonthName(3, DateLanguages.translations.en.months.original)).to.equal('April')
+  })
+
+  it('getMonthName accepts a Date object', () => {
+    expect(DateUtils.getMonthName(new Date(2016, 9, 10), DateLanguages.translations.en.months.original)).to.equal('October')
+  })
+
+  it('getMonthNameAbbr moans if date is not a Date object', () => {
+    expect(() => DateUtils.getMonthNameAbbr('abc', DateLanguages.translations.en.months.original)).to.throw(TypeError)
+  })
+
+  it('getMonthNameAbbr complains if missing months array', () => {
+    expect(() => DateUtils.getMonthNameAbbr(new Date())).to.throw(Error)
+  })
+
+  it('getMonthNameAbbr accepts a Date object', () => {
+    expect(DateUtils.getMonthNameAbbr(new Date(2016, 9, 10), DateLanguages.translations.en.months.abbr)).to.equal('Oct')
+  })
+
+  it('getMonthName accepts a number', () => {
+    expect(DateUtils.getMonthNameAbbr(3, DateLanguages.translations.en.months.abbr)).to.equal('Apr')
   })
 })

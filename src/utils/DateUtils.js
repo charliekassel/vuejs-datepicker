@@ -34,6 +34,9 @@ export default {
    * @return {String}
    */
   getMonthName (month, months) {
+    if (!months) {
+      throw Error('missing 2nd parameter Months array')
+    }
     if (typeof month === 'object') {
       return months[month.getMonth()]
     }
@@ -49,6 +52,9 @@ export default {
    * @return {String}
    */
   getMonthNameAbbr (month, monthsAbbr) {
+    if (!monthsAbbr) {
+      throw Error('missing 2nd paramter Months array')
+    }
     if (typeof month === 'object') {
       return monthsAbbr[month.getMonth()]
     }
@@ -70,21 +76,11 @@ export default {
   /**
    * Return the number of days in the month
    * @param {Number} year
-   * @param {Number} month
+   * @param {Number} month - month here is equal to getMonth() i.e index based
    * @return {Number}
    */
   daysInMonth (year, month) {
     return new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
-  },
-
-  /**
-   * Alternative get total number of days in month
-   * @param {Number} y
-   * @param {Number} m
-   * @return {Number}
-   */
-  getDaysInMonth (y, m) {
-    return /8|3|5|10/.test(--m) ? 30 : m === 1 ? (!(y % 4) && y % 100) || !(y % 400) ? 29 : 28 : 31
   },
 
   /**
@@ -161,7 +157,7 @@ export default {
     let dates = []
     while (start <= end) {
       dates.push(new Date(start))
-      start = start.setDate(start.getDate() + 1)
+      start = new Date(start).setDate(new Date(start).getDate() + 1)
     }
     return dates
   }

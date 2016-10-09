@@ -5,7 +5,7 @@ import Datepicker from '../../src/Datepicker.vue'
 
 let vm
 
-function dpc (state) {
+function dpc (state = {}) {
   return {
     template: '<div><datepicker :value="value" format="yyyy-MM-d" v-ref:component></datepicker></div>',
     components: { Datepicker },
@@ -15,7 +15,7 @@ function dpc (state) {
   }
 }
 
-describe('Datepicker', () => {
+describe('Datepicker unmounted', () => {
   it('has a mounted hook', () => {
     expect(typeof Datepicker.mounted).to.equal('function')
   })
@@ -29,7 +29,6 @@ describe('Datepicker', () => {
     expect(defaultData.showYearView).to.equal(false)
     expect(defaultData.formattedValue).to.equal(null)
     expect(defaultData.calendarHeight).to.equal(0)
-    expect(defaultData.currDate).to.equal(new Date().getTime())
   })
 
   it('correctly sets the value when created', () => {
@@ -37,7 +36,9 @@ describe('Datepicker', () => {
     const vm = new Vue(dpc({value: date})).$mount()
     expect(vm.value).to.equal(date)
   })
+})
 
+describe('Datepicker: mounted component', () => {
   it('correctly sets the value from method', () => {
     const date = new Date(2016, 1, 15)
     const vm = new Vue(dpc({
@@ -48,6 +49,30 @@ describe('Datepicker', () => {
     vm.$refs.component.setValue(newDate)
     expect(vm.$refs.component.selectedDate).to.equal(newDate)
     expect(vm.$refs.component.formattedValue).to.equal('2016-10-15')
+  })
+
+  it('knows the selected year', () => {
+    const newDate = new Date(2016, 9, 15)
+    const vm = new Vue(dpc()).$mount()
+    vm.$refs.component.setValue(newDate)
+    expect(vm.$refs.component.isSelectedYear(newDate)).to.equal(true)
+    expect(vm.$refs.component.isSelectedYear(new Date(2017, 1, 15))).to.equal(false)
+  })
+
+  it('knows the selected month', () => {
+    const newDate = new Date(2016, 9, 15)
+    const vm = new Vue(dpc()).$mount()
+    vm.$refs.component.setValue(newDate)
+    expect(vm.$refs.component.isSelectedMonth(newDate)).to.equal(true)
+    expect(vm.$refs.component.isSelectedMonth(new Date(2017, 1, 15))).to.equal(false)
+  })
+
+  it('knows the selected date', () => {
+    const newDate = new Date(2016, 9, 15)
+    const vm = new Vue(dpc()).$mount()
+    vm.$refs.component.setValue(newDate)
+    expect(vm.$refs.component.isSelectedDate(newDate)).to.equal(true)
+    expect(vm.$refs.component.isSelectedDate(new Date(2017, 1, 1))).to.equal(false)
   })
 })
 
