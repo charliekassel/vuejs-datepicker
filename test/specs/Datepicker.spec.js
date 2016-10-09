@@ -256,5 +256,98 @@ describe('Datepicker.vue inline', () => {
 })
 
 describe('Datepicker disabled dates', () => {
-  // TODO
+  beforeEach(() => {
+    vm = new Vue({
+      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            to: new Date(2016, 9, 4),
+            from: new Date(2016, 9, 26)
+          }
+        }
+      }
+    }).$mount()
+    vm.$refs.component.setDate(new Date(2016, 9, 15))
+  })
+
+  it('should not select a disabled date', () => {
+    expect(vm.$refs.component.selectDate({isDisabled: true})).to.equal(false)
+    expect(vm.$refs.component.selectMonth({isDisabled: true})).to.equal(false)
+    expect(vm.$refs.component.selectYear({isDisabled: true})).to.equal(false)
+  })
+
+  it('cant\'t change to a disabled month', () => {
+    expect(vm.$refs.component.previousMonth()).to.equal(false)
+    expect(vm.$refs.component.nextMonth()).to.equal(false)
+  })
+
+  it('cant\'t change to a disabled year', () => {
+    expect(vm.$refs.component.previousYear()).to.equal(false)
+    expect(vm.$refs.component.nextYear()).to.equal(false)
+  })
+
+  it('cant\'t change to a disabled decade', () => {
+    expect(vm.$refs.component.previousDecade()).to.equal(false)
+    expect(vm.$refs.component.nextDecade()).to.equal(false)
+  })
+})
+
+describe('Datepicker has disabled dates but can change dates', () => {
+  beforeEach(() => {
+    vm = new Vue({
+      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            to: new Date(2016, 8, 5),
+            from: new Date(2016, 10, 25)
+          }
+        }
+      }
+    }).$mount()
+  })
+
+  it('cant change month despite having a disabled month', () => {
+    expect(vm.$refs.component.previousMonth()).to.not.equal(false)
+    expect(vm.$refs.component.nextMonth()).to.not.equal(false)
+  })
+
+  it('cant change year despite having a disabled year', () => {
+    vm = new Vue({
+      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            to: new Date(2015, 8, 5),
+            from: new Date(2017, 10, 25)
+          }
+        }
+      }
+    }).$mount()
+    expect(vm.$refs.component.previousYear()).to.not.equal(false)
+    expect(vm.$refs.component.nextYear()).to.not.equal(false)
+  })
+// })
+
+// describe('another one', () => {
+  it('cant change decade despite having a disabled decade', () => {
+    vm = new Vue({
+      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            to: new Date(2005, 8, 6),
+            from: new Date(2027, 10, 24)
+          }
+        }
+      }
+    }).$mount()
+    expect(vm.$refs.component.previousDecade()).to.equal(false)
+    expect(vm.$refs.component.nextDecade()).to.equal(false)
+  })
 })
