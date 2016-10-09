@@ -1,4 +1,51 @@
-# Vuejs Datepicker
+# Datepicker
+
+![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master)
+
+## Install
+
+``` bash
+npm install vuejs-datepicker --save
+```
+
+## Usage
+
+*value* prop if passed should be a Date object
+
+``` html
+
+<datepicker></datepicker>
+<datepicker :value="state.value" name="uniquename"></datepicker>
+<datepicker :value.sync="state.value" name="uniquename" :disabled="state.disabled"></datepicker>
+<datepicker :inline="true"></datepicker>
+```
+
+``` javascript
+
+var state = {
+    value: new Date(2016, 0, 15),
+    disabled: {
+        to: new Date(2016, 0, 5),
+        from: new Date(2016, 0, 26)    
+    }
+}
+
+```
+
+
+#### Translations
+Added support to languages.
+
+``` html
+<datepicker language="es"></datepicker>
+```
+###### Languages available
+| Abbr        | Language         |          |
+| ----------- |:----------------:|---------:|
+| en          | English          | *Default*| 
+| es          | Spanish          |          |
+| fr          | French           |          |
+| pt-br       | Portuguese-Brazil|          |
 
 ## Build Setup
 
@@ -11,4 +58,7 @@ npm run dev
 
 # build for production with minification
 npm run build
+
+# run unit tests
+npm test
 ```
