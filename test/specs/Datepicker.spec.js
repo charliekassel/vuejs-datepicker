@@ -331,12 +331,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.$refs.component.previousYear()).to.not.equal(false)
     expect(vm.$refs.component.nextYear()).to.not.equal(false)
   })
-// })
 
-// describe('another one', () => {
-  it('cant change decade despite having a disabled decade', () => {
+  it('cant change decade previous or next decades are disabled', () => {
     vm = new Vue({
-      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      template: '<div><datepicker :disabled="disabled" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data () {
         return {
@@ -349,5 +347,58 @@ describe('Datepicker has disabled dates but can change dates', () => {
     }).$mount()
     expect(vm.$refs.component.previousDecade()).to.equal(false)
     expect(vm.$refs.component.nextDecade()).to.equal(false)
+  })
+
+  it('can change decade despite having a disabled decade', () => {
+    vm = new Vue({
+      template: '<div><datepicker :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            to: new Date(2025, 8, 6),
+            from: new Date(2007, 10, 24)
+          }
+        }
+      }
+    }).$mount()
+    expect(vm.$refs.component.previousDecadeDisabled()).to.equal(false)
+    expect(vm.$refs.component.nextDecadeDisabled()).to.equal(false)
+  })
+
+  it('can accept an array of disabled dates', () => {
+    vm = new Vue({
+      template: '<div><datepicker :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            dates: [
+              new Date(2016, 9, 2),
+              new Date(2016, 9, 9),
+              new Date(2016, 9, 16)
+            ]
+          }
+        }
+      }
+    }).$mount()
+    expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+  })
+
+  it('can accept an array of disabled days of the week', () => {
+    vm = new Vue({
+      template: '<div><datepicker :disabled="disabled" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          disabled: {
+            days: [6, 0]
+          }
+        }
+      }
+    }).$mount()
+    expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
   })
 })
