@@ -12,6 +12,22 @@ http://www.webpackbin.com/N1vgz1XRb
 npm install vuejs-datepicker --save
 ```
 
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# run unit tests
+npm test
+```
+
 ## Usage
 
 *value* prop if passed should be a Date object
@@ -51,18 +67,3 @@ Added support to languages.
 | fr          | French           |          |
 | pt-br       | Portuguese-Brazil|          |
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# run unit tests
-npm test
-```
