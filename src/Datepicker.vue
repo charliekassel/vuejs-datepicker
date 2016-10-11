@@ -5,7 +5,6 @@
         class=""
         :name="name"
         @click="showCalendar()"
-        @focus="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
         readonly>
