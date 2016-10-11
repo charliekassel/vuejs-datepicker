@@ -65,5 +65,6 @@ Added support to languages.
 | en          | English          | *Default*| 
 | es          | Spanish          |          |
 | fr          | French           |          |
+| nl          | Dutch            |          |
 | pt-br       | Portuguese-Brazil|          |
 
