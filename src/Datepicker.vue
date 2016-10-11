@@ -4,7 +4,8 @@
         :type="inline ? 'hidden' : 'text'"
         class=""
         :name="name"
-        @click="showCalendar"
+        @click="showCalendar()"
+        @focus="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
         readonly>
@@ -604,7 +605,7 @@ export default {
       this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
     }
   },
-  mounted () {
+  ready () {
     if (this.value) {
       this.setValue(this.value)
     }

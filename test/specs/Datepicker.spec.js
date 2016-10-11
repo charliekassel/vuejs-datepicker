@@ -16,8 +16,8 @@ function dpc (state = {}) {
 }
 
 describe('Datepicker unmounted', () => {
-  it('has a mounted hook', () => {
-    expect(typeof Datepicker.mounted).to.equal('function')
+  it('has a ready hook', () => {
+    expect(typeof Datepicker.ready).to.equal('function')
   })
 
   it('sets the correct default data', () => {
@@ -93,7 +93,9 @@ describe('Datepicker: mounted component', () => {
 
 describe('Datepicker.vue', () => {
   beforeEach(() => {
+    document.body.appendChild(document.createElement('div'))
     vm = new Vue({
+      el: 'div',
       template: '<div><datepicker :value="value" name="dp2" format="yyyy-MM-d" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data: function () {
@@ -101,7 +103,16 @@ describe('Datepicker.vue', () => {
           value: new Date(2016, 1, 15)
         }
       }
-    }).$mount()
+    })
+  })
+
+  it('should close when clicked outside', () => {
+    vm.$refs.component.showDayCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
+    vm.$refs.component.showDayCalendar()
+    expect(vm.$refs.component.showDayView).to.equal(true)
+    document.body.click()
+    expect(vm.$refs.component.isOpen()).to.equal(false)
   })
 
   it('should render correct contents', (done) => {
@@ -240,13 +251,15 @@ describe('Datepicker.vue set by object', () => {
 describe('Datepicker.vue inline', () => {
   let state = {}
   beforeEach(() => {
+    document.body.appendChild(document.createElement('div'))
     vm = new Vue({
+      el: 'div',
       template: '<div><datepicker :inline="true" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data: function () {
         return state
       }
-    }).$mount()
+    })
   })
 
   it('should not showCalendar as already open', () => {
