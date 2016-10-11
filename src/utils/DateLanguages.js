@@ -25,13 +25,13 @@ export default {
     },
 
     'nl': {
-      'months' : {
+      'months': {
         'original': ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
         'abbr': ['Jan', 'Feb', 'Maa', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       },
       'days': ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
     },
-    
+
     'pt-br': {
       'months': {
         'original': ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
