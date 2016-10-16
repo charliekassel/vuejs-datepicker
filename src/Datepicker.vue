@@ -273,6 +273,7 @@ export default {
     },
 
     dispatchSelectEvent (timestamp) {
+      this.$emit('selected')
       if (this.name) {
         this.$dispatch('datepicker.' + this.name, {
           value: timestamp
@@ -281,6 +282,7 @@ export default {
     },
 
     dispatchOpenEvent () {
+      this.$emit('opened')
       if (this.name) {
         this.$dispatch('datepicker.' + this.name + '.open')
       }
