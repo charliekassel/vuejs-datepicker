@@ -30,36 +30,61 @@ npm test
 
 ## Usage
 
+``` html
+<datepicker></datepicker>
+```
+
 *value* prop if passed should be a Date object
 
 ``` html
-
-<datepicker></datepicker>
-<datepicker :value="state.value" name="uniquename"></datepicker>
-<datepicker :value.sync="state.value" name="uniquename" :disabled="state.disabled"></datepicker>
+<script>
+var state = {
+    date: new Date(2016, 9,  16)
+}
+</script>
+<datepicker :value="state.date"></datepicker>
+```
+support name attribute for normal html form submission
+``` html
+<datepicker :value="state.date" name="uniquename"></datepicker>
+```
+Emits events
+``` html
+<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction">
+```
+Inline always open version
+``` html
 <datepicker :inline="true"></datepicker>
 ```
+#### Disabled Dates
+Dates can disabled in a number of ways.
 
-``` javascript
-
+``` html
+<script>
 var state = {
-    value: new Date(2016, 0, 15),
     disabled: {
-        to: new Date(2016, 0, 5),
-        from: new Date(2016, 0, 26)    
+        to: new Date(2016, 0, 5), // Disable all dates up to specific date
+        from: new Date(2016, 0, 26), // Disable all dates after specific date
+        days: [6, 0], // Disable Saturday's and Sunday's
+        dates: [ // Disable an array of dates
+            new Date(2016, 9, 16),
+            new Date(2016, 9, 17),
+            new Date(2016, 9, 18)
+        ]
     }
 }
-
+</script>
+<datepicker :disabled="state.disabled"></datepicker>
 ```
 
 
 #### Translations
-Added support to languages.
 
 ``` html
 <datepicker language="es"></datepicker>
 ```
-###### Languages available
+Available languages
+
 | Abbr        | Language         |          |
 | ----------- |:----------------:|---------:|
 | en          | English          | *Default*| 
@@ -67,4 +92,5 @@ Added support to languages.
 | fr          | French           |          |
 | nl          | Dutch            |          |
 | pt-br       | Portuguese-Brazil|          |
-
+| vi          | Vietnamese       |          |
+| zh          | Chinese          |          |
