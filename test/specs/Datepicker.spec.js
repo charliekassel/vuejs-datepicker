@@ -134,27 +134,24 @@ describe('Datepicker.vue', () => {
     })
   })
 
-  it('should open and close the calendar', (done) => {
-    vm.$nextTick(() => {
-      Datepicker.methods.close()
-      expect(Datepicker.methods.isOpen()).to.equal(false)
+  it('should open and close the calendar', () => {
+    vm.$refs.component.close()
+    expect(vm.$refs.component.isOpen()).to.equal(false)
 
-      Datepicker.methods.showMonthCalendar()
-      expect(Datepicker.methods.isOpen()).to.equal(true)
+    vm.$refs.component.showMonthCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
 
-      Datepicker.methods.close()
-      expect(Datepicker.methods.isOpen()).to.equal(false)
+    vm.$refs.component.close()
+    expect(vm.$refs.component.isOpen()).to.equal(false)
 
-      Datepicker.methods.showYearCalendar()
-      expect(Datepicker.methods.isOpen()).to.equal(true)
+    vm.$refs.component.showYearCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
 
-      Datepicker.methods.close()
-      expect(Datepicker.methods.isOpen()).to.equal(false)
+    vm.$refs.component.close()
+    expect(vm.$refs.component.isOpen()).to.equal(false)
 
-      Datepicker.methods.showDayCalendar()
-      expect(Datepicker.methods.isOpen()).to.equal(true)
-      done()
-    })
+    vm.$refs.component.showDayCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
   })
 
   it('can select a day', () => {
