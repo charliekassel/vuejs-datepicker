@@ -273,7 +273,7 @@ export default {
     },
 
     dispatchSelectEvent (timestamp) {
-      this.$emit('selected')
+      this.$emit('selected', new Date(timestamp))
       if (this.name) {
         this.$dispatch('datepicker.' + this.name, {
           value: timestamp
