@@ -87,10 +87,11 @@ Available languages
 
 | Abbr        | Language         |          |
 | ----------- |:----------------:|---------:|
-| en          | English          | *Default*| 
+| en          | English          | *Default*|
 | es          | Spanish          |          |
 | fr          | French           |          |
 | nl          | Dutch            |          |
 | pt-br       | Portuguese-Brazil|          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
+| ja          | Japanese         |          |
