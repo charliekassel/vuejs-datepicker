@@ -1,5 +1,12 @@
 export default {
   translations: {
+    'da': {
+      'months': {
+        'original': ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
+        'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec']
+      },
+      'days': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
+    },
     'en': {
       'months': {
         'original': ['January', 'Febrary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
