@@ -95,3 +95,4 @@ Available languages
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
+| cs          | Czech            |          |
