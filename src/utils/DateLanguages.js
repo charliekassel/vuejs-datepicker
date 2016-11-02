@@ -62,6 +62,14 @@ export default {
         'abbr': ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
       },
       'days': ['日', '月', '火', '水', '木', '金', '土']
+    },
+
+    'cs': {
+      'months': {
+        'original': ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
+        'abbr': ['led', 'úno', 'bře', 'dub', 'kvě', 'čer', 'čec', 'srp', 'zář', 'říj', 'lis', 'pro']
+      },
+      'days': ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so']
     }
   }
 
