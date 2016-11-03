@@ -213,7 +213,7 @@ export default {
       return years
     },
     calendarStyle () {
-      let elSize = this.$el.getBoundingClientRect()
+      let elSize = this.$el ? this.$el.getBoundingClientRect() : 0
       let heightNeeded = elSize.top + elSize.height + this.calendarHeight
       let styles = {}
       // if the calendar doesn't fit on the window without scrolling position it above the input
@@ -604,25 +604,38 @@ export default {
       this.selectedDate = date
       this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
       this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
+    },
+
+    init () {
+      if (this.value) {
+        this.setValue(this.value)
+      }
+      if (this.isInline()) {
+        this.showDayCalendar()
+      }
+
+      this.$nextTick(() => {
+        this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
+      })
+
+      document.addEventListener('click', (e) => {
+        if (this.$el && !this.$el.contains(e.target)) {
+          (this.isInline()) ? this.showDayCalendar() : this.close()
+        }
+      }, false)
     }
   },
+  /**
+   * Vue 1.x
+   */
   ready () {
-    if (this.value) {
-      this.setValue(this.value)
-    }
-    if (this.isInline()) {
-      this.showDayCalendar()
-    }
-
-    this.$nextTick(() => {
-      this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
-    })
-
-    document.addEventListener('click', (e) => {
-      if (this.$el && !this.$el.contains(e.target)) {
-        (this.isInline()) ? this.showDayCalendar() : this.close()
-      }
-    }, false)
+    this.init()
+  },
+  /**
+   * Vue 2.x
+   */
+  mounted () {
+    this.init()
   }
 }
 </script>
