@@ -87,6 +87,7 @@ Available languages
 
 | Abbr        | Language         |          |
 | ----------- |:----------------:|---------:|
+| da          | Danish           |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fr          | French           |          |
@@ -95,3 +96,4 @@ Available languages
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
+| cs          | Czech            |          |
