@@ -87,6 +87,7 @@ Available languages
 
 | Abbr        | Language         |          |
 | ----------- |:----------------:|---------:|
+| da          | Danish           |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fr          | French           |          |
