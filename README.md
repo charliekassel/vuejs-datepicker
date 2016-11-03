@@ -87,13 +87,13 @@ Available languages
 
 | Abbr        | Language         |          |
 | ----------- |:----------------:|---------:|
-| da          | Danish           |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fr          | French           |          |
 | nl          | Dutch            |          |
+| da          | Danish           |          |
+| cs          | Czech            |          |
 | pt-br       | Portuguese-Brazil|          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
-| cs          | Czech            |          |
