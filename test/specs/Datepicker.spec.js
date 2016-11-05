@@ -86,7 +86,7 @@ describe('Datepicker: mounted component', () => {
     const date = new Date(2016, 9, 9)
     const vm = new Vue(dpc()).$mount()
     vm.$refs.component.setDate(date.getTime())
-    expect(vm.$refs.component.value.getTime()).to.equal(date.getTime())
+    expect(vm.$refs.component.selectedDate.getTime()).to.equal(date.getTime())
     expect(vm.$refs.component.formattedValue).to.equal('2016-10-09')
   })
 })
