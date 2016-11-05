@@ -263,7 +263,7 @@ export default {
     },
 
     setDate (timestamp) {
-      this.value = this.selectedDate = new Date(timestamp)
+      this.selectedDate = new Date(timestamp)
       this.currDate = timestamp
 
       let d = new Date(timestamp)
