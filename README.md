@@ -2,6 +2,8 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/charliekassel/vuejs-datepicker/badge.svg?branch=master)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 
+A datepicker Vue component. Compatible with Vue 1.x and Vue 2.x
+
 ## Demo
 
 http://www.webpackbin.com/N1vgz1XRb
