@@ -3,4 +3,5 @@ node_modules
 npm-debug.log
 .coveralls.yml
 test/coverage/*
-dist/*
+dist/build.js
+dist/build.js.map
