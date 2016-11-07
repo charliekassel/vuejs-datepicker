@@ -251,7 +251,7 @@ export default {
     showDayCalendar () {
       this.close()
       this.showDayView = true
-      this.dispatchOpenEvent()
+      this.$emit('opened')
     },
     showMonthCalendar () {
       this.close()
@@ -268,24 +268,7 @@ export default {
 
       let d = new Date(timestamp)
       this.formattedValue = DateUtils.formatDate(d, this.format, this.translation)
-
-      this.dispatchSelectEvent(timestamp)
-    },
-
-    dispatchSelectEvent (timestamp) {
       this.$emit('selected', new Date(timestamp))
-      if (this.name) {
-        this.$dispatch('datepicker.' + this.name, {
-          value: timestamp
-        })
-      }
-    },
-
-    dispatchOpenEvent () {
-      this.$emit('opened')
-      if (this.name) {
-        this.$dispatch('datepicker.' + this.name + '.open')
-      }
     },
 
     /**
