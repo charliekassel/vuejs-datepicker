@@ -92,6 +92,7 @@ Available languages
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fr          | French           |          |
+| it          | Italian          |          |
 | nl          | Dutch            |          |
 | da          | Danish           |          |
 | cs          | Czech            |          |
