@@ -99,3 +99,4 @@ Available languages
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
+| it          | Italian          |          |
