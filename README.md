@@ -100,3 +100,4 @@ Available languages
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
+| he          | Hebrew           |          |
