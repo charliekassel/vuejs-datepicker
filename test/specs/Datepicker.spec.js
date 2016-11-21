@@ -27,7 +27,6 @@ describe('Datepicker unmounted', () => {
     expect(defaultData.showDayView).to.equal(false)
     expect(defaultData.showMonthView).to.equal(false)
     expect(defaultData.showYearView).to.equal(false)
-    expect(defaultData.formattedValue).to.equal(null)
     expect(defaultData.calendarHeight).to.equal(0)
   })
 
@@ -349,8 +348,8 @@ describe('Datepicker has disabled dates but can change dates', () => {
       data () {
         return {
           disabled: {
-            to: new Date(2005, 8, 6),
-            from: new Date(2027, 10, 24)
+            to: new Date(2010, 8, 6),
+            from: new Date(2017, 10, 24)
           }
         }
       }
@@ -366,8 +365,8 @@ describe('Datepicker has disabled dates but can change dates', () => {
       data () {
         return {
           disabled: {
-            to: new Date(2025, 8, 6),
-            from: new Date(2007, 10, 24)
+            to: new Date(2000, 11, 19),
+            from: new Date(2021, 11, 19)
           }
         }
       }

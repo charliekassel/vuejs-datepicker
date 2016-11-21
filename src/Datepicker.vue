@@ -76,12 +76,7 @@
 import DateUtils from './utils/DateUtils.js'
 import DateLanguages from './utils/DateLanguages.js'
 
-/**
- * TODO
- * support disabled dates array
- */
 export default {
-
   props: {
     value: {
       validator: function (val) {
@@ -132,7 +127,6 @@ export default {
        * Helper arrays for names
        */
       translation: DateLanguages.translations[this.language],
-      formattedValue: null,
       /*
        * Positioning
        */
@@ -145,6 +139,14 @@ export default {
     }
   },
   computed: {
+
+    formattedValue () {
+      if (!this.selectedDate) {
+        return null
+      }
+      return DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+    },
+
     currMonthName () {
       const d = new Date(this.currDate)
       return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
@@ -265,9 +267,6 @@ export default {
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
       this.currDate = timestamp
-
-      let d = new Date(timestamp)
-      this.formattedValue = DateUtils.formatDate(d, this.format, this.translation)
       this.$emit('selected', new Date(timestamp))
     },
 
@@ -429,7 +428,7 @@ export default {
         return false
       }
       let d = new Date(this.currDate)
-      if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 <= Math.floor(d.getFullYear() / 10) * 10) {
+      if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10) {
         return true
       }
       return false
@@ -449,7 +448,7 @@ export default {
         return false
       }
       let d = new Date(this.currDate)
-      if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 >= Math.ceil(d.getFullYear() / 10) * 10) {
+      if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10) {
         return true
       }
       return false
@@ -581,12 +580,11 @@ export default {
       if (!date) {
         const d = new Date()
         this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
-        this.selectedDate = this.formattedValue = null
+        this.selectedDate = null
         return
       }
       this.selectedDate = date
       this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
-      this.formattedValue = DateUtils.formatDate(date, this.format, this.translation)
     },
 
     init () {
