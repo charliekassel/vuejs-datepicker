@@ -23,6 +23,14 @@ export default {
       'days': ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab']
     },
 
+    'fi': {
+      'months': {
+        'original': ['tammikuu', 'helmikuu', 'maaliskuu', 'huhtikuu', 'toukokuu', 'kesäkuu', 'heinäkuu', 'elokuu', 'syyskuu', 'lokakuu', 'marraskuu', 'joulukuu'],
+        'abbr': ['tammi', 'helmi', 'maalis', 'huhti', 'touko', 'kesä', 'heinä', 'elo', 'syys', 'loka', 'marras', 'joulu']
+      },
+      'days': ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la']
+    },
+
     'fr': {
       'months': {
         'original': ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],

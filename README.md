@@ -91,6 +91,7 @@ Available languages
 | ----------- |:----------------:|---------:|
 | en          | English          | *Default*|
 | es          | Spanish          |          |
+| fi          | Finnish          |          |
 | fr          | French           |          |
 | hr          | Croatian         |          |
 | it          | Italian          |          |
