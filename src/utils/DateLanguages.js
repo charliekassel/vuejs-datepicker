@@ -1,5 +1,6 @@
 export default {
   translations: {
+
     'da': {
       'months': {
         'original': ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
@@ -7,6 +8,7 @@ export default {
       },
       'days': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
     },
+
     'en': {
       'months': {
         'original': ['January', 'Febrary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -94,6 +96,7 @@ export default {
       },
       'days': ['日', '月', '火', '水', '木', '金', '土']
     },
+
     'he': {
       'months': {
         'original': ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'],
@@ -101,12 +104,21 @@ export default {
       },
       'days': ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש']
     },
+
     'cs': {
       'months': {
         'original': ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
         'abbr': ['led', 'úno', 'bře', 'dub', 'kvě', 'čer', 'čec', 'srp', 'zář', 'říj', 'lis', 'pro']
       },
       'days': ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so']
+    },
+
+    'de-DE': {
+      'months': {
+        'original': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        'abbr': ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+      },
+      'days': ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.']
     }
 
   }
