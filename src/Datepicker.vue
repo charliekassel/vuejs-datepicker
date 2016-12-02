@@ -268,6 +268,7 @@ export default {
       this.selectedDate = new Date(timestamp)
       this.currDate = timestamp
       this.$emit('selected', new Date(timestamp))
+      this.$emit('input',  new Date(timestamp))
     },
 
     /**
