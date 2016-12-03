@@ -1,8 +1,8 @@
 <template>
-  <div class="datepicker">
+  <div class="datepicker" :class="wrapperClass">
     <input
         :type="inline ? 'hidden' : 'text'"
-        class=""
+        :class="inputClass"
         :name="name"
         @click="showCalendar()"
         :value="formattedValue"
@@ -102,6 +102,12 @@ export default {
     },
     inline: {
       type: Boolean
+    },
+    inputClass: {
+      type: String
+    },
+    wrapperClass: {
+      type: String
     }
   },
   data () {
