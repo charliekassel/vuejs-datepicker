@@ -262,12 +262,20 @@ describe('Datepicker.vue inline', () => {
     expect(vm.$refs.component.showCalendar()).to.equal(false)
     expect(vm.$refs.component.isInline()).to.equal(true)
   })
+
+  it('should not close the caledar when date is selected', () => {
+    const date = new Date()
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    expect(vm.$refs.component.isOpen()).to.equal(true)
+    document.body.click()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
+  })
 })
 
 describe('Datepicker disabled dates', () => {
   beforeEach(() => {
     vm = new Vue({
-      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      template: '<div><datepicker :inline="false" :disabled="disabled" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data () {
         return {
@@ -279,6 +287,19 @@ describe('Datepicker disabled dates', () => {
       }
     }).$mount()
     vm.$refs.component.setDate(new Date(2016, 9, 15))
+  })
+
+  it('should close showCalendar if already open', () => {
+    expect(vm.$refs.component.isInline()).to.equal(false)
+    vm.$refs.component.showCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(true)
+    vm.$refs.component.showCalendar()
+    expect(vm.$refs.component.isOpen()).to.equal(false)
+  })
+
+  it('should detect a disabled date', () => {
+    expect(vm.$refs.component.isDisabledDate(new Date(2006, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isDisabledDate(new Date(2026, 9, 2))).to.equal(true)
   })
 
   it('should not select a disabled date', () => {
@@ -306,7 +327,7 @@ describe('Datepicker disabled dates', () => {
 describe('Datepicker has disabled dates but can change dates', () => {
   beforeEach(() => {
     vm = new Vue({
-      template: '<div><datepicker :inline="true" :disabled="disabled" v-ref:component></datepicker></div>',
+      template: '<div><datepicker :inline="true" :disabled="disabled" :value="value" v-ref:component></datepicker></div>',
       components: { Datepicker },
       data () {
         return {
@@ -320,6 +341,9 @@ describe('Datepicker has disabled dates but can change dates', () => {
   })
 
   it('cant change month despite having a disabled month', () => {
+    const newDate = new Date(2016, 9, 15)
+    vm.$refs.component.setValue(newDate)
+    expect(vm.$refs.component.getMonth()).to.equal(9)
     expect(vm.$refs.component.previousMonth()).to.not.equal(false)
     expect(vm.$refs.component.nextMonth()).to.not.equal(false)
   })
@@ -337,6 +361,8 @@ describe('Datepicker has disabled dates but can change dates', () => {
         }
       }
     }).$mount()
+    const newDate = new Date(2016, 9, 15)
+    vm.$refs.component.setValue(newDate)
     expect(vm.$refs.component.previousYear()).to.not.equal(false)
     expect(vm.$refs.component.nextYear()).to.not.equal(false)
   })
@@ -354,6 +380,8 @@ describe('Datepicker has disabled dates but can change dates', () => {
         }
       }
     }).$mount()
+    const newDate = new Date(2016, 9, 15)
+    vm.$refs.component.setValue(newDate)
     expect(vm.$refs.component.previousDecade()).to.equal(false)
     expect(vm.$refs.component.nextDecade()).to.equal(false)
   })

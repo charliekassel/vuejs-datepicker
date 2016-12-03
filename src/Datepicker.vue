@@ -215,8 +215,14 @@ export default {
       return years
     },
     calendarStyle () {
-      let elSize = this.$el ? this.$el.getBoundingClientRect() : 0
-      let heightNeeded = elSize.top + elSize.height + this.calendarHeight
+      let elSize = {
+        top: 0,
+        height: 0
+      }
+      if (this.$el) {
+        elSize = this.$el.getBoundingClientRect()
+      }
+      let heightNeeded = elSize.top + elSize.height + this.calendarHeight || 0
       let styles = {}
       // if the calendar doesn't fit on the window without scrolling position it above the input
       if (heightNeeded > window.innerHeight) {
@@ -248,7 +254,10 @@ export default {
       if (this.isInline()) {
         return false
       }
-      (this.isOpen()) ? this.close() : this.showDayCalendar()
+      if (this.isOpen()) {
+        return this.close()
+      }
+      this.showDayCalendar()
     },
     showDayCalendar () {
       this.close()
@@ -278,7 +287,10 @@ export default {
         return false
       }
       this.setDate(day.timestamp)
-      this.isInline() ? this.showDayCalendar() : this.close()
+      if (this.isInline()) {
+        return this.showDayCalendar()
+      }
+      this.close()
     },
 
     /**
@@ -601,7 +613,10 @@ export default {
 
       document.addEventListener('click', (e) => {
         if (this.$el && !this.$el.contains(e.target)) {
-          (this.isInline()) ? this.showDayCalendar() : this.close()
+          if (this.isInline()) {
+            return this.showDayCalendar()
+          }
+          this.close()
         }
       }, false)
     }
