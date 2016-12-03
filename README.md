@@ -18,7 +18,7 @@ import DatePicker from 'vuejs-datepicker';
 
 Vue.component('my-component', {
     components: {
-      'datepicker': DatePicker
+        DatePicker
     }
 });
 ```
