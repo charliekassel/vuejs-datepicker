@@ -96,6 +96,7 @@ Available languages
 | hr          | Croatian         |          |
 | it          | Italian          |          |
 | nl          | Dutch            |          |
+| de          | German           |          |
 | da          | Danish           |          |
 | cs          | Czech            |          |
 | pt-br       | Portuguese-Brazil|          |
