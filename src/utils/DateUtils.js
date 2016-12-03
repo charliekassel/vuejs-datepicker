@@ -134,14 +134,14 @@ export default {
     let month = date.getMonth() + 1
     let day = date.getDate()
     let str = format
+      .replace(/dd/, ('0' + day).slice(-2))
+      .replace(/d/, day)
       .replace(/yyyy/, year)
       .replace(/yy/, String(year).slice(2))
       .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
       .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.months.abbr))
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a)/, month)
-      .replace(/dd/, ('0' + day).slice(-2))
-      .replace(/d/, day)
       .replace(/su/, this.getNthSuffix(date.getDate()))
       .replace(/D(?!e)/, this.getDayNameAbbr(date, translation.days))
     return str
