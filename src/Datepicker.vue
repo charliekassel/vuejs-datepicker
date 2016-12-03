@@ -2,7 +2,7 @@
   <div class="datepicker">
     <input
         :type="inline ? 'hidden' : 'text'"
-        class=""
+        :class="class"
         :name="name"
         @click="showCalendar()"
         :value="formattedValue"
@@ -102,6 +102,9 @@ export default {
     },
     inline: {
       type: Boolean
+    },
+    class: {
+      type: String
     }
   },
   data () {
