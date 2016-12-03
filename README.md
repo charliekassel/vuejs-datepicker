@@ -14,22 +14,6 @@ http://www.webpackbin.com/N1vgz1XRb
 npm install vuejs-datepicker --save
 ```
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# run unit tests
-npm test
-```
-
 ## Usage
 
 ``` html
@@ -58,6 +42,38 @@ Inline always open version
 ``` html
 <datepicker :inline="true"></datepicker>
 ```
+## Available props
+
+| Prop         | Type         | Default     | Description                         |
+|--------------|--------------|-------------|-------------------------------------|
+| value        | Date         |             | Date value of the datepicker        |
+| name         | String       |             | input name property                 |
+| format       | String       | dd MMM yyyy | Date formatting string              |
+| language     | String       | en          | Translation for days and months     |
+| disabled     | Object       |             | See below for configuration         |
+| placeholder  | String       |             | input placeholder text              |   
+| inline       | Boolean      |             | to show the datepicker always open  |
+| inputClass   | String       |             | css class applied to the input el   |
+| wrapperClass | String       |             | css class applied to the outer div  |
+
+## Date formatting
+
+NB. This is not very robust at all - use at your own risk! Needs a better implementation.
+
+| Token | Desc                   | Example     |
+|-------|------------------------|-------------|
+| d     | day                    | 1           |
+| dd    | 0 prefixed day         | 01          |
+| D     | abbr day               | Mon         |
+| su    | date suffix            | st, nd, rd  |
+| M     | month number (1 based) | 1 (for Jan) |
+| MM    | 0 prefixed month       | 01          |
+| MMM   | abbreviated month name | Jan         |
+| MMMM  | month name             | January     |
+| yy    | two digit year         | 16          |
+| yyyy  | four digit year        | 2016        |
+
+
 #### Disabled Dates
 Dates can disabled in a number of ways.
 
@@ -88,7 +104,7 @@ var state = {
 Available languages
 
 | Abbr        | Language         |          |
-| ----------- |:----------------:|---------:|
+| ----------- |------------------|----------|
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
