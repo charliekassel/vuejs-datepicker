@@ -40,7 +40,6 @@ describe('DateUtils', () => {
     expect(DateUtils.formatDate(new Date(2016, 7, 1), 'D dsu MMMM yyyy')).to.equal('Mon 1st August 2016')
     expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy')).to.equal('Thu 1st September 2016')
     expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy')).to.equal('Sun 7th August 2016')
-
     expect(DateUtils.formatDate(new Date(2016, 11, 2), 'dd MMM yyyy')).to.equal('02 Dec 2016')
   })
 

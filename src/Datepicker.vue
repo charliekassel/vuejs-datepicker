@@ -114,9 +114,10 @@ export default {
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
+       * This represents the first day of the current viewing month
        * {Number}
        */
-      currDate: new Date().getTime(),
+      currDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime(),
       /*
        * Selected Date
        * {Date}
@@ -281,7 +282,7 @@ export default {
 
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
-      this.currDate = timestamp
+      this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
     },
 
@@ -374,7 +375,8 @@ export default {
         return false
       }
       let d = new Date(this.currDate)
-      d.setMonth(d.getMonth() + 1)
+      const daysInMonth = DateUtils.daysInMonth(d.getFullYear(), d.getMonth())
+      d.setDate(d.getDate() + daysInMonth)
       this.currDate = d.getTime()
     },
 

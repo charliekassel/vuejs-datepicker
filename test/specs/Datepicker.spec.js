@@ -128,7 +128,7 @@ describe('Datepicker.vue', () => {
       const d = new Date(data.currDate)
       expect(d.getFullYear()).to.equal(new Date().getFullYear())
       expect(d.getMonth()).to.equal(new Date().getMonth())
-      expect(d.getDay()).to.equal(new Date().getDay())
+      expect(d.getDate()).to.equal(1)
       done()
     })
   })
@@ -154,7 +154,7 @@ describe('Datepicker.vue', () => {
   })
 
   it('can select a day', () => {
-    const date = new Date(2016, 9, 9)
+    const date = new Date(2016, 9, 1)
     vm.$refs.component.selectDate({timestamp: date.getTime()})
     expect(vm.$refs.component.currDate).to.equal(date.getTime())
     expect(vm.$refs.component.showDayView).to.equal(false)
