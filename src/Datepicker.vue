@@ -735,6 +735,7 @@ $width = 300px
 
         &.day-header
             font-size 75%
+            white-space no-wrap
             cursor inherit
             &:hover
                 background inherit
