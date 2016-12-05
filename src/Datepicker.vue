@@ -284,7 +284,7 @@ export default {
       this.selectedDate = new Date(timestamp)
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
-      this.$emit('input',  new Date(timestamp))
+      this.$emit('input', new Date(timestamp))
     },
 
     /**
