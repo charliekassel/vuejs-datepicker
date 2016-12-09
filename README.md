@@ -106,6 +106,27 @@ var state = {
 <datepicker :disabled="state.disabled"></datepicker>
 ```
 
+#### Highlight Dates
+Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
+
+``` html
+<script>
+var state = {
+    highlighted: {
+        to: new Date(2016, 0, 5), // Highlight all dates up to specific date
+        from: new Date(2016, 0, 26), // Highlight all dates after specific date
+        days: [6, 0], // Highlight Saturday's and Sunday's
+        dates: [ // Highlight an array of dates
+            new Date(2016, 9, 16),
+            new Date(2016, 9, 17),
+            new Date(2016, 9, 18)
+        ]
+    }
+}
+</script>
+<datepicker :highlighted="state.highlighted"></datepicker>
+```
+
 
 #### Translations
 

@@ -5,7 +5,18 @@
     <title>Vue.js Datepicker</title>
   </head>
   <body>
-    <datepicker format="D dsu MMM yyyy"></datepicker>
+
+    <datepicker format="D dsu MMM yyyy" :inline="true" :disabled="{days: [6, 0]}" :highlighted="{ from: new Date(2016, 11, 13)}"></datepicker>
     <script src="dist/build.js"></script>
+    <script>
+      var state = {
+        disabled: {
+          to: new Date(2016, 0, 5), // Disable all dates up to specific date
+          from: new Date(2016, 0, 26), // Disable all dates after specific date
+          days: [6, 0], // Disable Saturday's and Sunday's
+          dates: [ new Date(2016, 12, 7), new Date(2016, 9, 13), new Date(2016, 12, 18) ]
+        }
+      }
+    </script>
   </body>
 </html>
