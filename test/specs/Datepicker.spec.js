@@ -439,3 +439,71 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
   })
 })
+
+describe('Datepicker highlight date', () => {
+  beforeEach(() => {
+  vm = new Vue({
+    template: '<div><datepicker :inline="false" :disabled="disabled" :highlighted="highlighted" v-ref:component></datepicker></div>',
+    components: { Datepicker },
+    data () {
+      return {
+        highlighted: {
+          to: new Date(2016, 12, 4),
+          from: new Date(2016, 12, 26)
+        },
+        disabled: {
+          dates: [ new Date(2016, 12, 3) ]
+        }
+      }
+    }
+  }).$mount()
+  vm.$refs.component.setDate(new Date(2016, 9, 15))
+})
+
+  it('should detect a highlighted date', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2006, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isHighlightedDate(new Date(2026, 9, 2))).to.equal(true)
+  })
+
+  it('should not highlight a disabled date', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 3))).to.equal(false)
+  })
+
+
+  it('can accept an array of highlighted dates', () => {
+    vm = new Vue({
+    template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
+    components: { Datepicker },
+    data () {
+      return {
+        highlighted: {
+          dates: [
+            new Date(2016, 9, 2),
+            new Date(2016, 9, 9),
+            new Date(2016, 9, 16)
+          ]
+        }
+      }
+    }
+  }).$mount()
+  expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
+  expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+  })
+
+it('can accept an array of highlighted days of the week', () => {
+  vm = new Vue({
+  template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
+  components: { Datepicker },
+  data () {
+    return {
+      highlighted: {
+        days: [6, 0]
+      }
+    }
+  }
+}).$mount()
+expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
+expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+})
+
+})

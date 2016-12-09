@@ -27,7 +27,7 @@
             --><span class="cell day"
                 v-for="day in days"
                 track-by="timestamp"
-                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled }"
+                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted}"
                 @click="selectDate(day)">{{ day.date }}</span>
 
         </div>
@@ -95,6 +95,9 @@ export default {
       default: 'en'
     },
     disabled: {
+      type: Object
+    },
+    highlighted: {
       type: Object
     },
     placeholder: {
@@ -183,7 +186,8 @@ export default {
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
-          isDisabled: this.isDisabledDate(dObj)
+          isDisabled: this.isDisabledDate(dObj),
+          isHighlighted: this.isHighlightedDate(dObj)
         })
         dObj.setDate(dObj.getDate() + 1)
       }
@@ -517,6 +521,42 @@ export default {
     },
 
     /**
+     * Whether a day is highlighted (only if it is not disabled already)
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightedDate (date) {
+      if (this.isDisabledDate(date)) {
+        return false
+      }
+
+      let highlighted = false
+
+      if (typeof this.highlighted === 'undefined') {
+        return false
+      }
+
+      if (typeof this.highlighted.dates !== 'undefined') {
+        this.highlighted.dates.forEach((d) => {
+          if (date.toDateString() === d.toDateString()) {
+            highlighted = true
+            return true
+          }
+        })
+      }
+      if (typeof this.highlighted.to !== 'undefined' && this.highlighted.to && date < this.highlighted.to) {
+        highlighted = true
+      }
+      if (typeof this.highlighted.from !== 'undefined' && this.highlighted.from && date > this.highlighted.from) {
+        highlighted = true
+      }
+      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(date.getDay()) !== -1) {
+        highlighted = true
+      }
+      return highlighted
+    },
+
+    /**
      * Whether the selected date is in this month
      * @param {Date}
      * @return {Boolean}
@@ -727,6 +767,10 @@ $width = 300px
             background #4bd
             &:hover
                 background #4bd
+            &.highlighted
+                background #4bd
+        &.highlighted
+            background #cae5ed
         &.grey
             color #888
 
