@@ -130,3 +130,4 @@ Available languages
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
 | he          | Hebrew           |          |
+| sv          | Swedish          |          |
