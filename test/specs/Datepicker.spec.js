@@ -439,3 +439,30 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
   })
 })
+
+describe('Datepicker with monday as first day of week', () => {
+  beforeEach(() => {
+    vm = new Vue({
+      template: '<div><datepicker :monday-first="true" language="en" v-ref:component></datepicker></div>',
+      components: { Datepicker }
+    }).$mount()
+  })
+
+  it('should return Monday as a first day of week', () => {
+    expect(vm.$refs.component.daysOfWeek[0]).to.equal('Mon')
+  })
+
+  it('should return Sunday as a seventh day of week', () => {
+    expect(vm.$refs.component.daysOfWeek[6]).to.equal('Sun')
+  })
+
+  it('should have 6 blankDays when month starts from Sunday', () => {
+    vm.$refs.component.currDate = new Date(2016, 4, 1).getTime()
+    expect(vm.$refs.component.blankDays).to.equal(6)
+  })
+
+  it('should have no blankDays when month starts from Monday', () => {
+    vm.$refs.component.currDate = new Date(2017, 4, 1).getTime()
+    expect(vm.$refs.component.blankDays).to.equal(0)
+  })
+})
