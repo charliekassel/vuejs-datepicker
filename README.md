@@ -131,3 +131,4 @@ Available languages
 | ja          | Japanese         |          |
 | he          | Hebrew           |          |
 | ru          | Russian          |          |
+| sv          | Swedish          |          |
