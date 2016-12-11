@@ -14,11 +14,11 @@ http://www.webpackbin.com/N1vgz1XRb
 $ npm install vuejs-datepicker --save
 ```
 ``` javascript
-import DatePicker from 'vuejs-datepicker';
+import Datepicker from 'vuejs-datepicker';
 
 Vue.component('my-component', {
     components: {
-        DatePicker
+        Datepicker
     }
 });
 ```
