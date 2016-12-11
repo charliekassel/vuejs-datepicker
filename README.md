@@ -65,6 +65,7 @@ Inline always open version
 | inline       | Boolean      |             | to show the datepicker always open  |
 | inputClass   | String       |             | css class applied to the input el   |
 | wrapperClass | String       |             | css class applied to the outer div  |
+| mondayFirst  | Boolean      | false       | To start the week on Monday         |
 
 ## Date formatting
 
