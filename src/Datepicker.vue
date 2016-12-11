@@ -22,7 +22,7 @@
                     class="next"
                     v-bind:class="{ 'disabled' : nextMonthDisabled(currDate) }">&gt;</span>
             </header>
-            <span class="cell day-header" v-for="d in translation.days">{{ d }}</span>
+            <span class="cell day-header" v-for="d in daysOfWeek">{{ d }}</span>
             <span class="cell day blank" v-for="d in blankDays"></span><!--
             --><span class="cell day"
                 v-for="day in days"
@@ -108,6 +108,10 @@ export default {
     },
     wrapperClass: {
       type: String
+    },
+    mondayFirst: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -170,7 +174,18 @@ export default {
     blankDays () {
       const d = new Date(this.currDate)
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      if (this.mondayFirst) {
+        return dObj.getDay() > 0 ? dObj.getDay() - 1 : 6
+      }
       return dObj.getDay()
+    },
+    daysOfWeek () {
+      if (this.mondayFirst) {
+        const tempDays = this.translation.days.slice()
+        tempDays.push(tempDays.shift())
+        return tempDays
+      }
+      return this.translation.days
     },
     days () {
       const d = new Date(this.currDate)
