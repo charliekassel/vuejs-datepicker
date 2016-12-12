@@ -486,8 +486,8 @@ describe('Datepicker highlight date', () => {
       }
     }
   }).$mount()
-  expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
-  expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
+  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
   })
 
 it('can accept an array of highlighted days of the week', () => {
@@ -502,8 +502,8 @@ it('can accept an array of highlighted days of the week', () => {
     }
   }
 }).$mount()
-expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
-expect(vm.$refs.component.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
+expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
 })
 
 })
