@@ -137,7 +137,6 @@ export default {
       /*
        * Helper arrays for names
        */
-      translation: DateLanguages.translations[this.language],
       /*
        * Positioning
        */
@@ -157,7 +156,9 @@ export default {
       }
       return DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
     },
-
+    translation () {
+      return DateLanguages.translations[this.language]
+    },
     currMonthName () {
       const d = new Date(this.currDate)
       return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
@@ -662,7 +663,7 @@ export default {
 
 <style lang="stylus">
 
-$width = 300px
+$width = 340px
 
 *
     box-sizing border-box
