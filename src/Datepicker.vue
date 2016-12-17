@@ -663,7 +663,7 @@ export default {
 
 <style lang="stylus">
 
-$width = 340px
+$width = 300px
 
 *
     box-sizing border-box
