@@ -133,3 +133,4 @@ Available languages
 | he          | Hebrew           |          |
 | ru          | Russian          |          |
 | sv          | Swedish          |          |
+| th          | Thai             |          |
