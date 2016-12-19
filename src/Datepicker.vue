@@ -80,7 +80,7 @@ export default {
   props: {
     value: {
       validator: function (val) {
-        return val === null || val instanceof Date
+        return val === null || val instanceof String
       }
     },
     name: {
@@ -298,9 +298,11 @@ export default {
 
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
+      d = this.selectedDate
+      dString = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
-      this.$emit('selected', new Date(timestamp))
-      this.$emit('input', new Date(timestamp))
+      this.$emit('selected', dString)
+      this.$emit('input', dString)
     },
 
     /**
@@ -620,7 +622,7 @@ export default {
         this.selectedDate = null
         return
       }
-      this.selectedDate = date
+      this.selectedDate = new Date(date)
       this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
     },
 
