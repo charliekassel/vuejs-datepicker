@@ -298,8 +298,8 @@ export default {
 
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
-      d = this.selectedDate
-      dString = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+      const d = this.selectedDate
+      const dString = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', dString)
       this.$emit('input', dString)

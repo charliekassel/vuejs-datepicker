@@ -12,7 +12,7 @@
   "author": "Andrés Teszkiewicz <andres.teszkiewicz@cardumen.com.ar>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/desarrollo-cooperativo/vuejs-datepicker-string"
+    "url": "git+https://github.com/desarrollo-cooperativo/vuejs-datepicker-string.git"
   },
   "bugs": {
     "url": "https://github.com/desarrollo-cooperativo/vuejs-datepicker-string/issues"
@@ -83,5 +83,9 @@
     "webpack-dev-server": "^1.12.0",
     "webpack-hot-middleware": "^2.6.0",
     "webpack-merge": "^0.8.3"
+  },
+  "homepage": "https://github.com/desarrollo-cooperativo/vuejs-datepicker-string#readme",
+  "directories": {
+    "test": "test"
   }
 }
