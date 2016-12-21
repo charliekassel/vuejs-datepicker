@@ -44,6 +44,10 @@ support name attribute for normal html form submission
 ``` html
 <datepicker :value="state.date" name="uniquename"></datepicker>
 ```
+Use `v-model` for two-way binding
+``` html
+<datepicker v-model="state.date" name="uniquename"></datepicker>
+```
 Emits events
 ``` html
 <datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction">
