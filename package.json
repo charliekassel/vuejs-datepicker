@@ -1,7 +1,7 @@
 {
-  "name": "vuejs-datepicker",
+  "name": "vuejs-datepicker-string",
   "version": "0.4.28",
-  "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
+  "description": "Forked form vuejs-datepicker tu use string date formatting. A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
     "datepicker",
@@ -9,13 +9,13 @@
     "calendar"
   ],
   "main": "dist/build.js",
-  "author": "Charlie Kassel <ck@charliekassel.com>",
+  "author": "Andrés Teszkiewicz <andres.teszkiewicz@cardumen.com.ar>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/charliekassel/vuejs-datepicker"
+    "url": "git+https://github.com/desarrollo-cooperativo/vuejs-datepicker-string.git"
   },
   "bugs": {
-    "url": "https://github.com/charliekassel/vuejs-datepicker/issues"
+    "url": "https://github.com/desarrollo-cooperativo/vuejs-datepicker-string/issues"
   },
   "private": false,
   "license": "MIT",
@@ -83,5 +83,9 @@
     "webpack-dev-server": "^1.12.0",
     "webpack-hot-middleware": "^2.6.0",
     "webpack-merge": "^0.8.3"
+  },
+  "homepage": "https://github.com/desarrollo-cooperativo/vuejs-datepicker-string#readme",
+  "directories": {
+    "test": "test"
   }
 }
