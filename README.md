@@ -112,6 +112,7 @@ var state = {
 
 #### Highlight Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
+Note: Both `to` and `from` properties are require to define a range of dates to highlight
 
 ``` html
 <script>

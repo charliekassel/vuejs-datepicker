@@ -442,71 +442,86 @@ describe('Datepicker has disabled dates but can change dates', () => {
 
 describe('Datepicker highlight date', () => {
   beforeEach(() => {
-  vm = new Vue({
-    template: '<div><datepicker :inline="false" :disabled="disabled" :highlighted="highlighted" v-ref:component></datepicker></div>',
-    components: { Datepicker },
-    data () {
-      return {
-        highlighted: {
-          to: new Date(2016, 12, 4),
-          from: new Date(2016, 12, 26)
-        },
-        disabled: {
-          dates: [ new Date(2016, 12, 3) ]
+    vm = new Vue({
+      template: '<div><datepicker :inline="false" :disabled="disabled" :highlighted="highlighted" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          highlighted: {
+            to: new Date(2016, 12, 8),
+            from: new Date(2016, 12, 4)
+          },
+          disabled: {
+            dates: [ new Date(2016, 12, 5) ]
+          }
         }
       }
-    }
-  }).$mount()
-  vm.$refs.component.setDate(new Date(2016, 9, 15))
-})
+    }).$mount()
+    vm.$refs.component.setDate(new Date(2016, 9, 15))
+  })
 
   it('should detect a highlighted date', () => {
-    expect(vm.$refs.component.isHighlightedDate(new Date(2006, 9, 2))).to.equal(true)
-    expect(vm.$refs.component.isHighlightedDate(new Date(2026, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isHighlightedDate(new Date(2006, 9, 2))).to.equal(false)
+    expect(vm.$refs.component.isHighlightedDate(new Date(2026, 9, 2))).to.equal(false)
   })
 
   it('should not highlight a disabled date', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 5))).to.equal(false)
+  })
+
+  it('should highlight a date before the to property', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 7))).to.equal(true)
+  })
+
+  it('should not highlight a date after the to property', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 9))).to.equal(false)
+  })
+
+  it('should highlight a date after the from property', () => {
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 6))).to.equal(true)
+  })
+
+  it('should not highlight a date before the from property', () => {
     expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 3))).to.equal(false)
   })
 
-
   it('can accept an array of highlighted dates', () => {
     vm = new Vue({
-    template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
-    components: { Datepicker },
-    data () {
-      return {
-        highlighted: {
-          dates: [
-            new Date(2016, 9, 2),
-            new Date(2016, 9, 9),
-            new Date(2016, 9, 16)
-          ]
+      template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          highlighted: {
+            dates: [
+              new Date(2016, 9, 2),
+              new Date(2016, 9, 9),
+              new Date(2016, 9, 16)
+            ]
+          }
         }
       }
-    }
-  }).$mount()
-  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
-  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
+    }).$mount()
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
   })
 
-it('can accept an array of highlighted days of the week', () => {
-  vm = new Vue({
-  template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
-  components: { Datepicker },
-  data () {
-    return {
-      highlighted: {
-        days: [6, 0]
+  it('can accept an array of highlighted days of the week', () => {
+    vm = new Vue({
+      template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
+      components: { Datepicker },
+      data () {
+        return {
+          highlighted: {
+            days: [6, 0]
+          }
+        }
       }
-    }
-  }
-}).$mount()
-expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
-expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
+    }).$mount()
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
+    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
+  })
 })
 
-})
 describe('Datepicker with monday as first day of week', () => {
   beforeEach(() => {
     vm = new Vue({
@@ -532,72 +547,4 @@ describe('Datepicker with monday as first day of week', () => {
     vm.$refs.component.currDate = new Date(2017, 4, 1).getTime()
     expect(vm.$refs.component.blankDays).to.equal(0)
   })
-})
-
-describe('Datepicker highlight date', () => {
-  beforeEach(() => {
-  vm = new Vue({
-    template: '<div><datepicker :inline="false" :disabled="disabled" :highlighted="highlighted" v-ref:component></datepicker></div>',
-    components: { Datepicker },
-    data () {
-      return {
-        highlighted: {
-          to: new Date(2016, 12, 4),
-          from: new Date(2016, 12, 26)
-        },
-        disabled: {
-          dates: [ new Date(2016, 12, 3) ]
-        }
-      }
-    }
-  }).$mount()
-  vm.$refs.component.setDate(new Date(2016, 9, 15))
-})
-
-  it('should detect a highlighted date', () => {
-    expect(vm.$refs.component.isHighlightedDate(new Date(2006, 9, 2))).to.equal(true)
-    expect(vm.$refs.component.isHighlightedDate(new Date(2026, 9, 2))).to.equal(true)
-  })
-
-  it('should not highlight a disabled date', () => {
-    expect(vm.$refs.component.isHighlightedDate(new Date(2016, 12, 3))).to.equal(false)
-  })
-
-
-  it('can accept an array of highlighted dates', () => {
-    vm = new Vue({
-    template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
-    components: { Datepicker },
-    data () {
-      return {
-        highlighted: {
-          dates: [
-            new Date(2016, 9, 2),
-            new Date(2016, 9, 9),
-            new Date(2016, 9, 16)
-          ]
-        }
-      }
-    }
-  }).$mount()
-  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
-  expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
-  })
-
-it('can accept an array of highlighted days of the week', () => {
-  vm = new Vue({
-  template: '<div><datepicker :highlighted="highlighted" v-ref:component></datepicker></div>',
-  components: { Datepicker },
-  data () {
-    return {
-      highlighted: {
-        days: [6, 0]
-      }
-    }
-  }
-}).$mount()
-expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
-expect(vm.$refs.component.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
-})
-
 })

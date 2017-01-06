@@ -29,7 +29,6 @@
                 track-by="timestamp"
                 v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted}"
                 @click="selectDate(day)">{{ day.date }}</span>
-
         </div>
 
         <!-- Month View -->
@@ -560,16 +559,24 @@ export default {
           }
         })
       }
-      if (typeof this.highlighted.to !== 'undefined' && this.highlighted.to && date < this.highlighted.to) {
-        highlighted = true
+
+      if (this.isDefined(this.highlighted.from) && this.isDefined(this.highlighted.to)) {
+        highlighted = date >= this.highlighted.from && date <= this.highlighted.to
       }
-      if (typeof this.highlighted.from !== 'undefined' && this.highlighted.from && date > this.highlighted.from) {
-        highlighted = true
-      }
+
       if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(date.getDay()) !== -1) {
         highlighted = true
       }
       return highlighted
+    },
+
+    /**
+     * Helper
+     * @param  {mixed}  prop
+     * @return {Boolean}
+     */
+    isDefined (prop) {
+      return typeof prop !== 'undefined' && prop
     },
 
     /**
