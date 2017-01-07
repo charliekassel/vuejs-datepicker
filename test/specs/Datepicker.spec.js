@@ -244,6 +244,39 @@ describe('Datepicker.vue set by object', () => {
   })
 })
 
+describe('Datepicker.vue set by string', () => {
+  let state
+  beforeEach(() => {
+    state = {
+      value: '2016-02-20',
+      format: 'yyyy-MM-dd'
+    }
+    vm = new Vue({
+      template: '<div><datepicker :value="value" :format="format"></datepicker></div>',
+      components: { Datepicker },
+      data: function () {
+        return state
+      }
+    }).$mount()
+  })
+
+  it('should allow value to be changed outside of component', (done) => {
+    state.value = '2016-03-15'
+    vm.$nextTick(() => {
+      expect(vm.$el.querySelector('input').value).to.equal('2016-03-15')
+      done()
+    })
+  })
+
+  it('should allow malformed value', (done) => {
+    state.value = 'today'
+    vm.$nextTick(() => {
+      expect(vm.$el.querySelector('input').value).to.equal('')
+      done()
+    })
+  })
+})
+
 describe('Datepicker.vue inline', () => {
   let state = {}
   beforeEach(() => {

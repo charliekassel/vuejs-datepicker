@@ -60,7 +60,7 @@ Inline always open version
 
 | Prop         | Type         | Default     | Description                         |
 |--------------|--------------|-------------|-------------------------------------|
-| value        | Date         |             | Date value of the datepicker        |
+| value        | Date/String  |             | Date value of the datepicker        |
 | name         | String       |             | input name property                 |
 | format       | String       | dd MMM yyyy | Date formatting string              |
 | language     | String       | en          | Translation for days and months     |

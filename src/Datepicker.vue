@@ -79,7 +79,7 @@ export default {
   props: {
     value: {
       validator: function (val) {
-        return val === null || val instanceof Date
+        return val === null || val instanceof Date || typeof val === 'string'
       }
     },
     name: {
@@ -658,9 +658,13 @@ export default {
 
     /**
      * Set the datepicker value
-     * @param {Date|null} date
+     * @param {Date|String|null} date
      */
     setValue (date) {
+      if (typeof date === 'string') {
+        let parsed = new Date(date)
+        date = isNaN(parsed.valueOf()) ? null : parsed
+      }
       if (!date) {
         const d = new Date()
         this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
