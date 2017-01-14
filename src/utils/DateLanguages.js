@@ -143,6 +143,14 @@ export default {
         'abbr': ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
       },
       'days': ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
+    },
+
+    'ro': {
+      'months': {
+        'original': ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
+        'abbr': ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec']
+      },
+      'days': ['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S']
     }
 
   }
