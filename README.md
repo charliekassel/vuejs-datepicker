@@ -153,6 +153,7 @@ Available languages
 | da          | Danish           |          |
 | cs          | Czech            |          |
 | pt-br       | Portuguese-Brazil|          |
+| ro          | Romanian         |          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
 | ja          | Japanese         |          |
