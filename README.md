@@ -62,6 +62,7 @@ Inline always open version
 |---------------|--------------|-------------|-------------------------------------|
 | value         | Date/String  |             | Date value of the datepicker        |
 | name          | String       |             | input name property                 |
+| id            | String       |             | input id                            |
 | format        | String       | dd MMM yyyy | Date formatting string              |
 | language      | String       | en          | Translation for days and months     |
 | disabled      | Object       |             | See below for configuration         |
