@@ -152,7 +152,7 @@ export default {
       },
       'days': ['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S']
     },
-    
+
     'sl': {
       'months': {
         'original': ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'],
