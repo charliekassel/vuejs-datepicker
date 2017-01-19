@@ -159,6 +159,6 @@ Available languages
 | ja          | Japanese         |          |
 | he          | Hebrew           |          |
 | ru          | Russian          |          |
-| sl          | Slovenian        |          |
+| sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
 | th          | Thai             |          |
