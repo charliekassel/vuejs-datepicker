@@ -4,6 +4,7 @@
         :type="inline ? 'hidden' : 'text'"
         :class="inputClass"
         :name="name"
+        :id="id"
         @click="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
@@ -83,6 +84,9 @@ export default {
       }
     },
     name: {
+      value: String
+    },
+    id: {
       value: String
     },
     format: {
