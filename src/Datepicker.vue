@@ -8,8 +8,9 @@
         @click="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
+        :clearButton="clearButton"
         readonly>
-
+    <button type="button" v-if="clearButton" @click="clearDate()">&times;</button>
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -118,6 +119,10 @@ export default {
     mondayFirst: {
       type: Boolean,
       default: false
+    },
+    clearButton: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -308,6 +313,11 @@ export default {
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
       this.$emit('input', new Date(timestamp))
+    },
+
+    clearDate () {
+      this.selectedDate = ''
+      this.$emit('selected', this.selectedDate)
     },
 
     /**
