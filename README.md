@@ -163,3 +163,4 @@ Available languages
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
 | th          | Thai             |          |
+| bg          | Bulgarian        |          |
