@@ -720,11 +720,10 @@ export default {
 
 $width = 300px
 
-*
-    box-sizing border-box
-
 .datepicker
     position relative
+    *
+        box-sizing border-box
 
 .calendar
     position absolute
