@@ -378,6 +378,7 @@ export default {
       let d = new Date(this.currDate)
       d.setMonth(d.getMonth() - 1)
       this.currDate = d.getTime()
+      this.$emit('changedMonth')
     },
 
     previousMonthDisabled () {
@@ -402,6 +403,7 @@ export default {
       const daysInMonth = DateUtils.daysInMonth(d.getFullYear(), d.getMonth())
       d.setDate(d.getDate() + daysInMonth)
       this.currDate = d.getTime()
+      this.$emit('changedMonth')
     },
 
     nextMonthDisabled () {
@@ -425,6 +427,7 @@ export default {
       let d = new Date(this.currDate)
       d.setYear(d.getFullYear() - 1)
       this.currDate = d.getTime()
+      this.$emit('changedYear')
     },
 
     previousYearDisabled () {
@@ -445,6 +448,7 @@ export default {
       let d = new Date(this.currDate)
       d.setYear(d.getFullYear() + 1)
       this.currDate = d.getTime()
+      this.$emit('changedYear')
     },
 
     nextYearDisabled () {
@@ -465,6 +469,7 @@ export default {
       let d = new Date(this.currDate)
       d.setYear(d.getFullYear() - 10)
       this.currDate = d.getTime()
+      this.$emit('changedDecade')
     },
 
     previousDecadeDisabled () {
@@ -485,6 +490,7 @@ export default {
       let d = new Date(this.currDate)
       d.setYear(d.getFullYear() + 10)
       this.currDate = d.getTime()
+      this.$emit('changedDecade')
     },
 
     nextDecadeDisabled () {
