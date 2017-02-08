@@ -10,7 +10,7 @@
         :placeholder="placeholder"
         :clearButton="clearButton"
         readonly>
-    <i class="clearButton" v-if="clearButton" @click="clearDate()">&times;</i>
+    <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -831,7 +831,7 @@ $width = 300px
     .year
         width 33.333%
 
-.clearButton
+.datepicker-clear-button
     cursor: pointer
     font-style: normal
 </style>
