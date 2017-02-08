@@ -318,6 +318,7 @@ export default {
     clearDate () {
       this.selectedDate = ''
       this.$emit('selected', this.selectedDate)
+      this.$emit('cleared')
     },
 
     /**
