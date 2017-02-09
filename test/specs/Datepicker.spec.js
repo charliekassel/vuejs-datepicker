@@ -94,7 +94,7 @@ describe('Datepicker: mounted component', () => {
     const vm = new Vue(dpc()).$mount()
     vm.$refs.component.setDate(date.getTime())
     vm.$refs.component.clearDate()
-    expect(vm.$refs.component.selectedDate).to.equal('')
+    expect(vm.$refs.component.selectedDate).to.equal(null)
   })
 })
 

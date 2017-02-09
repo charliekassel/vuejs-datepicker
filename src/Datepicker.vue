@@ -316,7 +316,7 @@ export default {
     },
 
     clearDate () {
-      this.selectedDate = ''
+      this.selectedDate = null
       this.$emit('selected', this.selectedDate)
       this.$emit('cleared')
     },
