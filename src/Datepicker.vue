@@ -8,8 +8,9 @@
         @click="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
+        :clear-button="clearButton"
         readonly>
-
+    <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -116,6 +117,10 @@ export default {
       type: String
     },
     mondayFirst: {
+      type: Boolean,
+      default: false
+    },
+    clearButton: {
       type: Boolean,
       default: false
     }
@@ -308,6 +313,12 @@ export default {
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
       this.$emit('input', new Date(timestamp))
+    },
+
+    clearDate () {
+      this.selectedDate = null
+      this.$emit('selected', this.selectedDate)
+      this.$emit('cleared')
     },
 
     /**
@@ -825,5 +836,7 @@ $width = 300px
     .year
         width 33.333%
 
-
+.datepicker-clear-button
+    cursor: pointer
+    font-style: normal
 </style>
