@@ -8,7 +8,7 @@
         @click="showCalendar()"
         :value="formattedValue"
         :placeholder="placeholder"
-        :clearButton="clearButton"
+        :clear-button="clearButton"
         readonly>
     <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
@@ -122,7 +122,7 @@ export default {
     },
     clearButton: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data () {

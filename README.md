@@ -71,7 +71,7 @@ Inline always open version
 | input-class   | String       |             | css class applied to the input el   |
 | wrapper-class | String       |             | css class applied to the outer div  |
 | monday-first  | Boolean      | false       | To start the week on Monday         |
-| clearButton   | Boolean      | true        | Show an icon for clearing the date  |
+| clear-button   | Boolean     | false       | Show an icon for clearing the date |
 
 ## Date formatting
 
