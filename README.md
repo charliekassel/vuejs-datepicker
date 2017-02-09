@@ -58,20 +58,23 @@ Inline always open version
 ```
 ## Available props
 
-| Prop          | Type         | Default     | Description                         |
-|---------------|--------------|-------------|-------------------------------------|
-| value         | Date/String  |             | Date value of the datepicker        |
-| name          | String       |             | input name property                 |
-| id            | String       |             | input id                            |
-| format        | String       | dd MMM yyyy | Date formatting string              |
-| language      | String       | en          | Translation for days and months     |
-| disabled      | Object       |             | See below for configuration         |
-| placeholder   | String       |             | input placeholder text              |
-| inline        | Boolean      |             | to show the datepicker always open  |
-| input-class   | String       |             | css class applied to the input el   |
-| wrapper-class | String       |             | css class applied to the outer div  |
-| monday-first  | Boolean      | false       | To start the week on Monday         |
-| clear-button   | Boolean     | false       | Show an icon for clearing the date |
+| Prop                  | Type         | Default     | Description                              |
+|-----------------------|--------------|-------------|------------------------------------------|
+| value                 | Date/String  |             | Date value of the datepicker             |
+| name                  | String       |             | input name property                      |
+| id                    | String       |             | input id                                 |
+| format                | String       | dd MMM yyyy | Date formatting string                   |
+| language              | String       | en          | Translation for days and months          |
+| disabled              | Object       |             | See below for configuration              |
+| placeholder           | String       |             | input placeholder text                   |
+| inline                | Boolean      |             | to show the datepicker always open       |
+| input-class           | String       |             | css class applied to the input el        |
+| wrapper-class         | String       |             | css class applied to the outer div       |
+| monday-first          | Boolean      | false       | To start the week on Monday              |
+| clear-button          | Boolean      | false       | Show an icon for clearing the date       |
+| clear-button-icon     | String       |             | Use icon for button (ex: fa fa-close)    |
+| calendar-button       | Boolean      | false       | Show an icon that that can be clicked    |
+| calendar-button-icon  | String       |             | Use icon for button (ex: fa fa-calendar) |
 
 ## Date formatting
 

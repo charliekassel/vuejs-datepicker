@@ -1,16 +1,18 @@
 <template>
   <div class="datepicker" :class="wrapperClass">
-    <input
-        :type="inline ? 'hidden' : 'text'"
-        :class="inputClass"
-        :name="name"
-        :id="id"
-        @click="showCalendar()"
-        :value="formattedValue"
-        :placeholder="placeholder"
-        :clear-button="clearButton"
-        readonly>
-    <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
+        <div class="input-group">
+            <span class="datepicker-calendar-button input-group-addon" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
+            <input
+                :type="inline ? 'hidden' : 'text'"
+                :class="inputClass"
+                :name="name"
+                :id="id"
+                @click="showCalendar()"
+                :value="formattedValue"
+                :placeholder="placeholder"
+                readonly>
+            <span class="datepicker-clear-button input-group-addon" v-if="clearButton" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
+        </div>
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -123,6 +125,18 @@ export default {
     clearButton: {
       type: Boolean,
       default: false
+    },
+    clearButtonIcon: {
+      type: String,
+      default: ''
+    },
+    calendarButton: {
+      type: Boolean,
+      default: false
+    },
+    calendarButtonIcon: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -836,7 +850,7 @@ $width = 300px
     .year
         width 33.333%
 
-.datepicker-clear-button
+.datepicker-clear-button, .datepicker-calendar-button
     cursor: pointer
     font-style: normal
 </style>
