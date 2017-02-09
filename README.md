@@ -66,11 +66,12 @@ Inline always open version
 | format        | String       | dd MMM yyyy | Date formatting string              |
 | language      | String       | en          | Translation for days and months     |
 | disabled      | Object       |             | See below for configuration         |
-| placeholder   | String       |             | input placeholder text              |   
+| placeholder   | String       |             | input placeholder text              |
 | inline        | Boolean      |             | to show the datepicker always open  |
 | input-class   | String       |             | css class applied to the input el   |
 | wrapper-class | String       |             | css class applied to the outer div  |
 | monday-first  | Boolean      | false       | To start the week on Monday         |
+| clearButton   | Boolean      | true        | Show an icon for clearing the date  |
 
 ## Date formatting
 
