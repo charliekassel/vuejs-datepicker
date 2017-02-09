@@ -59,10 +59,10 @@ export default {
 
     'nl': {
       'months': {
-        'original': ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
-        'abbr': ['Jan', 'Feb', 'Maa', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec']
+        'original': ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+        'abbr': ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec']
       },
-      'days': ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
+      'days': ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
     },
 
     'de': {
