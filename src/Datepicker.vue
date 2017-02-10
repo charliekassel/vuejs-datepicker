@@ -1,18 +1,19 @@
 <template>
   <div class="datepicker" :class="wrapperClass">
-        <div class="input-group">
-            <span class="datepicker-calendar-button input-group-addon" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
+        <div :class="{'input-group' : bootstrapStyling}">
+            <span class="datepicker-calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
             <input
-                :type="inline ? 'hidden' : 'text'"
-                :class="inputClass"
-                :name="name"
-                :id="id"
-                @click="showCalendar()"
-                :value="formattedValue"
-                :placeholder="placeholder"
-                readonly>
-            <span class="datepicker-clear-button input-group-addon" v-if="clearButton" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
+                    :type="inline ? 'hidden' : 'text'"
+                    :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
+                    :name="name"
+                    :id="id"
+                    @click="showCalendar()"
+                    :value="formattedValue"
+                    :placeholder="placeholder"
+                    readonly>
+            <span class="datepicker-clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
         </div>
+
         <!-- Day View -->
         <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -137,6 +138,10 @@ export default {
     calendarButtonIcon: {
       type: String,
       default: ''
+    },
+    bootstrapStyling: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

@@ -75,6 +75,7 @@ Inline always open version
 | clear-button-icon     | String       |             | Use icon for button (ex: fa fa-close)    |
 | calendar-button       | Boolean      | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String       |             | Use icon for button (ex: fa fa-calendar) |
+| bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
 
 ## Date formatting
 
