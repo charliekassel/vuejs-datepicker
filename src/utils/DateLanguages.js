@@ -56,13 +56,13 @@ export default {
       },
       'days': ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab']
     },
-    
+
     'lt': {
       'months': {
         'original': ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'],
-        'abbr': ['Sau','Vas','Kov','Bal','Geg','Bir', 'Lie','Rugp','Rugs','Spa','Lap','Gru']
+        'abbr': ['Sau', 'Vas', 'Kov', 'Bal', 'Geg', 'Bir', 'Lie', 'Rugp', 'Rugs', 'Spa', 'Lap', 'Gru']
       },
-      'days': ['Sek','Pir','Ant','Tre','Ket','Pen','Šeš']
+      'days': ['Sek', 'Pir', 'Ant', 'Tre', 'Ket', 'Pen', 'Šeš']
     },
 
     'nl': {
