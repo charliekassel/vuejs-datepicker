@@ -165,3 +165,4 @@ Available languages
 | sv          | Swedish          |          |
 | th          | Thai             |          |
 | bg          | Bulgarian        |          |
+| lt          | Lithuanian       |          |
