@@ -389,7 +389,7 @@ export default {
       let d = new Date(this.currDate)
       d.setMonth(d.getMonth() - 1)
       this.currDate = d.getTime()
-      this.$emit('changedMonth')
+      this.$emit('changedMonth', d)
     },
 
     previousMonthDisabled () {
@@ -414,7 +414,7 @@ export default {
       const daysInMonth = DateUtils.daysInMonth(d.getFullYear(), d.getMonth())
       d.setDate(d.getDate() + daysInMonth)
       this.currDate = d.getTime()
-      this.$emit('changedMonth')
+      this.$emit('changedMonth', d)
     },
 
     nextMonthDisabled () {
