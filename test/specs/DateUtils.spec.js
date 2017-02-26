@@ -109,4 +109,12 @@ describe('DateUtils', () => {
   it('getMonthName accepts a number', () => {
     expect(DateUtils.getMonthNameAbbr(3, DateLanguages.translations.en.months.abbr)).to.equal('Apr')
   })
+
+  it('should apply only date part', () => {
+    expect(DateUtils.applyDate(new Date(2017, 0, 1, 13, 0, 20), new Date(2018, 2, 15, 15, 15, 15)).getTime()).to.equal(new Date(2018, 2, 15, 13, 0, 20).getTime())
+  })
+
+  it('should completely apply if no start date', () => {
+    expect(DateUtils.applyDate(null, new Date(2018, 2, 15, 15, 15, 15)).getTime()).to.equal(new Date(2018, 2, 15, 15, 15, 15).getTime())
+  })
 })
