@@ -6,7 +6,7 @@ A datepicker Vue component. Compatible with Vue 1.x and Vue 2.x
 
 ## Demo
 
-http://www.webpackbin.com/N1vgz1XRb
+http://www.webpackbin.com/4JDRSlZ9z
 
 ## Install
 
