@@ -166,3 +166,4 @@ Available languages
 | th          | Thai             |          |
 | bg          | Bulgarian        |          |
 | lt          | Lithuanian       |          |
+| pl          | Polish           |          |
