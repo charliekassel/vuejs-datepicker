@@ -688,12 +688,12 @@ export default {
       }
       if (!date) {
         const d = new Date()
-        this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
+        this.currDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), 1)).getTime()
         this.selectedDate = null
         return
       }
       this.selectedDate = date
-      this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
+      this.currDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1)).getTime()
     },
 
     init () {
