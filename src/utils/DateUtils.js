@@ -141,9 +141,9 @@ export default {
       .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
       .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.months.abbr))
       .replace(/MM/, ('0' + month).slice(-2))
-      .replace(/M(?!a)/, month)
+      .replace(/M(?!a|ä)/, month)
       .replace(/su/, this.getNthSuffix(date.getDate()))
-      .replace(/D(?!e)/, this.getDayNameAbbr(date, translation.days))
+      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
     return str
   },
 
