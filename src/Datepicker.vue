@@ -146,9 +146,6 @@ export default {
       showMonthView: false,
       showYearView: false,
       /*
-       * Helper arrays for names
-       */
-      /*
        * Positioning
        */
       calendarHeight: 0
@@ -160,7 +157,6 @@ export default {
     }
   },
   computed: {
-
     formattedValue () {
       if (!this.selectedDate) {
         return null
@@ -278,6 +274,12 @@ export default {
   methods: {
     close () {
       this.showDayView = this.showMonthView = this.showYearView = false
+    },
+    getDefaultDate () {
+      return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
+    },
+    resetDefaultDate () {
+      this.currDate = (this.selectedDate === null) ? this.getDefaultDate() : this.selectedDate.getTime()
     },
     isOpen () {
       return this.showDayView || this.showMonthView || this.showYearView
@@ -713,6 +715,7 @@ export default {
           if (this.isInline()) {
             return this.showDayCalendar()
           }
+          this.resetDefaultDate()
           this.close()
         }
       }, false)
