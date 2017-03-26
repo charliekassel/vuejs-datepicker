@@ -183,6 +183,14 @@ export default {
         'abbr': ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru']
       },
       'days': ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob']
+    },
+
+    'nb-no': {
+      'months': {
+        'original': ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
+        'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
+      },
+      'days': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
     }
 
   }
