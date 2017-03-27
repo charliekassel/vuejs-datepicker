@@ -126,7 +126,7 @@ export default {
       },
       'days': ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ש']
     },
-
+    
     'cs': {
       'months': {
         'original': ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
@@ -191,12 +191,22 @@ export default {
       'days': ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob']
     },
 
+
+    'ko': {
+      'months': {
+        'original': ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        'abbr': ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+      },
+      'days': ['일', '월', '화', '수', '목', '금', '토']
+    },
+    
     'nb-no': {
       'months': {
         'original': ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
         'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
       },
       'days': ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
+
     }
 
   }
