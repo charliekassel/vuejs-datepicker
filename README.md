@@ -153,6 +153,7 @@ Available languages
 | nl          | Dutch            |          |
 | de          | German           |          |
 | da          | Danish           |          |
+| nb-no       | Norwegian Bokmål |          |
 | cs          | Czech            |          |
 | pt-br       | Portuguese-Brazil|          |
 | ro          | Romanian         |          |
