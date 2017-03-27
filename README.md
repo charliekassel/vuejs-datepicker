@@ -169,3 +169,4 @@ Available languages
 | lt          | Lithuanian       |          |
 | pl          | Polish           |          |
 | ar          | Arabic           |          |
+| ee          | Estonian         |          |
