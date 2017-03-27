@@ -168,3 +168,4 @@ Available languages
 | bg          | Bulgarian        |          |
 | lt          | Lithuanian       |          |
 | pl          | Polish           |          |
+| ar          | Arabic           |          |
