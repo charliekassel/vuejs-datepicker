@@ -170,3 +170,4 @@ Available languages
 | pl          | Polish           |          |
 | ar          | Arabic           |          |
 | ee          | Estonian         |          |
+| ko          | Korean           |          |
