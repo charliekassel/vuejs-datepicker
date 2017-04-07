@@ -9,6 +9,7 @@
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
+        :disabled="disabledPicker"
         readonly>
     <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
@@ -121,6 +122,10 @@ export default {
       default: false
     },
     clearButton: {
+      type: Boolean,
+      default: false
+    },
+    disabledPicker: {
       type: Boolean,
       default: false
     }
