@@ -348,6 +348,7 @@ export default {
       }
       this.currDate = month.timestamp
       this.showDayCalendar()
+      this.$emit('changedMonth', month)
     },
 
     /**
@@ -359,6 +360,7 @@ export default {
       }
       this.currDate = year.timestamp
       this.showMonthCalendar()
+      this.$emit('changedYear', year)
     },
 
     /**
