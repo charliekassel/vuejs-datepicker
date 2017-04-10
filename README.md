@@ -72,6 +72,7 @@ Inline always open version
 | wrapper-class | String       |             | css class applied to the outer div  |
 | monday-first  | Boolean      | false       | To start the week on Monday         |
 | clear-button   | Boolean     | false       | Show an icon for clearing the date |
+| disabled-picker | Boolean     | false       | If true, disable Datepicker on screen | 
 
 ## Date formatting
 
