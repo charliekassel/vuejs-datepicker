@@ -246,19 +246,21 @@ export default {
       return years
     },
     calendarStyle () {
-      let elSize = {
-        top: 0,
-        height: 0
-      }
-      if (this.$el) {
-        elSize = this.$el.getBoundingClientRect()
-      }
-      let heightNeeded = elSize.top + elSize.height + this.calendarHeight || 0
       let styles = {}
-      // if the calendar doesn't fit on the window without scrolling position it above the input
-      if (heightNeeded > window.innerHeight) {
-        styles = {
-          'bottom': elSize.height + 'px'
+      if (!this.$isServer) {
+        let elSize = {
+          top: 0,
+          height: 0
+        }
+        if (this.$el) {
+          elSize = this.$el.getBoundingClientRect()
+        }
+        let heightNeeded = elSize.top + elSize.height + this.calendarHeight || 0
+        // if the calendar doesn't fit on the window without scrolling position it above the input
+        if (heightNeeded > window.innerHeight) {
+          styles = {
+            'bottom': elSize.height + 'px'
+          }
         }
       }
       if (this.isInline()) {
