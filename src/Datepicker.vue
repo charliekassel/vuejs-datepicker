@@ -1,5 +1,5 @@
 <template>
-  <div class="datepicker" :class="wrapperClass">
+  <div class="vdp-datepicker" :class="wrapperClass">
     <input
         :type="inline ? 'hidden' : 'text'"
         :class="inputClass"
@@ -10,9 +10,9 @@
         :placeholder="placeholder"
         :clear-button="clearButton"
         readonly>
-    <i class="datepicker-clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
+    <i class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
-        <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
+        <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousMonth"
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Month View -->
-        <div class="calendar" v-show="showMonthView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showMonthView" v-bind:style="calendarStyleSecondary">
             <header>
                 <span
                     @click="previousYear"
@@ -54,7 +54,7 @@
         </div>
 
         <!-- Year View -->
-        <div class="calendar" v-show="showYearView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showYearView" v-bind:style="calendarStyleSecondary">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(currDate) }">&lt;</span>
@@ -706,9 +706,11 @@ export default {
         this.showDayCalendar()
       }
 
-      this.$nextTick(() => {
-        this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
-      })
+      if (!this.$isServer) {
+        this.$nextTick(() => {
+          this.calendarHeight = this.$el.querySelector('.vdp-datepicker__calendar').getBoundingClientRect().height
+        })
+      }
 
       document.addEventListener('click', (e) => {
         if (this.$el && !this.$el.contains(e.target)) {
@@ -740,12 +742,12 @@ export default {
 
 $width = 300px
 
-.datepicker
+.vdp-datepicker
     position relative
     *
         box-sizing border-box
 
-.calendar
+.vdp-datepicker__calendar
     position absolute
     z-index 100
     background white
@@ -839,7 +841,7 @@ $width = 300px
     .year
         width 33.333%
 
-.datepicker-clear-button
+.vdp-datepicker__clear-button
     cursor: pointer
     font-style: normal
 </style>
