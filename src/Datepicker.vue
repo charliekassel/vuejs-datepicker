@@ -744,6 +744,7 @@ $width = 300px
 
 .vdp-datepicker
     position relative
+    text-align left
     *
         box-sizing border-box
 
