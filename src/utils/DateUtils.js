@@ -160,6 +160,24 @@ export default {
       start = new Date(start).setDate(new Date(start).getDate() + 1)
     }
     return dates
+  },
+
+  /**
+   * Return new date which has time component from first date,
+   * and date component from second date object
+   * @param {Date} startDate
+   * @param {Date} targetDate
+   * @return {Date}
+   */
+  applyDate (startDate, targetDate) {
+    if (startDate === null) {
+      return new Date(targetDate.getTime())
+    }
+    let newDate = new Date(startDate.getTime())
+    newDate.setYear(targetDate.getFullYear())
+    newDate.setMonth(targetDate.getMonth())
+    newDate.setDate(targetDate.getDate())
+    return newDate
   }
 
 }

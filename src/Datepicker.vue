@@ -123,6 +123,9 @@ export default {
     clearButton: {
       type: Boolean,
       default: false
+    },
+    preserveTime: {
+      type: Boolean
     }
   },
   data () {
@@ -313,10 +316,16 @@ export default {
     },
 
     setDate (timestamp) {
-      this.selectedDate = new Date(timestamp)
+      let newDate = new Date(timestamp)
+      if (this.preserveTime) {
+        this.selectedDate = DateUtils.applyDate(this.selectedDate, newDate)
+      } else {
+        this.selectedDate = newDate
+      }
+
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
-      this.$emit('selected', new Date(timestamp))
-      this.$emit('input', new Date(timestamp))
+      this.$emit('selected', new Date(this.selectedDate.getTime()))
+      this.$emit('input', new Date(this.selectedDate.getTime()))
     },
 
     clearDate () {

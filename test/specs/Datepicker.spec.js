@@ -35,6 +35,12 @@ describe('Datepicker unmounted', () => {
     const vm = new Vue(dpc({value: date})).$mount()
     expect(vm.value).to.equal(date)
   })
+
+  it('correctly sets time component when created', () => {
+    const date = new Date(2016, 1, 15, 13, 48, 23)
+    const vm = new Vue(dpc({value: date})).$mount()
+    expect(vm.value).to.equal(date)
+  })
 })
 
 describe('Datepicker: mounted component', () => {
@@ -95,6 +101,22 @@ describe('Datepicker: mounted component', () => {
     vm.$refs.component.setDate(date.getTime())
     vm.$refs.component.clearDate()
     expect(vm.$refs.component.selectedDate).to.equal(null)
+  })
+
+  it('sets the date and keeps time', () => {
+    const vm = new Vue(dpc()).$mount()
+    let datepicker = vm.$refs.component
+    datepicker.preserveTime = true
+    datepicker.setDate(new Date(2017, 0, 2, 16, 30, 15).getTime())
+    let pickedDate = datepicker.days[0]
+    datepicker.selectDate(pickedDate)
+    let selectedDate = datepicker.selectedDate
+    expect(selectedDate.getHours()).to.equal(16)
+    expect(selectedDate.getMinutes()).to.equal(30)
+    expect(selectedDate.getSeconds()).to.equal(15)
+    expect(selectedDate.getFullYear()).to.equal(new Date(pickedDate.timestamp).getFullYear())
+    expect(selectedDate.getMonth()).to.equal(new Date(pickedDate.timestamp).getMonth())
+    expect(selectedDate.getDate()).to.equal(new Date(pickedDate.timestamp).getDate())
   })
 })
 
