@@ -10,6 +10,7 @@
         :placeholder="placeholder"
         :clear-button="clearButton"
         :disabled="disabledPicker"
+        :required="required"
         readonly>
     <i class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
         <!-- Day View -->
@@ -126,6 +127,10 @@ export default {
       default: false
     },
     disabledPicker: {
+      type: Boolean,
+      default: false
+    },
+    required: {
       type: Boolean,
       default: false
     }
