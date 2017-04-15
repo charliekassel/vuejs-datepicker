@@ -55,6 +55,14 @@ export default {
       'days': ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub']
     },
 
+    'id': {
+      'months': {
+        'original': ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+      },
+      'days': ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
+    },
+
     'it': {
       'months': {
         'original': ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
