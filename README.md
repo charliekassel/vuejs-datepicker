@@ -151,6 +151,7 @@ Available languages
 | fi          | Finnish          |          |
 | fr          | French           |          |
 | hr          | Croatian         |          |
+| id          | Indonesian       |          |
 | it          | Italian          |          |
 | nl          | Dutch            |          |
 | de          | German           |          |
