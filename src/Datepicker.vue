@@ -286,6 +286,7 @@ export default {
   methods: {
     close () {
       this.showDayView = this.showMonthView = this.showYearView = false
+      this.$emit('closed')
     },
     getDefaultDate () {
       return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
