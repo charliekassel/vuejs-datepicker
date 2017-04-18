@@ -50,7 +50,7 @@ Use `v-model` for two-way binding
 ```
 Emits events
 ``` html
-<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction">
+<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction" v-on:closed="datepickerClosedFunction">
 ```
 Inline always open version
 ``` html
@@ -72,8 +72,8 @@ Inline always open version
 | wrapper-class   | String       |             | css class applied to the outer div    |
 | monday-first    | Boolean      | false       | To start the week on Monday           |
 | clear-button    | Boolean      | false       | Show an icon for clearing the date    |
-| disabled-picker | Boolean      | false       | If true, disable Datepicker on screen | 
-| required        | Boolean      | false       | Sets html required attribute on input | 
+| disabled-picker | Boolean      | false       | If true, disable Datepicker on screen |
+| required        | Boolean      | false       | Sets html required attribute on input |
 
 ## Date formatting
 
