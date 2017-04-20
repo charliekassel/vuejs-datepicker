@@ -31,7 +31,7 @@
             --><span class="cell day"
                 v-for="day in days"
                 track-by="timestamp"
-                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted}"
+                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted, 'today': day.date === currDay}"
                 @click="selectDate(day)">{{ day.date }}</span>
         </div>
 
@@ -175,6 +175,10 @@ export default {
     },
     translation () {
       return DateLanguages.translations[this.language]
+    },
+    currDay () {
+      const d = new Date()
+      return d.getDate()
     },
     currMonthName () {
       const d = new Date(this.currDate)
