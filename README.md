@@ -174,3 +174,4 @@ Available languages
 | ar          | Arabic           |          |
 | ee          | Estonian         |          |
 | ko          | Korean           |          |
+| tr          | Turkish          |          |
