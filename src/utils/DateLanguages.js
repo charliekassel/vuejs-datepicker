@@ -54,7 +54,7 @@ export default {
       },
       'days': ['Vas', 'Hét', 'Ke', 'Sze', 'Csü', 'Pén', 'Szo']
     },
-    
+
     'hr': {
       'months': {
         'original': ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
