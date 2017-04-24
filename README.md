@@ -150,6 +150,7 @@ Available languages
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
+| hu          | Hungarian        |          |
 | hr          | Croatian         |          |
 | id          | Indonesian       |          |
 | it          | Italian          |          |
