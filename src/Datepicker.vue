@@ -12,7 +12,7 @@
         :disabled="disabledPicker"
         :required="required"
         readonly>
-    <i class="vdp-datepicker__clear-button" v-if="clearButton" @click="clearDate()">&times;</i>
+    <i class="vdp-datepicker__clear-button" v-if="clearButton && selectedDate" @click="clearDate()">&times;</i>
         <!-- Day View -->
         <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
