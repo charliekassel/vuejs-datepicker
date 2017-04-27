@@ -75,6 +75,23 @@ Inline always open version
 | disabled-picker | Boolean      | false       | If true, disable Datepicker on screen |
 | required        | Boolean      | false       | Sets html required attribute on input |
 
+
+## Events
+
+These events are emitted on actions in the datepicker
+
+| Event         | Output     | Description                   |
+|---------------|------------|-------------------------------|
+| opened        |            | The picker is opened          |
+| closed        |            | The picker is closed          |
+| selected      | Date\|null | A date has been selected      |
+| input         | Date\|null | Input value has been modified |
+| cleared       |            | Selected date has been cleared|
+| changedMonth  | Object     | Month page has been changed   |
+| changedYear   | Object     | Year page has been changed    |
+| changedDecade | Object     | Decade page has been changed  |
+
+
 ## Date formatting
 
 NB. This is not very robust at all - use at your own risk! Needs a better implementation.
