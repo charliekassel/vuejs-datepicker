@@ -336,7 +336,8 @@ export default {
 
     clearDate () {
       this.selectedDate = null
-      this.$emit('selected', this.selectedDate)
+      this.$emit('selected', null)
+      this.$emit('input', null)
       this.$emit('cleared')
     },
 
@@ -862,6 +863,6 @@ $width = 300px
         width 33.333%
 
 .vdp-datepicker__clear-button
-    cursor: pointer
-    font-style: normal
+    cursor pointer
+    font-style normal
 </style>
