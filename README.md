@@ -193,3 +193,4 @@ Available languages
 | ee          | Estonian         |          |
 | ko          | Korean           |          |
 | tr          | Turkish          |          |
+| uk          | Ukrainian        |          |
