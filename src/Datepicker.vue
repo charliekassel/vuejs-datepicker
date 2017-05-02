@@ -36,7 +36,7 @@
         </div>
 
         <!-- Month View -->
-        <div class="vdp-datepicker__calendar" v-show="showMonthView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showMonthView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousYear"
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Year View -->
-        <div class="vdp-datepicker__calendar" v-show="showYearView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showYearView" v-bind:style="calendarStyle">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(currDate) }">&lt;</span>
@@ -261,30 +261,12 @@ export default {
     },
     calendarStyle () {
       let styles = {}
-      if (!this.$isServer) {
-        let elSize = {
-          top: 0,
-          height: 0
-        }
-        if (this.$el) {
-          elSize = this.$el.getBoundingClientRect()
-        }
-        let heightNeeded = elSize.top + elSize.height + this.calendarHeight || 0
-        // if the calendar doesn't fit on the window without scrolling position it above the input
-        if (heightNeeded > window.innerHeight) {
-          styles = {
-            'bottom': elSize.height + 'px'
-          }
-        }
-      }
+
       if (this.isInline()) {
         styles.position = 'static'
       }
 
       return styles
-    },
-    calendarStyleSecondary () {
-      return (this.isInline()) ? { 'position': 'static' } : {}
     }
   },
   methods: {
@@ -724,12 +706,6 @@ export default {
       }
       if (this.isInline()) {
         this.showDayCalendar()
-      }
-
-      if (!this.$isServer) {
-        this.$nextTick(() => {
-          this.calendarHeight = this.$el.querySelector('.vdp-datepicker__calendar').getBoundingClientRect().height
-        })
       }
 
       document.addEventListener('click', (e) => {
