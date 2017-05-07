@@ -183,6 +183,7 @@ Available languages
 | ja          | Japanese         |          |
 | he          | Hebrew           |          |
 | ru          | Russian          |          |
+| sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
 | th          | Thai             |          |
