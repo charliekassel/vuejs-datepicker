@@ -150,6 +150,14 @@ export default {
       },
       'days': ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so']
     },
+    
+    'sk': {
+      'months': {
+        'original': ['január', 'február', 'marec', 'apríl', 'máj', 'jún', 'júl', 'august', 'september', 'október', 'november', 'december'],
+        'abbr': ['jan', 'feb', 'mar', 'apr', 'máj', 'jún', 'júl', 'aug', 'sep', 'okt', 'nov', 'dec']
+      },
+      'days': ['ne', 'po', 'ut', 'st', 'št', 'pi', 'so']
+    },
 
     'ru': {
       'months': {
