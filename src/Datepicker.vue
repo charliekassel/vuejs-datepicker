@@ -1,7 +1,7 @@
 <template>
   <div class="vdp-datepicker" :class="wrapperClass">
     <div :class="{'input-group' : bootstrapStyling}">
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
       <input
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
@@ -14,7 +14,7 @@
         :disabled="disabledPicker"
         :required="required"
         readonly>
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length === 0">&times;</span></i></span>
     </div>
         <!-- Day View -->
         <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
