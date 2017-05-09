@@ -1,21 +1,23 @@
 <template>
-  <div class="datepicker" :class="wrapperClass">
-        <div :class="{'input-group' : bootstrapStyling}">
-            <span class="datepicker-calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
-            <input
-                    :type="inline ? 'hidden' : 'text'"
-                    :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
-                    :name="name"
-                    :id="id"
-                    @click="showCalendar()"
-                    :value="formattedValue"
-                    :placeholder="placeholder"
-                    readonly>
-            <span class="datepicker-clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
-        </div>
-
+  <div class="vdp-datepicker" :class="wrapperClass">
+    <div :class="{'input-group' : bootstrapStyling}">
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length == 0">&hellip;</span></i></span>
+      <input
+        :type="inline ? 'hidden' : 'text'"
+        :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
+        :name="name"
+        :id="id"
+        @click="showCalendar()"
+        :value="formattedValue"
+        :placeholder="placeholder"
+        :clear-button="clearButton"
+        :disabled="disabledPicker"
+        :required="required"
+        readonly>
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length == 0">&times;</span></i></span>
+    </div>
         <!-- Day View -->
-        <div class="calendar" v-show="showDayView" v-bind:style="calendarStyle">
+        <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousMonth"
@@ -32,12 +34,12 @@
             --><span class="cell day"
                 v-for="day in days"
                 track-by="timestamp"
-                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted}"
+                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted, 'today': day.date === currDay}"
                 @click="selectDate(day)">{{ day.date }}</span>
         </div>
 
         <!-- Month View -->
-        <div class="calendar" v-show="showMonthView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showMonthView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousYear"
@@ -57,7 +59,7 @@
         </div>
 
         <!-- Year View -->
-        <div class="calendar" v-show="showYearView" v-bind:style="calendarStyleSecondary">
+        <div class="vdp-datepicker__calendar" v-show="showYearView" v-bind:style="calendarStyle">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(currDate) }">&lt;</span>
@@ -127,19 +129,11 @@ export default {
       type: Boolean,
       default: false
     },
-    clearButtonIcon: {
-      type: String,
-      default: ''
-    },
-    calendarButton: {
+    disabledPicker: {
       type: Boolean,
       default: false
     },
-    calendarButtonIcon: {
-      type: String,
-      default: ''
-    },
-    bootstrapStyling: {
+    required: {
       type: Boolean,
       default: false
     }
@@ -165,9 +159,6 @@ export default {
       showMonthView: false,
       showYearView: false,
       /*
-       * Helper arrays for names
-       */
-      /*
        * Positioning
        */
       calendarHeight: 0
@@ -179,7 +170,6 @@ export default {
     }
   },
   computed: {
-
     formattedValue () {
       if (!this.selectedDate) {
         return null
@@ -188,6 +178,10 @@ export default {
     },
     translation () {
       return DateLanguages.translations[this.language]
+    },
+    currDay () {
+      const d = new Date()
+      return d.getDate()
     },
     currMonthName () {
       const d = new Date(this.currDate)
@@ -269,34 +263,25 @@ export default {
       return years
     },
     calendarStyle () {
-      let elSize = {
-        top: 0,
-        height: 0
-      }
-      if (this.$el) {
-        elSize = this.$el.getBoundingClientRect()
-      }
-      let heightNeeded = elSize.top + elSize.height + this.calendarHeight || 0
       let styles = {}
-      // if the calendar doesn't fit on the window without scrolling position it above the input
-      if (heightNeeded > window.innerHeight) {
-        styles = {
-          'bottom': elSize.height + 'px'
-        }
-      }
+
       if (this.isInline()) {
         styles.position = 'static'
       }
 
       return styles
-    },
-    calendarStyleSecondary () {
-      return (this.isInline()) ? { 'position': 'static' } : {}
     }
   },
   methods: {
     close () {
       this.showDayView = this.showMonthView = this.showYearView = false
+      this.$emit('closed')
+    },
+    getDefaultDate () {
+      return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
+    },
+    resetDefaultDate () {
+      this.currDate = (this.selectedDate === null) ? this.getDefaultDate() : this.selectedDate.getTime()
     },
     isOpen () {
       return this.showDayView || this.showMonthView || this.showYearView
@@ -336,7 +321,8 @@ export default {
 
     clearDate () {
       this.selectedDate = null
-      this.$emit('selected', this.selectedDate)
+      this.$emit('selected', null)
+      this.$emit('input', null)
       this.$emit('cleared')
     },
 
@@ -363,6 +349,7 @@ export default {
       }
       this.currDate = month.timestamp
       this.showDayCalendar()
+      this.$emit('changedMonth', month)
     },
 
     /**
@@ -374,6 +361,7 @@ export default {
       }
       this.currDate = year.timestamp
       this.showMonthCalendar()
+      this.$emit('changedYear', year)
     },
 
     /**
@@ -408,7 +396,7 @@ export default {
       let d = new Date(this.currDate)
       d.setMonth(d.getMonth() - 1)
       this.currDate = d.getTime()
-      this.$emit('changedMonth')
+      this.$emit('changedMonth', d)
     },
 
     previousMonthDisabled () {
@@ -433,7 +421,7 @@ export default {
       const daysInMonth = DateUtils.daysInMonth(d.getFullYear(), d.getMonth())
       d.setDate(d.getDate() + daysInMonth)
       this.currDate = d.getTime()
-      this.$emit('changedMonth')
+      this.$emit('changedMonth', d)
     },
 
     nextMonthDisabled () {
@@ -723,15 +711,12 @@ export default {
         this.showDayCalendar()
       }
 
-      this.$nextTick(() => {
-        this.calendarHeight = this.$el.querySelector('.calendar').getBoundingClientRect().height
-      })
-
       document.addEventListener('click', (e) => {
         if (this.$el && !this.$el.contains(e.target)) {
           if (this.isInline()) {
             return this.showDayCalendar()
           }
+          this.resetDefaultDate()
           this.close()
         }
       }, false)
@@ -756,12 +741,13 @@ export default {
 
 $width = 300px
 
-.datepicker
+.vdp-datepicker
     position relative
+    text-align left
     *
         box-sizing border-box
 
-.calendar
+.vdp-datepicker__calendar
     position absolute
     z-index 100
     background white
@@ -855,7 +841,7 @@ $width = 300px
     .year
         width 33.333%
 
-.datepicker-clear-button, .datepicker-calendar-button
-    cursor: pointer
-    font-style: normal
+.vdp-datepicker__clear-button, .vdp-datepicker__calendar-button
+    cursor pointer
+    font-style normal
 </style>

@@ -124,7 +124,7 @@ describe('Datepicker.vue', () => {
 
   it('should render correct contents', (done) => {
     vm.$nextTick(() => {
-      expect(vm.$el.querySelectorAll('.datepicker').length).to.equal(1)
+      expect(vm.$el.querySelectorAll('.vdp-datepicker').length).to.equal(1)
       expect(vm.$el.querySelectorAll('input').length).to.equal(1)
       done()
     })

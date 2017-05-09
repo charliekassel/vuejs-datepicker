@@ -6,7 +6,7 @@ A datepicker Vue component. Compatible with Vue 1.x and Vue 2.x
 
 ## Demo
 
-http://www.webpackbin.com/N1vgz1XRb
+https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC
 
 ## Install
 
@@ -50,7 +50,7 @@ Use `v-model` for two-way binding
 ```
 Emits events
 ``` html
-<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction">
+<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction" v-on:closed="datepickerClosedFunction">
 ```
 Inline always open version
 ``` html
@@ -76,6 +76,24 @@ Inline always open version
 | calendar-button       | Boolean      | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String       |             | Use icon for button (ex: fa fa-calendar) |
 | bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
+| disabled-picker       | Boolean      | false       | If true, disable Datepicker on screen    |
+| required              | Boolean      | false       | Sets html required attribute on input    | 
+
+## Events
+
+These events are emitted on actions in the datepicker
+
+| Event         | Output     | Description                   |
+|---------------|------------|-------------------------------|
+| opened        |            | The picker is opened          |
+| closed        |            | The picker is closed          |
+| selected      | Date\|null | A date has been selected      |
+| input         | Date\|null | Input value has been modified |
+| cleared       |            | Selected date has been cleared|
+| changedMonth  | Object     | Month page has been changed   |
+| changedYear   | Object     | Year page has been changed    |
+| changedDecade | Object     | Decade page has been changed  |
+
 
 ## Date formatting
 
@@ -152,11 +170,14 @@ Available languages
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
+| hu          | Hungarian        |          |
 | hr          | Croatian         |          |
+| id          | Indonesian       |          |
 | it          | Italian          |          |
 | nl          | Dutch            |          |
 | de          | German           |          |
 | da          | Danish           |          |
+| nb-no       | Norwegian Bokmål |          |
 | cs          | Czech            |          |
 | pt-br       | Portuguese-Brazil|          |
 | ro          | Romanian         |          |
@@ -169,3 +190,10 @@ Available languages
 | sv          | Swedish          |          |
 | th          | Thai             |          |
 | bg          | Bulgarian        |          |
+| lt          | Lithuanian       |          |
+| pl          | Polish           |          |
+| ar          | Arabic           |          |
+| ee          | Estonian         |          |
+| ko          | Korean           |          |
+| tr          | Turkish          |          |
+| uk          | Ukrainian        |          |
