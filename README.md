@@ -72,7 +72,7 @@ Inline always open version
 | wrapper-class         | String       |             | css class applied to the outer div       |
 | monday-first          | Boolean      | false       | To start the week on Monday              |
 | clear-button          | Boolean      | false       | Show an icon for clearing the date       |
-| clear-button-icon     | String       |             | Use icon for button (ex: fa fa-close)    |
+| clear-button-icon     | String       |             | Use icon for button (ex: fa fa-times)    |
 | calendar-button       | Boolean      | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String       |             | Use icon for button (ex: fa fa-calendar) |
 | bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
