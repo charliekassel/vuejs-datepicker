@@ -1,8 +1,10 @@
 <template>
   <div class="vdp-datepicker" :class="wrapperClass">
-    <input
+    <div :class="{'input-group' : bootstrapStyling}">
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar()"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
+      <input
         :type="inline ? 'hidden' : 'text'"
-        :class="inputClass"
+        :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
         :id="id"
         @click="showCalendar()"
@@ -12,7 +14,8 @@
         :disabled="disabledPicker"
         :required="required"
         readonly>
-    <i class="vdp-datepicker__clear-button" v-if="clearButton && selectedDate" @click="clearDate()">&times;</i>
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length === 0">&times;</span></i></span>
+    </div>
         <!-- Day View -->
         <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
@@ -123,6 +126,22 @@ export default {
       default: false
     },
     clearButton: {
+      type: Boolean,
+      default: false
+    },
+    clearButtonIcon: {
+      type: String,
+      default: ''
+    },
+    calendarButton: {
+      type: Boolean,
+      default: false
+    },
+    calendarButtonIcon: {
+      type: String,
+      default: ''
+    },
+    bootstrapStyling: {
       type: Boolean,
       default: false
     },
@@ -835,7 +854,7 @@ $width = 300px
     .year
         width 33.333%
 
-.vdp-datepicker__clear-button
+.vdp-datepicker__clear-button, .vdp-datepicker__calendar-button
     cursor pointer
     font-style normal
 </style>
