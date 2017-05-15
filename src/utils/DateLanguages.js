@@ -150,7 +150,7 @@ export default {
       },
       'days': ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so']
     },
-    
+
     'sk': {
       'months': {
         'original': ['január', 'február', 'marec', 'apríl', 'máj', 'jún', 'júl', 'august', 'september', 'október', 'november', 'december'],
@@ -253,7 +253,5 @@ export default {
       },
       'days': ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
     }
-
   }
-
 }
