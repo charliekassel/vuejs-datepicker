@@ -189,6 +189,15 @@ describe('Datepicker.vue', () => {
     expect(vm.$refs.component.getMonth()).to.equal(10)
   })
 
+  it('can set the next month correctly on the last day of a 31 day month', () => {
+    const date = new Date(2017, 4, 31)
+    vm.$refs.component.selectDate({timestamp: date.getTime()})
+    vm.$refs.component.nextMonth()
+    expect(vm.$refs.component.getMonth()).to.equal(5)
+    vm.$refs.component.nextMonth()
+    expect(vm.$refs.component.getMonth()).to.equal(6)
+  })
+
   it('can set the previous month', () => {
     const date = new Date(2016, 9, 9)
     vm.$refs.component.selectDate({timestamp: date.getTime()})
