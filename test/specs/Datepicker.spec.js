@@ -115,11 +115,11 @@ describe('Datepicker.vue', () => {
 
   it('should close when clicked outside', () => {
     vm.$refs.component.showDayCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
     vm.$refs.component.showDayCalendar()
     expect(vm.$refs.component.showDayView).to.equal(true)
     document.body.click()
-    expect(vm.$refs.component.isOpen()).to.equal(false)
+    expect(vm.$refs.component.isOpen).to.equal(false)
   })
 
   it('should render correct contents', (done) => {
@@ -143,22 +143,22 @@ describe('Datepicker.vue', () => {
 
   it('should open and close the calendar', () => {
     vm.$refs.component.close()
-    expect(vm.$refs.component.isOpen()).to.equal(false)
+    expect(vm.$refs.component.isOpen).to.equal(false)
 
     vm.$refs.component.showMonthCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
 
     vm.$refs.component.close()
-    expect(vm.$refs.component.isOpen()).to.equal(false)
+    expect(vm.$refs.component.isOpen).to.equal(false)
 
     vm.$refs.component.showYearCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
 
     vm.$refs.component.close()
-    expect(vm.$refs.component.isOpen()).to.equal(false)
+    expect(vm.$refs.component.isOpen).to.equal(false)
 
     vm.$refs.component.showDayCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
   })
 
   it('can select a day', () => {
@@ -233,6 +233,14 @@ describe('Datepicker.vue', () => {
     vm.$refs.component.selectDate({timestamp: date.getTime()})
     vm.$refs.component.previousDecade()
     expect(vm.$refs.component.getDecade()).to.equal('2000\'s')
+  })
+
+  it('sets the default date to the first of the month', () => {
+    vm.$refs.component.clearDate()
+    vm.$refs.component.resetDefaultDate()
+    expect(vm.$refs.component.selectedDate).to.be.null
+    const defaultDate = new Date(vm.$refs.component.getDefaultDate())
+    expect(defaultDate.getDate()).to.equal(1)
   })
 })
 
@@ -310,15 +318,15 @@ describe('Datepicker.vue inline', () => {
 
   it('should not showCalendar as already open', () => {
     expect(vm.$refs.component.showCalendar()).to.equal(false)
-    expect(vm.$refs.component.isInline()).to.equal(true)
+    expect(vm.$refs.component.isInline).to.equal(true)
   })
 
   it('should not close the caledar when date is selected', () => {
     const date = new Date()
     vm.$refs.component.selectDate({timestamp: date.getTime()})
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
     document.body.click()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
   })
 })
 
@@ -340,11 +348,11 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('should close showCalendar if already open', () => {
-    expect(vm.$refs.component.isInline()).to.equal(false)
+    expect(vm.$refs.component.isInline).to.equal(false)
     vm.$refs.component.showCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(true)
+    expect(vm.$refs.component.isOpen).to.equal(true)
     vm.$refs.component.showCalendar()
-    expect(vm.$refs.component.isOpen()).to.equal(false)
+    expect(vm.$refs.component.isOpen).to.equal(false)
   })
 
   it('should detect a disabled date', () => {
