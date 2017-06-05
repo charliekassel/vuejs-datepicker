@@ -308,7 +308,7 @@ export default {
         this.currDate = this.getDefaultDate()
         return
       }
-      this.currDate = this.selectedDate.getTime()
+      this.currDate = this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
     },
     /**
      * Effectively a toggle to show/hide the calendar

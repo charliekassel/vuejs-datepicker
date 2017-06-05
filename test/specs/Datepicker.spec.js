@@ -192,10 +192,10 @@ describe('Datepicker.vue', () => {
   it('can set the next month correctly on the last day of a 31 day month', () => {
     const date = new Date(2017, 4, 31)
     vm.$refs.component.selectDate({timestamp: date.getTime()})
+    // when click document to close the modal will run resetDefaultDate();
+    vm.$refs.component.resetDefaultDate()
     vm.$refs.component.nextMonth()
     expect(vm.$refs.component.getMonth()).to.equal(5)
-    vm.$refs.component.nextMonth()
-    expect(vm.$refs.component.getMonth()).to.equal(6)
   })
 
   it('can set the previous month', () => {
