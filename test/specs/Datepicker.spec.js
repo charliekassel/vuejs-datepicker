@@ -606,3 +606,41 @@ describe('Datepicker with monday as first day of week', () => {
     expect(vm.$refs.component.blankDays).to.equal(0)
   })
 })
+
+describe('Datepicker with initial-view', () => {
+  it('should open in Day view', () => {
+    vm = new Vue({
+      template: '<div><datepicker v-ref:component></datepicker></div>',
+      components: { Datepicker }
+    }).$mount()
+    vm.$refs.component.showCalendar()
+    expect(vm.$refs.component.initialView).to.equal('day')
+    expect(vm.$refs.component.showDayView).to.equal(true)
+    expect(vm.$refs.component.showMonthView).to.equal(false)
+    expect(vm.$refs.component.showYearView).to.equal(false)
+  })
+
+  it('should open in Month view', () => {
+    vm = new Vue({
+      template: '<div><datepicker initial-view="month" v-ref:component></datepicker></div>',
+      components: { Datepicker }
+    }).$mount()
+    vm.$refs.component.showCalendar()
+    expect(vm.$refs.component.initialView).to.equal('month')
+    expect(vm.$refs.component.showDayView).to.equal(false)
+    expect(vm.$refs.component.showMonthView).to.equal(true)
+    expect(vm.$refs.component.showYearView).to.equal(false)
+  })
+
+  it('should open in Year view', () => {
+    vm = new Vue({
+      template: '<div><datepicker initial-view="year" v-ref:component></datepicker></div>',
+      components: { Datepicker }
+    }).$mount()
+    vm.$refs.component.showCalendar()
+    expect(vm.$refs.component.initialView).to.equal('year')
+    expect(vm.$refs.component.showDayView).to.equal(false)
+    expect(vm.$refs.component.showMonthView).to.equal(false)
+    expect(vm.$refs.component.showYearView).to.equal(true)
+  })
+})

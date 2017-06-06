@@ -145,6 +145,10 @@ export default {
       type: Boolean,
       default: false
     },
+    initialView: {
+      type: String,
+      default: 'day'
+    },
     disabledPicker: {
       type: Boolean,
       default: false
@@ -321,7 +325,17 @@ export default {
       if (this.isOpen) {
         return this.close()
       }
-      this.showDayCalendar()
+      switch (this.initialView) {
+        case 'year':
+          this.showYearCalendar()
+          break
+        case 'month':
+          this.showMonthCalendar()
+          break
+        default:
+          this.showDayCalendar()
+          break
+      }
     },
     showDayCalendar () {
       this.close()
