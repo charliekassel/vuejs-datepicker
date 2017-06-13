@@ -78,7 +78,7 @@ Inline always open version
 | bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
 | initial-view          | String       | 'day'       | If 'month' or 'year', open on that view  |
 | disabled-picker       | Boolean      | false       | If true, disable Datepicker on screen    |
-| required              | Boolean      | false       | Sets html required attribute on input    | 
+| required              | Boolean      | false       | Sets html required attribute on input    |
 
 ## Events
 
@@ -168,6 +168,7 @@ Available languages
 | Abbr        | Language         |          |
 | ----------- |------------------|----------|
 | en          | English          | *Default*|
+| bs          | Bosnian          |          |
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
