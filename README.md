@@ -78,7 +78,7 @@ Inline always open version
 | bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
 | initial-view          | String       | 'day'       | If 'month' or 'year', open on that view  |
 | disabled-picker       | Boolean      | false       | If true, disable Datepicker on screen    |
-| required              | Boolean      | false       | Sets html required attribute on input    | 
+| required              | Boolean      | false       | Sets html required attribute on input    |
 
 ## Events
 
@@ -137,7 +137,11 @@ var state = {
 
 #### Highlight Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
-Note: Both `to` and `from` properties are require to define a range of dates to highlight
+Note: Both `to` and `from` properties are require to define a range of dates to highlight.
+
+You can define this in two ways:
+
+##### As a single object
 
 ``` html
 <script>
@@ -151,7 +155,31 @@ var state = {
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
         ]
+        class: 'unavailable-date',
+        disabled: true
     }
+}
+</script>
+<datepicker :highlighted="state.highlighted"></datepicker>
+```
+
+##### As an Array of objects
+
+``` html
+<script>
+var state = {
+    highlighted: [
+      {
+        days: [6, 0], // Highlight Saturday's and Sunday's
+        class: 'unavailable-date',
+        disabled: true
+      },
+      {
+        days: [5, 1], // Highlight Monday's and Fridays
+        class: 'available-date',
+        disabled: false
+      }
+    ]
 }
 </script>
 <datepicker :highlighted="state.highlighted"></datepicker>
