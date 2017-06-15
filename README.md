@@ -155,7 +155,8 @@ var state = {
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
         ]
-        class: 'important-date'
+        class: 'unavailable-date',
+        disabled: true
     }
 }
 </script>
@@ -170,11 +171,13 @@ var state = {
     highlighted: [
       {
         days: [6, 0], // Highlight Saturday's and Sunday's
-        class: 'important-date'
+        class: 'unavailable-date',
+        disabled: true
       },
       {
         days: [5, 1], // Highlight Monday's and Fridays
-        class: 'unimportant-date'
+        class: 'available-date',
+        disabled: false
       }
     ]
 }

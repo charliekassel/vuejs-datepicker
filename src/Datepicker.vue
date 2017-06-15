@@ -236,11 +236,12 @@ export default {
       let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
       for (let i = 0; i < daysInMonth; i++) {
         let highlightedDate = this.isHighlightedDate(dObj)
+
         days.push({
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
-          isDisabled: this.isDisabledDate(dObj),
+          isDisabled: (this.isDisabledDate(dObj) || highlightedDate.disabled),
           isHighlighted: highlightedDate.isHighlighted,
           highlightedClass: highlightedDate.highlightedClass,
           isToday: dObj.toDateString() === (new Date()).toDateString()
@@ -619,7 +620,8 @@ export default {
 
       let highlightedDate = {
         isHighlighted: false,
-        highlightedClass: ''
+        highlightedClass: '',
+        disabled: false
       }
 
       if (typeof this.highlighted === 'undefined') {
@@ -645,10 +647,12 @@ export default {
      */
     checkHighlightedDate (highlight, date) {
       var highlightClass = (typeof highlight.class !== 'undefined') ? highlight.class : ''
+      var highlightDisabled = (typeof highlight.disabled !== 'undefined') ? highlight.disabled : false
 
       let highlightedDate = {
         isHighlighted: false,
-        highlightedClass: highlightClass
+        highlightedClass: highlightClass,
+        disabled: highlightDisabled
       }
 
       if (typeof highlight.dates !== 'undefined') {
@@ -667,7 +671,6 @@ export default {
       if (typeof highlight.days !== 'undefined' && highlight.days.indexOf(date.getDay()) !== -1) {
         highlightedDate.isHighlighted = true
       }
-      console.log(highlightedDate)
 
       return highlightedDate
     },
