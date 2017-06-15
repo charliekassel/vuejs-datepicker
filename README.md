@@ -199,3 +199,4 @@ Available languages
 | ko          | Korean           |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
+| is          | Icelandic        |          |
