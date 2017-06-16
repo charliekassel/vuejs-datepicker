@@ -35,7 +35,7 @@
             --><span class="cell day"
                 v-for="day in days"
                 track-by="timestamp"
-                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted, 'today': day.isToday}"
+                v-bind:class="dayClasses(day)"
                 @click="selectDate(day)">{{ day.date }}</span>
         </div>
 
@@ -107,7 +107,7 @@ export default {
       type: Object
     },
     highlighted: {
-      type: Object
+      type: [Object, Array]
     },
     placeholder: {
       type: String
@@ -235,12 +235,15 @@ export default {
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
       for (let i = 0; i < daysInMonth; i++) {
+        let highlightedDate = this.isHighlightedDate(dObj)
+
         days.push({
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
-          isDisabled: this.isDisabledDate(dObj),
-          isHighlighted: this.isHighlightedDate(dObj),
+          isDisabled: (this.isDisabledDate(dObj) || highlightedDate.disabled),
+          isHighlighted: highlightedDate.isHighlighted,
+          highlightedClass: highlightedDate.highlightedClass,
           isToday: dObj.toDateString() === (new Date()).toDateString()
         })
         dObj.setDate(dObj.getDate() + 1)
@@ -606,38 +609,82 @@ export default {
     },
 
     /**
-     * Whether a day is highlighted (only if it is not disabled already)
+     * Check if highlighted is an array or not and execute checks appropriately
      * @param {Date}
-     * @return {Boolean}
+     * @return {Object}
      */
     isHighlightedDate (date) {
       if (this.isDisabledDate(date)) {
         return false
       }
 
-      let highlighted = false
+      let highlightedDate = {
+        isHighlighted: false,
+        highlightedClass: '',
+        disabled: false
+      }
 
       if (typeof this.highlighted === 'undefined') {
         return false
       }
 
-      if (typeof this.highlighted.dates !== 'undefined') {
-        this.highlighted.dates.forEach((d) => {
+      if (!Array.isArray(this.highlighted)) {
+        highlightedDate = this.checkHighlightedDate(this.highlighted, date)
+      } else {
+        for (var i = 0; i < this.highlighted.length; i++) {
+          highlightedDate = this.checkHighlightedDate(this.highlighted[i], date)
+          if (highlightedDate.isHighlighted) break
+        }
+      }
+
+      return highlightedDate
+    },
+
+    /**
+     * Whether a day is highlighted (only if it is not disabled already)
+     * @param {Date}
+     * @return {Object}
+     */
+    checkHighlightedDate (highlight, date) {
+      var highlightClass = (typeof highlight.class !== 'undefined') ? highlight.class : ''
+      var highlightDisabled = (typeof highlight.disabled !== 'undefined') ? highlight.disabled : false
+
+      let highlightedDate = {
+        isHighlighted: false,
+        highlightedClass: highlightClass,
+        disabled: highlightDisabled
+      }
+
+      if (typeof highlight.dates !== 'undefined') {
+        highlight.dates.forEach((d) => {
           if (date.toDateString() === d.toDateString()) {
-            highlighted = true
-            return true
+            highlightedDate.isHighlighted = true
+            return highlightedDate
           }
         })
       }
 
-      if (this.isDefined(this.highlighted.from) && this.isDefined(this.highlighted.to)) {
-        highlighted = date >= this.highlighted.from && date <= this.highlighted.to
+      if (this.isDefined(highlight.from) && this.isDefined(highlight.to)) {
+        highlightedDate.isHighlighted = date >= highlight.from && date <= highlight.to
       }
 
-      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(date.getDay()) !== -1) {
-        highlighted = true
+      if (typeof highlight.days !== 'undefined' && highlight.days.indexOf(date.getDay()) !== -1) {
+        highlightedDate.isHighlighted = true
       }
-      return highlighted
+
+      return highlightedDate
+    },
+
+    /**
+     * returns the inline style object if necessary
+     * @param  {Object}  day
+     * @return {Object}
+     */
+    dayClasses (day) {
+      var dayClasses = {'selected': day.isSelected, 'disabled': day.isDisabled, 'highlighted': day.isHighlighted, 'today': day.isToday}
+      dayClasses[day.highlightedClass] = day.isHighlighted
+
+      return dayClasses
     },
 
     /**
