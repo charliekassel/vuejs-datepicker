@@ -58,22 +58,43 @@ Inline always open version
 ```
 ## Available props
 
-| Prop            | Type         | Default     | Description                           |
-|-----------------|--------------|-------------|---------------------------------------|
-| value           | Date/String  |             | Date value of the datepicker          |
-| name            | String       |             | input name property                   |
-| id              | String       |             | input id                              |
-| format          | String       | dd MMM yyyy | Date formatting string                |
-| language        | String       | en          | Translation for days and months       |
-| disabled        | Object       |             | See below for configuration           |
-| placeholder     | String       |             | input placeholder text                |
-| inline          | Boolean      |             | to show the datepicker always open    |
-| input-class     | String       |             | css class applied to the input el     |
-| wrapper-class   | String       |             | css class applied to the outer div    |
-| monday-first    | Boolean      | false       | To start the week on Monday           |
-| clear-button    | Boolean      | false       | Show an icon for clearing the date    |
-| disabled-picker | Boolean      | false       | If true, disable Datepicker on screen |
-| required        | Boolean      | false       | Sets html required attribute on input |
+| Prop                  | Type         | Default     | Description                              |
+|-----------------------|--------------|-------------|------------------------------------------|
+| value                 | Date/String  |             | Date value of the datepicker             |
+| name                  | String       |             | Input name property                      |
+| id                    | String       |             | Input id                                 |
+| format                | String       | dd MMM yyyy | Date formatting string                   |
+| language              | String       | en          | Translation for days and months          |
+| disabled              | Object       |             | See below for configuration              |
+| placeholder           | String       |             | Input placeholder text                   |
+| inline                | Boolean      |             | To show the datepicker always open       |
+| input-class           | String       |             | CSS class applied to the input el        |
+| wrapper-class         | String       |             | CSS class applied to the outer div       |
+| monday-first          | Boolean      | false       | To start the week on Monday              |
+| clear-button          | Boolean      | false       | Show an icon for clearing the date       |
+| clear-button-icon     | String       |             | Use icon for button (ex: fa fa-times)    |
+| calendar-button       | Boolean      | false       | Show an icon that that can be clicked    |
+| calendar-button-icon  | String       |             | Use icon for button (ex: fa fa-calendar) |
+| bootstrapStyling      | Boolean      | false       | Output bootstrap styling classes         |
+| initial-view          | String       | 'day'       | If 'month' or 'year', open on that view  |
+| disabled-picker       | Boolean      | false       | If true, disable Datepicker on screen    |
+| required              | Boolean      | false       | Sets html required attribute on input    |
+
+## Events
+
+These events are emitted on actions in the datepicker
+
+| Event         | Output     | Description                   |
+|---------------|------------|-------------------------------|
+| opened        |            | The picker is opened          |
+| closed        |            | The picker is closed          |
+| selected      | Date\|null | A date has been selected      |
+| input         | Date\|null | Input value has been modified |
+| cleared       |            | Selected date has been cleared|
+| changedMonth  | Object     | Month page has been changed   |
+| changedYear   | Object     | Year page has been changed    |
+| changedDecade | Object     | Decade page has been changed  |
+
 
 ## Date formatting
 
@@ -147,9 +168,11 @@ Available languages
 | Abbr        | Language         |          |
 | ----------- |------------------|----------|
 | en          | English          | *Default*|
+| bs          | Bosnian          |          |
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
+| hu          | Hungarian        |          |
 | hr          | Croatian         |          |
 | id          | Indonesian       |          |
 | it          | Italian          |          |
@@ -165,6 +188,7 @@ Available languages
 | ja          | Japanese         |          |
 | he          | Hebrew           |          |
 | ru          | Russian          |          |
+| sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
 | th          | Thai             |          |
@@ -175,3 +199,5 @@ Available languages
 | ee          | Estonian         |          |
 | ko          | Korean           |          |
 | tr          | Turkish          |          |
+| uk          | Ukrainian        |          |
+| is          | Icelandic        |          |
