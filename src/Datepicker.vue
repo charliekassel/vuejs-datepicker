@@ -7,7 +7,7 @@
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
         :id="id"
-        @click="showCalendar"
+        @focus="showCalendar"
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
