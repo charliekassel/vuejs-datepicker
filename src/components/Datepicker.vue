@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import DateUtils from './utils/DateUtils.js'
-import DateLanguages from './utils/DateLanguages.js'
+import DateUtils from '@/utils/DateUtils.js'
+import DateLanguages from '@/utils/DateLanguages.js'
 
 export default {
   props: {
