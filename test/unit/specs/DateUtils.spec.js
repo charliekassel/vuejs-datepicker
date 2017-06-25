@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 
-import DateUtils from '../../src/utils/DateUtils'
-import DateLanguages from '../../src/utils/DateLanguages'
+import DateUtils from '../../../src/utils/DateUtils'
+import DateLanguages from '../../../src/utils/DateLanguages'
 
 describe('DateUtils', () => {
   it('should detect invalid date object', () => {
