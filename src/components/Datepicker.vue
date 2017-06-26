@@ -17,6 +17,7 @@
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
+        :today-button="todayButton"
         :disabled="disabledPicker"
         :required="required"
         readonly>
@@ -51,6 +52,7 @@
                   track-by="timestamp"
                   v-bind:class="dayClasses(day)"
                   @click="selectDate(day)">{{ day.date }}</span>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
             </div>
         </div>
 
@@ -151,6 +153,10 @@ export default {
       type: String,
       default: ''
     },
+    todayButton: {
+      type: Boolean,
+      default: false
+    },
     bootstrapStyling: {
       type: Boolean,
       default: false
@@ -228,6 +234,12 @@ export default {
     },
     currYear () {
       return this.pageDate.getFullYear()
+    },
+    today () {
+      return {
+        date: new Date(this.currDate),
+        timestamp: new Date()
+      }
     },
     /**
      * Returns the day number of the week less one for the first of the current month
@@ -919,7 +931,23 @@ $width = 300px
 .vdp-datepicker__calendar-button
     cursor pointer
     font-style normal
+<<<<<<< HEAD
     &.disabled
       color #999
       cursor default
+=======
+
+.vdp-datepicker__today-button
+    cursor pointer
+    font-style normal
+    display flex
+    background-color #ddd
+    border none
+    align-self center
+    justify-content center
+    width 200px
+    padding 8px
+    margin 10px auto
+
+>>>>>>> add today button
 </style>
