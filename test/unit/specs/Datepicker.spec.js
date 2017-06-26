@@ -1,7 +1,7 @@
 /* global describe, it, expect, beforeEach */
 
 import Vue from 'vue'
-import Datepicker from '../../../src/components/Datepicker.vue'
+import Datepicker from '@/components/Datepicker.vue'
 
 let vm
 
@@ -106,31 +106,22 @@ describe('Datepicker.vue', () => {
     })
   })
 
-  it('should close when clicked outside', async () => {
-    vm.showDayCalendar()
-    expect(vm.isOpen).to.equal(true)
-    vm.showDayCalendar()
-    expect(vm.showDayView).to.equal(true)
-    document.body.click()
-    expect(vm.isOpen).to.equal(false)
+  it('should render correct contents', async () => {
+    await vm.$nextTick(() => {
+      expect(vm.$el.querySelectorAll('.vdp-datepicker').length).to.equal(1)
+      expect(vm.$el.querySelectorAll('input').length).to.equal(1)
+    })
   })
 
-  // it('should render correct contents', async () => {
-  //   await vm.$nextTick(() => {
-  //     expect(vm.$el.querySelectorAll('.vdp-datepicker').length).to.equal(1)
-  //     expect(vm.$el.querySelectorAll('input').length).to.equal(1)
-  //   })
-  // })
-
-  // it('should set currdate to be now', async () => {
-  //   await vm.$nextTick(() => {
-  //     const data = Datepicker.data()
-  //     const d = new Date(data.currDate)
-  //     expect(d.getFullYear()).to.equal(new Date().getFullYear())
-  //     expect(d.getMonth()).to.equal(new Date().getMonth())
-  //     expect(d.getDate()).to.equal(1)
-  //   })
-  // })
+  it('should set currdate to be now', async () => {
+    await vm.$nextTick(() => {
+      const data = Datepicker.data()
+      const d = new Date(data.currDate)
+      expect(d.getFullYear()).to.equal(new Date().getFullYear())
+      expect(d.getMonth()).to.equal(new Date().getMonth())
+      expect(d.getDate()).to.equal(1)
+    })
+  })
 
   it('should open and close the calendar', () => {
     vm.close()
@@ -235,60 +226,23 @@ describe('Datepicker.vue', () => {
   })
 })
 
-describe('Datepicker.vue set by object', () => {
-  let state
-  beforeEach(() => {
-    state = {
-      value: new Date(2016, 1, 20),
-      format: 'yyyy-MM-dd'
-    }
-    vm = new Vue({
-      template: '<div><datepicker :value="value" :format="format"></datepicker></div>',
-      components: { Datepicker },
-      data: function () {
-        return state
-      }
-    }).$mount()
-  })
-
-  it('should allow value to be changed outside of component', (done) => {
-    state.value = new Date(2016, 2, 15)
-    vm.$nextTick(() => {
-      expect(vm.$el.querySelector('input').value).to.equal('2016-03-15')
-      done()
-    })
-  })
-})
-
 describe('Datepicker.vue set by string', () => {
-  let state
-  beforeEach(() => {
-    state = {
-      value: '2016-02-20',
-      format: 'yyyy-MM-dd'
-    }
-    vm = new Vue({
-      template: '<div><datepicker :value="value" :format="format"></datepicker></div>',
-      components: { Datepicker },
-      data: function () {
-        return state
-      }
-    }).$mount()
-  })
-
-  it('should allow value to be changed outside of component', (done) => {
-    state.value = '2016-03-15'
-    vm.$nextTick(() => {
-      expect(vm.$el.querySelector('input').value).to.equal('2016-03-15')
-      done()
+  it('can parse a string date', async () => {
+    vm = getViewModel(Datepicker, {
+      format: 'yyyy MM dd',
+      value: '2016-02-20'
+    })
+    await vm.$nextTick(() => {
+      expect(vm.$el.querySelector('input').value).to.equal('2016 02 20')
     })
   })
 
-  it('should allow malformed value', (done) => {
-    state.value = 'today'
-    vm.$nextTick(() => {
+  it('should allow malformed value', async () => {
+    vm = getViewModel(Datepicker, {
+      value: 'today'
+    })
+    await vm.$nextTick(() => {
       expect(vm.$el.querySelector('input').value).to.equal('')
-      done()
     })
   })
 })

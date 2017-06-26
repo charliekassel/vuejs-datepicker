@@ -121,9 +121,6 @@ export default {
       }
       this.disabled.from = val
     }
-  },
-  created () {
-    console.log(this.languages)
   }
 }
 </script>
