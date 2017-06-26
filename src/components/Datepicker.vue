@@ -116,10 +116,10 @@ export default {
       type: Boolean
     },
     inputClass: {
-      type: String
+      type: [String, Object]
     },
     wrapperClass: {
-      type: String
+      type: [String, Object]
     },
     mondayFirst: {
       type: Boolean,
