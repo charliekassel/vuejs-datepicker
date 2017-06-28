@@ -24,7 +24,7 @@ export default {
       },
       'days': ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub']
     },
-    'cz': {
+    'cs': {
       'language': 'Czech',
       'months': {
         'original': ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
