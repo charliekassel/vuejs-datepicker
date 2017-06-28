@@ -160,6 +160,8 @@ var state = {
 
 #### Translations
 
+Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
+
 ``` html
 <datepicker language="es"></datepicker>
 ```
