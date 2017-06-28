@@ -316,7 +316,7 @@ export default {
     },
     /**
      * Effectively a toggle to show/hide the calendar
-     * @return {[type]} [description]
+     * @return {mixed} [description]
      */
     showCalendar () {
       if (this.isInline) {
