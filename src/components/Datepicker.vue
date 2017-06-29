@@ -356,6 +356,7 @@ export default {
 
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
+      this.selectedDate.setHours(0, -(this.selectedDate.getTimezoneOffset()), 0)
       this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
       this.$emit('input', new Date(timestamp))
