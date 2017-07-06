@@ -301,8 +301,10 @@ export default {
      */
     close () {
       this.showDayView = this.showMonthView = this.showYearView = false
-      this.$emit('closed')
-      document.removeEventListener('click', this.clickOutside, false)
+      if (!this.isInline) {
+        this.$emit('closed')
+        document.removeEventListener('click', this.clickOutside, false)
+      }
     },
     getDefaultDate () {
       return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
@@ -340,18 +342,24 @@ export default {
     showDayCalendar () {
       this.close()
       this.showDayView = true
-      this.$emit('opened')
-      document.addEventListener('click', this.clickOutside, false)
+      if (!this.isInline) {
+        this.$emit('opened')
+        document.addEventListener('click', this.clickOutside, false)
+      }
     },
     showMonthCalendar () {
       this.close()
       this.showMonthView = true
-      document.addEventListener('click', this.clickOutside, false)
+      if (!this.isInline) {
+        document.addEventListener('click', this.clickOutside, false)
+      }
     },
     showYearCalendar () {
       this.close()
       this.showYearView = true
-      document.addEventListener('click', this.clickOutside, false)
+      if (!this.isInline) {
+        document.addEventListener('click', this.clickOutside, false)
+      }
     },
 
     setDate (timestamp) {
