@@ -739,6 +739,7 @@ export default {
 
     /**
      * Set the datepicker value
+     * Added a fix that hopefully should work to fix issue #158
      * @param {Date|String|null} date
      */
     setValue (date) {
@@ -753,6 +754,7 @@ export default {
         return
       }
       this.selectedDate = date
+      this.selectedDate.setHours(0, -(this.selectedDate.getTimezoneOffset()), 0)
       this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
     },
 
