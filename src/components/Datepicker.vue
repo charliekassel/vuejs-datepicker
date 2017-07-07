@@ -18,7 +18,7 @@
     </div>
 
         <!-- Day View -->
-        <div class="vdp-datepicker__calendar" v-show="showDayView" v-bind:style="calendarStyle">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousMonth"
@@ -40,7 +40,7 @@
         </div>
 
         <!-- Month View -->
-        <div class="vdp-datepicker__calendar" v-show="showMonthView" v-bind:style="calendarStyle">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousYear"
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Year View -->
-        <div class="vdp-datepicker__calendar" v-show="showYearView" v-bind:style="calendarStyle">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(currDate) }">&lt;</span>
@@ -114,6 +114,9 @@ export default {
     },
     inline: {
       type: Boolean
+    },
+    calendarClass: {
+      type: [String, Object]
     },
     inputClass: {
       type: [String, Object]
