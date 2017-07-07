@@ -307,14 +307,14 @@ export default {
       }
     },
     getDefaultDate () {
-      return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
+      return new Date().getTime() // new Date().getFullYear(), new Date().getMonth(), 1).getTime()
     },
     resetDefaultDate () {
       if (this.selectedDate === null) {
         this.currDate = this.getDefaultDate()
         return
       }
-      this.currDate = this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
+      this.currDate = new Date(this.selectedDate).getTime() // .getFullYear(), this.selectedDate.getMonth(), 1).getTime()
     },
     /**
      * Effectively a toggle to show/hide the calendar
@@ -364,7 +364,7 @@ export default {
 
     setDate (timestamp) {
       this.selectedDate = new Date(timestamp)
-      this.currDate = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1).getTime()
+      this.currDate = new Date(this.selectedDate).getTime() // .getFullYear(), this.selectedDate.getMonth(), 1).getTime()
       this.$emit('selected', new Date(timestamp))
       this.$emit('input', new Date(timestamp))
     },
@@ -744,13 +744,13 @@ export default {
         date = isNaN(parsed.valueOf()) ? null : parsed
       }
       if (!date) {
-        const d = new Date()
-        this.currDate = new Date(d.getFullYear(), d.getMonth(), 1).getTime()
+        // const d = new Date()
+        this.currDate = new Date().getTime() // d.getFullYear(), d.getMonth(), 1).getTime()
         this.selectedDate = null
         return
       }
       this.selectedDate = date
-      this.currDate = new Date(date.getFullYear(), date.getMonth(), 1).getTime()
+      this.currDate = new Date().getTime() // date.getFullYear(), date.getMonth(), 1).getTime()
     },
 
     /**
