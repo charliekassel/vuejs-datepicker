@@ -49,10 +49,10 @@ describe('Datepicker: mounted component', () => {
     const now = new Date()
     vm.setValue()
     expect(vm.selectedDate).to.equal(null)
-    const currDate = new Date(vm.currDate)
-    expect(currDate.getYear()).to.equal(now.getYear())
-    expect(currDate.getMonth()).to.equal(now.getMonth())
-    expect(currDate.getDate()).to.equal(1)
+    const pageDate = new Date(vm.pageDate)
+    expect(pageDate.getYear()).to.equal(now.getYear())
+    expect(pageDate.getMonth()).to.equal(now.getMonth())
+    expect(pageDate.getDate()).to.equal(1)
   })
 
   it('knows the selected year', () => {
@@ -106,21 +106,17 @@ describe('Datepicker.vue', () => {
     })
   })
 
-  it('should render correct contents', async () => {
-    await vm.$nextTick(() => {
-      expect(vm.$el.querySelectorAll('.vdp-datepicker').length).to.equal(1)
-      expect(vm.$el.querySelectorAll('input').length).to.equal(1)
-    })
+  it('should render correct contents', () => {
+    expect(vm.$el.querySelectorAll('input').length).to.equal(1)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(3)
   })
 
-  it('should set currdate to be now', async () => {
-    await vm.$nextTick(() => {
-      const data = Datepicker.data()
-      const d = new Date(data.currDate)
-      expect(d.getFullYear()).to.equal(new Date().getFullYear())
-      expect(d.getMonth()).to.equal(new Date().getMonth())
-      expect(d.getDate()).to.equal(1)
-    })
+  it('should set pageDate to be now', () => {
+    const data = Datepicker.data()
+    const d = new Date(data.pageDate)
+    expect(d.getFullYear()).to.equal(new Date().getFullYear())
+    expect(d.getMonth()).to.equal(new Date().getMonth())
+    expect(d.getDate()).to.equal(1)
   })
 
   it('should open and close the calendar', () => {
@@ -146,21 +142,21 @@ describe('Datepicker.vue', () => {
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
     vm.selectDate({timestamp: date.getTime()})
-    expect(vm.currDate).to.equal(date.getTime())
+    expect(vm.pageDate).to.equal(date.getTime())
     expect(vm.showDayView).to.equal(false)
   })
 
   it('can select a month', () => {
     const date = new Date(2016, 9, 9)
     vm.selectMonth({timestamp: date.getTime()})
-    expect(vm.currDate).to.equal(date.getTime())
+    expect(vm.getPageMonth()).to.equal(9)
     expect(vm.showDayView).to.equal(true)
   })
 
   it('can select a year', () => {
     const date = new Date(2016, 9, 9)
     vm.selectYear({timestamp: date.getTime()})
-    expect(vm.currDate).to.equal(date.getTime())
+    expect(vm.getPageYear()).to.equal(2016)
     expect(vm.showMonthView).to.equal(true)
   })
 
@@ -168,61 +164,68 @@ describe('Datepicker.vue', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.nextMonth()
-    expect(vm.getMonth()).to.equal(10)
+    expect(vm.getPageMonth()).to.equal(10)
   })
 
   it('can set the next month correctly on the last day of a 31 day month', () => {
     const date = new Date(2017, 4, 31)
+    expect(date.getMonth()).to.equal(4)
     vm.selectDate({timestamp: date.getTime()})
-    // when click document to close the modal will run resetDefaultDate();
-    vm.resetDefaultDate()
+    expect(vm.getPageMonth()).to.equal(4)
+    expect(vm.getPageDate()).to.equal(1)
     vm.nextMonth()
-    expect(vm.getMonth()).to.equal(5)
+    expect(vm.getPageMonth()).to.equal(5)
   })
 
   it('can set the previous month', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.previousMonth()
-    expect(vm.getMonth()).to.equal(8)
+    expect(vm.getPageMonth()).to.equal(8)
     vm.previousMonth()
-    expect(vm.getMonth()).to.equal(7)
+    expect(vm.getPageMonth()).to.equal(7)
   })
 
   it('can set the next year', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.nextYear()
-    expect(vm.getYear()).to.equal(2017)
+    expect(vm.getPageYear()).to.equal(2017)
   })
 
   it('can set the previous year', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.previousYear()
-    expect(vm.getYear()).to.equal(2015)
+    expect(vm.getPageYear()).to.equal(2015)
   })
 
   it('can set the next decade', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.nextDecade()
-    expect(vm.getDecade()).to.equal('2020\'s')
+    expect(vm.getPageDecade()).to.equal('2020\'s')
   })
 
   it('can set the previous decade', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.previousDecade()
-    expect(vm.getDecade()).to.equal('2000\'s')
+    expect(vm.getPageDecade()).to.equal('2000\'s')
   })
 
-  it('sets the default date to the first of the month', () => {
+  it('should reset to default date', () => {
+    const date = new Date(2016, 9, 9)
+    vm.selectDate({timestamp: date.getTime()})
+    expect(vm.getPageMonth()).to.equal(9)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(10)
+    vm.resetDefaultDate()
+    expect(vm.getPageMonth()).to.equal(9)
     vm.clearDate()
     vm.resetDefaultDate()
-    expect(vm.selectedDate).to.be.null
-    const defaultDate = new Date(vm.getDefaultDate())
-    expect(defaultDate.getDate()).to.equal(1)
+    expect(vm.getPageYear()).to.equal(new Date().getFullYear())
+    expect(vm.getPageMonth()).to.equal(new Date().getMonth())
   })
 })
 
@@ -315,21 +318,6 @@ describe('Datepicker disabled dates', () => {
 })
 
 describe('Datepicker has disabled dates but can change dates', () => {
-  // beforeEach(() => {
-  //   vm = new Vue({
-  //     template: '<div><datepicker :inline="true" :disabled="disabled" :value="value" v-ref:component></datepicker></div>',
-  //     components: { Datepicker },
-  //     data () {
-  //       return {
-  //         disabled: {
-  //           to: new Date(2016, 8, 5),
-  //           from: new Date(2016, 10, 25)
-  //         }
-  //       }
-  //     }
-  //   }).$mount()
-  // })
-
   it('cant change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
@@ -339,7 +327,7 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.getMonth()).to.equal(9)
+    expect(vm.getPageMonth()).to.equal(9)
     expect(vm.previousMonth()).to.not.equal(false)
     expect(vm.nextMonth()).to.not.equal(false)
   })
@@ -486,12 +474,12 @@ describe('Datepicker with monday as first day of week', () => {
   })
 
   it('should have 6 blankDays when month starts from Sunday', () => {
-    vm.currDate = new Date(2016, 4, 1).getTime()
+    vm.pageDate = new Date(2016, 4, 1).getTime()
     expect(vm.blankDays).to.equal(6)
   })
 
   it('should have no blankDays when month starts from Monday', () => {
-    vm.currDate = new Date(2017, 4, 1).getTime()
+    vm.pageDate = new Date(2017, 4, 1).getTime()
     expect(vm.blankDays).to.equal(0)
   })
 })

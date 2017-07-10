@@ -65,38 +65,13 @@ export default {
   },
 
   /**
-   * Returns a UTC date with timezone information removed
-   * @param {Date} date
-   * @return {Date}
-   */
-  convertToUTC (date) {
-    return new Date(date.getTime() + (date.getTimezoneOffset() * 60000))
-  },
-
-  /**
-   * Return the number of days in the month
+   * Alternative get total number of days in month
    * @param {Number} year
-   * @param {Number} month - month here is equal to getMonth() i.e index based
+   * @param {Number} m
    * @return {Number}
    */
   daysInMonth (year, month) {
-    return new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
-  },
-
-  /**
-   * Returns number of days between two dates
-   * @param {Date} start
-   * @param {Date} end
-   * @return {Number}
-   */
-  dayDiff (start, end) {
-    const MS_PER_DAY = 1000 * 60 * 60 * 24
-
-    // Discard the time and time-zone information.
-    let utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())
-    let utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate())
-
-    return Math.floor((utc2 - utc1) / MS_PER_DAY)
+    return /8|3|5|10/.test(month) ? 30 : month === 1 ? (!(year % 4) && year % 100) || !(year % 400) ? 29 : 28 : 31
   },
 
   /**
