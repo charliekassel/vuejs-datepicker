@@ -103,6 +103,10 @@ export default {
       value: String,
       default: 'en'
     },
+    fullMonthName: {
+      value: Boolean,
+      default: false
+    },
     disabled: {
       type: Object
     },
@@ -204,7 +208,7 @@ export default {
     },
     currMonthName () {
       const d = new Date(this.pageDate)
-      return DateUtils.getMonthNameAbbr(d.getMonth(), this.translation.months.abbr)
+      return DateUtils.getMonthNameAbbr(d.getMonth(), this.fullMonthName ? this.translation.months.original : this.translation.months.abbr)
     },
     currYear () {
       const d = new Date(this.pageDate)
