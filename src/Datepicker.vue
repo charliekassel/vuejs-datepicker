@@ -8,6 +8,7 @@
         :name="name"
         :id="id"
         @focus="showCalendar"
+        @blur="onBlur"
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
@@ -303,6 +304,12 @@ export default {
       this.showDayView = this.showMonthView = this.showYearView = false
       this.$emit('closed')
       document.removeEventListener('click', this.clickOutside, false)
+    },
+    onBlur (e) {
+      // Only close the calendar on blur if we're losing focus by focussing on an other field.
+      if (e.relatedTarget) {
+        this.close()
+      }
     },
     getDefaultDate () {
       return new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime()
