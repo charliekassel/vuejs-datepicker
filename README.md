@@ -64,6 +64,7 @@ Inline always open version
 | name                  | String        |             | Input name property                      |
 | id                    | String        |             | Input id                                 |
 | format                | String        | dd MMM yyyy | Date formatting string                   |
+| full-month-name       | Boolean       | false       | To show the full month name              |
 | language              | String        | en          | Translation for days and months          |
 | disabled              | Object        |             | See below for configuration              |
 | placeholder           | String        |             | Input placeholder text                   |
