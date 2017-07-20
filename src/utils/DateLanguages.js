@@ -208,7 +208,7 @@ export default {
       },
       'days': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
     },
-    'se': {
+    'sv': {
       'language': 'Swedish',
       'months': {
         'original': ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
