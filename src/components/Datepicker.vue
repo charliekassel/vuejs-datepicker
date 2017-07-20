@@ -35,7 +35,7 @@
             --><span class="cell day"
                 v-for="day in days"
                 track-by="timestamp"
-                v-bind:class="{ 'selected':day.isSelected, 'disabled':day.isDisabled, 'highlighted': day.isHighlighted, 'today': day.isToday}"
+                v-bind:class="dayClasses(day)"
                 @click="selectDate(day)">{{ day.date }}</span>
         </div>
 
@@ -248,7 +248,10 @@ export default {
           isSelected: this.isSelectedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
-          isToday: dObj.toDateString() === (new Date()).toDateString()
+          isToday: dObj.toDateString() === (new Date()).toDateString(),
+          isWeekend: dObj.getDay() === 0 || dObj.getDay() === 6,
+          isSaturday: dObj.getDay() === 6,
+          isSunday: dObj.getDay() === 0
         })
         dObj.setDate(dObj.getDate() + 1)
       }
@@ -785,6 +788,18 @@ export default {
         this.resetDefaultDate()
         this.close()
         document.removeEventListener('click', this.clickOutside, false)
+      }
+    },
+
+    dayClasses (day) {
+      return {
+        'selected': day.isSelected,
+        'disabled': day.isDisabled,
+        'highlighted': day.isHighlighted,
+        'today': day.isToday,
+        'weekend': day.isWeekend,
+        'sat': day.isSaturday,
+        'sun': day.isSunday
       }
     },
 
