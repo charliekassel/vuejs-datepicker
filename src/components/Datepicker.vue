@@ -334,6 +334,9 @@ export default {
       if (this.isOpen) {
         return this.close()
       }
+      this.setInitialView()
+    },
+    setInitialView () {
       switch (this.initialView) {
         case 'year':
           this.showYearCalendar()
@@ -808,7 +811,7 @@ export default {
         this.setValue(this.value)
       }
       if (this.isInline) {
-        this.showDayCalendar()
+        this.setInitialView()
       }
     }
   },
