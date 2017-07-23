@@ -186,6 +186,7 @@ Available languages
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
 | id          | Indonesian       |          |
+| ir          | Persian (Farsi)  |          |
 | is          | Icelandic        |          |
 | it          | Italian          |          |
 | ja          | Japanese         |          |
