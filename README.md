@@ -180,13 +180,13 @@ Available languages
 | ee          | Estonian         |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
+| fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
 | he          | Hebrew           |          |
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
 | id          | Indonesian       |          |
-| ir          | Persian (Farsi)  |          |
 | is          | Icelandic        |          |
 | it          | Italian          |          |
 | ja          | Japanese         |          |
