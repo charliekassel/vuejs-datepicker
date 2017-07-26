@@ -96,6 +96,14 @@ describe('Datepicker: mounted component', () => {
     vm.clearDate()
     expect(vm.selectedDate).to.equal(null)
   })
+
+  it('delegates date formating', () => {
+    const vm = getViewModel(Datepicker, {
+      value: new Date(2016, 1, 15),
+      format: () => '2016/1/15'
+    })
+    expect(vm.formattedValue).to.equal('2016/1/15')
+  })
 })
 
 describe('Datepicker.vue', () => {
