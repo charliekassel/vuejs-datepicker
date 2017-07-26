@@ -180,6 +180,7 @@ Available languages
 | ee          | Estonian         |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
+| fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
 | he          | Hebrew           |          |
