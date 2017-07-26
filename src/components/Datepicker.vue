@@ -96,7 +96,7 @@ export default {
       value: String
     },
     format: {
-      value: String,
+      value: [String, Function],
       default: 'dd MMM yyyy'
     },
     language: {
@@ -201,7 +201,10 @@ export default {
       if (!this.selectedDate) {
         return null
       }
-      return DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+
+      return typeof this.format === 'function'
+        ? this.format(this.selectedDate)
+        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
     },
     translation () {
       return DateLanguages.translations[this.language]
