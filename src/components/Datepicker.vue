@@ -40,7 +40,8 @@
         </div>
 
         <!-- Month View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView && !dayViewOnly"
+             v-bind:style="calendarStyle">
             <header>
                 <span
                     @click="previousYear"
@@ -60,7 +61,8 @@
         </div>
 
         <!-- Year View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView && !dayViewOnly"
+             v-bind:style="calendarStyle">
             <header>
                 <span @click="previousDecade" class="prev"
                     v-bind:class="{ 'disabled' : previousDecadeDisabled(pageDate) }">&lt;</span>
@@ -161,6 +163,10 @@ export default {
       default: false
     },
     required: {
+      type: Boolean,
+      default: false
+    },
+    dayViewOnly: {
       type: Boolean,
       default: false
     }
@@ -361,6 +367,7 @@ export default {
       }
     },
     showMonthCalendar () {
+      if (this.dayViewOnly) return false
       this.close()
       this.showMonthView = true
       if (!this.isInline) {
