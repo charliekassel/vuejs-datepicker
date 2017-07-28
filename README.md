@@ -81,6 +81,7 @@ Inline always open version
 | initial-view          | String        | 'day'       | If 'month' or 'year', open on that view  |
 | disabled-picker       | Boolean       | false       | If true, disable Datepicker on screen    |
 | required              | Boolean       | false       | Sets html required attribute on input    |
+| day-view-only         | Boolean       | false       | If true, month and year views won't show |
 
 ## Events
 
