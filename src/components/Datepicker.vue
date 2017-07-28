@@ -24,7 +24,8 @@
                     @click="previousMonth"
                     class="prev"
                     v-bind:class="{ 'disabled' : previousMonthDisabled(pageDate) }">&lt;</span>
-                <span @click="showMonthCalendar" class="up">{{ currMonthName }} {{ currYear }}</span>
+                <span @click="showMonthCalendar" :class="!dayViewOnly ? 'up' : ''">{{ currMonthName }} {{ currYear }}
+                </span>
                 <span
                     @click="nextMonth"
                     class="next"
