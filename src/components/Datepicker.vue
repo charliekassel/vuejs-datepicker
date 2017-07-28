@@ -41,7 +41,8 @@
         </div>
 
         <!-- Month View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView && !dayViewOnly"
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView"
+             v-if="!dayViewOnly"
              v-bind:style="calendarStyle">
             <header>
                 <span
@@ -62,7 +63,8 @@
         </div>
 
         <!-- Year View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView && !dayViewOnly"
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView"
+             v-if="!dayViewOnly"
              v-bind:style="calendarStyle">
             <header>
                 <span @click="previousDecade" class="prev"
