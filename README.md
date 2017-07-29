@@ -176,6 +176,7 @@ Available languages
 | da          | Danish           |          |
 | de          | German           |          |
 | ee          | Estonian         |          |
+| el          | Greek            |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
 | fi          | Finnish          |          |
