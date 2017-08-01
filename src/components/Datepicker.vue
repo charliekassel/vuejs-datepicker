@@ -9,6 +9,7 @@
         :id="id"
         @click="showCalendar"
         :value="formattedValue"
+        :open-date="openDate"
         :placeholder="placeholder"
         :clear-button="clearButton"
         :disabled="disabledPicker"
@@ -113,6 +114,11 @@ export default {
     highlighted: {
       type: Object
     },
+    openDate: {
+      validator: function (val) {
+        return val === null || val instanceof Date || typeof val === 'string'
+      }
+    },
     placeholder: {
       type: String
     },
@@ -166,13 +172,17 @@ export default {
     }
   },
   data () {
+    var startDate = new Date()
+    if (this.openDate) {
+      startDate = new Date(this.openDate)
+    }
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1, new Date().getHours(), new Date().getMinutes()).getTime(),
+      pageDate: new Date(startDate.getFullYear(), startDate.getMonth(), 1, startDate.getHours(), startDate.getMinutes()).getTime(),
       /*
        * Selected Date
        * {Date}
@@ -194,6 +204,9 @@ export default {
   watch: {
     value (value) {
       this.setValue(value)
+    },
+    openDate () {
+      this.setPageDate()
     }
   },
   computed: {
@@ -777,7 +790,11 @@ export default {
 
     setPageDate (date) {
       if (!date) {
-        date = new Date()
+        if (this.openDate) {
+          date = new Date(this.openDate)
+        } else {
+          date = new Date()
+        }
       }
       this.pageDate = new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes()).getTime()
     },

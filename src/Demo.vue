@@ -63,6 +63,22 @@
     </div>
 
     <div class="example">
+      <h3>With default open date</h3>
+      <datepicker :open-date="openDate"></datepicker>
+      <code>
+        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Open date:</label>
+          <datepicker v-model="openDate"></datepicker>
+        </div>
+        <pre>openDate: {{ openDate }}</pre>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>Translations</h3>
       <h5>{{ languages[language].language }} datepicker</h5>
 
@@ -106,6 +122,7 @@ export default {
     return {
       format: 'd MMMM yyyy',
       disabled: {},
+      openDate: null,
       eventMsg: null,
       state: state,
       language: 'en',
