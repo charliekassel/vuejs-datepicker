@@ -524,3 +524,31 @@ describe('Datepicker with initial-view', () => {
     expect(vm.showYearView).to.equal(true)
   })
 })
+
+describe('Datepicker with open date', () => {
+  beforeEach(() => {
+    const openDate = new Date(2016, 9, 12).getTime()
+    vm = getViewModel(Datepicker, {
+      openDate: openDate
+    })
+  })
+
+  it('should be set to november', () => {
+    expect(vm.getPageMonth()).to.equal(9)
+    expect(vm.getPageYear()).to.equal(2016)
+  })
+
+  it('should open with selected date if one is set', () => {
+    const newDate = new Date(2018, 10, 9)
+    vm.selectDate({timestamp: newDate.getTime()})
+    expect(vm.getPageMonth()).to.equal(10)
+    expect(vm.getPageYear()).to.equal(2018)
+  })
+
+  it('should show today\'s date if no open date is set', () => {
+    vm = getViewModel(Datepicker, {})
+    const today = new Date()
+    expect(vm.getPageMonth()).to.equal(today.getMonth())
+    expect(vm.getPageYear()).to.equal(today.getFullYear())
+  })
+})
