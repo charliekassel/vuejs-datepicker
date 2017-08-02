@@ -89,7 +89,7 @@ describe('Datepicker: mounted component', () => {
     expect(vm.formattedValue).to.equal('2016-10-09')
   })
 
-  it('cleares the date', () => {
+  it('clears the date', () => {
     const date = new Date(2016, 9, 9)
     const vm = getViewModel(Datepicker)
     vm.setDate(date.getTime())
@@ -97,7 +97,7 @@ describe('Datepicker: mounted component', () => {
     expect(vm.selectedDate).to.equal(null)
   })
 
-  it('delegates date formating', () => {
+  it('delegates date formatting', () => {
     const vm = getViewModel(Datepicker, {
       value: new Date(2016, 1, 15),
       format: () => '2016/1/15'
@@ -270,7 +270,7 @@ describe('Datepicker.vue inline', () => {
     expect(vm.isInline).to.equal(true)
   })
 
-  it('should not close the caledar when date is selected', () => {
+  it('should not close the calendar when date is selected', () => {
     const date = new Date()
     vm.selectDate({timestamp: date.getTime()})
     expect(vm.isOpen).to.equal(true)
@@ -309,24 +309,24 @@ describe('Datepicker disabled dates', () => {
     expect(vm.selectYear({isDisabled: true})).to.equal(false)
   })
 
-  it('cant\'t change to a disabled month', () => {
+  it('can\'t change to a disabled month', () => {
     expect(vm.previousMonth()).to.equal(false)
     expect(vm.nextMonth()).to.equal(false)
   })
 
-  it('cant\'t change to a disabled year', () => {
+  it('can\'t change to a disabled year', () => {
     expect(vm.previousYear()).to.equal(false)
     expect(vm.nextYear()).to.equal(false)
   })
 
-  it('cant\'t change to a disabled decade', () => {
+  it('can\'t change to a disabled decade', () => {
     expect(vm.previousDecade()).to.equal(false)
     expect(vm.nextDecade()).to.equal(false)
   })
 })
 
 describe('Datepicker has disabled dates but can change dates', () => {
-  it('cant change month despite having a disabled month', () => {
+  it('can\'t change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2016, 8, 5),
@@ -340,7 +340,7 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.nextMonth()).to.not.equal(false)
   })
 
-  it('cant change year despite having a disabled year', () => {
+  it('can\'t change year despite having a disabled year', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2015, 8, 5),
@@ -353,7 +353,7 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.nextYear()).to.not.equal(false)
   })
 
-  it('cant change decade previous or next decades are disabled', () => {
+  it('can\'t change decade previous or next decades are disabled', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2010, 8, 6),
