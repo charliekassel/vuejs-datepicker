@@ -335,7 +335,7 @@ export default {
      */
     showCalendar () {
       if (this.disabledPicker) {
-        return false;
+        return false
       }
       if (this.isInline) {
         return false
