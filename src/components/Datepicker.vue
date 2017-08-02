@@ -331,6 +331,9 @@ export default {
      * @return {mixed} [description]
      */
     showCalendar () {
+      if (this.disabledPicker) {
+        return false;
+      }
       if (this.isInline) {
         return false
       }
