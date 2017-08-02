@@ -194,6 +194,9 @@ export default {
   watch: {
     value (value) {
       this.setValue(value)
+    },
+    initialView () {
+      this.setInitialView()
     }
   },
   computed: {
