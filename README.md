@@ -100,7 +100,7 @@ These events are emitted on actions in the datepicker
 
 ## Date formatting
 
-##### String formatter
+#### String formatter
 
 NB. This is not very robust at all - use at your own risk! Needs a better implementation.
 
@@ -117,7 +117,7 @@ NB. This is not very robust at all - use at your own risk! Needs a better implem
 | yy    | two digit year         | 16          |
 | yyyy  | four digit year        | 2016        |
 
-##### Function formatter
+#### Function formatter
 
 Delegates date formatting to provided function.
 Function will be called with date and it has to return formated date as a string.
@@ -134,7 +134,7 @@ This allow us to use moment, date-fns, globalize or any other library to format 
 <datepicker :format="customFormatter"></datepicker>
 ```
 
-#### Disabled Dates
+## Disabled Dates
 Dates can disabled in a number of ways.
 
 ``` html
@@ -155,7 +155,7 @@ var state = {
 <datepicker :disabled="state.disabled"></datepicker>
 ```
 
-#### Highlight Dates
+## Highlight Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
 Note: Both `to` and `from` properties are require to define a range of dates to highlight
 
@@ -178,7 +178,7 @@ var state = {
 ```
 
 
-#### Translations
+## Translations
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
