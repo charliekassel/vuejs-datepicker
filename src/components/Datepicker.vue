@@ -1,5 +1,5 @@
 <template>
-  <div class="vdp-datepicker" :class="wrapperClass">
+  <div @click="showCalendar" ref="wrapperDiv" class="vdp-datepicker" :class="wrapperClass">
     <div :class="{'input-group' : bootstrapStyling}">
       <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
       <input
@@ -161,6 +161,10 @@ export default {
       default: false
     },
     required: {
+      type: Boolean,
+      default: false
+    },
+    wrapperDivClickable: {
       type: Boolean,
       default: false
     }
@@ -333,7 +337,10 @@ export default {
      * Effectively a toggle to show/hide the calendar
      * @return {mixed} [description]
      */
-    showCalendar () {
+    showCalendar (clickEvent) {
+      if (this.$refs.wrapperDiv === clickEvent.target && !this.wrapperDivClickable || this.$refs.wrapperDiv !== clickEvent.target && this.wrapperDivClickable) {
+        return false
+      }
       if (this.disabledPicker) {
         return false
       }
