@@ -94,45 +94,27 @@ export default {
         return val === null || val instanceof Date || typeof val === 'string'
       }
     },
-    name: {
-      value: String
-    },
-    id: {
-      value: String
-    },
+    name: String,
+    id: String,
     format: {
-      value: [String, Function],
+      type: [String, Function],
       default: 'dd MMM yyyy'
     },
     language: {
-      value: String,
+      type: String,
       default: 'en'
     },
     fullMonthName: {
-      value: Boolean,
+      type: Boolean,
       default: false
     },
-    disabled: {
-      type: Object
-    },
-    highlighted: {
-      type: Object
-    },
-    placeholder: {
-      type: String
-    },
-    inline: {
-      type: Boolean
-    },
-    calendarClass: {
-      type: [String, Object]
-    },
-    inputClass: {
-      type: [String, Object]
-    },
-    wrapperClass: {
-      type: [String, Object]
-    },
+    disabled: Object,
+    highlighted: Object,
+    placeholder: String,
+    inline: Boolean,
+    calendarClass: [String, Object],
+    inputClass: [String, Object],
+    wrapperClass: [String, Object],
     mondayFirst: {
       type: Boolean,
       default: false
