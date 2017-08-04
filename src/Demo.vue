@@ -86,6 +86,14 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>Day view only</h3>
+      <datepicker :day-view-only="true"></datepicker>
+      <code>
+        &lt;datepicker :day-view-only="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
   </div>
 </template>
 

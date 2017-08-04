@@ -524,3 +524,35 @@ describe('Datepicker with initial-view', () => {
     expect(vm.showYearView).to.equal(true)
   })
 })
+
+describe('Datepicker with day-view-only', () => {
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      dayViewOnly: true
+    })
+    vm.showCalendar()
+  })
+
+  it('should open in Day view', () => {
+    expect(vm.initialView).to.equal('day')
+    expect(vm.showDayView).to.equal(true)
+    expect(vm.showMonthView).to.equal(false)
+    expect(vm.showYearView).to.equal(false)
+  })
+
+  it('should return false on showMonthCalendar', () => {
+    let func = vm.showMonthCalendar()
+    expect(func).to.equal(false)
+  })
+
+  it('should not open month view on showMonthCalendar', () => {
+    vm.showMonthCalendar()
+    expect(vm.showMonthView).to.equal(false)
+  })
+
+  it('should not render month and year views', () => {
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(1)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.month').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.equal(0)
+  })
+})
