@@ -777,7 +777,7 @@ export default {
       if (!date) {
         date = new Date()
       }
-      this.pageDate = new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes()).getTime()
+      this.pageDate = (new Date(date)).setDate(1)
     },
 
     /**
