@@ -163,7 +163,7 @@ export default {
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1, new Date().getHours(), new Date().getMinutes()).getTime(),
+      pageDate: (new Date()).setDate(1),
       /*
        * Selected Date
        * {Date}
