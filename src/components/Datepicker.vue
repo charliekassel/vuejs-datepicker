@@ -476,13 +476,9 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (
-        this.disabled.to.getMonth() >= d.getMonth() &&
+
+      return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
-      ) {
-        return true
-      }
-      return false
     },
 
     nextMonth () {
@@ -500,13 +496,8 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (
-        this.disabled.from.getMonth() <= d.getMonth() &&
+      return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
-      ) {
-        return true
-      }
-      return false
     },
 
     previousYear () {
@@ -524,10 +515,7 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (this.disabled.to.getFullYear() >= d.getFullYear()) {
-        return true
-      }
-      return false
+      return this.disabled.to.getFullYear() >= d.getFullYear()
     },
 
     nextYear () {
@@ -545,10 +533,7 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (this.disabled.from.getFullYear() <= d.getFullYear()) {
-        return true
-      }
-      return false
+      return this.disabled.from.getFullYear() <= d.getFullYear()
     },
 
     previousDecade () {
@@ -566,10 +551,7 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10) {
-        return true
-      }
-      return false
+      return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10
     },
 
     nextDecade () {
@@ -587,10 +569,7 @@ export default {
         return false
       }
       let d = new Date(this.pageDate)
-      if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10) {
-        return true
-      }
-      return false
+      return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10
     },
 
     /**
