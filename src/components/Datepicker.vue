@@ -480,9 +480,10 @@ export default {
     },
 
     previousMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to || typeof this.disabled.except === 'undefined' || typeof this.disabled.except.to === 'undefined' || !this.disabled.except.to) {
         return false
       }
+
       let d = new Date(this.pageDate)
       if (
         this.disabled.to.getMonth() >= d.getMonth() &&
@@ -504,7 +505,7 @@ export default {
     },
 
     nextMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from || typeof this.disabled.except === 'undefined' || typeof this.disabled.except.from === 'undefined' || !this.disabled.except.from) {
         return false
       }
       let d = new Date(this.pageDate)
@@ -617,27 +618,60 @@ export default {
      */
     isDisabledDate (date) {
       let disabled = false
+      date.setHours(0, 0, 0, 0)
 
       if (typeof this.disabled === 'undefined') {
         return false
       }
 
-      if (typeof this.disabled.dates !== 'undefined') {
-        this.disabled.dates.forEach((d) => {
-          if (date.toDateString() === d.toDateString()) {
-            disabled = true
-            return true
+      if (this.disabled.except) {
+        disabled = true
+
+        if (typeof this.disabled.except.dates !== 'undefined') {
+          this.disabled.except.dates.forEach((d) => {
+            if (date.toDateString() === d.toDateString()) {
+              disabled = false
+              return false
+            }
+          })
+        }
+
+        if (this.disabled.except.from && this.disabled.except.to) {
+          if (date > this.disabled.except.from && date < this.disabled.except.to) {
+            disabled = false
           }
-        })
-      }
-      if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
-        disabled = true
-      }
-      if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
-        disabled = true
-      }
-      if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
-        disabled = true
+        } else if (this.disabled.except.from && date > this.disabled.except.from) {
+          disabled = false
+        } else if (this.disabled.except.to && date < this.disabled.except.to) {
+          disabled = false
+        }
+
+        if (typeof this.disabled.except.days !== 'undefined' && this.disabled.except.days.indexOf(date.getDay()) !== -1) {
+          disabled = false
+        }
+      } else {
+        if (typeof this.disabled.dates !== 'undefined') {
+          this.disabled.dates.forEach((d) => {
+            if (date.toDateString() === d.toDateString()) {
+              disabled = true
+              return true
+            }
+          })
+        }
+
+        if (this.disabled.from && this.disabled.to) {
+          if (date > this.disabled.from && date < this.disabled.to) {
+            disabled = true
+          }
+        } else if (this.disabled.from && date < this.disabled.from) {
+          disabled = true
+        } else if (this.disabled.to && date > this.disabled.to) {
+          disabled = true
+        }
+
+        if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
+          disabled = true
+        }
       }
       return disabled
     },

@@ -279,12 +279,32 @@ describe('Datepicker.vue inline', () => {
   })
 })
 
+describe('Datepicker disabled dates except...', () => {
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        except: {
+          from: new Date(2017, 7, 4),
+          to: new Date(2017, 7, 26)
+        }
+      }
+    })
+    vm.setDate(new Date(2017, 9, 15))
+  })
+
+  it('should detect a disabled date', () => {
+    expect(vm.isDisabledDate(new Date(2017, 7, 6))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2017, 7, 25))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2017, 7, 29))).to.equal(true)
+  })
+})
+
 describe('Datepicker disabled dates', () => {
   beforeEach(() => {
     vm = getViewModel(Datepicker, {
       disabled: {
-        to: new Date(2016, 9, 4),
-        from: new Date(2016, 9, 26)
+        from: new Date(2016, 9, 4),
+        to: new Date(2016, 9, 26)
       }
     })
     vm.setDate(new Date(2016, 9, 15))
@@ -299,8 +319,9 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('should detect a disabled date', () => {
-    expect(vm.isDisabledDate(new Date(2006, 9, 2))).to.equal(true)
-    expect(vm.isDisabledDate(new Date(2026, 9, 2))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2006, 9, 2))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2026, 9, 2))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2016, 9, 6))).to.equal(true)
   })
 
   it('should not select a disabled date', () => {
@@ -310,8 +331,8 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled month', () => {
-    expect(vm.previousMonth()).to.equal(false)
-    expect(vm.nextMonth()).to.equal(false)
+    expect(vm.previousMonth()).to.equal(undefined)
+    expect(vm.nextMonth()).to.equal(undefined)
   })
 
   it('can\'t change to a disabled year', () => {
