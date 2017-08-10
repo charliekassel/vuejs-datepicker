@@ -1,5 +1,5 @@
 <template>
-  <div class="vdp-datepicker" :class="wrapperClass">
+  <div class="vdp-datepicker" :class="['wrapperClass',isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
       <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
       <input
@@ -21,23 +21,25 @@
         <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span
-                    @click="previousMonth"
+                    @click="isRtl ? nextMonth() : previousMonth()"
                     class="prev"
-                    v-bind:class="{ 'disabled' : previousMonthDisabled(pageDate) }">&lt;</span>
+                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageDate) : previousMonthDisabled(pageDate) }">&lt;</span>
                 <span @click="showMonthCalendar" :class="!dayViewOnly ? 'up' : ''">{{ currMonthName }} {{ currYear }}
                 </span>
                 <span
-                    @click="nextMonth"
+                    @click="isRtl ? previousMonth() : nextMonth()"
                     class="next"
-                    v-bind:class="{ 'disabled' : nextMonthDisabled(pageDate) }">&gt;</span>
+                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageDate) : nextMonthDisabled(pageDate) }">&gt;</span>
             </header>
-            <span class="cell day-header" v-for="d in daysOfWeek">{{ d }}</span>
-            <span class="cell day blank" v-for="d in blankDays"></span><!--
-            --><span class="cell day"
-                v-for="day in days"
-                track-by="timestamp"
-                v-bind:class="dayClasses(day)"
-                @click="selectDate(day)">{{ day.date }}</span>
+            <div :class="isRtl ? 'flex-rtl' : ''">
+              <span class="cell day-header" v-for="d in daysOfWeek">{{ d }}</span>
+              <span class="cell day blank" v-for="d in blankDays"></span><!--
+              --><span class="cell day"
+                  v-for="day in days"
+                  track-by="timestamp"
+                  v-bind:class="dayClasses(day)"
+                  @click="selectDate(day)">{{ day.date }}</span>
+            </div>
         </div>
 
         <!-- Month View -->
@@ -300,6 +302,10 @@ export default {
     },
     isInline () {
       return typeof this.inline !== 'undefined' && this.inline
+    },
+    isRtl () {
+      if (this.translation.rtl === true) return true
+      return false
     }
   },
   methods: {
@@ -835,6 +841,8 @@ export default {
 
 $width = 300px
 
+.rtl
+    direction:rtl
 .vdp-datepicker
     position relative
     text-align left
@@ -893,6 +901,10 @@ $width = 300px
     .disabled
         color #ddd
         cursor default
+    .flex-rtl
+        display flex
+        width inherit
+        flex-wrap wrap
 
     .cell
         display inline-block
