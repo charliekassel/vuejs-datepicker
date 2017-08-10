@@ -87,7 +87,7 @@
     </div>
     <div class="example">
       <h3>RTL datepicker</h3>
-      <datepicker :inline="true" language="he"></datepicker>
+      <datepicker language="he"></datepicker>
       <code>
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>

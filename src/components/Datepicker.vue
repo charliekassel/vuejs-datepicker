@@ -304,8 +304,7 @@ export default {
       return typeof this.inline !== 'undefined' && this.inline
     },
     isRtl () {
-      if (this.translation.rtl === true) return true
-      return false
+      return this.translation.rtl === true
     }
   },
   methods: {
