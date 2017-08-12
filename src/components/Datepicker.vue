@@ -1,13 +1,13 @@
 <template>
   <div @click="showCalendar" ref="wrapperDiv" class="vdp-datepicker" :class="wrapperClass">
     <div :class="{'input-group' : bootstrapStyling}">
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click.stop="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
       <input
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
         :id="id"
-        @click="showCalendar"
+        @click.stop="showCalendar"
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
@@ -338,8 +338,11 @@ export default {
      * @return {mixed} [description]
      */
     showCalendar (clickEvent) {
-      if (this.$refs.wrapperDiv === clickEvent.target && !this.wrapperDivClickable || this.$refs.wrapperDiv !== clickEvent.target && this.wrapperDivClickable) {
-        return false
+      if (clickEvent) {
+        if (this.$refs.wrapperDiv === clickEvent.currentTarget && !this.wrapperDivClickable ||
+          this.$refs.wrapperDiv !== clickEvent.currentTarget && this.wrapperDivClickable) {
+          return false
+        }
       }
       if (this.disabledPicker) {
         return false
