@@ -81,6 +81,7 @@ Inline always open version
 | initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
+| wrapper-div-clickable | Boolean         | false       | If true, only outer div triggers opening |
 
 ## Events
 
