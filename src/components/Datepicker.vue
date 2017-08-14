@@ -310,7 +310,7 @@ export default {
       this.showDayView = this.showMonthView = this.showYearView = false
       if (!this.isInline) {
         this.$emit('closed')
-        document.removeEventListener('click', this.clickOutside, false)
+        if (typeof document === 'undefined') document.removeEventListener('click', this.clickOutside, false)
       }
     },
     resetDefaultDate () {
@@ -354,7 +354,7 @@ export default {
       this.showDayView = true
       if (!this.isInline) {
         this.$emit('opened')
-        document.addEventListener('click', this.clickOutside, false)
+        if (typeof document === 'undefined') document.addEventListener('click', this.clickOutside, false)
       }
     },
     showMonthCalendar () {
@@ -362,14 +362,14 @@ export default {
       this.close()
       this.showMonthView = true
       if (!this.isInline) {
-        document.addEventListener('click', this.clickOutside, false)
+        if (typeof document === 'undefined') document.addEventListener('click', this.clickOutside, false)
       }
     },
     showYearCalendar () {
       this.close()
       this.showYearView = true
       if (!this.isInline) {
-        document.addEventListener('click', this.clickOutside, false)
+        if (typeof document === 'undefined') document.addEventListener('click', this.clickOutside, false)
       }
     },
 
@@ -791,7 +791,7 @@ export default {
         }
         this.resetDefaultDate()
         this.close()
-        document.removeEventListener('click', this.clickOutside, false)
+        if (typeof document === 'undefined') document.removeEventListener('click', this.clickOutside, false)
       }
     },
 
