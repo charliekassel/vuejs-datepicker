@@ -185,7 +185,7 @@ export default {
         'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jūn', 'Jūl', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec']
       },
       'days': ['Sv', 'Pr', 'Ot', 'Tr', 'Ce', 'Pk', 'Se']
-    },    
+    },
     'nl': {
       'language': 'Dutch',
       'months': {
