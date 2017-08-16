@@ -310,8 +310,11 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled month', () => {
-    expect(vm.previousMonth()).to.equal(false)
-    expect(vm.nextMonth()).to.equal(false)
+    const currentDate = vm.pageDate
+    vm.previousMonth()
+    expect(vm.pageDate).to.equal(currentDate)
+    vm.nextMonth()
+    expect(vm.pageDate).to.equal(currentDate)
   })
 
   it('can\'t change to a disabled year', () => {

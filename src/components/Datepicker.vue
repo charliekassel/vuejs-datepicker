@@ -446,44 +446,38 @@ export default {
       let sD = Math.floor(date.getFullYear() / 10) * 10
       return sD + '\'s'
     },
-    previousMonth () {
-      if (this.previousMonthDisabled()) {
-        return false
-      }
+    changeMonth (incrementBy) {
       let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() - 1)
+      date.setMonth(date.getMonth() + incrementBy)
       this.setPageDate(date)
       this.$emit('changedMonth', date)
     },
+    previousMonth () {
+      if (!this.previousMonthDisabled()) {
+        this.changeMonth(-1)
+      }
+    },
     previousMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
-
       return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
     },
-
     nextMonth () {
-      if (this.nextMonthDisabled()) {
-        return false
+      if (!this.nextMonthDisabled()) {
+        this.changeMonth(+1)
       }
-      let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() + 1)
-      this.setPageDate(date)
-      this.$emit('changedMonth', date)
     },
-
     nextMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
     },
-
     previousYear () {
       if (this.previousYearDisabled()) {
         return false
