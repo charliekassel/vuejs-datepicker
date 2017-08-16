@@ -310,7 +310,6 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled month', () => {
-    vm.setDate(new Date(2016, 9, 15))
     vm.previousMonth()
     expect(vm.getPageMonth()).to.equal(9)
     vm.nextMonth()
@@ -318,7 +317,6 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled year', () => {
-    vm.setDate(new Date(2016, 9, 15))
     vm.previousYear()
     expect(vm.getPageYear()).to.equal(2016)
     vm.nextYear()
@@ -326,13 +324,15 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled decade', () => {
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 })
 
 describe('Datepicker has disabled dates but can change dates', () => {
-  it('can\'t change month despite having a disabled month', () => {
+  it('can change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2016, 8, 5),
@@ -342,11 +342,13 @@ describe('Datepicker has disabled dates but can change dates', () => {
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
     expect(vm.getPageMonth()).to.equal(9)
-    expect(vm.previousMonth()).to.not.equal(false)
-    expect(vm.nextMonth()).to.not.equal(false)
+    vm.previousMonth()
+    expect(vm.getPageMonth()).to.equal(8)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(9)
   })
 
-  it('can\'t change year despite having a disabled year', () => {
+  it('can change year despite having a disabled year', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2015, 8, 5),
@@ -355,11 +357,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    let currentDate = vm.pageDate
     vm.previousYear()
-    expect(currentDate).to.not.equal(vm.pageDate)
-    // vm.nextYear()
-    // expect(vm.nextYear()).to.not.equal(false)
+    expect(vm.getPageYear()).to.equal(2015)
+    vm.nextYear()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can\'t change decade previous or next decades are disabled', () => {
@@ -371,8 +372,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can change decade despite having a disabled decade', () => {
