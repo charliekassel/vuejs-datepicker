@@ -32,10 +32,11 @@
                     v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageDate) : nextMonthDisabled(pageDate) }">&gt;</span>
             </header>
             <div :class="isRtl ? 'flex-rtl' : ''">
-              <span class="cell day-header" v-for="d in daysOfWeek">{{ d }}</span>
-              <span class="cell day blank" v-for="d in blankDays"></span><!--
+              <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+              <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
               --><span class="cell day"
                   v-for="day in days"
+                  :key="day.timestamp"
                   track-by="timestamp"
                   v-bind:class="dayClasses(day)"
                   @click="selectDate(day)">{{ day.date }}</span>
@@ -58,6 +59,7 @@
               </header>
               <span class="cell month"
                   v-for="month in months"
+                  :key="month.timestamp"
                   track-by="timestamp"
                   v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
                   @click.stop="selectMonth(month)">{{ month.month }}</span>
@@ -77,6 +79,7 @@
               <span
                   class="cell year"
                   v-for="year in years"
+                  :key="year.timestamp"
                   track-by="timestamp"
                   v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
                   @click.stop="selectYear(year)">{{ year.year }}</span>
