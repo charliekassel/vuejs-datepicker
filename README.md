@@ -212,6 +212,7 @@ Available languages
 | ja          | Japanese         |          |
 | ko          | Korean           |          |
 | lt          | Lithuanian       |          |
+| lv          | Latvian          |          |
 | nb-no       | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |
