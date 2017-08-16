@@ -478,42 +478,36 @@ export default {
       return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
     },
-    previousYear () {
-      if (this.previousYearDisabled()) {
-        return false
-      }
+    changeYear (incrementBy) {
       let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() - 1)
+      date.setYear(date.getFullYear() + incrementBy)
       this.setPageDate(date)
       this.$emit('changedYear')
     },
-
+    previousYear () {
+      if (!this.previousYearDisabled()) {
+        this.changeYear(-1)
+      }
+    },
     previousYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.to.getFullYear() >= d.getFullYear()
     },
-
     nextYear () {
-      if (this.nextYearDisabled()) {
-        return false
+      if (!this.nextYearDisabled()) {
+        this.changeYear(1)
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() + 1)
-      this.setPageDate(date)
-      this.$emit('changedYear')
     },
-
     nextYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.from.getFullYear() <= d.getFullYear()
     },
-
     previousDecade () {
       if (this.previousDecadeDisabled()) {
         return false
@@ -523,7 +517,6 @@ export default {
       this.setPageDate(date)
       this.$emit('changedDecade')
     },
-
     previousDecadeDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
         return false
@@ -531,7 +524,6 @@ export default {
       let d = new Date(this.pageDate)
       return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10
     },
-
     nextDecade () {
       if (this.nextDecadeDisabled()) {
         return false
@@ -541,7 +533,6 @@ export default {
       this.setPageDate(date)
       this.$emit('changedDecade')
     },
-
     nextDecadeDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
         return false
