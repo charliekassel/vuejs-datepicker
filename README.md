@@ -183,6 +183,10 @@ var state = {
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
+- Add your language object to the DateLanguages.js file. Please keep in alphabetical order.
+- Add the Language to the available languages in the readme file.
+- Run `npm run lint` to make sure your code formatting is in line with the required code style.
+
 ``` html
 <datepicker language="es"></datepicker>
 ```
