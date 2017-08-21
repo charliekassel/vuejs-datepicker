@@ -56,6 +56,17 @@ Inline always open version
 ``` html
 <datepicker :inline="true"></datepicker>
 ```
+
+## Styling
+The datepicker can be formatted by formatting the `input` inside of the `vdp-datepicker` class.
+
+```
+.vdp-datepicker input{
+    width: 75px;
+    height: 20px;
+}
+```
+
 ## Available props
 
 | Prop                  | Type            | Default     | Description                              |
