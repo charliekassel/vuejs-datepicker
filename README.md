@@ -217,6 +217,7 @@ Available languages
 | ko          | Korean           |          |
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
+| mn          | Mongolian        |          |
 | nb-no       | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |
