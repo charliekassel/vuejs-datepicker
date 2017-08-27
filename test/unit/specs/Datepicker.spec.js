@@ -11,8 +11,8 @@ function getViewModel (Component, propsData) {
 }
 
 describe('Datepicker unmounted', () => {
-  it('has a ready hook', () => {
-    expect(typeof Datepicker.ready).to.equal('function')
+  it('has a mounted hook', () => {
+    expect(typeof Datepicker.mounted).to.equal('function')
   })
 
   it('sets the correct default data', () => {
