@@ -289,19 +289,15 @@ export default {
       return years
     },
     calendarStyle () {
-      let styles = {}
-
-      if (this.isInline) {
-        styles.position = 'static'
+      return {
+        position: this.isInline ? 'static' : undefined
       }
-
-      return styles
     },
     isOpen () {
       return this.showDayView || this.showMonthView || this.showYearView
     },
     isInline () {
-      return typeof this.inline !== 'undefined' && this.inline
+      return !!this.inline
     },
     isRtl () {
       return this.translation.rtl === true
@@ -330,10 +326,7 @@ export default {
      * @return {mixed} [description]
      */
     showCalendar () {
-      if (this.disabledPicker) {
-        return false
-      }
-      if (this.isInline) {
+      if (this.disabledPicker || this.isInline) {
         return false
       }
       if (this.isOpen) {
@@ -377,7 +370,6 @@ export default {
         document.addEventListener('click', this.clickOutside, false)
       }
     },
-
     setDate (timestamp) {
       const date = new Date(timestamp)
       this.selectedDate = new Date(date)
@@ -385,14 +377,12 @@ export default {
       this.$emit('selected', new Date(date))
       this.$emit('input', new Date(date))
     },
-
     clearDate () {
       this.selectedDate = null
       this.$emit('selected', null)
       this.$emit('input', null)
       this.$emit('cleared')
     },
-
     /**
      * @param {Object} day
      */
@@ -406,7 +396,6 @@ export default {
       }
       this.close()
     },
-
     /**
      * @param {Object} month
      */
@@ -419,7 +408,6 @@ export default {
       this.showDayCalendar()
       this.$emit('changedMonth', month)
     },
-
     /**
      * @param {Object} year
      */
@@ -432,31 +420,24 @@ export default {
       this.showMonthCalendar()
       this.$emit('changedYear', year)
     },
-
     /**
      * @return {Number}
      */
     getPageDate () {
-      let date = new Date(this.pageDate)
-      return date.getDate()
+      return (new Date(this.pageDate)).getDate()
     },
-
     /**
      * @return {Number}
      */
     getPageMonth () {
-      let date = new Date(this.pageDate)
-      return date.getMonth()
+      return (new Date(this.pageDate)).getMonth()
     },
-
     /**
      * @return {Number}
      */
     getPageYear () {
-      let date = new Date(this.pageDate)
-      return date.getFullYear()
+      return (new Date(this.pageDate)).getFullYear()
     },
-
     /**
      * @return {String}
      */
@@ -465,112 +446,87 @@ export default {
       let sD = Math.floor(date.getFullYear() / 10) * 10
       return sD + '\'s'
     },
-
-    previousMonth () {
-      if (this.previousMonthDisabled()) {
-        return false
-      }
+    changeMonth (incrementBy) {
       let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() - 1)
+      date.setMonth(date.getMonth() + incrementBy)
       this.setPageDate(date)
       this.$emit('changedMonth', date)
     },
-
+    previousMonth () {
+      if (!this.previousMonthDisabled()) {
+        this.changeMonth(-1)
+      }
+    },
     previousMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
-
       return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
     },
-
     nextMonth () {
-      if (this.nextMonthDisabled()) {
-        return false
+      if (!this.nextMonthDisabled()) {
+        this.changeMonth(+1)
       }
-      let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() + 1)
-      this.setPageDate(date)
-      this.$emit('changedMonth', date)
     },
-
     nextMonthDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
     },
-
-    previousYear () {
-      if (this.previousYearDisabled()) {
-        return false
-      }
+    changeYear (incrementBy, emit = 'changedYear') {
       let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() - 1)
+      date.setYear(date.getFullYear() + incrementBy)
       this.setPageDate(date)
-      this.$emit('changedYear')
+      this.$emit(emit)
     },
-
+    previousYear () {
+      if (!this.previousYearDisabled()) {
+        this.changeYear(-1)
+      }
+    },
     previousYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.to.getFullYear() >= d.getFullYear()
     },
-
     nextYear () {
-      if (this.nextYearDisabled()) {
-        return false
+      if (!this.nextYearDisabled()) {
+        this.changeYear(1)
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() + 1)
-      this.setPageDate(date)
-      this.$emit('changedYear')
     },
-
     nextYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
       return this.disabled.from.getFullYear() <= d.getFullYear()
     },
-
     previousDecade () {
-      if (this.previousDecadeDisabled()) {
-        return false
+      if (!this.previousDecadeDisabled()) {
+        this.changeYear(-10, 'changeDecade')
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() - 10)
-      this.setPageDate(date)
-      this.$emit('changedDecade')
     },
-
     previousDecadeDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
       return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10
     },
-
     nextDecade () {
-      if (this.nextDecadeDisabled()) {
-        return false
+      if (!this.nextDecadeDisabled()) {
+        this.changeYear(10, 'changeDecade')
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() + 10)
-      this.setPageDate(date)
-      this.$emit('changedDecade')
     },
-
     nextDecadeDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
