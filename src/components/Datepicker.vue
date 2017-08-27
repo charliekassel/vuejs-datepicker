@@ -759,15 +759,6 @@ export default {
       }
     }
   },
-  /**
-   * Vue 1.x
-   */
-  ready () {
-    this.init()
-  },
-  /**
-   * Vue 2.x
-   */
   mounted () {
     this.init()
   }
