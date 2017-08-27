@@ -1,7 +1,13 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
+      <!-- Calendar Button -->
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar">
+        <i :class="calendarButtonIcon">
+          <span v-if="calendarButtonIcon.length === 0">&hellip;</span>
+        </i>
+      </span>
+      <!-- Input -->
       <input
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
@@ -14,7 +20,12 @@
         :disabled="disabledPicker"
         :required="required"
         readonly>
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length === 0">&times;</span></i></span>
+      <!-- Clear Button -->
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+        <i :class="clearButtonIcon">
+          <span v-if="calendarButtonIcon.length === 0">&times;</span>
+        </i>
+      </span>
     </div>
 
         <!-- Day View -->
@@ -875,7 +886,11 @@ $width = 300px
     .year
         width 33.333%
 
-.vdp-datepicker__clear-button, .vdp-datepicker__calendar-button
+.vdp-datepicker__clear-button
+.vdp-datepicker__calendar-button
     cursor pointer
     font-style normal
+    &.disabled
+      color #999
+      cursor default
 </style>
