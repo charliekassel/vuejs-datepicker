@@ -197,6 +197,7 @@ Available languages
 | ar          | Arabic           |          |
 | bg          | Bulgarian        |          |
 | bs          | Bosnian          |          |
+| ca          | Catalan          |          |
 | cs          | Czech            |          |
 | da          | Danish           |          |
 | de          | German           |          |
