@@ -81,6 +81,14 @@ export default {
       },
       'days': ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab']
     },
+    'ca': {
+      'language': 'Catalan',
+      'months': {
+        'original': ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'],
+        'abbr': ['Gen', 'Feb', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Des']
+      },
+      'days': ['Diu', 'Dil', 'Dmr', 'Dmc', 'Dij', 'Div', 'Dis']
+    },
     'fi': {
       'language': 'Finish',
       'months': {
