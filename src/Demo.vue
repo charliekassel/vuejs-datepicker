@@ -63,6 +63,22 @@
     </div>
 
     <div class="example">
+      <h3>Disable all except...</h3>
+      <datepicker :disabled="{
+        except: {
+          from: new Date(2017, 7, 5),
+          to: new Date(2017, 7, 22)
+        }
+      }"></datepicker>
+      <code>
+        &lt;datepicker :disabled="except: {
+          from: new Date(2017, 7, 5),
+          to: new Date(2017, 7, 22)
+        }"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Translations</h3>
       <h5>{{ languages[language].language }} datepicker</h5>
 

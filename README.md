@@ -156,6 +156,27 @@ var state = {
 <datepicker :disabled="state.disabled"></datepicker>
 ```
 
+You can also disable all dates except certain ones.
+``` html
+<script>
+var state = {
+    disabled: {
+        except: {
+            to: new Date(2016, 0, 5),
+            from: new Date(2016, 0, 26),
+            days: [6, 0],
+            dates: [
+                new Date(2016, 9, 16),
+                new Date(2016, 9, 17),
+                new Date(2016, 9, 18)
+            ]
+        }
+    }
+}
+</script>
+<datepicker :disabled="state.disabled"></datepicker>
+```
+
 ## Highlight Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
 Note: Both `to` and `from` properties are require to define a range of dates to highlight
