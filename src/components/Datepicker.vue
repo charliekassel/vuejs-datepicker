@@ -1,7 +1,13 @@
 <template>
-  <div class="vdp-datepicker" :class="wrapperClass">
+  <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar"><i :class="calendarButtonIcon"><span v-if="calendarButtonIcon.length === 0">&hellip;</span></i></span>
+      <!-- Calendar Button -->
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar">
+        <i :class="calendarButtonIcon">
+          <span v-if="calendarButtonIcon.length === 0">&hellip;</span>
+        </i>
+      </span>
+      <!-- Input -->
       <input
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
@@ -14,67 +20,82 @@
         :disabled="disabledPicker"
         :required="required"
         readonly>
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()"><i :class="clearButtonIcon"><span v-if="calendarButtonIcon.length === 0">&times;</span></i></span>
+      <!-- Clear Button -->
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+        <i :class="clearButtonIcon">
+          <span v-if="calendarButtonIcon.length === 0">&times;</span>
+        </i>
+      </span>
     </div>
 
         <!-- Day View -->
         <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
             <header>
                 <span
-                    @click="previousMonth"
+                    @click="isRtl ? nextMonth() : previousMonth()"
                     class="prev"
-                    v-bind:class="{ 'disabled' : previousMonthDisabled(pageDate) }">&lt;</span>
-                <span @click="showMonthCalendar" class="up">{{ currMonthName }} {{ currYear }}</span>
+                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageDate) : previousMonthDisabled(pageDate) }">&lt;</span>
+                <span @click="showMonthCalendar" :class="!dayViewOnly ? 'up' : ''">{{ currMonthName }} {{ currYear }}
+                </span>
                 <span
-                    @click="nextMonth"
+                    @click="isRtl ? previousMonth() : nextMonth()"
                     class="next"
-                    v-bind:class="{ 'disabled' : nextMonthDisabled(pageDate) }">&gt;</span>
+                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageDate) : nextMonthDisabled(pageDate) }">&gt;</span>
             </header>
-            <span class="cell day-header" v-for="d in daysOfWeek">{{ d }}</span>
-            <span class="cell day blank" v-for="d in blankDays"></span><!--
-            --><span class="cell day"
-                v-for="day in days"
-                track-by="timestamp"
-                v-bind:class="dayClasses(day)"
-                @click="selectDate(day)">{{ day.date }}</span>
+            <div :class="isRtl ? 'flex-rtl' : ''">
+              <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+              <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
+              --><span class="cell day"
+                  v-for="day in days"
+                  :key="day.timestamp"
+                  track-by="timestamp"
+                  v-bind:class="dayClasses(day)"
+                  @click="selectDate(day)">{{ day.date }}</span>
+            </div>
         </div>
 
         <!-- Month View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
-            <header>
-                <span
-                    @click="previousYear"
-                    class="prev"
-                    v-bind:class="{ 'disabled' : previousYearDisabled(pageDate) }">&lt;</span>
-                <span @click="showYearCalendar" class="up">{{ getPageYear() }}</span>
-                <span
-                    @click="nextYear"
-                    class="next"
-                    v-bind:class="{ 'disabled' : nextYearDisabled(pageDate) }">&gt;</span>
-            </header>
-            <span class="cell month"
-                v-for="month in months"
-                track-by="timestamp"
-                v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
-                @click.stop="selectMonth(month)">{{ month.month }}</span>
-        </div>
+        <template v-if="!dayViewOnly">
+          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
+              <header>
+                  <span
+                      @click="previousYear"
+                      class="prev"
+                      v-bind:class="{ 'disabled' : previousYearDisabled(pageDate) }">&lt;</span>
+                  <span @click="showYearCalendar" class="up">{{ getPageYear() }}</span>
+                  <span
+                      @click="nextYear"
+                      class="next"
+                      v-bind:class="{ 'disabled' : nextYearDisabled(pageDate) }">&gt;</span>
+              </header>
+              <span class="cell month"
+                  v-for="month in months"
+                  :key="month.timestamp"
+                  track-by="timestamp"
+                  v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
+                  @click.stop="selectMonth(month)">{{ month.month }}</span>
+          </div>
+        </template>
 
         <!-- Year View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
-            <header>
-                <span @click="previousDecade" class="prev"
-                    v-bind:class="{ 'disabled' : previousDecadeDisabled(pageDate) }">&lt;</span>
-                <span>{{ getPageDecade() }}</span>
-                <span @click="nextDecade" class="next"
-                    v-bind:class="{ 'disabled' : nextMonthDisabled(pageDate) }">&gt;</span>
-            </header>
-            <span
-                class="cell year"
-                v-for="year in years"
-                track-by="timestamp"
-                v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-                @click.stop="selectYear(year)">{{ year.year }}</span>
-        </div>
+        <template v-if="!dayViewOnly">
+          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
+              <header>
+                  <span @click="previousDecade" class="prev"
+                      v-bind:class="{ 'disabled' : previousDecadeDisabled(pageDate) }">&lt;</span>
+                  <span>{{ getPageDecade() }}</span>
+                  <span @click="nextDecade" class="next"
+                      v-bind:class="{ 'disabled' : nextMonthDisabled(pageDate) }">&gt;</span>
+              </header>
+              <span
+                  class="cell year"
+                  v-for="year in years"
+                  :key="year.timestamp"
+                  track-by="timestamp"
+                  v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+                  @click.stop="selectYear(year)">{{ year.year }}</span>
+          </div>
+        </template>
   </div>
 </template>
 
@@ -89,45 +110,27 @@ export default {
         return val === null || val instanceof Date || typeof val === 'string'
       }
     },
-    name: {
-      value: String
-    },
-    id: {
-      value: String
-    },
+    name: String,
+    id: String,
     format: {
-      value: [String, Function],
+      type: [String, Function],
       default: 'dd MMM yyyy'
     },
     language: {
-      value: String,
+      type: String,
       default: 'en'
     },
     fullMonthName: {
-      value: Boolean,
+      type: Boolean,
       default: false
     },
-    disabled: {
-      type: Object
-    },
-    highlighted: {
-      type: Object
-    },
-    placeholder: {
-      type: String
-    },
-    inline: {
-      type: Boolean
-    },
-    calendarClass: {
-      type: [String, Object]
-    },
-    inputClass: {
-      type: [String, Object]
-    },
-    wrapperClass: {
-      type: [String, Object]
-    },
+    disabled: Object,
+    highlighted: Object,
+    placeholder: String,
+    inline: Boolean,
+    calendarClass: [String, Object],
+    inputClass: [String, Object],
+    wrapperClass: [String, Object],
     mondayFirst: {
       type: Boolean,
       default: false
@@ -163,6 +166,10 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    dayViewOnly: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -172,7 +179,7 @@ export default {
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1, new Date().getHours(), new Date().getMinutes()).getTime(),
+      pageDate: (new Date()).setDate(1),
       /*
        * Selected Date
        * {Date}
@@ -296,19 +303,18 @@ export default {
       return years
     },
     calendarStyle () {
-      let styles = {}
-
-      if (this.isInline) {
-        styles.position = 'static'
+      return {
+        position: this.isInline ? 'static' : undefined
       }
-
-      return styles
     },
     isOpen () {
       return this.showDayView || this.showMonthView || this.showYearView
     },
     isInline () {
-      return typeof this.inline !== 'undefined' && this.inline
+      return !!this.inline
+    },
+    isRtl () {
+      return this.translation.rtl === true
     }
   },
   methods: {
@@ -334,10 +340,7 @@ export default {
      * @return {mixed} [description]
      */
     showCalendar () {
-      if (this.disabledPicker) {
-        return false
-      }
-      if (this.isInline) {
+      if (this.disabledPicker || this.isInline) {
         return false
       }
       if (this.isOpen) {
@@ -367,6 +370,7 @@ export default {
       }
     },
     showMonthCalendar () {
+      if (this.dayViewOnly) return false
       this.close()
       this.showMonthView = true
       if (!this.isInline) {
@@ -380,7 +384,6 @@ export default {
         document.addEventListener('click', this.clickOutside, false)
       }
     },
-
     setDate (timestamp) {
       const date = new Date(timestamp)
       this.selectedDate = new Date(date)
@@ -388,14 +391,12 @@ export default {
       this.$emit('selected', new Date(date))
       this.$emit('input', new Date(date))
     },
-
     clearDate () {
       this.selectedDate = null
       this.$emit('selected', null)
       this.$emit('input', null)
       this.$emit('cleared')
     },
-
     /**
      * @param {Object} day
      */
@@ -409,7 +410,6 @@ export default {
       }
       this.close()
     },
-
     /**
      * @param {Object} month
      */
@@ -422,7 +422,6 @@ export default {
       this.showDayCalendar()
       this.$emit('changedMonth', month)
     },
-
     /**
      * @param {Object} year
      */
@@ -435,31 +434,24 @@ export default {
       this.showMonthCalendar()
       this.$emit('changedYear', year)
     },
-
     /**
      * @return {Number}
      */
     getPageDate () {
-      let date = new Date(this.pageDate)
-      return date.getDate()
+      return (new Date(this.pageDate)).getDate()
     },
-
     /**
      * @return {Number}
      */
     getPageMonth () {
-      let date = new Date(this.pageDate)
-      return date.getMonth()
+      return (new Date(this.pageDate)).getMonth()
     },
-
     /**
      * @return {Number}
      */
     getPageYear () {
-      let date = new Date(this.pageDate)
-      return date.getFullYear()
+      return (new Date(this.pageDate)).getFullYear()
     },
-
     /**
      * @return {String}
      */
@@ -468,138 +460,92 @@ export default {
       let sD = Math.floor(date.getFullYear() / 10) * 10
       return sD + '\'s'
     },
-
-    previousMonth () {
-      if (this.previousMonthDisabled()) {
-        return false
-      }
+    changeMonth (incrementBy) {
       let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() - 1)
+      date.setMonth(date.getMonth() + incrementBy)
       this.setPageDate(date)
       this.$emit('changedMonth', date)
     },
-
+    previousMonth () {
+      if (!this.previousMonthDisabled()) {
+        this.changeMonth(-1)
+      }
+    },
     previousMonthDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to || typeof this.disabled.except === 'undefined' || typeof this.disabled.except.to === 'undefined' || !this.disabled.except.to) {
         return false
       }
 
       let d = new Date(this.pageDate)
-      if (
-        this.disabled.to.getMonth() >= d.getMonth() &&
+      return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
-      ) {
-        return true
-      }
-      return false
     },
-
     nextMonth () {
-      if (this.nextMonthDisabled()) {
-        return false
+      if (!this.nextMonthDisabled()) {
+        this.changeMonth(+1)
       }
-      let date = new Date(this.pageDate)
-      date.setMonth(date.getMonth() + 1)
-      this.setPageDate(date)
-      this.$emit('changedMonth', date)
     },
-
     nextMonthDisabled () {
       if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from || typeof this.disabled.except === 'undefined' || typeof this.disabled.except.from === 'undefined' || !this.disabled.except.from) {
         return false
       }
       let d = new Date(this.pageDate)
-      if (
-        this.disabled.from.getMonth() <= d.getMonth() &&
+      return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
-      ) {
-        return true
-      }
-      return false
     },
-
+    changeYear (incrementBy, emit = 'changedYear') {
+      let date = new Date(this.pageDate)
+      date.setYear(date.getFullYear() + incrementBy)
+      this.setPageDate(date)
+      this.$emit(emit)
+    },
     previousYear () {
-      if (this.previousYearDisabled()) {
-        return false
+      if (!this.previousYearDisabled()) {
+        this.changeYear(-1)
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() - 1)
-      this.setPageDate(date)
-      this.$emit('changedYear')
     },
-
     previousYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
-      if (this.disabled.to.getFullYear() >= d.getFullYear()) {
-        return true
-      }
-      return false
+      return this.disabled.to.getFullYear() >= d.getFullYear()
     },
-
     nextYear () {
-      if (this.nextYearDisabled()) {
-        return false
+      if (!this.nextYearDisabled()) {
+        this.changeYear(1)
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() + 1)
-      this.setPageDate(date)
-      this.$emit('changedYear')
     },
-
     nextYearDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
-      if (this.disabled.from.getFullYear() <= d.getFullYear()) {
-        return true
-      }
-      return false
+      return this.disabled.from.getFullYear() <= d.getFullYear()
     },
-
     previousDecade () {
-      if (this.previousDecadeDisabled()) {
-        return false
+      if (!this.previousDecadeDisabled()) {
+        this.changeYear(-10, 'changeDecade')
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() - 10)
-      this.setPageDate(date)
-      this.$emit('changedDecade')
     },
-
     previousDecadeDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.to === 'undefined' || !this.disabled.to) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = new Date(this.pageDate)
-      if (Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10) {
-        return true
-      }
-      return false
+      return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10
     },
-
     nextDecade () {
-      if (this.nextDecadeDisabled()) {
-        return false
+      if (!this.nextDecadeDisabled()) {
+        this.changeYear(10, 'changeDecade')
       }
-      let date = new Date(this.pageDate)
-      date.setYear(date.getFullYear() + 10)
-      this.setPageDate(date)
-      this.$emit('changedDecade')
     },
-
     nextDecadeDisabled () {
-      if (typeof this.disabled === 'undefined' || typeof this.disabled.from === 'undefined' || !this.disabled.from) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = new Date(this.pageDate)
-      if (Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10) {
-        return true
-      }
-      return false
+      return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10
     },
 
     /**
@@ -819,7 +765,7 @@ export default {
       if (!date) {
         date = new Date()
       }
-      this.pageDate = new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes()).getTime()
+      this.pageDate = (new Date(date)).setDate(1)
     },
 
     /**
@@ -858,15 +804,6 @@ export default {
       }
     }
   },
-  /**
-   * Vue 1.x
-   */
-  ready () {
-    this.init()
-  },
-  /**
-   * Vue 2.x
-   */
   mounted () {
     this.init()
   }
@@ -877,6 +814,8 @@ export default {
 
 $width = 300px
 
+.rtl
+    direction:rtl
 .vdp-datepicker
     position relative
     text-align left
@@ -935,6 +874,10 @@ $width = 300px
     .disabled
         color #ddd
         cursor default
+    .flex-rtl
+        display flex
+        width inherit
+        flex-wrap wrap
 
     .cell
         display inline-block
@@ -977,7 +920,11 @@ $width = 300px
     .year
         width 33.333%
 
-.vdp-datepicker__clear-button, .vdp-datepicker__calendar-button
+.vdp-datepicker__clear-button
+.vdp-datepicker__calendar-button
     cursor pointer
     font-style normal
+    &.disabled
+      color #999
+      cursor default
 </style>

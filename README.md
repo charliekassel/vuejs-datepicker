@@ -2,7 +2,7 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/charliekassel/vuejs-datepicker/badge.svg?branch=master)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 
-A datepicker Vue component. Compatible with Vue 1.x and Vue 2.x
+A datepicker Vue component. Compatible with Vue 2.x
 
 ## Demo
 
@@ -81,6 +81,7 @@ Inline always open version
 | initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
+| day-view-only         | Boolean         | false       | If true, month and year views won't show |
 
 ## Events
 
@@ -203,6 +204,10 @@ var state = {
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
+- Add your language object to the DateLanguages.js file. Please keep in alphabetical order.
+- Add the Language to the available languages in the readme file.
+- Run `npm run lint` to make sure your code formatting is in line with the required code style.
+
 ``` html
 <datepicker language="es"></datepicker>
 ```
@@ -232,6 +237,8 @@ Available languages
 | ja          | Japanese         |          |
 | ko          | Korean           |          |
 | lt          | Lithuanian       |          |
+| lv          | Latvian          |          |
+| mn          | Mongolian        |          |
 | nb-no       | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |

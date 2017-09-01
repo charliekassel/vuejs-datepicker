@@ -11,8 +11,8 @@ function getViewModel (Component, propsData) {
 }
 
 describe('Datepicker unmounted', () => {
-  it('has a ready hook', () => {
-    expect(typeof Datepicker.ready).to.equal('function')
+  it('has a mounted hook', () => {
+    expect(typeof Datepicker.mounted).to.equal('function')
   })
 
   it('sets the correct default data', () => {
@@ -330,24 +330,30 @@ describe('Datepicker disabled dates', () => {
     expect(vm.selectYear({isDisabled: true})).to.equal(false)
   })
 
-  it('can\'t change to a disabled month', () => {
-    expect(vm.previousMonth()).to.equal(undefined)
-    expect(vm.nextMonth()).to.equal(undefined)
+  it('can\'t change to a disabled month', () => {    
+    vm.previousMonth()
+    expect(vm.getPageMonth()).to.equal(9)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(9)
   })
 
   it('can\'t change to a disabled year', () => {
-    expect(vm.previousYear()).to.equal(false)
-    expect(vm.nextYear()).to.equal(false)
+    vm.previousYear()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextYear()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can\'t change to a disabled decade', () => {
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 })
 
 describe('Datepicker has disabled dates but can change dates', () => {
-  it('can\'t change month despite having a disabled month', () => {
+  it('can change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2016, 8, 5),
@@ -357,11 +363,13 @@ describe('Datepicker has disabled dates but can change dates', () => {
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
     expect(vm.getPageMonth()).to.equal(9)
-    expect(vm.previousMonth()).to.not.equal(false)
-    expect(vm.nextMonth()).to.not.equal(false)
+    vm.previousMonth()
+    expect(vm.getPageMonth()).to.equal(8)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(9)
   })
 
-  it('can\'t change year despite having a disabled year', () => {
+  it('can change year despite having a disabled year', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2015, 8, 5),
@@ -370,8 +378,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.previousYear()).to.not.equal(false)
-    expect(vm.nextYear()).to.not.equal(false)
+    vm.previousYear()
+    expect(vm.getPageYear()).to.equal(2015)
+    vm.nextYear()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can\'t change decade previous or next decades are disabled', () => {
@@ -383,8 +393,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can change decade despite having a disabled decade', () => {
@@ -543,5 +555,37 @@ describe('Datepicker with initial-view', () => {
     expect(vm.showDayView).to.equal(false)
     expect(vm.showMonthView).to.equal(false)
     expect(vm.showYearView).to.equal(true)
+  })
+})
+
+describe('Datepicker with day-view-only', () => {
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      dayViewOnly: true
+    })
+    vm.showCalendar()
+  })
+
+  it('should open in Day view', () => {
+    expect(vm.initialView).to.equal('day')
+    expect(vm.showDayView).to.equal(true)
+    expect(vm.showMonthView).to.equal(false)
+    expect(vm.showYearView).to.equal(false)
+  })
+
+  it('should return false on showMonthCalendar', () => {
+    let func = vm.showMonthCalendar()
+    expect(func).to.equal(false)
+  })
+
+  it('should not open month view on showMonthCalendar', () => {
+    vm.showMonthCalendar()
+    expect(vm.showMonthView).to.equal(false)
+  })
+
+  it('should not render month and year views', () => {
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(1)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.month').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.equal(0)
   })
 })
