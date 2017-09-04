@@ -4,6 +4,8 @@
 
 A datepicker Vue component. Compatible with Vue 2.x
 
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with 1.x you can install with `npm install vuejs-datepicker@0.9.9`
+
 ## Demo
 
 https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC
