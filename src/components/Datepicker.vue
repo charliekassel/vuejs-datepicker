@@ -651,6 +651,11 @@ export default {
       return this.highlighted.to.getTime() === date.getTime()
     },
 
+    /**
+     * Helper
+     * @param  {mixed}  prop
+     * @return {Boolean}
+     */
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
     },
