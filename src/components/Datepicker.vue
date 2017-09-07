@@ -261,6 +261,8 @@ export default {
           isSelected: this.isSelectedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
+          isHighlightStart: this.isHighlightStart(dObj),
+          isHighlightEnd: this.isHighlightEnd(dObj),
           isToday: dObj.toDateString() === (new Date()).toDateString(),
           isWeekend: dObj.getDay() === 0 || dObj.getDay() === 6,
           isSaturday: dObj.getDay() === 6,
@@ -624,10 +626,31 @@ export default {
     },
 
     /**
-     * Helper
-     * @param  {mixed}  prop
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
      * @return {Boolean}
      */
+    isHighlightStart (date) {
+      if (!this.isHighlightedDate(date)) {
+        return false
+      }
+      return this.highlighted.from.getTime() === date.getTime()
+    },
+
+    /**
+     * Whether a day is highlighted and it is the first date
+     * in the highlighted range of dates
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isHighlightEnd (date) {
+      if (!this.isHighlightedDate(date)) {
+        return false
+      }
+      return this.highlighted.to.getTime() === date.getTime()
+    },
+
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
     },
@@ -757,7 +780,9 @@ export default {
         'today': day.isToday,
         'weekend': day.isWeekend,
         'sat': day.isSaturday,
-        'sun': day.isSunday
+        'sun': day.isSunday,
+        'highlight-start': day.isHighlightStart,
+        'highlight-end': day.isHighlightEnd
       }
     },
 
