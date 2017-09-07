@@ -119,9 +119,9 @@ describe('Datepicker.vue', () => {
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(3)
   })
 
-  it('should set pageDate to be now', () => {
+  it('should set pageTimestamp to be now', () => {
     const data = Datepicker.data()
-    const d = new Date(data.pageDate)
+    const d = new Date(data.pageTimestamp)
     expect(d.getFullYear()).to.equal(new Date().getFullYear())
     expect(d.getMonth()).to.equal(new Date().getMonth())
     expect(d.getDate()).to.equal(1)
@@ -150,7 +150,7 @@ describe('Datepicker.vue', () => {
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
     vm.selectDate({timestamp: date.getTime()})
-    expect(vm.pageDate).to.equal(date.getTime())
+    expect(vm.pageTimestamp).to.equal(date.getTime())
     expect(vm.showDayView).to.equal(false)
   })
 
@@ -494,12 +494,12 @@ describe('Datepicker with monday as first day of week', () => {
   })
 
   it('should have 6 blankDays when month starts from Sunday', () => {
-    vm.pageDate = new Date(2016, 4, 1).getTime()
+    vm.pageTimestamp = new Date(2016, 4, 1).getTime()
     expect(vm.blankDays).to.equal(6)
   })
 
   it('should have no blankDays when month starts from Monday', () => {
-    vm.pageDate = new Date(2017, 4, 1).getTime()
+    vm.pageTimestamp = new Date(2017, 4, 1).getTime()
     expect(vm.blankDays).to.equal(0)
   })
 })
