@@ -632,10 +632,10 @@ export default {
      * @return {Boolean}
      */
     isHighlightStart (date) {
-      if (!this.isHighlightedDate(date)) {
-        return false
-      }
-      return this.highlighted.from.getTime() === date.getTime()
+      return this.isHighlightedDate(date) &&
+        (this.highlighted.from.getFullYear() === date.getFullYear()) &&
+        (this.highlighted.from.getMonth() === date.getMonth()) &&
+        (this.highlighted.from.getDate() === date.getDate())
     },
 
     /**
@@ -645,10 +645,10 @@ export default {
      * @return {Boolean}
      */
     isHighlightEnd (date) {
-      if (!this.isHighlightedDate(date)) {
-        return false
-      }
-      return this.highlighted.to.getTime() === date.getTime()
+      return this.isHighlightedDate(date) &&
+        (this.highlighted.to.getFullYear() === date.getFullYear()) &&
+        (this.highlighted.to.getMonth() === date.getMonth()) &&
+        (this.highlighted.to.getDate() === date.getDate())
     },
 
     /**
