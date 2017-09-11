@@ -633,6 +633,7 @@ export default {
      */
     isHighlightStart (date) {
       return this.isHighlightedDate(date) &&
+        (this.highlighted.from instanceof Date) &&
         (this.highlighted.from.getFullYear() === date.getFullYear()) &&
         (this.highlighted.from.getMonth() === date.getMonth()) &&
         (this.highlighted.from.getDate() === date.getDate())
@@ -646,6 +647,7 @@ export default {
      */
     isHighlightEnd (date) {
       return this.isHighlightedDate(date) &&
+        (this.highlighted.to instanceof Date) &&
         (this.highlighted.to.getFullYear() === date.getFullYear()) &&
         (this.highlighted.to.getMonth() === date.getMonth()) &&
         (this.highlighted.to.getDate() === date.getDate())
