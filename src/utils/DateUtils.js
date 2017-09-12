@@ -123,6 +123,21 @@ export default {
   },
 
   /**
+   * Formats date object
+   * @param {String}
+   * @param {String}
+   * @param {Object}
+   * @return {Date}
+   */
+  newDate (date, format, translation) {
+    translation = (!translation) ? DateLanguages.translations.en : translation
+    let year = date.substring(6, 10)
+    let month = date.substring(3, 5)
+    let day = date.substring(0, 2)
+    return new Date(year, month - 1, day)
+  },
+
+  /**
    * Creates an array of dates for each day in between two dates.
    * @param {Date} start
    * @param {Date} end
