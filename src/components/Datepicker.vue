@@ -13,7 +13,8 @@
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
         :id="id"
-        @click="showCalendar"
+        @focus="showCalendar"
+        @blur="onBlur"
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
@@ -326,6 +327,11 @@ export default {
       if (!this.isInline) {
         this.$emit('closed')
         document.removeEventListener('click', this.clickOutside, false)
+      }
+    },
+    onBlur (e) {
+      if (e.relatedTarget) {
+        this.close()
       }
     },
     resetDefaultDate () {
