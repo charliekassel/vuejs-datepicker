@@ -13,7 +13,7 @@
 
     <div class="example">
         <h3>v-model datepicker</h3>
-        <datepicker placeholder="Select Date" v-model="vModelExample"></datepicker>
+        <datepicker placeholder="Select Date" v-model="vModelExample" :format="'dd/MM/yyyy'" :name="'Final'" :language="'pt-br'" :disabled="{to: new Date(1973, 0, 5), from: new Date()}"></datepicker>
         <code>
             &lt;datepicker placeholder="Select Date" v-model="vmodelexample"&gt;&lt;/datepicker&gt;
         </code>
