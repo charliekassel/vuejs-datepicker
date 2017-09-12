@@ -405,10 +405,10 @@ export default {
     },
     setDate (timestamp) {
       const date = new Date(timestamp)
-      this.selectedDate = new Date(date)
+      this.selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
       this.setPageDate(date)
-      this.$emit('selected', new Date(date))
-      this.$emit('input', new Date(date))
+      this.$emit('selected', new Date(date.getFullYear(), date.getMonth(), date.getDate()))
+      this.$emit('input', new Date(date.getFullYear(), date.getMonth(), date.getDate()))
     },
     clearDate () {
       this.selectedDate = null
