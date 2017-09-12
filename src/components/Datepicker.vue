@@ -7,6 +7,7 @@
           <span v-if="calendarButtonIcon.length === 0">&hellip;</span>
         </i>
       </span>
+      <label v-if="name" v-bind:for="name" v-text="name" class="ui label"></label>
       <!-- Input -->
       <input
         :type="inline ? 'hidden' : 'text'"
