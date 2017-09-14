@@ -34,13 +34,13 @@
                 <span
                     @click="isRtl ? nextMonth() : previousMonth()"
                     class="prev"
-                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageDate) : previousMonthDisabled(pageDate) }">&lt;</span>
+                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
                 <span @click="showMonthCalendar" :class="!dayViewOnly ? 'up' : ''">{{ currMonthName }} {{ currYear }}
                 </span>
                 <span
                     @click="isRtl ? previousMonth() : nextMonth()"
                     class="next"
-                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageDate) : nextMonthDisabled(pageDate) }">&gt;</span>
+                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
             </header>
             <div :class="isRtl ? 'flex-rtl' : ''">
               <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -61,12 +61,12 @@
                   <span
                       @click="previousYear"
                       class="prev"
-                      v-bind:class="{ 'disabled' : previousYearDisabled(pageDate) }">&lt;</span>
+                      v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
                   <span @click="showYearCalendar" class="up">{{ getPageYear() }}</span>
                   <span
                       @click="nextYear"
                       class="next"
-                      v-bind:class="{ 'disabled' : nextYearDisabled(pageDate) }">&gt;</span>
+                      v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
               </header>
               <span class="cell month"
                   v-for="month in months"
@@ -82,10 +82,10 @@
           <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
               <header>
                   <span @click="previousDecade" class="prev"
-                      v-bind:class="{ 'disabled' : previousDecadeDisabled(pageDate) }">&lt;</span>
+                      v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
                   <span>{{ getPageDecade() }}</span>
                   <span @click="nextDecade" class="next"
-                      v-bind:class="{ 'disabled' : nextMonthDisabled(pageDate) }">&gt;</span>
+                      v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
               </header>
               <span
                   class="cell year"
@@ -179,7 +179,7 @@ export default {
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageDate: (new Date()).setDate(1),
+      pageTimestamp: (new Date()).setDate(1),
       /*
        * Selected Date
        * {Date}
@@ -207,6 +207,9 @@ export default {
     }
   },
   computed: {
+    pageDate () {
+      return new Date(this.pageTimestamp)
+    },
     formattedValue () {
       if (!this.selectedDate) {
         return null
@@ -220,12 +223,11 @@ export default {
       return DateLanguages.translations[this.language]
     },
     currMonthName () {
-      const d = new Date(this.pageDate)
-      return DateUtils.getMonthNameAbbr(d.getMonth(), this.fullMonthName ? this.translation.months.original : this.translation.months.abbr)
+      const monthName = this.fullMonthName ? this.translation.months.original : this.translation.months.abbr
+      return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
     },
     currYear () {
-      const d = new Date(this.pageDate)
-      return d.getFullYear()
+      return this.pageDate.getFullYear()
     },
     /**
      * Returns the day number of the week less one for the first of the current month
@@ -233,7 +235,7 @@ export default {
      * @return {Number}
      */
     blankDays () {
-      const d = new Date(this.pageDate)
+      const d = this.pageDate
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       if (this.mondayFirst) {
         return dObj.getDay() > 0 ? dObj.getDay() - 1 : 6
@@ -249,7 +251,7 @@ export default {
       return this.translation.days
     },
     days () {
-      const d = new Date(this.pageDate)
+      const d = this.pageDate
       let days = []
       // set up a new date object to the beginning of the current 'page'
       let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
@@ -271,7 +273,7 @@ export default {
       return days
     },
     months () {
-      const d = new Date(this.pageDate)
+      const d = this.pageDate
       let months = []
       // set up a new date object to the beginning of the current 'page'
       let dObj = new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
@@ -287,7 +289,7 @@ export default {
       return months
     },
     years () {
-      const d = new Date(this.pageDate)
+      const d = this.pageDate
       let years = []
       // set up a new date object to the beginning of the current 'page'
       let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
@@ -438,30 +440,29 @@ export default {
      * @return {Number}
      */
     getPageDate () {
-      return (new Date(this.pageDate)).getDate()
+      return this.pageDate.getDate()
     },
     /**
      * @return {Number}
      */
     getPageMonth () {
-      return (new Date(this.pageDate)).getMonth()
+      return this.pageDate.getMonth()
     },
     /**
      * @return {Number}
      */
     getPageYear () {
-      return (new Date(this.pageDate)).getFullYear()
+      return this.pageDate.getFullYear()
     },
     /**
      * @return {String}
      */
     getPageDecade () {
-      let date = new Date(this.pageDate)
-      let sD = Math.floor(date.getFullYear() / 10) * 10
+      let sD = Math.floor(this.pageDate.getFullYear() / 10) * 10
       return sD + '\'s'
     },
     changeMonth (incrementBy) {
-      let date = new Date(this.pageDate)
+      let date = this.pageDate
       date.setMonth(date.getMonth() + incrementBy)
       this.setPageDate(date)
       this.$emit('changedMonth', date)
@@ -475,7 +476,7 @@ export default {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
-      let d = new Date(this.pageDate)
+      let d = this.pageDate
       return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
     },
@@ -488,12 +489,12 @@ export default {
       if (!this.disabled || !this.disabled.from) {
         return false
       }
-      let d = new Date(this.pageDate)
+      let d = this.pageDate
       return this.disabled.from.getMonth() <= d.getMonth() &&
         this.disabled.from.getFullYear() <= d.getFullYear()
     },
     changeYear (incrementBy, emit = 'changedYear') {
-      let date = new Date(this.pageDate)
+      let date = this.pageDate
       date.setYear(date.getFullYear() + incrementBy)
       this.setPageDate(date)
       this.$emit(emit)
@@ -507,8 +508,7 @@ export default {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
-      let d = new Date(this.pageDate)
-      return this.disabled.to.getFullYear() >= d.getFullYear()
+      return this.disabled.to.getFullYear() >= this.pageDate.getFullYear()
     },
     nextYear () {
       if (!this.nextYearDisabled()) {
@@ -519,8 +519,7 @@ export default {
       if (!this.disabled || !this.disabled.from) {
         return false
       }
-      let d = new Date(this.pageDate)
-      return this.disabled.from.getFullYear() <= d.getFullYear()
+      return this.disabled.from.getFullYear() <= this.pageDate.getFullYear()
     },
     previousDecade () {
       if (!this.previousDecadeDisabled()) {
@@ -531,8 +530,7 @@ export default {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
-      let d = new Date(this.pageDate)
-      return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(d.getFullYear() / 10) * 10
+      return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
     },
     nextDecade () {
       if (!this.nextDecadeDisabled()) {
@@ -543,8 +541,7 @@ export default {
       if (!this.disabled || !this.disabled.from) {
         return false
       }
-      let d = new Date(this.pageDate)
-      return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(d.getFullYear() / 10) * 10
+      return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
     },
 
     /**
@@ -731,7 +728,7 @@ export default {
       if (!date) {
         date = new Date()
       }
-      this.pageDate = (new Date(date)).setDate(1)
+      this.pageTimestamp = (new Date(date)).setDate(1)
     },
 
     /**
