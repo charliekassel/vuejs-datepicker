@@ -44,6 +44,7 @@
                     v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
             </header>
             <div :class="isRtl ? 'flex-rtl' : ''">
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
               <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
               <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
               --><span class="cell day"
@@ -52,7 +53,6 @@
                   track-by="timestamp"
                   v-bind:class="dayClasses(day)"
                   @click="selectDate(day)">{{ day.date }}</span>
-              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
             </div>
         </div>
 
@@ -70,6 +70,7 @@
                       class="next"
                       v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
               </header>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
               <span class="cell month"
                   v-for="month in months"
                   :key="month.timestamp"
@@ -89,6 +90,7 @@
                   <span @click="nextDecade" class="next"
                       v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
               </header>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
               <span
                   class="cell year"
                   v-for="year in years"
@@ -931,11 +933,9 @@ $width = 300px
 .vdp-datepicker__calendar-button
     cursor pointer
     font-style normal
-<<<<<<< HEAD
     &.disabled
       color #999
       cursor default
-=======
 
 .vdp-datepicker__today-button
     cursor pointer
@@ -949,5 +949,4 @@ $width = 300px
     padding 8px
     margin 10px auto
 
->>>>>>> add today button
 </style>
