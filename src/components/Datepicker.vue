@@ -43,8 +43,8 @@
                     class="next"
                     v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
             </header>
+            <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
             <div :class="isRtl ? 'flex-rtl' : ''">
-              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
               <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
               <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
               --><span class="cell day"
