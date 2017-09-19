@@ -331,6 +331,27 @@ describe('Datepicker disabled dates', () => {
   })
 })
 
+describe('Datepicker respects disabled ranges', () => {
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        ranges: [{
+          from: new Date(2005, 6, 5),
+          to: new Date(2016, 9, 4)
+        }, {
+          from: new Date(2016, 9, 26),
+          to: new Date(2030, 12, 25)
+        }]
+      }
+    })
+  })
+
+  it('should detect disabled dates', () => {
+    expect(vm.isDisabledDate(new Date(2006, 9, 2))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2026, 9, 2))).to.equal(true)
+  })
+})
+
 describe('Datepicker has disabled dates but can change dates', () => {
   it('can change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {

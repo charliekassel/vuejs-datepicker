@@ -581,6 +581,16 @@ export default {
       if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
         disabled = true
       }
+      if (typeof this.disabled.ranges !== 'undefined') {
+        this.disabled.ranges.forEach((r) => {
+          if (typeof r.from !== 'undefined' && r.from && typeof r.to !== 'undefined' && r.to) {
+            if (date < r.to && date > r.from) {
+              disabled = true
+              return true
+            }
+          }
+        })
+      }
       if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
         disabled = true
       }
