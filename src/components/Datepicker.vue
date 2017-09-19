@@ -120,10 +120,7 @@ export default {
       type: String,
       default: 'en'
     },
-    fullMonthName: {
-      type: Boolean,
-      default: false
-    },
+    fullMonthName: Boolean,
     disabled: Object,
     highlighted: Object,
     placeholder: String,
@@ -131,46 +128,19 @@ export default {
     calendarClass: [String, Object],
     inputClass: [String, Object],
     wrapperClass: [String, Object],
-    mondayFirst: {
-      type: Boolean,
-      default: false
-    },
-    clearButton: {
-      type: Boolean,
-      default: false
-    },
-    clearButtonIcon: {
-      type: String,
-      default: ''
-    },
-    calendarButton: {
-      type: Boolean,
-      default: false
-    },
-    calendarButtonIcon: {
-      type: String,
-      default: ''
-    },
-    bootstrapStyling: {
-      type: Boolean,
-      default: false
-    },
+    mondayFirst: Boolean,
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    bootstrapStyling: Boolean,
     initialView: {
       type: String,
       default: 'day'
     },
-    disabledPicker: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    dayViewOnly: {
-      type: Boolean,
-      default: false
-    }
+    disabledPicker: Boolean,
+    required: Boolean,
+    dayViewOnly: Boolean
   },
   data () {
     return {
