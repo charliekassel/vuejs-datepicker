@@ -476,6 +476,18 @@ describe('Datepicker highlight date', () => {
     expect(vm.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
     expect(vm.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
   })
+
+  it('should detect the first date of the highlighted dates', () => {
+    expect(vm.isHighlightStart(new Date(2016, 12, 4))).to.equal(true)
+    expect(vm.isHighlightStart(new Date(2016, 12, 3))).to.equal(false)
+    expect(vm.isHighlightStart(new Date(2016, 12, 5))).to.equal(false)
+  })
+
+  it('should detect the last date of the highlighted dates', () => {
+    expect(vm.isHighlightEnd(new Date(2016, 12, 8))).to.equal(true)
+    expect(vm.isHighlightEnd(new Date(2016, 12, 6))).to.equal(false)
+    expect(vm.isHighlightEnd(new Date(2016, 12, 7))).to.equal(false)
+  })
 })
 
 describe('Datepicker with monday as first day of week', () => {
