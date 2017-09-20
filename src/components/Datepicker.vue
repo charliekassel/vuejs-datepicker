@@ -373,7 +373,7 @@ export default {
     },
     /**
      * @param {Object} day
-    */
+     */
     selectDate (day) {
       if (day.isDisabled) {
         return false
@@ -386,7 +386,7 @@ export default {
     },
     /**
      * @param {Object} month
-    */
+     */
     selectMonth (month) {
       if (month.isDisabled) {
         return false
