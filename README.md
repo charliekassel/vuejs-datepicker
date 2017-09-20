@@ -154,10 +154,10 @@ var state = {
         ],
         ranges: [{ // Disable dates in given ranges (exclusive).
             from: new Date(2016, 11, 25),
-            to: from: new Date(2016, 11, 30)
+            to: new Date(2016, 11, 30)
         }, {
             from: new Date(2017, 1, 12),
-            to: from: new Date(2017, 2, 25)
+            to: new Date(2017, 2, 25)
         }]
     }
 }
