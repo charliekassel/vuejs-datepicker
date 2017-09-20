@@ -371,6 +371,9 @@ export default {
       this.$emit('input', null)
       this.$emit('cleared')
     },
+    /**
+     * @param {Object} day
+    */
     selectDate (day) {
       if (day.isDisabled) {
         return false
@@ -381,6 +384,9 @@ export default {
       }
       this.close()
     },
+    /**
+     * @param {Object} month
+    */
     selectMonth (month) {
       if (month.isDisabled) {
         return false
@@ -390,6 +396,9 @@ export default {
       this.showDayCalendar()
       this.$emit('changedMonth', month)
     },
+    /**
+     * @param {Object} year
+    */
     selectYear (year) {
       if (year.isDisabled) {
         return false
@@ -399,15 +408,27 @@ export default {
       this.showMonthCalendar()
       this.$emit('changedYear', year)
     },
+    /**
+     * @return {Number}
+    */
     getPageDate () {
       return this.pageDate.getDate()
     },
+    /**
+     * @return {Number}
+    */
     getPageMonth () {
       return this.pageDate.getMonth()
     },
+    /**
+     * @return {Number}
+    */
     getPageYear () {
       return this.pageDate.getFullYear()
     },
+    /**
+     * @return {String}
+    */
     getPageDecade () {
       let sD = Math.floor(this.pageDate.getFullYear() / 10) * 10
       return sD + '\'s'
@@ -593,14 +614,29 @@ export default {
         (this.highlighted.to.getMonth() === date.getMonth()) &&
         (this.highlighted.to.getDate() === date.getDate())
     },
+    /**
+     * Helper
+     * @param  {mixed}  prop
+     * @return {Boolean}
+    */
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
     },
+    /**
+     * Whether the selected date is in this month
+     * @param {Date}
+     * @return {Boolean}
+    */
     isSelectedMonth (date) {
       return (this.selectedDate &&
         this.selectedDate.getFullYear() === date.getFullYear() &&
         this.selectedDate.getMonth() === date.getMonth())
     },
+    /**
+     * Whether a month is disabled
+     * @param {Date}
+     * @return {Boolean}
+    */
     isDisabledMonth (date) {
       let disabled = false
 
@@ -627,9 +663,19 @@ export default {
       }
       return disabled
     },
+    /**
+     * Whether the selected date is in this year
+     * @param {Date}
+     * @return {Boolean}
+    */
     isSelectedYear (date) {
       return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
     },
+    /**
+     * Whether a year is disabled
+     * @param {Date}
+     * @return {Boolean}
+    */
     isDisabledYear (date) {
       let disabled = false
       if (typeof this.disabled === 'undefined' || !this.disabled) {
