@@ -398,7 +398,7 @@ export default {
     },
     /**
      * @param {Object} year
-    */
+     */
     selectYear (year) {
       if (year.isDisabled) {
         return false
@@ -410,25 +410,25 @@ export default {
     },
     /**
      * @return {Number}
-    */
+     */
     getPageDate () {
       return this.pageDate.getDate()
     },
     /**
      * @return {Number}
-    */
+     */
     getPageMonth () {
       return this.pageDate.getMonth()
     },
     /**
      * @return {Number}
-    */
+     */
     getPageYear () {
       return this.pageDate.getFullYear()
     },
     /**
      * @return {String}
-    */
+     */
     getPageDecade () {
       let sD = Math.floor(this.pageDate.getFullYear() / 10) * 10
       return sD + '\'s'
@@ -618,7 +618,7 @@ export default {
      * Helper
      * @param  {mixed}  prop
      * @return {Boolean}
-    */
+     */
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
     },
@@ -626,7 +626,7 @@ export default {
      * Whether the selected date is in this month
      * @param {Date}
      * @return {Boolean}
-    */
+     */
     isSelectedMonth (date) {
       return (this.selectedDate &&
         this.selectedDate.getFullYear() === date.getFullYear() &&
@@ -636,7 +636,7 @@ export default {
      * Whether a month is disabled
      * @param {Date}
      * @return {Boolean}
-    */
+     */
     isDisabledMonth (date) {
       let disabled = false
 
@@ -667,7 +667,7 @@ export default {
      * Whether the selected date is in this year
      * @param {Date}
      * @return {Boolean}
-    */
+     */
     isSelectedYear (date) {
       return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
     },
@@ -675,7 +675,7 @@ export default {
      * Whether a year is disabled
      * @param {Date}
      * @return {Boolean}
-    */
+     */
     isDisabledYear (date) {
       let disabled = false
       if (typeof this.disabled === 'undefined' || !this.disabled) {
