@@ -582,9 +582,9 @@ export default {
         disabled = true
       }
       if (typeof this.disabled.ranges !== 'undefined') {
-        this.disabled.ranges.forEach((r) => {
-          if (typeof r.from !== 'undefined' && r.from && typeof r.to !== 'undefined' && r.to) {
-            if (date < r.to && date > r.from) {
+        this.disabled.ranges.forEach((range) => {
+          if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
+            if (date < range.to && date > range.from) {
               disabled = true
               return true
             }
