@@ -120,10 +120,7 @@ export default {
       type: String,
       default: 'en'
     },
-    fullMonthName: {
-      type: Boolean,
-      default: false
-    },
+    fullMonthName: Boolean,
     disabled: Object,
     highlighted: Object,
     placeholder: String,
@@ -131,46 +128,19 @@ export default {
     calendarClass: [String, Object],
     inputClass: [String, Object],
     wrapperClass: [String, Object],
-    mondayFirst: {
-      type: Boolean,
-      default: false
-    },
-    clearButton: {
-      type: Boolean,
-      default: false
-    },
-    clearButtonIcon: {
-      type: String,
-      default: ''
-    },
-    calendarButton: {
-      type: Boolean,
-      default: false
-    },
-    calendarButtonIcon: {
-      type: String,
-      default: ''
-    },
-    bootstrapStyling: {
-      type: Boolean,
-      default: false
-    },
+    mondayFirst: Boolean,
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    bootstrapStyling: Boolean,
     initialView: {
       type: String,
       default: 'day'
     },
-    disabledPicker: {
-      type: Boolean,
-      default: false
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    dayViewOnly: {
-      type: Boolean,
-      default: false
-    }
+    disabledPicker: Boolean,
+    required: Boolean,
+    dayViewOnly: Boolean
   },
   data () {
     return {
@@ -545,7 +515,6 @@ export default {
       }
       return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
     },
-
     /**
      * Whether a day is selected
      * @param {Date}
@@ -554,7 +523,6 @@ export default {
     isSelectedDate (dObj) {
       return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
     },
-
     /**
      * Whether a day is disabled
      * @param {Date}
@@ -596,7 +564,6 @@ export default {
       }
       return disabled
     },
-
     /**
      * Whether a day is highlighted (only if it is not disabled already)
      * @param {Date}
@@ -631,7 +598,6 @@ export default {
       }
       return highlighted
     },
-
     /**
      * Whether a day is highlighted and it is the first date
      * in the highlighted range of dates
@@ -645,7 +611,6 @@ export default {
         (this.highlighted.from.getMonth() === date.getMonth()) &&
         (this.highlighted.from.getDate() === date.getDate())
     },
-
     /**
      * Whether a day is highlighted and it is the first date
      * in the highlighted range of dates
@@ -659,7 +624,6 @@ export default {
         (this.highlighted.to.getMonth() === date.getMonth()) &&
         (this.highlighted.to.getDate() === date.getDate())
     },
-
     /**
      * Helper
      * @param  {mixed}  prop
@@ -668,7 +632,6 @@ export default {
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
     },
-
     /**
      * Whether the selected date is in this month
      * @param {Date}
@@ -679,7 +642,6 @@ export default {
         this.selectedDate.getFullYear() === date.getFullYear() &&
         this.selectedDate.getMonth() === date.getMonth())
     },
-
     /**
      * Whether a month is disabled
      * @param {Date}
@@ -711,18 +673,16 @@ export default {
       }
       return disabled
     },
-
     /**
-     * Whether a year is disabled
+     * Whether the selected date is in this year
      * @param {Date}
      * @return {Boolean}
      */
     isSelectedYear (date) {
       return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
     },
-
     /**
-     * Whether a month is disabled
+     * Whether a year is disabled
      * @param {Date}
      * @return {Boolean}
      */
@@ -745,7 +705,6 @@ export default {
 
       return disabled
     },
-
     /**
      * Set the datepicker value
      * @param {Date|String|null} date
@@ -763,14 +722,12 @@ export default {
       this.selectedDate = date
       this.setPageDate(date)
     },
-
     setPageDate (date) {
       if (!date) {
         date = new Date()
       }
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
-
     /**
      * Close the calendar if clicked outside the datepicker
      * @param  {Event} event
@@ -785,7 +742,6 @@ export default {
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
-
     dayClasses (day) {
       return {
         'selected': day.isSelected,
@@ -799,7 +755,6 @@ export default {
         'highlight-end': day.isHighlightEnd
       }
     },
-
     init () {
       if (this.value) {
         this.setValue(this.value)
