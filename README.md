@@ -151,7 +151,14 @@ var state = {
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
-        ]
+        ],
+        ranges: [{ // Disable dates in given ranges (exclusive).
+            from: new Date(2016, 11, 25),
+            to: new Date(2016, 11, 30)
+        }, {
+            from: new Date(2017, 1, 12),
+            to: new Date(2017, 2, 25)
+        }]
     }
 }
 </script>
