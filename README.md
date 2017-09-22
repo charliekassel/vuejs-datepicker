@@ -89,16 +89,17 @@ Inline always open version
 
 These events are emitted on actions in the datepicker
 
-| Event         | Output     | Description                   |
-|---------------|------------|-------------------------------|
-| opened        |            | The picker is opened          |
-| closed        |            | The picker is closed          |
-| selected      | Date\|null | A date has been selected      |
-| input         | Date\|null | Input value has been modified |
-| cleared       |            | Selected date has been cleared|
-| changedMonth  | Object     | Month page has been changed   |
-| changedYear   | Object     | Year page has been changed    |
-| changedDecade | Object     | Decade page has been changed  |
+| Event             | Output     | Description                          |
+|-------------------|------------|--------------------------------------|
+| opened            |            | The picker is opened                 |
+| closed            |            | The picker is closed                 |
+| selected          | Date\|null | A date has been selected             |
+| selectedDisabled  | Object     | A disabled date has been selected    |
+| input             | Date\|null | Input value has been modified        |
+| cleared           |            | Selected date has been cleared       |
+| changedMonth      | Object     | Month page has been changed          |
+| changedYear       | Object     | Year page has been changed           |
+| changedDecade     | Object     | Decade page has been changed         |
 
 
 ## Date formatting
