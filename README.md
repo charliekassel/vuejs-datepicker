@@ -2,7 +2,9 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/charliekassel/vuejs-datepicker/badge.svg?branch=master)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 
-A datepicker Vue component. Compatible with Vue 1.x and Vue 2.x
+A datepicker Vue component. Compatible with Vue 2.x
+
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with 1.x you can install with `npm install vuejs-datepicker@0.9.9`
 
 ## Demo
 
@@ -149,7 +151,14 @@ var state = {
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
-        ]
+        ],
+        ranges: [{ // Disable dates in given ranges (exclusive).
+            from: new Date(2016, 11, 25),
+            to: new Date(2016, 11, 30)
+        }, {
+            from: new Date(2017, 1, 12),
+            to: new Date(2017, 2, 25)
+        }]
     }
 }
 </script>
@@ -183,6 +192,10 @@ var state = {
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
+- Add your language object to the DateLanguages.js file. Please keep in alphabetical order.
+- Add the Language to the available languages in the readme file.
+- Run `npm run lint` to make sure your code formatting is in line with the required code style.
+
 ``` html
 <datepicker language="es"></datepicker>
 ```
@@ -193,6 +206,7 @@ Available languages
 | ar          | Arabic           |          |
 | bg          | Bulgarian        |          |
 | bs          | Bosnian          |          |
+| ca          | Catalan          |          |
 | cs          | Czech            |          |
 | da          | Danish           |          |
 | de          | German           |          |
@@ -212,6 +226,8 @@ Available languages
 | ja          | Japanese         |          |
 | ko          | Korean           |          |
 | lt          | Lithuanian       |          |
+| lv          | Latvian          |          |
+| mn          | Mongolian        |          |
 | nb-no       | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |

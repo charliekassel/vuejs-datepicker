@@ -85,6 +85,21 @@
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>
     </div>
+    <div class="example">
+      <h3>RTL datepicker</h3>
+      <datepicker language="he"></datepicker>
+      <code>
+          &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Day view only RTL</h3>
+      <datepicker :day-view-only="true" language="he"></datepicker>
+      <code>
+        &lt;datepicker :day-view-only="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
 
     <div class="example">
       <h3>Day view only</h3>
