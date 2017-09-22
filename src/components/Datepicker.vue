@@ -376,6 +376,7 @@ export default {
      */
     selectDate (day) {
       if (day.isDisabled) {
+        this.$emit('selectedDisabled', day)
         return false
       }
       this.setDate(day.timestamp)
