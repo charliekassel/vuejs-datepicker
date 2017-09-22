@@ -1,6 +1,6 @@
 {
   "name": "vuejs-datepicker",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
@@ -28,8 +28,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "prepublish": "npm run build"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.7.2",
     "babel-core": "^6.22.1",
