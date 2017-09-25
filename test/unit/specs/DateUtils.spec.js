@@ -1,7 +1,7 @@
 /* global describe, it, expect */
 
-import DateUtils from '../../src/utils/DateUtils'
-import DateLanguages from '../../src/utils/DateLanguages'
+import DateUtils from '../../../src/utils/DateUtils'
+import DateLanguages from '../../../src/utils/DateLanguages'
 
 describe('DateUtils', () => {
   it('should detect invalid date object', () => {
@@ -59,19 +59,10 @@ describe('DateUtils', () => {
     })
   })
 
-  it('gives total days between two dates', () => {
-    expect(DateUtils.dayDiff(new Date(2016, 9, 5), new Date(2016, 9, 6))).to.equal(1)
-  })
-
   it('gives days in a month', () => {
     expect(DateUtils.daysInMonth(2016, 0)).to.equal(31)
     expect(DateUtils.daysInMonth(2016, 1)).to.equal(29)
     expect(DateUtils.daysInMonth(2016, 2)).to.equal(31)
-  })
-
-  it('converts to UTC. This is not a test...', () => {
-    const d = new Date()
-    expect(DateUtils.convertToUTC(d).getTime()).to.equal(d.getTime() + (d.getTimezoneOffset() * 60000))
   })
 
   it('getDayNameAbbr moans if date is not a Date object', () => {
@@ -108,5 +99,22 @@ describe('DateUtils', () => {
 
   it('getMonthName accepts a number', () => {
     expect(DateUtils.getMonthNameAbbr(3, DateLanguages.translations.en.months.abbr)).to.equal('Apr')
+  })
+})
+
+describe('daysInMonth', () => {
+  it('should give the correct days in a month', () => {
+    expect(DateUtils.daysInMonth(2017, 0)).to.equal(31) // Jan
+    expect(DateUtils.daysInMonth(2017, 1)).to.equal(28) // Feb
+    expect(DateUtils.daysInMonth(2017, 2)).to.equal(31) // Mar
+    expect(DateUtils.daysInMonth(2017, 3)).to.equal(30) // Apr
+    expect(DateUtils.daysInMonth(2017, 4)).to.equal(31) // May
+    expect(DateUtils.daysInMonth(2017, 5)).to.equal(30) // Jun
+    expect(DateUtils.daysInMonth(2017, 6)).to.equal(31) // Jul
+    expect(DateUtils.daysInMonth(2017, 7)).to.equal(31) // Aug
+    expect(DateUtils.daysInMonth(2017, 8)).to.equal(30) // Sep
+    expect(DateUtils.daysInMonth(2017, 9)).to.equal(31) // Oct
+    expect(DateUtils.daysInMonth(2017, 10)).to.equal(30) // Nov
+    expect(DateUtils.daysInMonth(2017, 11)).to.equal(31) // Dec
   })
 })
