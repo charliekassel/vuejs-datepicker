@@ -8,7 +8,9 @@ NB. Vue 1.x was supported up to version v0.9.9. If you want to use this componen
 
 ## Demo
 
-https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC
+Demo is broken :(
+To view examples clone the repo and run `npm install && npm run dev`
+https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC - not currently working.
 
 ## Install
 
