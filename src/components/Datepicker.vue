@@ -563,6 +563,9 @@ export default {
       if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
         disabled = true
       }
+      if (typeof this.disabled.daysOfMonth !== 'undefined' && this.disabled.daysOfMonth.indexOf(date.getDate()) !== -1) {
+        disabled = true
+      }
       return disabled
     },
     /**
