@@ -58,7 +58,14 @@
           <label>Disabled from:</label>
           <datepicker v-on:selected="disableFrom"></datepicker>
         </div>
+        <div class="form-group">
+          <label>Disabled Days of Month:</label>
+          <input type="text" value="" v-on:change="setDisabledDays">
+        </div>
         <pre>disabled: {{ disabled }}</pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :disabled="disabled"></datepicker>
       </div>
     </div>
 
@@ -137,10 +144,22 @@ export default {
     }
   },
   methods: {
+    setDisabledDays (elem) {
+      if (elem.target.value === 'undefined') {
+        return
+      }
+      let disabledDays = elem.target.value.split(',').map(day => parseInt(day))
+      this.disabled = {
+        from: this.disabled.from,
+        to: this.disabled.to,
+        daysOfMonth: disabledDays
+      }
+    },
     disableTo (val) {
       if (typeof this.disabled.to === 'undefined') {
         this.disabled = {
           to: null,
+          daysOfMonth: this.disabled.daysOfMonth,
           from: this.disabled.from
         }
       }
@@ -150,6 +169,7 @@ export default {
       if (typeof this.disabled.from === 'undefined') {
         this.disabled = {
           to: this.disabled.to,
+          daysOfMonth: this.disabled.daysOfMonth,
           from: null
         }
       }

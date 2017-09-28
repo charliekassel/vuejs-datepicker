@@ -433,6 +433,18 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
     expect(vm.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
   })
+
+  it('can accept an array of disabled days of the month', () => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        daysOfMonth: [29, 30, 31]
+      }
+    })
+    expect(vm.isDisabledDate(new Date(2016, 8, 29))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 31))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 10, 30))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 11))).to.equal(false)
+  })
 })
 
 describe('Datepicker highlight date', () => {
