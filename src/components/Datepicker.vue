@@ -4,7 +4,7 @@
       <!-- Calendar Button -->
       <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
         <i :class="calendarButtonIcon">
-          <span v-if="calendarButtonIcon">&hellip;</span>
+          <span v-if="!calendarButtonIcon">&hellip;</span>
         </i>
       </span>
       <!-- Input -->
@@ -23,7 +23,7 @@
       <!-- Clear Button -->
       <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
         <i :class="clearButtonIcon">
-          <span v-if="clearButtonIcon">&times;</span>
+          <span v-if="!clearButtonIcon">&times;</span>
         </i>
       </span>
     </div>
