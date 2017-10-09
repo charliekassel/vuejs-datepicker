@@ -43,7 +43,7 @@
                     class="next"
                     v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
             </header>
-            <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
+            <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
             <div :class="isRtl ? 'flex-rtl' : ''">
               <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
               <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
@@ -70,7 +70,7 @@
                       class="next"
                       v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
               </header>
-              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
               <span class="cell month"
                   v-for="month in months"
                   :key="month.timestamp"
@@ -90,7 +90,7 @@
                   <span @click="nextDecade" class="next"
                       v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
               </header>
-              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate(today)">Today</button>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
               <span
                   class="cell year"
                   v-for="year in years"
@@ -204,12 +204,12 @@ export default {
     currYear () {
       return this.pageDate.getFullYear()
     },
-    today () {
-      return {
-        date: new Date(this.currDate),
-        timestamp: new Date()
-      }
-    },
+    // today () {
+    //   return {
+    //     date: new Date(this.currDate),
+    //     timestamp: new Date()
+    //   }
+    // },
     /**
      * Returns the day number of the week less one for the first of the current month
      * Used to show amount of empty cells before the first in the day calendar layout
