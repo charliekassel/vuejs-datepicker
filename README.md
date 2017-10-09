@@ -8,7 +8,9 @@ NB. Vue 1.x was supported up to version v0.9.9. If you want to use this componen
 
 ## Demo
 
-https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC
+Demo is broken :(
+To view examples clone the repo and run `npm install && npm run dev`
+https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC - not currently working.
 
 ## Install
 
@@ -90,16 +92,17 @@ Inline always open version
 
 These events are emitted on actions in the datepicker
 
-| Event         | Output     | Description                   |
-|---------------|------------|-------------------------------|
-| opened        |            | The picker is opened          |
-| closed        |            | The picker is closed          |
-| selected      | Date\|null | A date has been selected      |
-| input         | Date\|null | Input value has been modified |
-| cleared       |            | Selected date has been cleared|
-| changedMonth  | Object     | Month page has been changed   |
-| changedYear   | Object     | Year page has been changed    |
-| changedDecade | Object     | Decade page has been changed  |
+| Event             | Output     | Description                          |
+|-------------------|------------|--------------------------------------|
+| opened            |            | The picker is opened                 |
+| closed            |            | The picker is closed                 |
+| selected          | Date\|null | A date has been selected             |
+| selectedDisabled  | Object     | A disabled date has been selected    |
+| input             | Date\|null | Input value has been modified        |
+| cleared           |            | Selected date has been cleared       |
+| changedMonth      | Object     | Month page has been changed          |
+| changedYear       | Object     | Year page has been changed           |
+| changedDecade     | Object     | Decade page has been changed         |
 
 
 ## Date formatting
@@ -148,11 +151,19 @@ var state = {
         to: new Date(2016, 0, 5), // Disable all dates up to specific date
         from: new Date(2016, 0, 26), // Disable all dates after specific date
         days: [6, 0], // Disable Saturday's and Sunday's
+        daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
         dates: [ // Disable an array of dates
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
-        ]
+        ],
+        ranges: [{ // Disable dates in given ranges (exclusive).
+            from: new Date(2016, 11, 25),
+            to: new Date(2016, 11, 30)
+        }, {
+            from: new Date(2017, 1, 12),
+            to: new Date(2017, 2, 25)
+        }]
     }
 }
 </script>
