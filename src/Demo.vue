@@ -70,6 +70,33 @@
     </div>
 
     <div class="example">
+      <h3>Highlighting Dates</h3>
+      <datepicker :disabled="disabled"></datepicker>
+      <code>
+        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Highlight from:</label>
+          <datepicker v-on:selected="highlightFrom"></datepicker>
+        </div>
+        <div class="form-group">
+          <label>Highlight to:</label>
+          <datepicker v-on:selected="highlightTo"></datepicker>
+        </div>
+        <div class="form-group">
+          <label>Highlight Days of Month:</label>
+          <input type="text" value="" v-on:change="setHighlightedDays">
+        </div>
+        <pre>highlighted: {{ highlighted }}</pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlighted"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>Translations</h3>
       <h5>{{ languages[language].language }} datepicker</h5>
 
@@ -136,6 +163,7 @@ export default {
     return {
       format: 'd MMMM yyyy',
       disabled: {},
+      highlighted: {},
       eventMsg: null,
       state: state,
       language: 'en',
@@ -144,6 +172,37 @@ export default {
     }
   },
   methods: {
+    highlightTo (val) {
+      if (typeof this.highlighted.to === 'undefined') {
+        this.highlighted = {
+          to: null,
+          daysOfMonth: this.highlighted.daysOfMonth,
+          from: this.highlighted.from
+        }
+      }
+      this.highlighted.to = val
+    },
+    highlightFrom (val) {
+      if (typeof this.highlighted.from === 'undefined') {
+        this.highlighted = {
+          to: this.highlighted.to,
+          daysOfMonth: this.highlighted.daysOfMonth,
+          from: null
+        }
+      }
+      this.highlighted.from = val
+    },
+    setHighlightedDays (elem) {
+      if (elem.target.value === 'undefined') {
+        return
+      }
+      let highlightedDays = elem.target.value.split(',').map(day => parseInt(day))
+      this.highlighted = {
+        from: this.highlighted.from,
+        to: this.highlighted.to,
+        daysOfMonth: highlightedDays
+      }
+    },
     setDisabledDays (elem) {
       if (elem.target.value === 'undefined') {
         return

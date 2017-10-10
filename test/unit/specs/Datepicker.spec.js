@@ -510,6 +510,20 @@ describe('Datepicker highlight date', () => {
     expect(vm.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
   })
 
+  it('can accept an array of highlighted days of the month', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        daysOfMonth: [1, 10, 31]
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 9, 1))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 10, 10))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 11, 31))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2017, 8, 10))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 8, 7))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 7, 20))).to.equal(false)
+  })
+
   it('should detect the first date of the highlighted dates', () => {
     expect(vm.isHighlightStart(new Date(2016, 12, 4))).to.equal(true)
     expect(vm.isHighlightStart(new Date(2016, 12, 3))).to.equal(false)
