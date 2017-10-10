@@ -221,6 +221,7 @@ Available languages
 | fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
 | fr          | French           |          |
+| ge          | Georgia           |          |
 | he          | Hebrew           |          |
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
