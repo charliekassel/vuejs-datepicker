@@ -180,6 +180,7 @@ var state = {
         to: new Date(2016, 0, 5), // Highlight all dates up to specific date
         from: new Date(2016, 0, 26), // Highlight all dates after specific date
         days: [6, 0], // Highlight Saturday's and Sunday's
+        daysOfMonth: [15, 20, 31], // Highlight 15th, 20th and 31st of each month
         dates: [ // Highlight an array of dates
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
