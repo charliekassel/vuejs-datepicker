@@ -7,19 +7,23 @@
           <span v-if="!calendarButtonIcon">&hellip;</span>
         </i>
       </span>
+      <label v-if="name" v-bind:for="name" v-text="name" class="ui label"></label>
       <!-- Input -->
       <input
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
         :id="id"
-        @click="showCalendar"
+        ref="inputdatepicker"
+        @keyup="updateDate"
+        @focus="showCalendar"
+        @blur="onBlur"
         :value="formattedValue"
         :placeholder="placeholder"
         :clear-button="clearButton"
         :disabled="disabledPicker"
         :required="required"
-        readonly>
+        v-mask="'##/##/####'">
       <!-- Clear Button -->
       <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
         <i :class="clearButtonIcon">
@@ -102,6 +106,7 @@
 <script>
 import DateUtils from '@/utils/DateUtils.js'
 import DateLanguages from '@/utils/DateLanguages.js'
+import {mask} from 'vue-the-mask'
 
 export default {
   props: {
@@ -142,6 +147,7 @@ export default {
     required: Boolean,
     dayViewOnly: Boolean
   },
+  directives: {mask},
   data () {
     return {
       /*
@@ -302,12 +308,27 @@ export default {
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
+    onBlur (e) {
+      if (e.relatedTarget) {
+        this.close()
+      }
+    },
     resetDefaultDate () {
       if (this.selectedDate === null) {
         this.setPageDate()
         return
       }
       this.setPageDate(this.selectedDate)
+    },
+    updateDate (event) {
+      let valueDate = this.$refs.inputdatepicker.value
+      let currentYear = this.disabled.from.getFullYear().toString().split('')
+      var regex = new RegExp('^(0[1-9]|[1-2]\\d|3[0-1])\\/(0[1-9]|1[0-2])\\/(19[7-9]\\d|200\\d|20[0-' + currentYear[2] + '][0-' + currentYear[3] + '])$')
+      if (event.key !== 'Backspace') {
+        if (valueDate.match(regex)) {
+          this.$emit('input', DateUtils.newDate(valueDate, this.format, this.translation))
+        }
+      }
     },
     /**
      * Effectively a toggle to show/hide the calendar
@@ -360,10 +381,10 @@ export default {
     },
     setDate (timestamp) {
       const date = new Date(timestamp)
-      this.selectedDate = new Date(date)
+      this.selectedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
       this.setPageDate(date)
-      this.$emit('selected', new Date(date))
-      this.$emit('input', new Date(date))
+      this.$emit('selected', new Date(date.getFullYear(), date.getMonth(), date.getDate()))
+      this.$emit('input', new Date(date.getFullYear(), date.getMonth(), date.getDate()))
     },
     clearDate () {
       this.selectedDate = null
