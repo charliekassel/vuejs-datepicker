@@ -86,6 +86,7 @@ Inline always open version
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
 | day-view-only         | Boolean         | false       | If true, month and year views won't show |
+| refName               | String          |             | Reference property                       |
 
 ## Events
 
