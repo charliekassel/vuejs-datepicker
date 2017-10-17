@@ -334,6 +334,9 @@ export default {
         return this.close()
       }
       this.setInitialView()
+      if (!this.isInline) {
+        this.$emit('opened')
+      }
     },
     setInitialView () {
       const initialView = this.computedInitialView
@@ -368,7 +371,6 @@ export default {
       this.close()
       this.showDayView = true
       if (!this.isInline) {
-        this.$emit('opened')
         document.addEventListener('click', this.clickOutside, false)
       }
     },
