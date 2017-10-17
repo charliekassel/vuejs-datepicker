@@ -567,7 +567,7 @@ describe('Datepicker with initial-view', () => {
   it('should open in Day view', () => {
     vm = getViewModel(Datepicker)
     vm.showCalendar()
-    expect(vm.initialView).to.equal('day')
+    expect(vm.computedInitialView).to.equal('day')
     expect(vm.showDayView).to.equal(true)
     expect(vm.showMonthView).to.equal(false)
     expect(vm.showYearView).to.equal(false)
@@ -578,7 +578,7 @@ describe('Datepicker with initial-view', () => {
       initialView: 'month'
     })
     vm.showCalendar()
-    expect(vm.initialView).to.equal('month')
+    expect(vm.computedInitialView).to.equal('month')
     expect(vm.showDayView).to.equal(false)
     expect(vm.showMonthView).to.equal(true)
     expect(vm.showYearView).to.equal(false)
@@ -589,41 +589,77 @@ describe('Datepicker with initial-view', () => {
       initialView: 'year'
     })
     vm.showCalendar()
-    expect(vm.initialView).to.equal('year')
+    expect(vm.computedInitialView).to.equal('year')
     expect(vm.showDayView).to.equal(false)
     expect(vm.showMonthView).to.equal(false)
     expect(vm.showYearView).to.equal(true)
   })
 })
 
-describe('Datepicker with day-view-only', () => {
-  beforeEach(() => {
+describe('Datepicker with restricted views', () => {
+  it('should default initialVicomputedInitialViewew to minimumView', () => {
     vm = getViewModel(Datepicker, {
-      dayViewOnly: true
+      minimumView: 'month',
+      maximumView: 'month'
+    })
+    expect(vm.computedInitialView).to.equal('month')
+  })
+
+  it('should only allow views in min-max range', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'month'
+    })
+    expect(vm.allowedToShowView('year')).to.equal(false)
+    expect(vm.allowedToShowView('day')).to.equal(true)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'month'
+    })
+    expect(vm.allowedToShowView('day')).to.equal(false)
+    expect(vm.allowedToShowView('year')).to.equal(false)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'year'
+    })
+    expect(vm.allowedToShowView('day')).to.equal(true)
+    expect(vm.allowedToShowView('year')).to.equal(true)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+  })
+
+  it('should throw an error on disallowed initial views', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'month',
+      initialView: 'year'
+    })
+
+    expect(function () {
+      vm.setInitialView()
+    }).to.throw()
+  })
+
+  it('should not render unused views', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'day'
     })
     vm.showCalendar()
-  })
-
-  it('should open in Day view', () => {
-    expect(vm.initialView).to.equal('day')
-    expect(vm.showDayView).to.equal(true)
-    expect(vm.showMonthView).to.equal(false)
-    expect(vm.showYearView).to.equal(false)
-  })
-
-  it('should return false on showMonthCalendar', () => {
-    let func = vm.showMonthCalendar()
-    expect(func).to.equal(false)
-  })
-
-  it('should not open month view on showMonthCalendar', () => {
-    vm.showMonthCalendar()
-    expect(vm.showMonthView).to.equal(false)
-  })
-
-  it('should not render month and year views', () => {
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(1)
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.month').length).to.equal(0)
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.equal(0)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'year'
+    })
+    vm.showCalendar()
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(2)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.day').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.not.equal(0)
   })
 })
