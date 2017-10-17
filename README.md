@@ -82,10 +82,11 @@ Inline always open version
 | calendar-button       | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String          |             | Use icon for button (ex: fa fa-calendar) |
 | bootstrapStyling      | Boolean         | false       | Output bootstrap styling classes         |
-| initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
+| initial-view          | String          | minimumView | If set, open on that view                |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
-| day-view-only         | Boolean         | false       | If true, month and year views won't show |
+| minimum-view          | String          | 'day'       | If set, lower-level views won't show     |
+| maximum-view          | String          | 'year'      | If set, higher-level views won't show    |
 
 ## Events
 
