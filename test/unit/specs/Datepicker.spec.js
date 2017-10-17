@@ -605,6 +605,29 @@ describe('Datepicker with restricted views', () => {
     expect(vm.computedInitialView).to.equal('month')
   })
 
+  it('should save and close when selecting on minimum-view "month"', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'year'
+    })
+    vm.selectYear(vm.years[0])
+    expect(vm.isOpen).to.equal(true)
+    vm.selectMonth(vm.months[0])
+    expect(vm.years[0].year).to.equal(vm.selectedDate.getFullYear())
+    const inputDate = new Date(vm.months[0].timestamp)
+    expect(inputDate.getMonth()).to.equal(vm.selectedDate.getMonth())
+  })
+
+  it('should save and close when selecting on minimum-view "year"', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'year',
+      maximumView: 'year'
+    })
+    vm.selectYear(vm.years[0])
+    expect(vm.isOpen).to.equal(false)
+    expect(vm.years[0].year).to.equal(vm.selectedDate.getFullYear())
+  })
+
   it('should only allow views in min-max range', () => {
     vm = getViewModel(Datepicker, {
       minimumView: 'day',
