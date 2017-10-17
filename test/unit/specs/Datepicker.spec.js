@@ -616,6 +616,7 @@ describe('Datepicker with restricted views', () => {
     expect(vm.years[0].year).to.equal(vm.selectedDate.getFullYear())
     const inputDate = new Date(vm.months[0].timestamp)
     expect(inputDate.getMonth()).to.equal(vm.selectedDate.getMonth())
+    expect(vm.isOpen).to.equal(false)
   })
 
   it('should save and close when selecting on minimum-view "year"', () => {
