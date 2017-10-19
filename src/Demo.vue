@@ -70,8 +70,52 @@
     </div>
 
     <div class="example">
-      <h3>Highlighting Dates</h3>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Disabled Function:</label>
+        </div>
+        <pre>
+          disabled: {
+            customPredictor: function (date) {
+              // disables every day of a month which is a multiple of 3
+              if (date.getDate() % 3 === 0) {
+                return true
+              }
+            }
+          }
+        </pre>
+        <h5>Resulting Date picker</h5>
+        <datepicker :disabled="disabledFn"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Highlighting Dates Matching Given Function</h3>
       <datepicker :disabled="disabled"></datepicker>
+      <code>
+        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <pre>
+          highlighted: {
+            customPredictor: function (date) {
+              // highlights every day of a month which is a multiple of 4
+              if (date.getDate() % 4 === 0) {
+                return true
+              }
+            }
+          }
+        </pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlightedFn"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Highlighting Dates</h3>
       <code>
         &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
       </code>
@@ -163,6 +207,20 @@ export default {
     return {
       format: 'd MMMM yyyy',
       disabled: {},
+      disabledFn: {
+        customPredictor (date) {
+          if (date.getDate() % 3 === 0) {
+            return true
+          }
+        }
+      },
+      highlightedFn: {
+        customPredictor (date) {
+          if (date.getDate() % 4 === 0) {
+            return true
+          }
+        }
+      },
       highlighted: {},
       eventMsg: null,
       state: state,

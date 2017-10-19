@@ -445,6 +445,22 @@ describe('Datepicker has disabled dates but can change dates', () => {
     expect(vm.isDisabledDate(new Date(2016, 10, 30))).to.equal(true)
     expect(vm.isDisabledDate(new Date(2016, 9, 11))).to.equal(false)
   })
+
+  it('can accept a customPredictor to check if the date is disabled', () => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        customPredictor (date) {
+          if (date.getDate() % 4 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(vm.isDisabledDate(new Date(2016, 8, 29))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2016, 9, 28))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 10, 24))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 11))).to.equal(false)
+  })
 })
 
 describe('Datepicker highlight date', () => {
@@ -522,6 +538,22 @@ describe('Datepicker highlight date', () => {
     expect(vm.isHighlightedDate(new Date(2017, 8, 10))).to.equal(true)
     expect(vm.isHighlightedDate(new Date(2016, 8, 7))).to.equal(false)
     expect(vm.isHighlightedDate(new Date(2016, 7, 20))).to.equal(false)
+  })
+
+  it('can accept a customPredictor to check if the date is highlighted', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        customPredictor (date) {
+          if (date.getDate() % 5 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 8, 30))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 28))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 10, 20))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 11))).to.equal(false)
   })
 
   it('should detect the first date of the highlighted dates', () => {
