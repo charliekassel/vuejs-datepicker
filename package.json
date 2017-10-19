@@ -1,6 +1,6 @@
 {
   "name": "vuejs-datepicker",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
