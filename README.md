@@ -62,30 +62,31 @@ Inline always open version
 ```
 ## Available props
 
-| Prop                  | Type            | Default     | Description                              |
-|-----------------------|-----------------|-------------|------------------------------------------|
-| value                 | Date\|String    |             | Date value of the datepicker             |
-| name                  | String          |             | Input name property                      |
-| id                    | String          |             | Input id                                 |
-| format                | String\|Function| dd MMM yyyy | Date formatting string or function       |
-| full-month-name       | Boolean         | false       | To show the full month name              |
-| language              | String          | en          | Translation for days and months          |
-| disabled              | Object          |             | See below for configuration              |
-| placeholder           | String          |             | Input placeholder text                   |
-| inline                | Boolean         |             | To show the datepicker always open       |
-| calendar-class        | String\|Object  |             | CSS class applied to the calendar el     |
-| input-class           | String\|Object  |             | CSS class applied to the input el        |
-| wrapper-class         | String\|Object  |             | CSS class applied to the outer div       |
-| monday-first          | Boolean         | false       | To start the week on Monday              |
-| clear-button          | Boolean         | false       | Show an icon for clearing the date       |
-| clear-button-icon     | String          |             | Use icon for button (ex: fa fa-times)    |
-| calendar-button       | Boolean         | false       | Show an icon that that can be clicked    |
-| calendar-button-icon  | String          |             | Use icon for button (ex: fa fa-calendar) |
-| bootstrapStyling      | Boolean         | false       | Output bootstrap styling classes         |
-| initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
-| disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
-| required              | Boolean         | false       | Sets html required attribute on input    |
-| day-view-only         | Boolean         | false       | If true, month and year views won't show |
+| Prop                          | Type            | Default     | Description                              |
+|-------------------------------|-----------------|-------------|------------------------------------------|
+| value                         | Date\|String    |             | Date value of the datepicker             |
+| name                          | String          |             | Input name property                      |
+| id                            | String          |             | Input id                                 |
+| format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
+| full-month-name               | Boolean         | false       | To show the full month name              |
+| language                      | String          | en          | Translation for days and months          |
+| disabled                      | Object          |             | See below for configuration              |
+| placeholder                   | String          |             | Input placeholder text                   |
+| inline                        | Boolean         |             | To show the datepicker always open       |
+| calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
+| input-class                   | String\|Object  |             | CSS class applied to the input el        |
+| wrapper-class                 | String\|Object  |             | CSS class applied to the outer div       |
+| monday-first                  | Boolean         | false       | To start the week on Monday              |
+| clear-button                  | Boolean         | false       | Show an icon for clearing the date       |
+| clear-button-icon             | String          |             | Use icon for button (ex: fa fa-times)    |
+| calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
+| calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
+| calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
+| bootstrapStyling              | Boolean         | false       | Output bootstrap styling classes         |
+| initial-view                  | String          | 'day'       | If 'month' or 'year', open on that view  |
+| disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
+| required                      | Boolean         | false       | Sets html required attribute on input    |
+| day-view-only                 | Boolean         | false       | If true, month and year views won't show |
 
 ## Events
 
