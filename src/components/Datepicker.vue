@@ -4,6 +4,7 @@
       <!-- Calendar Button -->
       <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
         <i :class="calendarButtonIcon">
+          {{ calendarButtonIconContent }}
           <span v-if="!calendarButtonIcon">&hellip;</span>
         </i>
       </span>
@@ -133,6 +134,7 @@ export default {
     clearButtonIcon: String,
     calendarButton: Boolean,
     calendarButtonIcon: String,
+    calendarButtonIconContent: String,
     bootstrapStyling: Boolean,
     initialView: {
       type: String,
