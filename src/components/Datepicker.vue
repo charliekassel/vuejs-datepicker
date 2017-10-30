@@ -21,7 +21,12 @@
         :required="required"
         readonly>
       <!-- Clear Button -->
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+      <span :class="{'form-control-clear form-control-feedback':true }" v-if="clearButton && selectedDate && bootstrapStyling" @click="clearDate()">
+        <i :class="clearButtonIcon">
+          <span v-if="!clearButtonIcon">&times;</span>
+        </i>
+      </span>
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate && !bootstrapStyling" @click="clearDate()">
         <i :class="clearButtonIcon">
           <span v-if="!clearButtonIcon">&times;</span>
         </i>
@@ -903,4 +908,19 @@ $width = 300px
     &.disabled
       color #999
       cursor default
+
+.form-control-clear
+    z-index 10
+    pointer-events auto
+    cursor pointer
+
+.form-control
+    border-top-right-radius 4px !important
+    border-top-left-radius 4px !important
+    border-bottom-right-radius 4px !important
+    border-bottom-left-radius 4px !important
+    background-color white !important
+
+
+
 </style>
