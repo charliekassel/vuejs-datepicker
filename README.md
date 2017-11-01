@@ -262,6 +262,7 @@ Available languages
 | ru          | Russian          |          |
 | sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
+| sr          | Serbian          |          |
 | sv          | Swedish          |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
