@@ -282,6 +282,14 @@ export default {
       },
       'days': ['Ned', 'Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob']
     },
+    'sr': {
+      'language': 'Serbian',
+      'months': {
+        'original': ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'],
+        'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec']
+      },
+      'days': ['Ned', 'Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub']
+    },
     'th': {
       'language': 'Thai',
       'months': {
