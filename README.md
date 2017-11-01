@@ -263,6 +263,8 @@ Available languages
 | sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
+| sr          | Serbian (Latin)  |          |
+| sr-Cyrl     | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
