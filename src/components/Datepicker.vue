@@ -19,6 +19,7 @@
         :clear-button="clearButton"
         :disabled="disabledPicker"
         :required="required"
+        :defaultDate="defaultDate"
         readonly>
       <!-- Clear Button -->
       <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
@@ -140,6 +141,7 @@ export default {
     },
     disabledPicker: Boolean,
     required: Boolean,
+    defaultDate: Date,
     dayViewOnly: Boolean
   },
   data () {
@@ -522,7 +524,15 @@ export default {
      * @return {Boolean}
      */
     isSelectedDate (dObj) {
-      return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
+      if (this.selectedDate) {
+        return this.selectedDate.toDateString() === dObj.toDateString()
+      }
+
+      if (this.defaultDate) {
+        return this.defaultDate.toDateString() === dObj.toDateString()
+      }
+
+      return false
     },
     /**
      * Whether a day is disabled
@@ -740,7 +750,7 @@ export default {
     },
     setPageDate (date) {
       if (!date) {
-        date = new Date()
+        date = this.defaultDate ? this.defaultDate : new Date()
       }
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
@@ -774,6 +784,9 @@ export default {
     init () {
       if (this.value) {
         this.setValue(this.value)
+      }
+      if (this.defaultDate) {
+        this.setPageDate(this.defaultDate)
       }
       if (this.isInline) {
         this.setInitialView()
