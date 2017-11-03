@@ -162,7 +162,17 @@ var state = {
         }, {
             from: new Date(2017, 1, 12),
             to: new Date(2017, 2, 25)
-        }]
+        }],
+        // a custom function that returns true if the date is disabled
+        // this can be used for wiring you own logic to disable a date if none
+        // of the above conditions serve your purpose
+        // this function should accept a date and return true if is disabled
+        customPredictor: function(date) {
+          // disables the date if it is a multiple of 5
+          if(date.getDate() % 5 == 0){
+            return true
+          }
+        }
     }
 }
 </script>
@@ -185,7 +195,17 @@ var state = {
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
-        ]
+        ],
+        // a custom function that returns true of the date is highlighted
+        // this can be used for wiring you own logic to highlight a date if none
+        // of the above conditions serve your purpose
+        // this function should accept a date and return true if is highlighted
+        customPredictor: function(date) {
+          // highlights the date if it is a multiple of 4
+          if(date.getDate() % 4 == 0){
+            return true
+          }
+        }
     }
 }
 </script>

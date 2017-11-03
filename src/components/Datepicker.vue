@@ -576,6 +576,9 @@ export default {
       if (typeof this.disabled.daysOfMonth !== 'undefined' && this.disabled.daysOfMonth.indexOf(date.getDate()) !== -1) {
         disabled = true
       }
+      if (typeof this.disabled.customPredictor === 'function' && this.disabled.customPredictor(date)) {
+        disabled = true
+      }
       return disabled
     },
     /**
@@ -612,6 +615,10 @@ export default {
       }
 
       if (typeof this.highlighted.daysOfMonth !== 'undefined' && this.highlighted.daysOfMonth.indexOf(date.getDate()) !== -1) {
+        highlighted = true
+      }
+
+      if (typeof this.highlighted.customPredictor === 'function' && this.highlighted.customPredictor(date)) {
         highlighted = true
       }
 
