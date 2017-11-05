@@ -149,7 +149,7 @@ export default {
     dayViewOnly: Boolean
   },
   data () {
-    var startDate = this.openDate ? new Date(this.openDate) : new Date()
+    const startDate = this.openDate ? new Date(this.openDate) : new Date()
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp

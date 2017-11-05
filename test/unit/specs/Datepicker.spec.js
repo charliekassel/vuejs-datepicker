@@ -629,8 +629,9 @@ describe('Datepicker with initial-view', () => {
 })
 
 describe('Datepicker with open date', () => {
+  const openDate = new Date(2016, 9, 12)
+
   beforeEach(() => {
-    const openDate = new Date(2016, 9, 12).getTime()
     vm = getViewModel(Datepicker, {
       openDate: openDate
     })
@@ -639,6 +640,13 @@ describe('Datepicker with open date', () => {
   it('should be set to november', () => {
     expect(vm.getPageMonth()).to.equal(9)
     expect(vm.getPageYear()).to.equal(2016)
+  })
+
+  it('should set pageTimestamp to be first day of open date\'s month', () => {
+    const d = new Date(vm.pageTimestamp)
+    expect(d.getFullYear()).to.equal(openDate.getFullYear())
+    expect(d.getMonth()).to.equal(openDate.getMonth())
+    expect(d.getDate()).to.equal(1)
   })
 
   it('should open with selected date if one is set', () => {
