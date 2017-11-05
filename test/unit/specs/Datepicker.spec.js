@@ -644,6 +644,8 @@ describe('Datepicker with open date', () => {
 
   it('should set pageTimestamp to be first day of open date\'s month', () => {
     const d = new Date(vm.pageTimestamp)
+    expect(vm.openDate.getTime()).to.equal(openDate.getTime())
+    vm.setPageDate()
     expect(d.getFullYear()).to.equal(openDate.getFullYear())
     expect(d.getMonth()).to.equal(openDate.getMonth())
     expect(d.getDate()).to.equal(1)
