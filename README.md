@@ -82,11 +82,12 @@ Inline always open version
 | calendar-button       | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String          |             | Use icon for button (ex: fa fa-calendar) |
 | bootstrapStyling      | Boolean         | false       | Output bootstrap styling classes         |
-| initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
+| initial-view          | String          | minimumView | If set, open on that view                |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
-| day-view-only         | Boolean         | false       | If true, month and year views won't show |
-| open-date             | Date\|Strng     |             | Open on that date                        |
+| open-date             | Date\|Strng     |             | If set, open on that date                |
+| minimum-view          | String          | 'day'       | If set, lower-level views won't show     |
+| maximum-view          | String          | 'year'      | If set, higher-level views won't show    |
 
 ## Events
 
@@ -264,6 +265,8 @@ Available languages
 | sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
+| sr          | Serbian (Latin)  |          |
+| sr-Cyrl     | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
