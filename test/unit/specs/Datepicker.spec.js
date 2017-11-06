@@ -19,6 +19,7 @@ describe('Datepicker unmounted', () => {
     expect(typeof Datepicker.data).to.equal('function')
     const defaultData = Datepicker.data()
     expect(defaultData.selectedDate).to.equal(null)
+    expect(defaultData.defaultDate).to.equal(null)
     expect(defaultData.showDayView).to.equal(false)
     expect(defaultData.showMonthView).to.equal(false)
     expect(defaultData.showYearView).to.equal(false)
