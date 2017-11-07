@@ -82,11 +82,13 @@ Inline always open version
 | calendar-button       | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon  | String          |             | Use icon for button (ex: fa fa-calendar) |
 | bootstrapStyling      | Boolean         | false       | Output bootstrap styling classes         |
-| initial-view          | String          | 'day'       | If 'month' or 'year', open on that view  |
+| initial-view          | String          | minimumView | If set, open on that view                |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
 | day-view-only         | Boolean         | false       | If true, month and year views won't show |
 | refName               | String          |             | Reference property                       |
+| minimum-view          | String          | 'day'       | If set, lower-level views won't show     |
+| maximum-view          | String          | 'year'      | If set, higher-level views won't show    |
 
 ## Events
 
@@ -163,7 +165,17 @@ var state = {
         }, {
             from: new Date(2017, 1, 12),
             to: new Date(2017, 2, 25)
-        }]
+        }],
+        // a custom function that returns true if the date is disabled
+        // this can be used for wiring you own logic to disable a date if none
+        // of the above conditions serve your purpose
+        // this function should accept a date and return true if is disabled
+        customPredictor: function(date) {
+          // disables the date if it is a multiple of 5
+          if(date.getDate() % 5 == 0){
+            return true
+          }
+        }
     }
 }
 </script>
@@ -186,7 +198,17 @@ var state = {
             new Date(2016, 9, 16),
             new Date(2016, 9, 17),
             new Date(2016, 9, 18)
-        ]
+        ],
+        // a custom function that returns true of the date is highlighted
+        // this can be used for wiring you own logic to highlight a date if none
+        // of the above conditions serve your purpose
+        // this function should accept a date and return true if is highlighted
+        customPredictor: function(date) {
+          // highlights the date if it is a multiple of 4
+          if(date.getDate() % 4 == 0){
+            return true
+          }
+        }
     }
 }
 </script>
@@ -244,6 +266,8 @@ Available languages
 | sk          | Slovak           |          |
 | sl-si       | Slovenian        |          |
 | sv          | Swedish          |          |
+| sr          | Serbian (Latin)  |          |
+| sr-Cyrl     | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
