@@ -30,40 +30,42 @@
     </div>
 
         <!-- Day View -->
-        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
-            <header>
-                <span
-                    @click="isRtl ? nextMonth() : previousMonth()"
-                    class="prev"
-                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
-                <span @click="showMonthCalendar" :class="!dayViewOnly ? 'up' : ''">{{ currMonthName }} {{ currYear }}
-                </span>
-                <span
-                    @click="isRtl ? previousMonth() : nextMonth()"
-                    class="next"
-                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
-            </header>
-            <div :class="isRtl ? 'flex-rtl' : ''">
-              <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-              <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
-              --><span class="cell day"
-                  v-for="day in days"
-                  :key="day.timestamp"
-                  track-by="timestamp"
-                  v-bind:class="dayClasses(day)"
-                  @click="selectDate(day)">{{ day.date }}</span>
-            </div>
-        </div>
+        <template v-if="allowedToShowView('day')">
+          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
+              <header>
+                  <span
+                      @click="isRtl ? nextMonth() : previousMonth()"
+                      class="prev"
+                      v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
+                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ currMonthName }} {{ currYear }}
+                  </span>
+                  <span
+                      @click="isRtl ? previousMonth() : nextMonth()"
+                      class="next"
+                      v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+              </header>
+              <div :class="isRtl ? 'flex-rtl' : ''">
+                <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+                <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
+                --><span class="cell day"
+                    v-for="day in days"
+                    :key="day.timestamp"
+                    track-by="timestamp"
+                    v-bind:class="dayClasses(day)"
+                    @click="selectDate(day)">{{ day.date }}</span>
+              </div>
+          </div>
+        </template>
 
         <!-- Month View -->
-        <template v-if="!dayViewOnly">
+        <template v-if="allowedToShowView('month')">
           <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
               <header>
                   <span
                       @click="previousYear"
                       class="prev"
                       v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showYearCalendar" class="up">{{ getPageYear() }}</span>
+                  <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear() }}</span>
                   <span
                       @click="nextYear"
                       class="next"
@@ -79,7 +81,7 @@
         </template>
 
         <!-- Year View -->
-        <template v-if="!dayViewOnly">
+        <template v-if="allowedToShowView('year')">
           <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
               <header>
                   <span @click="previousDecade" class="prev"
@@ -136,13 +138,17 @@ export default {
     calendarButtonIcon: String,
     calendarButtonIconContent: String,
     bootstrapStyling: Boolean,
-    initialView: {
+    initialView: String,
+    disabledPicker: Boolean,
+    required: Boolean,
+    minimumView: {
       type: String,
       default: 'day'
     },
-    disabledPicker: Boolean,
-    required: Boolean,
-    dayViewOnly: Boolean
+    maximumView: {
+      type: String,
+      default: 'year'
+    }
   },
   data () {
     return {
@@ -179,6 +185,13 @@ export default {
     }
   },
   computed: {
+    computedInitialView () {
+      if (!this.initialView) {
+        return this.minimumView
+      }
+
+      return this.initialView
+    },
     pageDate () {
       return new Date(this.pageTimestamp)
     },
@@ -323,9 +336,18 @@ export default {
         return this.close()
       }
       this.setInitialView()
+      if (!this.isInline) {
+        this.$emit('opened')
+      }
     },
     setInitialView () {
-      switch (this.initialView) {
+      const initialView = this.computedInitialView
+
+      if (!this.allowedToShowView(initialView)) {
+        throw new Error(`initialView '${this.initialView}' cannot be rendered based on minimum '${this.minimumView}' and maximum '${this.maximumView}'`)
+      }
+
+      switch (initialView) {
         case 'year':
           this.showYearCalendar()
           break
@@ -337,16 +359,26 @@ export default {
           break
       }
     },
+    allowedToShowView (view) {
+      const views = ['day', 'month', 'year']
+      const minimumViewIndex = views.indexOf(this.minimumView)
+      const maximumViewIndex = views.indexOf(this.maximumView)
+      const viewIndex = views.indexOf(view)
+
+      return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex
+    },
     showDayCalendar () {
+      if (!this.allowedToShowView('day')) return false
+
       this.close()
       this.showDayView = true
       if (!this.isInline) {
-        this.$emit('opened')
         document.addEventListener('click', this.clickOutside, false)
       }
     },
     showMonthCalendar () {
-      if (this.dayViewOnly) return false
+      if (!this.allowedToShowView('month')) return false
+
       this.close()
       this.showMonthView = true
       if (!this.isInline) {
@@ -354,6 +386,8 @@ export default {
       }
     },
     showYearCalendar () {
+      if (!this.allowedToShowView('year')) return false
+
       this.close()
       this.showYearView = true
       if (!this.isInline) {
@@ -383,9 +417,10 @@ export default {
       }
       this.setDate(day.timestamp)
       if (this.isInline) {
-        return this.showDayCalendar()
+        this.showDayCalendar()
+      } else {
+        this.close()
       }
-      this.close()
     },
     /**
      * @param {Object} month
@@ -394,10 +429,16 @@ export default {
       if (month.isDisabled) {
         return false
       }
+
       const date = new Date(month.timestamp)
-      this.setPageDate(date)
-      this.showDayCalendar()
-      this.$emit('changedMonth', month)
+      if (this.allowedToShowView('day')) {
+        this.setPageDate(date)
+        this.$emit('changedMonth', month)
+        this.showDayCalendar()
+      } else {
+        this.setDate(date)
+        this.close()
+      }
     },
     /**
      * @param {Object} year
@@ -406,10 +447,16 @@ export default {
       if (year.isDisabled) {
         return false
       }
+
       const date = new Date(year.timestamp)
-      this.setPageDate(date)
-      this.showMonthCalendar()
-      this.$emit('changedYear', year)
+      if (this.allowedToShowView('month')) {
+        this.setPageDate(date)
+        this.$emit('changedYear', year)
+        this.showMonthCalendar()
+      } else {
+        this.setDate(date)
+        this.close()
+      }
     },
     /**
      * @return {Number}
