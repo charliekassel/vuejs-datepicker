@@ -628,6 +628,44 @@ describe('Datepicker with initial-view', () => {
   })
 })
 
+describe('Datepicker with open date', () => {
+  const openDate = new Date(2016, 9, 12)
+
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      openDate: openDate
+    })
+  })
+
+  it('should be set to november', () => {
+    expect(vm.getPageMonth()).to.equal(9)
+    expect(vm.getPageYear()).to.equal(2016)
+  })
+
+  it('should set pageTimestamp to be first day of open date\'s month', () => {
+    const d = new Date(vm.pageTimestamp)
+    expect(vm.openDate.getTime()).to.equal(openDate.getTime())
+    vm.setPageDate()
+    expect(d.getFullYear()).to.equal(openDate.getFullYear())
+    expect(d.getMonth()).to.equal(openDate.getMonth())
+    expect(d.getDate()).to.equal(1)
+  })
+
+  it('should open with selected date if one is set', () => {
+    const newDate = new Date(2018, 10, 9)
+    vm.selectDate({timestamp: newDate.getTime()})
+    expect(vm.getPageMonth()).to.equal(10)
+    expect(vm.getPageYear()).to.equal(2018)
+  })
+
+  it('should show today\'s date if no open date is set', () => {
+    vm = getViewModel(Datepicker, {})
+    const today = new Date()
+    expect(vm.getPageMonth()).to.equal(today.getMonth())
+    expect(vm.getPageYear()).to.equal(today.getFullYear())
+  })
+})
+
 describe('Datepicker with restricted views', () => {
   it('should default initialVicomputedInitialViewew to minimumView', () => {
     vm = getViewModel(Datepicker, {

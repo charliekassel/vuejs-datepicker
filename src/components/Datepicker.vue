@@ -17,6 +17,7 @@
         :id="id"
         @click="showCalendar"
         :value="formattedValue"
+        :open-date="openDate"
         :placeholder="placeholder"
         :clear-button="clearButton"
         :disabled="disabledPicker"
@@ -127,6 +128,11 @@ export default {
       type: String,
       default: 'en'
     },
+    openDate: {
+      validator: function (val) {
+        return val === null || val instanceof Date || typeof val === 'string'
+      }
+    },
     fullMonthName: Boolean,
     disabled: Object,
     highlighted: Object,
@@ -155,13 +161,14 @@ export default {
     }
   },
   data () {
+    const startDate = this.openDate ? new Date(this.openDate) : new Date()
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageTimestamp: (new Date()).setDate(1),
+      pageTimestamp: startDate.setDate(1),
       /*
        * Selected Date
        * {Date}
@@ -183,6 +190,9 @@ export default {
   watch: {
     value (value) {
       this.setValue(value)
+    },
+    openDate () {
+      this.setPageDate()
     },
     initialView () {
       this.setInitialView()
@@ -793,7 +803,11 @@ export default {
     },
     setPageDate (date) {
       if (!date) {
-        date = new Date()
+        if (this.openDate) {
+          date = new Date(this.openDate)
+        } else {
+          date = new Date()
+        }
       }
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
