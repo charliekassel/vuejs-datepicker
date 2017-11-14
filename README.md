@@ -8,9 +8,10 @@ NB. Vue 1.x was supported up to version v0.9.9. If you want to use this componen
 
 ## Demo
 
-Demo is broken :(
-To view examples clone the repo and run `npm install && npm run dev`
-https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC - not currently working.
+To view a demo online:
+https://codesandbox.io/s/p92k8l717
+
+To view demo examples locally clone the repo and run `npm install && npm run dev`
 
 ## Install
 
@@ -88,6 +89,7 @@ Inline always open version
 | required                      | Boolean         | false       | Sets html required attribute on input    |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
+
 
 ## Events
 

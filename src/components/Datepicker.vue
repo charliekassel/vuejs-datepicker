@@ -13,6 +13,7 @@
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
+        :ref="refName"
         :id="id"
         @click="showCalendar"
         :value="formattedValue"
@@ -46,7 +47,9 @@
               </header>
               <div :class="isRtl ? 'flex-rtl' : ''">
                 <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-                <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span><!--
+                <template v-if="blankDays > 0">
+                  <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+                </template><!--
                 --><span class="cell day"
                     v-for="day in days"
                     :key="day.timestamp"
@@ -114,6 +117,7 @@ export default {
       }
     },
     name: String,
+    refName: String,
     id: String,
     format: {
       type: [String, Function],
