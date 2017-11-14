@@ -12,6 +12,7 @@
         :type="inline ? 'hidden' : 'text'"
         :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
         :name="name"
+        :ref="refName"
         :id="id"
         @click="showCalendar"
         :value="formattedValue"
@@ -115,6 +116,7 @@ export default {
       }
     },
     name: String,
+    refName: String,
     id: String,
     format: {
       type: [String, Function],

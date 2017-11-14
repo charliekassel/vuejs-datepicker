@@ -86,6 +86,8 @@ Inline always open version
 | initial-view          | String          | minimumView | If set, open on that view                |
 | disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
 | required              | Boolean         | false       | Sets html required attribute on input    |
+| day-view-only         | Boolean         | false       | If true, month and year views won't show |
+| refName               | String          |             | Reference property                       |
 | minimum-view          | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view          | String          | 'year'      | If set, higher-level views won't show    |
 
