@@ -8,9 +8,10 @@ NB. Vue 1.x was supported up to version v0.9.9. If you want to use this componen
 
 ## Demo
 
-Demo is broken :(
-To view examples clone the repo and run `npm install && npm run dev`
-https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC - not currently working.
+To view a demo online:
+https://codesandbox.io/s/p92k8l717
+
+To view demo examples locally clone the repo and run `npm install && npm run dev`
 
 ## Install
 
@@ -62,32 +63,34 @@ Inline always open version
 ```
 ## Available props
 
-| Prop                  | Type            | Default     | Description                              |
-|-----------------------|-----------------|-------------|------------------------------------------|
-| value                 | Date\|String    |             | Date value of the datepicker             |
-| name                  | String          |             | Input name property                      |
-| id                    | String          |             | Input id                                 |
-| format                | String\|Function| dd MMM yyyy | Date formatting string or function       |
-| full-month-name       | Boolean         | false       | To show the full month name              |
-| language              | String          | en          | Translation for days and months          |
-| disabled              | Object          |             | See below for configuration              |
-| placeholder           | String          |             | Input placeholder text                   |
-| inline                | Boolean         |             | To show the datepicker always open       |
-| calendar-class        | String\|Object  |             | CSS class applied to the calendar el     |
-| input-class           | String\|Object  |             | CSS class applied to the input el        |
-| wrapper-class         | String\|Object  |             | CSS class applied to the outer div       |
-| monday-first          | Boolean         | false       | To start the week on Monday              |
-| clear-button          | Boolean         | false       | Show an icon for clearing the date       |
-| clear-button-icon     | String          |             | Use icon for button (ex: fa fa-times)    |
-| calendar-button       | Boolean         | false       | Show an icon that that can be clicked    |
-| calendar-button-icon  | String          |             | Use icon for button (ex: fa fa-calendar) |
-| bootstrapStyling      | Boolean         | false       | Output bootstrap styling classes         |
-| initial-view          | String          | minimumView | If set, open on that view                |
-| disabled-picker       | Boolean         | false       | If true, disable Datepicker on screen    |
-| required              | Boolean         | false       | Sets html required attribute on input    |
-| open-date             | Date\|Strng     |             | If set, open on that date                |
-| minimum-view          | String          | 'day'       | If set, lower-level views won't show     |
-| maximum-view          | String          | 'year'      | If set, higher-level views won't show    |
+| Prop                          | Type            | Default     | Description                              |
+|-------------------------------|-----------------|-------------|------------------------------------------|
+| value                         | Date\|String    |             | Date value of the datepicker             |
+| name                          | String          |             | Input name property                      |
+| id                            | String          |             | Input id                                 |
+| format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
+| full-month-name               | Boolean         | false       | To show the full month name              |
+| language                      | String          | en          | Translation for days and months          |
+| disabled                      | Object          |             | See below for configuration              |
+| placeholder                   | String          |             | Input placeholder text                   |
+| inline                        | Boolean         |             | To show the datepicker always open       |
+| calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
+| input-class                   | String\|Object  |             | CSS class applied to the input el        |
+| wrapper-class                 | String\|Object  |             | CSS class applied to the outer div       |
+| monday-first                  | Boolean         | false       | To start the week on Monday              |
+| clear-button                  | Boolean         | false       | Show an icon for clearing the date       |
+| clear-button-icon             | String          |             | Use icon for button (ex: fa fa-times)    |
+| calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
+| calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
+| calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
+| bootstrapStyling              | Boolean         | false       | Output bootstrap styling classes         |
+| initial-view                  | String          | minimumView | If set, open on that view                |
+| disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
+| required                      | Boolean         | false       | Sets html required attribute on input    |
+| open-date                     | Date\|Strng     |             | If set, open on that date                |
+| minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
+| maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
+
 
 ## Events
 
