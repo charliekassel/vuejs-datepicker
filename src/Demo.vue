@@ -70,6 +70,93 @@
     </div>
 
     <div class="example">
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Disabled Function:</label>
+        </div>
+        <pre>
+          disabled: {
+            customPredictor: function (date) {
+              // disables every day of a month which is a multiple of 3
+              if (date.getDate() % 3 === 0) {
+                return true
+              }
+            }
+          }
+        </pre>
+        <h5>Resulting Date picker</h5>
+        <datepicker :disabled="disabledFn"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Highlighting Dates Matching Given Function</h3>
+      <datepicker :disabled="disabled"></datepicker>
+      <code>
+        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <pre>
+          highlighted: {
+            customPredictor: function (date) {
+              // highlights every day of a month which is a multiple of 4
+              if (date.getDate() % 4 === 0) {
+                return true
+              }
+            }
+          }
+        </pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlightedFn"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>Highlighting Dates</h3>
+      <code>
+        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Highlight from:</label>
+          <datepicker v-on:selected="highlightFrom"></datepicker>
+        </div>
+        <div class="form-group">
+          <label>Highlight to:</label>
+          <datepicker v-on:selected="highlightTo"></datepicker>
+        </div>
+        <div class="form-group">
+          <label>Highlight Days of Month:</label>
+          <input type="text" value="" v-on:change="setHighlightedDays">
+        </div>
+        <pre>highlighted: {{ highlighted }}</pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlighted"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
+      <h3>With default open date</h3>
+      <datepicker :open-date="openDate"></datepicker>
+      <code>
+        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Open date:</label>
+          <datepicker v-model="openDate"></datepicker>
+        </div>
+        <pre>openDate: {{ openDate }}</pre>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>Translations</h3>
       <h5>{{ languages[language].language }} datepicker</h5>
 
@@ -80,7 +167,7 @@
       <div class="settings">
         <h5>Settings</h5>
         <select v-model="language">
-          <option :value="key" v-for="(language, key) in languages">{{ language.language }}</option>
+          <option :value="key" v-for="(language, key) in languages" :key="key">{{ language.language }}</option>
         </select>
       </div>
     </div>
@@ -96,23 +183,47 @@
       <h3>RTL datepicker</h3>
       <datepicker language="he"></datepicker>
       <code>
-          &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Day view only RTL</h3>
-      <datepicker :day-view-only="true" language="he"></datepicker>
-      <code>
-        &lt;datepicker :day-view-only="true"&gt;&lt;/datepicker&gt;
+          &lt;datepicker  language="he"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
     <div class="example">
       <h3>Day view only</h3>
-      <datepicker :day-view-only="true"></datepicker>
+      <datepicker :minimumView="'day'" :maximumView="'day'"></datepicker>
       <code>
-        &lt;datepicker :day-view-only="true"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :minimumView="'day'" :maximumView="'day'"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Day view only RTL</h3>
+      <datepicker :minimumView="'day'" :maximumView="'day'" language="he"></datepicker>
+      <code>
+        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="he"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Month view only</h3>
+      <datepicker :minimumView="'month'" :maximumView="'month'"></datepicker>
+      <code>
+        &lt;datepicker :minimumView="'month'" :maximumView="'month'"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Day and month view only</h3>
+      <datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"></datepicker>
+      <code>
+        &lt;datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Year and month view only</h3>
+      <datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"></datepicker>
+      <code>
+        &lt;datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -144,6 +255,22 @@ export default {
     return {
       format: 'd MMMM yyyy',
       disabled: {},
+      openDate: null,
+      disabledFn: {
+        customPredictor (date) {
+          if (date.getDate() % 3 === 0) {
+            return true
+          }
+        }
+      },
+      highlightedFn: {
+        customPredictor (date) {
+          if (date.getDate() % 4 === 0) {
+            return true
+          }
+        }
+      },
+      highlighted: {},
       eventMsg: null,
       state: state,
       language: 'en',
@@ -152,6 +279,37 @@ export default {
     }
   },
   methods: {
+    highlightTo (val) {
+      if (typeof this.highlighted.to === 'undefined') {
+        this.highlighted = {
+          to: null,
+          daysOfMonth: this.highlighted.daysOfMonth,
+          from: this.highlighted.from
+        }
+      }
+      this.highlighted.to = val
+    },
+    highlightFrom (val) {
+      if (typeof this.highlighted.from === 'undefined') {
+        this.highlighted = {
+          to: this.highlighted.to,
+          daysOfMonth: this.highlighted.daysOfMonth,
+          from: null
+        }
+      }
+      this.highlighted.from = val
+    },
+    setHighlightedDays (elem) {
+      if (elem.target.value === 'undefined') {
+        return
+      }
+      let highlightedDays = elem.target.value.split(',').map(day => parseInt(day))
+      this.highlighted = {
+        from: this.highlighted.from,
+        to: this.highlighted.to,
+        daysOfMonth: highlightedDays
+      }
+    },
     setDisabledDays (elem) {
       if (elem.target.value === 'undefined') {
         return
