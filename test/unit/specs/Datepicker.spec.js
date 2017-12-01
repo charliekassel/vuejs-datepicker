@@ -11,8 +11,8 @@ function getViewModel (Component, propsData) {
 }
 
 describe('Datepicker unmounted', () => {
-  it('has a ready hook', () => {
-    expect(typeof Datepicker.ready).to.equal('function')
+  it('has a mounted hook', () => {
+    expect(typeof Datepicker.mounted).to.equal('function')
   })
 
   it('sets the correct default data', () => {
@@ -119,9 +119,9 @@ describe('Datepicker.vue', () => {
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(3)
   })
 
-  it('should set pageDate to be now', () => {
+  it('should set pageTimestamp to be now', () => {
     const data = Datepicker.data()
-    const d = new Date(data.pageDate)
+    const d = new Date(data.pageTimestamp)
     expect(d.getFullYear()).to.equal(new Date().getFullYear())
     expect(d.getMonth()).to.equal(new Date().getMonth())
     expect(d.getDate()).to.equal(1)
@@ -150,7 +150,7 @@ describe('Datepicker.vue', () => {
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
     vm.selectDate({timestamp: date.getTime()})
-    expect(vm.pageDate).to.equal(date.getTime())
+    expect(vm.pageTimestamp).to.equal(date.getTime())
     expect(vm.showDayView).to.equal(false)
   })
 
@@ -310,23 +310,50 @@ describe('Datepicker disabled dates', () => {
   })
 
   it('can\'t change to a disabled month', () => {
-    expect(vm.previousMonth()).to.equal(false)
-    expect(vm.nextMonth()).to.equal(false)
+    vm.previousMonth()
+    expect(vm.getPageMonth()).to.equal(9)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(9)
   })
 
   it('can\'t change to a disabled year', () => {
-    expect(vm.previousYear()).to.equal(false)
-    expect(vm.nextYear()).to.equal(false)
+    vm.previousYear()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextYear()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can\'t change to a disabled decade', () => {
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+  })
+})
+
+describe('Datepicker respects disabled ranges', () => {
+  beforeEach(() => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        ranges: [{
+          from: new Date(2005, 6, 5),
+          to: new Date(2016, 9, 4)
+        }, {
+          from: new Date(2016, 9, 26),
+          to: new Date(2030, 12, 25)
+        }]
+      }
+    })
+  })
+
+  it('should detect disabled dates', () => {
+    expect(vm.isDisabledDate(new Date(2006, 9, 2))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2026, 9, 2))).to.equal(true)
   })
 })
 
 describe('Datepicker has disabled dates but can change dates', () => {
-  it('can\'t change month despite having a disabled month', () => {
+  it('can change month despite having a disabled month', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2016, 8, 5),
@@ -336,11 +363,13 @@ describe('Datepicker has disabled dates but can change dates', () => {
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
     expect(vm.getPageMonth()).to.equal(9)
-    expect(vm.previousMonth()).to.not.equal(false)
-    expect(vm.nextMonth()).to.not.equal(false)
+    vm.previousMonth()
+    expect(vm.getPageMonth()).to.equal(8)
+    vm.nextMonth()
+    expect(vm.getPageMonth()).to.equal(9)
   })
 
-  it('can\'t change year despite having a disabled year', () => {
+  it('can change year despite having a disabled year', () => {
     vm = getViewModel(Datepicker, {
       disabled: {
         to: new Date(2015, 8, 5),
@@ -349,8 +378,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.previousYear()).to.not.equal(false)
-    expect(vm.nextYear()).to.not.equal(false)
+    vm.previousYear()
+    expect(vm.getPageYear()).to.equal(2015)
+    vm.nextYear()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can\'t change decade previous or next decades are disabled', () => {
@@ -362,8 +393,10 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     const newDate = new Date(2016, 9, 15)
     vm.setValue(newDate)
-    expect(vm.previousDecade()).to.equal(false)
-    expect(vm.nextDecade()).to.equal(false)
+    vm.previousDecade()
+    expect(vm.getPageYear()).to.equal(2016)
+    vm.nextDecade()
+    expect(vm.getPageYear()).to.equal(2016)
   })
 
   it('can change decade despite having a disabled decade', () => {
@@ -399,6 +432,34 @@ describe('Datepicker has disabled dates but can change dates', () => {
     })
     expect(vm.isDisabledDate(new Date(2016, 9, 2))).to.equal(true)
     expect(vm.isDisabledDate(new Date(2016, 9, 3))).to.equal(false)
+  })
+
+  it('can accept an array of disabled days of the month', () => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        daysOfMonth: [29, 30, 31]
+      }
+    })
+    expect(vm.isDisabledDate(new Date(2016, 8, 29))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 31))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 10, 30))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 11))).to.equal(false)
+  })
+
+  it('can accept a customPredictor to check if the date is disabled', () => {
+    vm = getViewModel(Datepicker, {
+      disabled: {
+        customPredictor (date) {
+          if (date.getDate() % 4 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(vm.isDisabledDate(new Date(2016, 8, 29))).to.equal(false)
+    expect(vm.isDisabledDate(new Date(2016, 9, 28))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 10, 24))).to.equal(true)
+    expect(vm.isDisabledDate(new Date(2016, 9, 11))).to.equal(false)
   })
 })
 
@@ -464,6 +525,48 @@ describe('Datepicker highlight date', () => {
     expect(vm.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
     expect(vm.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
   })
+
+  it('can accept an array of highlighted days of the month', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        daysOfMonth: [1, 10, 31]
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 9, 1))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 10, 10))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 11, 31))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2017, 8, 10))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 8, 7))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 7, 20))).to.equal(false)
+  })
+
+  it('can accept a customPredictor to check if the date is highlighted', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        customPredictor (date) {
+          if (date.getDate() % 5 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 8, 30))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 28))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 10, 20))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 11))).to.equal(false)
+  })
+
+  it('should detect the first date of the highlighted dates', () => {
+    expect(vm.isHighlightStart(new Date(2016, 12, 4))).to.equal(true)
+    expect(vm.isHighlightStart(new Date(2016, 12, 3))).to.equal(false)
+    expect(vm.isHighlightStart(new Date(2016, 12, 5))).to.equal(false)
+  })
+
+  it('should detect the last date of the highlighted dates', () => {
+    expect(vm.isHighlightEnd(new Date(2016, 12, 8))).to.equal(true)
+    expect(vm.isHighlightEnd(new Date(2016, 12, 6))).to.equal(false)
+    expect(vm.isHighlightEnd(new Date(2016, 12, 7))).to.equal(false)
+  })
 })
 
 describe('Datepicker with monday as first day of week', () => {
@@ -482,12 +585,12 @@ describe('Datepicker with monday as first day of week', () => {
   })
 
   it('should have 6 blankDays when month starts from Sunday', () => {
-    vm.pageDate = new Date(2016, 4, 1).getTime()
+    vm.pageTimestamp = new Date(2016, 4, 1).getTime()
     expect(vm.blankDays).to.equal(6)
   })
 
   it('should have no blankDays when month starts from Monday', () => {
-    vm.pageDate = new Date(2017, 4, 1).getTime()
+    vm.pageTimestamp = new Date(2017, 4, 1).getTime()
     expect(vm.blankDays).to.equal(0)
   })
 })
@@ -496,7 +599,7 @@ describe('Datepicker with initial-view', () => {
   it('should open in Day view', () => {
     vm = getViewModel(Datepicker)
     vm.showCalendar()
-    expect(vm.initialView).to.equal('day')
+    expect(vm.computedInitialView).to.equal('day')
     expect(vm.showDayView).to.equal(true)
     expect(vm.showMonthView).to.equal(false)
     expect(vm.showYearView).to.equal(false)
@@ -507,7 +610,7 @@ describe('Datepicker with initial-view', () => {
       initialView: 'month'
     })
     vm.showCalendar()
-    expect(vm.initialView).to.equal('month')
+    expect(vm.computedInitialView).to.equal('month')
     expect(vm.showDayView).to.equal(false)
     expect(vm.showMonthView).to.equal(true)
     expect(vm.showYearView).to.equal(false)
@@ -518,41 +621,139 @@ describe('Datepicker with initial-view', () => {
       initialView: 'year'
     })
     vm.showCalendar()
-    expect(vm.initialView).to.equal('year')
+    expect(vm.computedInitialView).to.equal('year')
     expect(vm.showDayView).to.equal(false)
     expect(vm.showMonthView).to.equal(false)
     expect(vm.showYearView).to.equal(true)
   })
 })
 
-describe('Datepicker with day-view-only', () => {
+describe('Datepicker with open date', () => {
+  const openDate = new Date(2016, 9, 12)
+
   beforeEach(() => {
     vm = getViewModel(Datepicker, {
-      dayViewOnly: true
+      openDate: openDate
+    })
+  })
+
+  it('should be set to november', () => {
+    expect(vm.getPageMonth()).to.equal(9)
+    expect(vm.getPageYear()).to.equal(2016)
+  })
+
+  it('should set pageTimestamp to be first day of open date\'s month', () => {
+    const d = new Date(vm.pageTimestamp)
+    expect(vm.openDate.getTime()).to.equal(openDate.getTime())
+    vm.setPageDate()
+    expect(d.getFullYear()).to.equal(openDate.getFullYear())
+    expect(d.getMonth()).to.equal(openDate.getMonth())
+    expect(d.getDate()).to.equal(1)
+  })
+
+  it('should open with selected date if one is set', () => {
+    const newDate = new Date(2018, 10, 9)
+    vm.selectDate({timestamp: newDate.getTime()})
+    expect(vm.getPageMonth()).to.equal(10)
+    expect(vm.getPageYear()).to.equal(2018)
+  })
+
+  it('should show today\'s date if no open date is set', () => {
+    vm = getViewModel(Datepicker, {})
+    const today = new Date()
+    expect(vm.getPageMonth()).to.equal(today.getMonth())
+    expect(vm.getPageYear()).to.equal(today.getFullYear())
+  })
+})
+
+describe('Datepicker with restricted views', () => {
+  it('should default initialVicomputedInitialViewew to minimumView', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'month'
+    })
+    expect(vm.computedInitialView).to.equal('month')
+  })
+
+  it('should save and close when selecting on minimum-view "month"', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'year'
+    })
+    vm.selectYear(vm.years[0])
+    expect(vm.isOpen).to.equal(true)
+    vm.selectMonth(vm.months[0])
+    expect(vm.years[0].year).to.equal(vm.selectedDate.getFullYear())
+    const inputDate = new Date(vm.months[0].timestamp)
+    expect(inputDate.getMonth()).to.equal(vm.selectedDate.getMonth())
+    expect(vm.isOpen).to.equal(false)
+  })
+
+  it('should save and close when selecting on minimum-view "year"', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'year',
+      maximumView: 'year'
+    })
+    vm.selectYear(vm.years[0])
+    expect(vm.isOpen).to.equal(false)
+    expect(vm.years[0].year).to.equal(vm.selectedDate.getFullYear())
+  })
+
+  it('should only allow views in min-max range', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'month'
+    })
+    expect(vm.allowedToShowView('year')).to.equal(false)
+    expect(vm.allowedToShowView('day')).to.equal(true)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'month'
+    })
+    expect(vm.allowedToShowView('day')).to.equal(false)
+    expect(vm.allowedToShowView('year')).to.equal(false)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'year'
+    })
+    expect(vm.allowedToShowView('day')).to.equal(true)
+    expect(vm.allowedToShowView('year')).to.equal(true)
+    expect(vm.allowedToShowView('month')).to.equal(true)
+  })
+
+  it('should throw an error on disallowed initial views', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'month',
+      initialView: 'year'
+    })
+
+    expect(function () {
+      vm.setInitialView()
+    }).to.throw()
+  })
+
+  it('should not render unused views', () => {
+    vm = getViewModel(Datepicker, {
+      minimumView: 'day',
+      maximumView: 'day'
     })
     vm.showCalendar()
-  })
-
-  it('should open in Day view', () => {
-    expect(vm.initialView).to.equal('day')
-    expect(vm.showDayView).to.equal(true)
-    expect(vm.showMonthView).to.equal(false)
-    expect(vm.showYearView).to.equal(false)
-  })
-
-  it('should return false on showMonthCalendar', () => {
-    let func = vm.showMonthCalendar()
-    expect(func).to.equal(false)
-  })
-
-  it('should not open month view on showMonthCalendar', () => {
-    vm.showMonthCalendar()
-    expect(vm.showMonthView).to.equal(false)
-  })
-
-  it('should not render month and year views', () => {
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(1)
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.month').length).to.equal(0)
     expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.equal(0)
+
+    vm = getViewModel(Datepicker, {
+      minimumView: 'month',
+      maximumView: 'year'
+    })
+    vm.showCalendar()
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).to.equal(2)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.day').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).to.not.equal(0)
   })
 })
