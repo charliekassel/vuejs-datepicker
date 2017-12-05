@@ -324,10 +324,10 @@ export default {
     /**
      * Close all calendar layers
      */
-    close () {
+    close (full) {
       this.showDayView = this.showMonthView = this.showYearView = false
       if (!this.isInline) {
-        this.$emit('closed')
+        if (full) this.$emit('closed')
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
@@ -347,7 +347,7 @@ export default {
         return false
       }
       if (this.isOpen) {
-        return this.close()
+        return this.close(true)
       }
       this.setInitialView()
       if (!this.isInline) {
@@ -433,7 +433,7 @@ export default {
       if (this.isInline) {
         this.showDayCalendar()
       } else {
-        this.close()
+        this.close(true)
       }
     },
     /**
@@ -451,7 +451,7 @@ export default {
         this.showDayCalendar()
       } else {
         this.setDate(date)
-        this.close()
+        this.close(true)
       }
     },
     /**
@@ -469,7 +469,7 @@ export default {
         this.showMonthCalendar()
       } else {
         this.setDate(date)
-        this.close()
+        this.close(true)
       }
     },
     /**
@@ -821,7 +821,7 @@ export default {
           return this.showDayCalendar()
         }
         this.resetDefaultDate()
-        this.close()
+        this.close(true)
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
