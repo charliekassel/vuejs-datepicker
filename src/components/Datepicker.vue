@@ -39,8 +39,8 @@
                       @click="isRtl ? nextMonth() : previousMonth()"
                       class="prev"
                       v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ currMonthName }} {{ currYear }}
-                  </span>
+                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''" v-if="!isYmd">{{ currMonthName }} {{ currYear }}</span>
+                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''" v-else>{{ currYear }} {{ currMonthName }}</span>
                   <span
                       @click="isRtl ? previousMonth() : nextMonth()"
                       class="next"
@@ -318,6 +318,9 @@ export default {
     },
     isRtl () {
       return this.translation.rtl === true
+    },
+    isYmd () {
+      return this.translation.ymd === true
     }
   },
   methods: {
