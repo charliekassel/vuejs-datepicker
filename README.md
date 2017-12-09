@@ -87,7 +87,7 @@ Inline always open version
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
-| open-date                     | Date\|Strng     |             | If set, open on that date                |
+| open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
 
