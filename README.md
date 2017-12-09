@@ -77,6 +77,7 @@ Inline always open version
 | calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
 | input-class                   | String\|Object  |             | CSS class applied to the input el        |
 | wrapper-class                 | String\|Object  |             | CSS class applied to the outer div       |
+| include-styling               | Boolean         | true        | Toggles the inbuilt styling of Datepicker|
 | monday-first                  | Boolean         | false       | To start the week on Monday              |
 | clear-button                  | Boolean         | false       | Show an icon for clearing the date       |
 | clear-button-icon             | String          |             | Use icon for button (ex: fa fa-times)    |

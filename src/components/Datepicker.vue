@@ -1,108 +1,110 @@
 <template>
-  <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
-    <div :class="{'input-group' : bootstrapStyling}">
-      <!-- Calendar Button -->
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
-        <i :class="calendarButtonIcon">
-          {{ calendarButtonIconContent }}
-          <span v-if="!calendarButtonIcon">&hellip;</span>
-        </i>
-      </span>
-      <!-- Input -->
-      <input
-        :type="inline ? 'hidden' : 'text'"
-        :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
-        :name="name"
-        :ref="refName"
-        :id="id"
-        @click="showCalendar"
-        :value="formattedValue"
-        :open-date="openDate"
-        :placeholder="placeholder"
-        :clear-button="clearButton"
-        :disabled="disabledPicker"
-        :required="required"
-        readonly>
-      <!-- Clear Button -->
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
-        <i :class="clearButtonIcon">
-          <span v-if="!clearButtonIcon">&times;</span>
-        </i>
-      </span>
+  <div :class="{ 'vdp-outer-wrapper': includeStyling }" >
+    <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
+      <div :class="{'input-group' : bootstrapStyling}">
+        <!-- Calendar Button -->
+        <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
+          <i :class="calendarButtonIcon">
+            {{ calendarButtonIconContent }}
+            <span v-if="!calendarButtonIcon">&hellip;</span>
+          </i>
+        </span>
+        <!-- Input -->
+        <input
+          :type="inline ? 'hidden' : 'text'"
+          :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
+          :name="name"
+          :ref="refName"
+          :id="id"
+          @click="showCalendar"
+          :value="formattedValue"
+          :open-date="openDate"
+          :placeholder="placeholder"
+          :clear-button="clearButton"
+          :disabled="disabledPicker"
+          :required="required"
+          readonly>
+        <!-- Clear Button -->
+        <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+          <i :class="clearButtonIcon">
+            <span v-if="!clearButtonIcon">&times;</span>
+          </i>
+        </span>
+      </div>
+
+      <!-- Day View -->
+      <template v-if="allowedToShowView('day')">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
+            <header>
+                <span
+                    @click="isRtl ? nextMonth() : previousMonth()"
+                    class="prev"
+                    v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
+                <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ currMonthName }} {{ currYear }}
+                </span>
+                <span
+                    @click="isRtl ? previousMonth() : nextMonth()"
+                    class="next"
+                    v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+            </header>
+            <div :class="isRtl ? 'flex-rtl' : ''">
+              <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+              <template v-if="blankDays > 0">
+                <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+              </template><!--
+              --><span class="cell day"
+                  v-for="day in days"
+                  :key="day.timestamp"
+                  track-by="timestamp"
+                  v-bind:class="dayClasses(day)"
+                  @click="selectDate(day)">{{ day.date }}</span>
+            </div>
+        </div>
+      </template>
+
+      <!-- Month View -->
+      <template v-if="allowedToShowView('month')">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
+            <header>
+                <span
+                    @click="previousYear"
+                    class="prev"
+                    v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
+                <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear() }}</span>
+                <span
+                    @click="nextYear"
+                    class="next"
+                    v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
+            </header>
+            <span class="cell month"
+                v-for="month in months"
+                :key="month.timestamp"
+                track-by="timestamp"
+                v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
+                @click.stop="selectMonth(month)">{{ month.month }}</span>
+        </div>
+      </template>
+
+      <!-- Year View -->
+      <template v-if="allowedToShowView('year')">
+        <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
+            <header>
+                <span @click="previousDecade" class="prev"
+                    v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
+                <span>{{ getPageDecade() }}</span>
+                <span @click="nextDecade" class="next"
+                    v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+            </header>
+            <span
+                class="cell year"
+                v-for="year in years"
+                :key="year.timestamp"
+                track-by="timestamp"
+                v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+                @click.stop="selectYear(year)">{{ year.year }}</span>
+        </div>
+      </template>
     </div>
-
-        <!-- Day View -->
-        <template v-if="allowedToShowView('day')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
-              <header>
-                  <span
-                      @click="isRtl ? nextMonth() : previousMonth()"
-                      class="prev"
-                      v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ currMonthName }} {{ currYear }}
-                  </span>
-                  <span
-                      @click="isRtl ? previousMonth() : nextMonth()"
-                      class="next"
-                      v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
-              </header>
-              <div :class="isRtl ? 'flex-rtl' : ''">
-                <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-                <template v-if="blankDays > 0">
-                  <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-                </template><!--
-                --><span class="cell day"
-                    v-for="day in days"
-                    :key="day.timestamp"
-                    track-by="timestamp"
-                    v-bind:class="dayClasses(day)"
-                    @click="selectDate(day)">{{ day.date }}</span>
-              </div>
-          </div>
-        </template>
-
-        <!-- Month View -->
-        <template v-if="allowedToShowView('month')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
-              <header>
-                  <span
-                      @click="previousYear"
-                      class="prev"
-                      v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear() }}</span>
-                  <span
-                      @click="nextYear"
-                      class="next"
-                      v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
-              </header>
-              <span class="cell month"
-                  v-for="month in months"
-                  :key="month.timestamp"
-                  track-by="timestamp"
-                  v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
-                  @click.stop="selectMonth(month)">{{ month.month }}</span>
-          </div>
-        </template>
-
-        <!-- Year View -->
-        <template v-if="allowedToShowView('year')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
-              <header>
-                  <span @click="previousDecade" class="prev"
-                      v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
-                  <span>{{ getPageDecade() }}</span>
-                  <span @click="nextDecade" class="next"
-                      v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
-              </header>
-              <span
-                  class="cell year"
-                  v-for="year in years"
-                  :key="year.timestamp"
-                  track-by="timestamp"
-                  v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-                  @click.stop="selectYear(year)">{{ year.year }}</span>
-          </div>
-        </template>
   </div>
 </template>
 
@@ -138,6 +140,11 @@ export default {
     highlighted: Object,
     placeholder: String,
     inline: Boolean,
+    includeStyling: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
     calendarClass: [String, Object],
     inputClass: [String, Object],
     wrapperClass: [String, Object],
@@ -856,118 +863,118 @@ export default {
 <style lang="stylus">
 
 $width = 300px
+.vdp-outer-wrapper
+  .rtl
+      direction:rtl
+  .vdp-datepicker
+      position relative
+      text-align left
+      *
+          box-sizing border-box
 
-.rtl
-    direction:rtl
-.vdp-datepicker
-    position relative
-    text-align left
-    *
-        box-sizing border-box
+  .vdp-datepicker__calendar
+      position absolute
+      z-index 100
+      background white
+      width $width
+      border 1px solid #ccc
+      header
+          display block
+          line-height 40px
+          span
+              display inline-block
+              text-align center
+              width (100 - (100/7)*2)%
+              float left
 
-.vdp-datepicker__calendar
-    position absolute
-    z-index 100
-    background white
-    width $width
-    border 1px solid #ccc
-    header
-        display block
-        line-height 40px
-        span
-            display inline-block
-            text-align center
-            width (100 - (100/7)*2)%
-            float left
+          .prev
+          .next
+              width (100/7)%
+              float left
+              text-indent -10000px
+              position relative
+              &:after
+                  content ''
+                  position absolute
+                  left 50%
+                  top 50%
+                  transform translateX(-50%) translateY(-50%)
+                  border 6px solid transparent
 
-        .prev
-        .next
-            width (100/7)%
-            float left
-            text-indent -10000px
-            position relative
-            &:after
-                content ''
-                position absolute
-                left 50%
-                top 50%
-                transform translateX(-50%) translateY(-50%)
-                border 6px solid transparent
+          .prev
+              &:after
+                  border-right 10px solid #000
+                  margin-left -5px
+              &.disabled:after
+                  border-right 10px solid #ddd
+          .next
+              &:after
+                  border-left 10px solid #000
+                  margin-left 5px
+              &.disabled:after
+                  border-left 10px solid #ddd
 
-        .prev
-            &:after
-                border-right 10px solid #000
-                margin-left -5px
-            &.disabled:after
-                border-right 10px solid #ddd
-        .next
-            &:after
-                border-left 10px solid #000
-                margin-left 5px
-            &.disabled:after
-                border-left 10px solid #ddd
+          .prev:not(.disabled)
+          .next:not(.disabled)
+          .up:not(.disabled)
+              cursor pointer
+              &:hover
+                  background #eee
 
-        .prev:not(.disabled)
-        .next:not(.disabled)
-        .up:not(.disabled)
-            cursor pointer
-            &:hover
-                background #eee
+      .disabled
+          color #ddd
+          cursor default
+      .flex-rtl
+          display flex
+          width inherit
+          flex-wrap wrap
 
-    .disabled
-        color #ddd
+      .cell
+          display inline-block
+          padding 0 5px
+          width (100/7)%
+          height 40px
+          line-height 40px
+          text-align center
+          vertical-align middle
+          border 1px solid transparent
+          &:not(.blank):not(.disabled).day
+          &:not(.blank):not(.disabled).month
+          &:not(.blank):not(.disabled).year
+              cursor pointer
+              &:hover
+                  border 1px solid #4bd
+          &.selected
+              background #4bd
+              &:hover
+                  background #4bd
+              &.highlighted
+                  background #4bd
+          &.highlighted
+              background #cae5ed
+          &.grey
+              color #888
+
+              &:hover
+                  background inherit
+
+
+          &.day-header
+              font-size 75%
+              white-space no-wrap
+              cursor inherit
+              &:hover
+                  background inherit
+
+      .month,
+      .year
+          width 33.333%
+
+  .vdp-datepicker__clear-button
+  .vdp-datepicker__calendar-button
+      cursor pointer
+      font-style normal
+      &.disabled
+        color #999
         cursor default
-    .flex-rtl
-        display flex
-        width inherit
-        flex-wrap wrap
-
-    .cell
-        display inline-block
-        padding 0 5px
-        width (100/7)%
-        height 40px
-        line-height 40px
-        text-align center
-        vertical-align middle
-        border 1px solid transparent
-        &:not(.blank):not(.disabled).day
-        &:not(.blank):not(.disabled).month
-        &:not(.blank):not(.disabled).year
-            cursor pointer
-            &:hover
-                border 1px solid #4bd
-        &.selected
-            background #4bd
-            &:hover
-                background #4bd
-            &.highlighted
-                background #4bd
-        &.highlighted
-            background #cae5ed
-        &.grey
-            color #888
-
-            &:hover
-                background inherit
-
-
-        &.day-header
-            font-size 75%
-            white-space no-wrap
-            cursor inherit
-            &:hover
-                background inherit
-
-    .month,
-    .year
-        width 33.333%
-
-.vdp-datepicker__clear-button
-.vdp-datepicker__calendar-button
-    cursor pointer
-    font-style normal
-    &.disabled
-      color #999
-      cursor default
 </style>
