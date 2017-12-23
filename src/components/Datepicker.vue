@@ -386,26 +386,27 @@ export default {
 
       this.close()
       this.showDayView = true
-      if (!this.isInline) {
-        document.addEventListener('click', this.clickOutside, false)
-      }
+      this.addOutsideClickListener()
     },
     showMonthCalendar () {
       if (!this.allowedToShowView('month')) return false
 
       this.close()
       this.showMonthView = true
-      if (!this.isInline) {
-        document.addEventListener('click', this.clickOutside, false)
-      }
+      this.addOutsideClickListener()
     },
     showYearCalendar () {
       if (!this.allowedToShowView('year')) return false
 
       this.close()
       this.showYearView = true
+      this.addOutsideClickListener()
+    },
+    addOutsideClickListener () {
       if (!this.isInline) {
-        document.addEventListener('click', this.clickOutside, false)
+        setTimeout(() => {
+          document.addEventListener('click', this.clickOutside, false)
+        }, 100)
       }
     },
     setDate (timestamp) {
