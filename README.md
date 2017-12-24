@@ -9,7 +9,7 @@ NB. Vue 1.x was supported up to version v0.9.9. If you want to use this componen
 ## Demo
 
 To view a demo online:
-https://codesandbox.io/s/p92k8l717
+https://codesandbox.io/s/mpklq49wp
 
 To view demo examples locally clone the repo and run `npm install && npm run dev`
 
