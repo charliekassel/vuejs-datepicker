@@ -227,6 +227,14 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>Add Today button</h3>
+      <datepicker :today-button="true"></datepicker>
+      <code>
+          &lt;datepicker :today-button="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
   </div>
 </template>
 

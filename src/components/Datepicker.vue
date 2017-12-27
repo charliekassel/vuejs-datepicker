@@ -20,6 +20,7 @@
         :open-date="openDate"
         :placeholder="placeholder"
         :clear-button="clearButton"
+        :today-button="todayButton"
         :disabled="disabledPicker"
         :required="required"
         readonly>
@@ -45,6 +46,7 @@
                       class="next"
                       v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
               </header>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
               <div :class="isRtl ? 'flex-rtl' : ''">
                 <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
                 <template v-if="blankDays > 0">
@@ -74,6 +76,7 @@
                       class="next"
                       v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
               </header>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
               <span class="cell month"
                   v-for="month in months"
                   :key="month.timestamp"
@@ -93,6 +96,7 @@
                   <span @click="nextDecade" class="next"
                       v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
               </header>
+              <button class="vdp-datepicker__today-button" v-if="todayButton" @click="selectDate({ timestamp: new Date() })">Today</button>
               <span
                   class="cell year"
                   v-for="year in years"
@@ -145,6 +149,7 @@ export default {
     clearButtonIcon: String,
     calendarButton: Boolean,
     calendarButtonIcon: String,
+    todayButton: Boolean,
     calendarButtonIconContent: String,
     bootstrapStyling: Boolean,
     initialView: String,
@@ -973,4 +978,17 @@ $width = 300px
     &.disabled
       color #999
       cursor default
+
+.vdp-datepicker__today-button
+    cursor pointer
+    font-style normal
+    display flex
+    background-color #ddd
+    border none
+    align-self center
+    justify-content center
+    width 200px
+    padding 8px
+    margin 10px auto
+
 </style>

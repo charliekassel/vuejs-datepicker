@@ -83,6 +83,7 @@ Inline always open version
 | calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
+| today-button                  | Boolean         | false       | Show a button for selecting today        |
 | bootstrapStyling              | Boolean         | false       | Output bootstrap styling classes         |
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
