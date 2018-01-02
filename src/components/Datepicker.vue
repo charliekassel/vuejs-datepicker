@@ -2,11 +2,13 @@
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
       <!-- Calendar Button -->
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
-        <i :class="calendarButtonIcon">
-          {{ calendarButtonIconContent }}
-          <span v-if="!calendarButtonIcon">&hellip;</span>
-        </i>
+      <span class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
+        <span :class="{'input-group-text' : bootstrapStyling}">
+          <i :class="calendarButtonIcon">
+            {{ calendarButtonIconContent }}
+            <span v-if="!calendarButtonIcon">&hellip;</span>
+          </i>
+        </span>
       </span>
       <!-- Input -->
       <input
@@ -24,10 +26,12 @@
         :required="required"
         readonly>
       <!-- Clear Button -->
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
-        <i :class="clearButtonIcon">
-          <span v-if="!clearButtonIcon">&times;</span>
-        </i>
+      <span class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+        <span :class="{'input-group-text' : bootstrapStyling}">
+          <i :class="clearButtonIcon">
+            <span v-if="!clearButtonIcon">&times;</span>
+          </i>
+        </span>
       </span>
     </div>
 
