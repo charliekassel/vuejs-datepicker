@@ -273,5 +273,6 @@ Available languages
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
+| ur          | Urdu             |          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
