@@ -2,7 +2,7 @@
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
       <!-- Calendar Button -->
-      <span class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="calendarButton" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
+      <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
           <span v-if="!calendarButtonIcon">&hellip;</span>
@@ -24,84 +24,84 @@
         :required="required"
         readonly>
       <!-- Clear Button -->
-      <span class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" v-if="clearButton && selectedDate" @click="clearDate()">
+      <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
         <i :class="clearButtonIcon">
           <span v-if="!clearButtonIcon">&times;</span>
         </i>
       </span>
     </div>
 
-        <!-- Day View -->
-        <template v-if="allowedToShowView('day')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
-              <header>
-                  <span
-                      @click="isRtl ? nextMonth() : previousMonth()"
-                      class="prev"
-                      v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYear : currMonthName }} {{ isYmd ? currMonthName : currYear }}</span>
-                  <span
-                      @click="isRtl ? previousMonth() : nextMonth()"
-                      class="next"
-                      v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
-              </header>
-              <div :class="isRtl ? 'flex-rtl' : ''">
-                <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-                <template v-if="blankDays > 0">
-                  <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-                </template><!--
-                --><span class="cell day"
-                    v-for="day in days"
-                    :key="day.timestamp"
-                    track-by="timestamp"
-                    v-bind:class="dayClasses(day)"
-                    @click="selectDate(day)">{{ day.date }}</span>
-              </div>
-          </div>
-        </template>
-
-        <!-- Month View -->
-        <template v-if="allowedToShowView('month')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
-              <header>
-                  <span
-                      @click="previousYear"
-                      class="prev"
-                      v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
-                  <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear() }}</span>
-                  <span
-                      @click="nextYear"
-                      class="next"
-                      v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
-              </header>
-              <span class="cell month"
-                  v-for="month in months"
-                  :key="month.timestamp"
-                  track-by="timestamp"
-                  v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
-                  @click.stop="selectMonth(month)">{{ month.month }}</span>
-          </div>
-        </template>
-
-        <!-- Year View -->
-        <template v-if="allowedToShowView('year')">
-          <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
-              <header>
-                  <span @click="previousDecade" class="prev"
-                      v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
-                  <span>{{ getPageDecade() }}</span>
-                  <span @click="nextDecade" class="next"
-                      v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
-              </header>
+    <!-- Day View -->
+    <template v-if="allowedToShowView('day')">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
+          <header>
               <span
-                  class="cell year"
-                  v-for="year in years"
-                  :key="year.timestamp"
-                  track-by="timestamp"
-                  v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-                  @click.stop="selectYear(year)">{{ year.year }}</span>
+                  @click="isRtl ? nextMonth() : previousMonth()"
+                  class="prev"
+                  v-bind:class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
+              <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYear : currMonthName }} {{ isYmd ? currMonthName : currYear }}</span>
+              <span
+                  @click="isRtl ? previousMonth() : nextMonth()"
+                  class="next"
+                  v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+          </header>
+          <div :class="isRtl ? 'flex-rtl' : ''">
+            <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+            <template v-if="blankDays > 0">
+              <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+            </template><!--
+            --><span class="cell day"
+                v-for="day in days"
+                :key="day.timestamp"
+                track-by="timestamp"
+                v-bind:class="dayClasses(day)"
+                @click="selectDate(day)">{{ day.date }}</span>
           </div>
-        </template>
+      </div>
+    </template>
+
+    <!-- Month View -->
+    <template v-if="allowedToShowView('month')">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
+          <header>
+              <span
+                  @click="previousYear"
+                  class="prev"
+                  v-bind:class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
+              <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear() }}</span>
+              <span
+                  @click="nextYear"
+                  class="next"
+                  v-bind:class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
+          </header>
+          <span class="cell month"
+              v-for="month in months"
+              :key="month.timestamp"
+              track-by="timestamp"
+              v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
+              @click.stop="selectMonth(month)">{{ month.month }}</span>
+      </div>
+    </template>
+
+    <!-- Year View -->
+    <template v-if="allowedToShowView('year')">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
+          <header>
+              <span @click="previousDecade" class="prev"
+                  v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
+              <span>{{ getPageDecade() }}</span>
+              <span @click="nextDecade" class="next"
+                  v-bind:class="{ 'disabled' : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+          </header>
+          <span
+              class="cell year"
+              v-for="year in years"
+              :key="year.timestamp"
+              track-by="timestamp"
+              v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+              @click.stop="selectYear(year)">{{ year.year }}</span>
+      </div>
+    </template>
   </div>
 </template>
 

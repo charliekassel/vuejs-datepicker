@@ -12,6 +12,18 @@
     </div>
 
     <div class="example">
+      <h3>Bootstrap styled datepicker</h3>
+      <datepicker
+        :bootstrapStyling="true"
+        :calendarButton="true"
+        :clearButton="true"
+      ></datepicker>
+      <code>
+          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
         <h3>v-model datepicker</h3>
         <datepicker placeholder="Select Date" v-model="vModelExample"></datepicker>
         <code>
@@ -338,6 +350,8 @@ export default {
 </script>
 
 <style>
+
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 
 body {
     font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
