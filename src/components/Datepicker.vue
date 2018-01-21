@@ -328,7 +328,7 @@ export default {
      */
     close (full) {
       this.showDayView = this.showMonthView = this.showYearView = false
-      if (!this.isInline) {
+      if (!this.isInline && document) {
         if (full) this.$emit('closed')
         document.removeEventListener('click', this.clickOutside, false)
       }
@@ -405,7 +405,7 @@ export default {
       this.addOutsideClickListener()
     },
     addOutsideClickListener () {
-      if (!this.isInline) {
+      if (!this.isInline && document) {
         setTimeout(() => {
           document.addEventListener('click', this.clickOutside, false)
         }, 100)
@@ -819,7 +819,7 @@ export default {
      * @param  {Event} event
      */
     clickOutside (event) {
-      if (this.$el && !this.$el.contains(event.target)) {
+      if (this.$el && !this.$el.contains(event.target) && document) {
         if (this.isInline) {
           return this.showDayCalendar()
         }
