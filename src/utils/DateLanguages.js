@@ -6,7 +6,7 @@ export default {
         'original': ['Januarie', 'Februarie', 'Maart', 'April', 'Mei', 'Junie', 'Julie', 'Augustus', 'September', 'Oktober', 'November', 'Desember'],
         'abbr': ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
       },
-      'days': ['So.', 'Ma.', 'Di.', 'Wo.','Do.', 'Vr.', 'Sa.']
+      'days': ['So.', 'Ma.', 'Di.', 'Wo.', 'Do.', 'Vr.', 'Sa.']
     },
     'ar': {
       'language': 'Arabic',
