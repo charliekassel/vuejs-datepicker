@@ -536,7 +536,7 @@ export default {
       let date = this.pageDate
       date.setYear(date.getFullYear() + incrementBy)
       this.setPageDate(date)
-      this.$emit(emit)
+      this.$emit(emit, date)
     },
     previousYear () {
       if (!this.previousYearDisabled()) {
