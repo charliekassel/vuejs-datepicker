@@ -33,7 +33,7 @@
 
     <!-- Day View -->
     <template v-if="allowedToShowView('day')">
-      <div :class="[calendarClass, 'vdp-datepicker__calendar', { 'hidden': !showDayView }]" v-bind:style="calendarStyle">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
           <header>
               <span
                   @click="isRtl ? nextMonth() : previousMonth()"
@@ -62,7 +62,7 @@
 
     <!-- Month View -->
     <template v-if="allowedToShowView('month')">
-      <div :class="[calendarClass, 'vdp-datepicker__calendar', { 'hidden': !showMonthView }]" v-bind:style="calendarStyle">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" v-bind:style="calendarStyle">
           <header>
               <span
                   @click="previousYear"
@@ -85,7 +85,7 @@
 
     <!-- Year View -->
     <template v-if="allowedToShowView('year')">
-      <div :class="[calendarClass, 'vdp-datepicker__calendar', { 'hidden': !showYearView }]" v-bind:style="calendarStyle">
+      <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" v-bind:style="calendarStyle">
           <header>
               <span @click="previousDecade" class="prev"
                   v-bind:class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
@@ -973,7 +973,4 @@ $width = 300px
     &.disabled
       color #999
       cursor default
-
-.hidden
-  display none
 </style>

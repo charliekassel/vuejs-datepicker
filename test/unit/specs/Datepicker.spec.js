@@ -2,10 +2,8 @@
 
 import Vue from 'vue'
 import Datepicker from '@/components/Datepicker.vue'
-import { createRenderer } from 'vue-server-renderer'
 
 let vm
-const renderer = createRenderer()
 
 function getViewModel (Component, propsData) {
   const Constructor = Vue.extend(Component)
@@ -33,21 +31,6 @@ describe('Datepicker unmounted', () => {
       value: date
     })
     expect(vm.value).to.equal(date)
-  })
-})
-
-describe('Datepicker: server-rendering', () => {
-  it('should render correctly', () => {
-    const date = new Date()
-    const vm = getViewModel(Datepicker, {
-      value: date,
-      format: 'yyyy-MM-dd'
-    })
-    return renderer.renderToString(vm, (err, html) => {
-      expect(err).to.equal(null)
-      expect(html).to.not.equal(null)
-      expect(html).to.not.equal('')
-    })
   })
 })
 
