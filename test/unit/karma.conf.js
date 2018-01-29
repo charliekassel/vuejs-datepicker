@@ -22,12 +22,6 @@ module.exports = function (config) {
     webpackMiddleware: {
       noInfo: true
     },
-    client: {
-      captureConsole: true,
-      mocha: {
-        bail: true
-      }
-    },
     coverageReporter: {
       dir: './coverage',
       reporters: [
