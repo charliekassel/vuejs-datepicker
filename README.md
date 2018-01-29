@@ -233,6 +233,7 @@ Available languages
 
 | Abbr        | Language         |          |
 | ----------- |------------------|----------|
+| af          | Afrikaans        |          |
 | ar          | Arabic           |          |
 | bg          | Bulgarian        |          |
 | bs          | Bosnian          |          |
