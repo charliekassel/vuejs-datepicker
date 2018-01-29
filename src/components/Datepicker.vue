@@ -113,7 +113,7 @@ export default {
   props: {
     value: {
       validator: function (val) {
-        return val === null || val instanceof Date || typeof val === 'string'
+        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
     name: String,
@@ -789,10 +789,10 @@ export default {
     },
     /**
      * Set the datepicker value
-     * @param {Date|String|null} date
+     * @param {Date|String|Number|null} date
      */
     setValue (date) {
-      if (typeof date === 'string') {
+      if (typeof date === 'string' || typeof date === 'number') {
         let parsed = new Date(date)
         date = isNaN(parsed.valueOf()) ? null : parsed
       }

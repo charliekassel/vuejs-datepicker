@@ -258,6 +258,18 @@ describe('Datepicker.vue set by string', () => {
   })
 })
 
+describe('Datepicker.vue set by timestamp', () => {
+  it('can parse unix timestamp', async () => {
+    vm = getViewModel(Datepicker, {
+      format: 'yyyy MM dd',
+      value: 1517194697668
+    })
+    await vm.$nextTick(() => {
+      expect(vm.$el.querySelector('input').value).to.equal('2018 01 28')
+    })
+  })
+})
+
 describe('Datepicker.vue inline', () => {
   beforeEach(() => {
     vm = getViewModel(Datepicker, {
