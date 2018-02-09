@@ -433,9 +433,7 @@ export default {
         return false
       }
       this.setDate(day.timestamp)
-      if (this.isInline) {
-        this.showDayCalendar()
-      } else {
+      if (!this.isInline) {
         this.close(true)
       }
     },
@@ -454,7 +452,9 @@ export default {
         this.showDayCalendar()
       } else {
         this.setDate(date)
-        this.close(true)
+        if (!this.isInline) {
+          this.close(true)
+        }
       }
     },
     /**
@@ -472,7 +472,9 @@ export default {
         this.showMonthCalendar()
       } else {
         this.setDate(date)
-        this.close(true)
+        if (!this.isInline) {
+          this.close(true)
+        }
       }
     },
     /**
