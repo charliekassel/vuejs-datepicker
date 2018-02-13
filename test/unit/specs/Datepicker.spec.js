@@ -212,14 +212,14 @@ describe('Datepicker.vue', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.nextDecade()
-    expect(vm.getPageDecade()).to.equal('2020\'s')
+    expect(vm.getPageDecade()).to.equal('2020 - 2029')
   })
 
   it('can set the previous decade', () => {
     const date = new Date(2016, 9, 9)
     vm.selectDate({timestamp: date.getTime()})
     vm.previousDecade()
-    expect(vm.getPageDecade()).to.equal('2000\'s')
+    expect(vm.getPageDecade()).to.equal('2000 - 2009')
   })
 
   it('should reset to default date', () => {
@@ -265,7 +265,7 @@ describe('Datepicker.vue set by timestamp', () => {
       value: 1517194697668
     })
     await vm.$nextTick(() => {
-      expect(vm.$el.querySelector('input').value).to.equal('2018 01 28')
+      expect(vm.$el.querySelector('input').value).to.equal('2018 01 29')
     })
   })
 })
