@@ -499,8 +499,9 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      let sD = Math.floor(this.pageDate.getFullYear() / 10) * 10
-      return sD + '\'s'
+      const decadeStart = Math.floor(this.pageDate.getFullYear() / 10) * 10
+      const decadeEnd = decadeStart + 9
+      return `${decadeStart} - ${decadeEnd}`
     },
     changeMonth (incrementBy) {
       let date = this.pageDate
