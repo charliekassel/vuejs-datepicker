@@ -54,6 +54,7 @@
                 v-for="day in days"
                 :key="day.timestamp"
                 track-by="timestamp"
+                v-bind:style="dayStyles(day)"
                 v-bind:class="dayClasses(day)"
                 @click="selectDate(day)">{{ day.date }}</span>
           </div>
@@ -261,6 +262,7 @@ export default {
           isSelected: this.isSelectedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
+          highlightedColor: this.getHighlightedDateColor(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
           isHighlightEnd: this.isHighlightEnd(dObj),
           isToday: dObj.toDateString() === (new Date()).toDateString(),
@@ -683,6 +685,18 @@ export default {
 
       return highlighted
     },
+    getHighlightedDateColor (date) {
+      let result = {}
+      if (typeof this.highlighted.dateColor !== 'undefined') {
+        this.highlighted.dateColor.forEach((d) => {
+          if (date.toDateString() === d.date.toDateString()) {
+            result.background = d.color
+            return result
+          }
+        })
+      }
+      return result
+    },
     /**
      * Whether a day is highlighted and it is the first date
      * in the highlighted range of dates
@@ -843,6 +857,9 @@ export default {
         'highlight-start': day.isHighlightStart,
         'highlight-end': day.isHighlightEnd
       }
+    },
+    dayStyles (day) {
+      return day.highlightedColor
     },
     init () {
       if (this.value) {
