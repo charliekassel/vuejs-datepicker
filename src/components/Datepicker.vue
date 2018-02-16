@@ -45,17 +45,20 @@
                   class="next"
                   v-bind:class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
           </header>
-          <div :class="isRtl ? 'flex-rtl' : ''">
+          <div :class="isRtl ? 'flex-rtl' : ''" @mouseleave="outCeils()">
             <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
             <template v-if="blankDays > 0">
               <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
             </template><!--
             --><span class="cell day"
-                v-for="day in days"
+                v-for="day in daysCalc.days"
                 :key="day.timestamp"
                 track-by="timestamp"
+                v-bind:style="day.style"
                 v-bind:class="dayClasses(day)"
-                @click="selectDate(day)">{{ day.date }}</span>
+                @click="selectDate(day)"
+                @mouseenter="setRangeSelect(day)"
+                @mouseleave="outCeilStyle(day)">{{ day.date }}</span>
           </div>
       </div>
     </template>
@@ -157,7 +160,12 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
-    }
+    },
+    selectedColor: {
+      type: String,
+      default: '#4bd'
+    },
+    rangeSelected: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -183,7 +191,14 @@ export default {
       /*
        * Positioning
        */
-      calendarHeight: 0
+      calendarHeight: 0,
+      rangeSelect: {
+        start: undefined,
+        finish: undefined
+      },
+      daysObj: {
+        days: []
+      }
     }
   },
   watch: {
@@ -248,19 +263,21 @@ export default {
       }
       return this.translation.days
     },
-    days () {
+    daysCalc () {
       const d = this.pageDate
-      let days = []
+      this.daysObj.days = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      // let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let dObj = new Date(d.getFullYear(), d.getMonth(), 1)
       let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
       for (let i = 0; i < daysInMonth; i++) {
-        days.push({
+        this.daysObj.days.push({
           date: dObj.getDate(),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
+          style: this.getDateColor(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
           isHighlightEnd: this.isHighlightEnd(dObj),
           isToday: dObj.toDateString() === (new Date()).toDateString(),
@@ -270,7 +287,7 @@ export default {
         })
         dObj.setDate(dObj.getDate() + 1)
       }
-      return days
+      return this.daysObj
     },
     months () {
       const d = this.pageDate
@@ -418,6 +435,19 @@ export default {
       this.$emit('selected', new Date(date))
       this.$emit('input', new Date(date))
     },
+    setRangeDate (timestamp) {
+      const date = new Date(timestamp)
+      if (typeof this.rangeSelect.start === 'undefined' || typeof this.rangeSelect.finish !== 'undefined') {
+        if (typeof this.rangeSelect.finish !== 'undefined') {
+          this.unmarkRangeSelect(this.rangeSelect.start, this.rangeSelect.finish)
+        }
+        this.rangeSelect.start = date
+        this.rangeSelect.finish = undefined
+      } else {
+        this.rangeSelect.finish = date
+        this.$emit('selectedRange', this.rangeSelect)
+      }
+    },
     clearDate () {
       this.selectedDate = null
       this.$emit('selected', null)
@@ -432,9 +462,111 @@ export default {
         this.$emit('selectedDisabled', day)
         return false
       }
-      this.setDate(day.timestamp)
+      if (this.rangeSelected) {
+        this.setRangeDate(day.timestamp)
+      } else {
+        this.setDate(day.timestamp)
+      }
       if (!this.isInline) {
         this.close(true)
+      }
+    },
+    maxMarkRangeSelect (start) {
+      let i
+      let day = DateUtils.daysInMonth(start.getFullYear(), start.getMonth())
+      let date = new Date(start.getFullYear(), start.getMonth(), day)
+
+      for (i = 0; i < this.daysObj.days.length; i++) {
+        if (this.daysObj.days[i].isHighlighted) {
+          if (this.daysObj.days[i].timestamp >= start.getTime()) {
+            date = new Date(this.daysObj.days[i].timestamp)
+            date.setDate(date.getDate() - 1)
+            break
+          }
+        }
+      }
+
+      return date
+    },
+    markRangeSelect (start, finish) {
+      let i = 0
+      let dt
+      let st = start.getTime()
+      let fn = this.maxMarkRangeSelect(start).getTime()
+
+      if (this.daysObj.days.length === 0) {
+        return false
+      }
+
+      for (i = 0; i < this.daysObj.days.length; i++) {
+        dt = new Date(this.daysObj.days[i].timestamp).getTime()
+        if (st <= dt && fn >= dt) {
+          this.daysObj.days[i].style.background = ''
+        }
+      }
+
+      if (finish.getTime() < fn) {
+        fn = finish.getTime()
+      }
+
+      if (st > fn) {
+        this.rangeSelect.start = undefined
+        this.rangeSelect.finish = undefined
+        this.rangeSelect.enter = undefined
+        return false
+      }
+
+      i = 0
+      dt = new Date(this.daysObj.days[0].timestamp).getTime()
+      while (dt <= fn) {
+        if (dt >= st) {
+          this.daysObj.days[i].style.background = this.selectedColor
+        }
+
+        i++
+        if (i < this.daysObj.days.length) {
+          dt = new Date(this.daysObj.days[i].timestamp).getTime()
+        } else {
+          dt++
+        }
+      }
+    },
+    unmarkRangeSelect (start, finish) {
+      let dt
+      let st = start.getTime()
+      let fn = finish.getTime()
+
+      for (let i = 0; i < this.daysObj.days.length; i++) {
+        dt = new Date(this.daysObj.days[i].timestamp).getTime()
+        if (st <= dt && fn >= dt) {
+          this.daysObj.days[i].style.background = ''
+        }
+      }
+    },
+    setRangeSelect (day) {
+      day.style.border = '1px solid ' + this.selectedColor
+      if (!this.rangeSelected) {
+        return false
+      }
+      if (typeof this.rangeSelect.start !== 'undefined' && typeof this.rangeSelect.finish === 'undefined') {
+        this.markRangeSelect(this.rangeSelect.start, new Date(day.timestamp))
+      }
+    },
+    outCeilStyle (day) {
+      day.style.border = ''
+    },
+    outCeils () {
+      if (!this.rangeSelected) {
+        return false
+      }
+
+      if (typeof this.rangeSelect.start !== 'undefined' && typeof this.rangeSelect.finish === 'undefined') {
+        let finish = this.maxMarkRangeSelect(this.rangeSelect.start)
+        this.unmarkRangeSelect(this.rangeSelect.start, finish)
+
+        this.rangeSelect.start = undefined
+        this.rangeSelect.finish = undefined
+        this.rangeSelect.enter = undefined
       }
     },
     /**
@@ -656,6 +788,15 @@ export default {
         return false
       }
 
+      if (typeof this.highlighted.dateColor !== 'undefined') {
+        for (let i = 0; i < this.highlighted.dateColor.length; i++) {
+          if (date.toDateString() === this.highlighted.dateColor[i].date.toDateString()) {
+            highlighted = true
+            return true
+          }
+        }
+      }
+
       if (typeof this.highlighted.dates !== 'undefined') {
         this.highlighted.dates.forEach((d) => {
           if (date.toDateString() === d.toDateString()) {
@@ -682,6 +823,27 @@ export default {
       }
 
       return highlighted
+    },
+    getDateColor (date) {
+      let result = {
+        background: '',
+        border: ''
+      }
+      if (typeof this.highlighted !== 'undefined') {
+        if (typeof this.highlighted.dateColor !== 'undefined') {
+          this.highlighted.dateColor.forEach((d) => {
+            if (date.toDateString() === d.date.toDateString()) {
+              result.background = d.color
+              return result
+            }
+          })
+        }
+      } else {
+        if (this.isSelectedDate(date)) {
+          result.background = this.selectedColor
+        }
+      }
+      return result
     },
     /**
      * Whether a day is highlighted and it is the first date
@@ -941,14 +1103,6 @@ $width = 300px
         &:not(.blank):not(.disabled).month
         &:not(.blank):not(.disabled).year
             cursor pointer
-            &:hover
-                border 1px solid #4bd
-        &.selected
-            background #4bd
-            &:hover
-                background #4bd
-            &.highlighted
-                background #4bd
         &.highlighted
             background #cae5ed
         &.grey
