@@ -239,6 +239,17 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>HTML Input Pattern specified</h3>
+        <form>
+          <datepicker name="date" format="yyyy-MM-dd" placeholder="YYYY-MM-DD" pattern="\d{4}\-\d{2}\-\d{2}" required></datepicker>
+          <button>Submit Form</button>
+          <code>
+            &lt;datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'" format="yyyy-MM-dd" pattern="\d{4}\-\d{2}\-\d{2}"&gt;&lt;/datepicker&gt;
+          </code>
+      </form>
+    </div>
+
   </div>
 </template>
 
