@@ -146,7 +146,7 @@ This allow us to use moment, date-fns, globalize or any other library to format 
 ```
 
 ## Disabled Dates
-Dates can disabled in a number of ways.
+Dates can be disabled in a number of ways.
 
 ``` html
 <script>
@@ -186,7 +186,7 @@ var state = {
 
 ## Highlight Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
-Note: Both `to` and `from` properties are require to define a range of dates to highlight
+Note: Both `to` and `from` properties are required to define a range of dates to highlight
 
 ``` html
 <script>
