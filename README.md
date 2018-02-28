@@ -185,8 +185,10 @@ var state = {
 ```
 
 ## Highlight Dates
-Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important: You can only highlight dates, that aren't disabled.
-Note: Both `to` and `from` properties are required to define a range of dates to highlight
+Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important:
+By default disabled dates are ignored, to highlight disabled dates set the `includeDisabled`
+property to `true`. Note: Both `to` and `from` properties are required to define a range of
+dates to highlight.
 
 ``` html
 <script>
@@ -210,7 +212,8 @@ var state = {
           if(date.getDate() % 4 == 0){
             return true
           }
-        }
+        },
+        includeDisabled: true // Highlight disabled dates
     }
 }
 </script>
