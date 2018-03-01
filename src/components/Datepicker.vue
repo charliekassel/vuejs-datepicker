@@ -951,6 +951,8 @@ $width = 300px
                 background #4bd
         &.highlighted
             background #cae5ed
+            &.disabled
+                color: #a3a3a3
         &.grey
             color #888
 
