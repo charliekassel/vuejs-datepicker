@@ -153,6 +153,32 @@
     </div>
 
     <div class="example">
+      <h3>Highlighting Disabled Dates</h3>
+      <code>
+        &lt;datepicker :disabledDateHighlight="true" :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Disabled to:</label>
+          <datepicker v-on:selected="disableTo"></datepicker>
+        </div>
+
+        <pre>disabled: {{ disabled }}</pre>
+
+        <div class="form-group">
+          <label>Highlight Days of Month:</label>
+          <input type="text" value="" v-on:change="setHighlightedDays">
+        </div>
+
+        <pre>highlighted: {{ highlighted }}</pre>
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlighted" :disabled="disabled" :disabledDateHighlight="true"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>With default open date</h3>
       <datepicker :open-date="openDate"></datepicker>
       <code>
