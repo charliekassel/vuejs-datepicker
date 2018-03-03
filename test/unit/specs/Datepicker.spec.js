@@ -498,6 +498,20 @@ describe('Datepicker highlight date', () => {
     expect(vm.isHighlightedDate(new Date(2016, 12, 5))).to.equal(false)
   })
 
+  it('should highlight a disabled date when explicitly configured to', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        to: new Date(2016, 12, 8),
+        from: new Date(2016, 12, 4),
+        includeDisabled: true
+      },
+      disabled: {
+        dates: [ new Date(2016, 12, 5) ]
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 12, 5))).to.equal(true)
+  })
+
   it('should highlight a date before the to property', () => {
     expect(vm.isHighlightedDate(new Date(2016, 12, 7))).to.equal(true)
   })

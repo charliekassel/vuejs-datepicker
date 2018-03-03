@@ -641,12 +641,12 @@ export default {
       return disabled
     },
     /**
-     * Whether a day is highlighted (only if it is not disabled already)
+     * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
      * @param {Date}
      * @return {Boolean}
      */
     isHighlightedDate (date) {
-      if (this.isDisabledDate(date)) {
+      if (!(this.highlighted && this.highlighted.includeDisabled) && this.isDisabledDate(date)) {
         return false
       }
 
@@ -951,6 +951,8 @@ $width = 300px
                 background #4bd
         &.highlighted
             background #cae5ed
+            &.disabled
+                color: #a3a3a3
         &.grey
             color #888
 
