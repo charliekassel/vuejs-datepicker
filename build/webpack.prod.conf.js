@@ -8,6 +8,7 @@ var env = process.env.NODE_ENV === 'testing'
   : config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
+  target: 'node',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
