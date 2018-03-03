@@ -21,11 +21,13 @@ $ npm install vuejs-datepicker --save
 ``` javascript
 import Datepicker from 'vuejs-datepicker';
 
-Vue.component('my-component', {
-    components: {
-        Datepicker
-    }
-});
+export default {
+  // ...
+  components: {
+      Datepicker
+  }
+  // ...
+}
 ```
 
 
@@ -40,7 +42,7 @@ Vue.component('my-component', {
 ``` html
 <script>
 var state = {
-    date: new Date(2016, 9,  16)
+  date: new Date(2016, 9,  16)
 }
 </script>
 <datepicker :value="state.date"></datepicker>
@@ -55,7 +57,7 @@ Use `v-model` for two-way binding
 ```
 Emits events
 ``` html
-<datepicker v-on:selected="doSomethingInParentComponentFunction" v-on:opened="datepickerOpenedFunction" v-on:closed="datepickerClosedFunction">
+<datepicker @selected="doSomethingInParentComponentFunction" @opened="datepickerOpenedFunction" @closed="datepickerClosedFunction">
 ```
 Inline always open version
 ``` html
@@ -151,34 +153,34 @@ Dates can be disabled in a number of ways.
 ``` html
 <script>
 var state = {
-    disabled: {
-        to: new Date(2016, 0, 5), // Disable all dates up to specific date
-        from: new Date(2016, 0, 26), // Disable all dates after specific date
-        days: [6, 0], // Disable Saturday's and Sunday's
-        daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
-        dates: [ // Disable an array of dates
-            new Date(2016, 9, 16),
-            new Date(2016, 9, 17),
-            new Date(2016, 9, 18)
-        ],
-        ranges: [{ // Disable dates in given ranges (exclusive).
-            from: new Date(2016, 11, 25),
-            to: new Date(2016, 11, 30)
-        }, {
-            from: new Date(2017, 1, 12),
-            to: new Date(2017, 2, 25)
-        }],
-        // a custom function that returns true if the date is disabled
-        // this can be used for wiring you own logic to disable a date if none
-        // of the above conditions serve your purpose
-        // this function should accept a date and return true if is disabled
-        customPredictor: function(date) {
-          // disables the date if it is a multiple of 5
-          if(date.getDate() % 5 == 0){
-            return true
-          }
-        }
+  disabled: {
+    to: new Date(2016, 0, 5), // Disable all dates up to specific date
+    from: new Date(2016, 0, 26), // Disable all dates after specific date
+    days: [6, 0], // Disable Saturday's and Sunday's
+    daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
+    dates: [ // Disable an array of dates
+      new Date(2016, 9, 16),
+      new Date(2016, 9, 17),
+      new Date(2016, 9, 18)
+    ],
+    ranges: [{ // Disable dates in given ranges (exclusive).
+      from: new Date(2016, 11, 25),
+      to: new Date(2016, 11, 30)
+    }, {
+      from: new Date(2017, 1, 12),
+      to: new Date(2017, 2, 25)
+    }],
+    // a custom function that returns true if the date is disabled
+    // this can be used for wiring you own logic to disable a date if none
+    // of the above conditions serve your purpose
+    // this function should accept a date and return true if is disabled
+    customPredictor: function(date) {
+      // disables the date if it is a multiple of 5
+      if(date.getDate() % 5 == 0){
+        return true
+      }
     }
+  }
 }
 </script>
 <datepicker :disabled="state.disabled"></datepicker>
@@ -193,28 +195,28 @@ dates to highlight.
 ``` html
 <script>
 var state = {
-    highlighted: {
-        to: new Date(2016, 0, 5), // Highlight all dates up to specific date
-        from: new Date(2016, 0, 26), // Highlight all dates after specific date
-        days: [6, 0], // Highlight Saturday's and Sunday's
-        daysOfMonth: [15, 20, 31], // Highlight 15th, 20th and 31st of each month
-        dates: [ // Highlight an array of dates
-            new Date(2016, 9, 16),
-            new Date(2016, 9, 17),
-            new Date(2016, 9, 18)
-        ],
-        // a custom function that returns true of the date is highlighted
-        // this can be used for wiring you own logic to highlight a date if none
-        // of the above conditions serve your purpose
-        // this function should accept a date and return true if is highlighted
-        customPredictor: function(date) {
-          // highlights the date if it is a multiple of 4
-          if(date.getDate() % 4 == 0){
-            return true
-          }
-        },
-        includeDisabled: true // Highlight disabled dates
-    }
+  highlighted: {
+    to: new Date(2016, 0, 5), // Highlight all dates up to specific date
+    from: new Date(2016, 0, 26), // Highlight all dates after specific date
+    days: [6, 0], // Highlight Saturday's and Sunday's
+    daysOfMonth: [15, 20, 31], // Highlight 15th, 20th and 31st of each month
+    dates: [ // Highlight an array of dates
+      new Date(2016, 9, 16),
+      new Date(2016, 9, 17),
+      new Date(2016, 9, 18)
+    ],
+    // a custom function that returns true of the date is highlighted
+    // this can be used for wiring you own logic to highlight a date if none
+    // of the above conditions serve your purpose
+    // this function should accept a date and return true if is highlighted
+    customPredictor: function(date) {
+      // highlights the date if it is a multiple of 4
+      if(date.getDate() % 4 == 0){
+        return true
+      }
+    },
+    includeDisabled: true // Highlight disabled dates
+  }
 }
 </script>
 <datepicker :highlighted="state.highlighted"></datepicker>
