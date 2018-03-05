@@ -660,8 +660,7 @@ export default {
 
       if (typeof this.highlighted.dates !== 'undefined') {
         this.highlighted.dates.forEach((d) => {
-          d = d instanceof Date ? d : d.date
-          if (date.toDateString() === d.toDateString()) {
+          if (date.toDateString() === this.findDateObject(d).toDateString()) {
             highlighted = true
             return true
           }
@@ -842,12 +841,14 @@ export default {
 
       if (typeof this.highlighted.dates !== 'undefined') {
         let currentDate = this.highlighted.dates.filter(d => {
-          d = d instanceof Date ? d : d.date
-          return date.toDateString() === d.toDateString()
+          return date.toDateString() === this.findDateObject(d).toDateString()
         })[0]
         return currentDate && currentDate.className ? currentDate.className : false
       }
       return false
+    },
+    findDateObject (item) {
+      return DateUtils.isValidDate(item) ? item : item.date
     },
     hasClassNameToOverwrite (day) {
       return day.highlightClassName
