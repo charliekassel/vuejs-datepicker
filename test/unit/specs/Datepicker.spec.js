@@ -540,6 +540,8 @@ describe('Datepicker highlight date', () => {
     })
     expect(vm.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
     expect(vm.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 9))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 16))).to.equal(true)
   })
 
   it('could figure out where is the Date object', () => {
