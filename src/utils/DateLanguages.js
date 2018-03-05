@@ -197,6 +197,14 @@ export default {
       },
       'days': ['일', '월', '화', '수', '목', '금', '토']
     },
+    'lb': {
+      'language': 'Luxembourgish',
+      'months': {
+        'original': ['Januar', 'Februar', 'Mäerz', 'Abrëll', 'Mäi', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        'abbr': ['Jan', 'Feb', 'Mäe', 'Abr', 'Mäi', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+      },
+      'days': ['So.', 'Mé.', 'Dë.', 'Më.', 'Do.', 'Fr.', 'Sa.']
+    },
     'lt': {
       'language': 'Lithuanian',
       'ymd': true,
