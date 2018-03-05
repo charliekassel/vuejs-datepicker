@@ -841,10 +841,10 @@ export default {
       }
 
       if (typeof this.highlighted.dates !== 'undefined') {
-        let currentDate = this.highlighted.dates.find(d => {
+        let currentDate = this.highlighted.dates.filter(d => {
           d = d instanceof Date ? d : d.date
           return date.toDateString() === d.toDateString()
-        })
+        })[0]
         return currentDate && currentDate.className ? currentDate.className : false
       }
       return false
