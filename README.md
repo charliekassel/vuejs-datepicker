@@ -265,6 +265,7 @@ Available languages
 | it          | Italian          |          |
 | ja          | Japanese         |          |
 | ko          | Korean           |          |
+| lb          | Luxembourgish    |          |
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
 | mn          | Mongolian        |          |
