@@ -343,47 +343,6 @@ describe('Datepicker disabled dates', () => {
   })
 })
 
-describe('Datepicker disabled dates with highlight allowed', () => {
-  beforeEach(() => {
-    vm = getViewModel(Datepicker, {
-      disabledDateHighlight: true,
-      disabled: {
-        to: new Date(2016, 9, 4),
-        from: new Date(2016, 9, 26)
-      }
-    })
-    vm.setDate(new Date(2016, 9, 15))
-  })
-
-  it('can change to previous disabled month', () => {
-    vm.previousMonth()
-    expect(vm.getPageMonth()).to.equal(8)
-    vm.nextMonth()
-    expect(vm.getPageMonth()).to.equal(9)
-  })
-
-  it('can change to the next disabled month', () => {
-    vm.nextMonth()
-    expect(vm.getPageMonth()).to.equal(10)
-    vm.previousMonth()
-    expect(vm.getPageMonth()).to.equal(9)
-  })
-
-  it('can\'t change to a disabled year', () => {
-    vm.previousYear()
-    expect(vm.getPageYear()).to.equal(2016)
-    vm.nextYear()
-    expect(vm.getPageYear()).to.equal(2016)
-  })
-
-  it('can\'t change to a disabled decade', () => {
-    vm.previousDecade()
-    expect(vm.getPageYear()).to.equal(2016)
-    vm.nextDecade()
-    expect(vm.getPageYear()).to.equal(2016)
-  })
-})
-
 describe('Datepicker respects disabled ranges', () => {
   beforeEach(() => {
     vm = getViewModel(Datepicker, {

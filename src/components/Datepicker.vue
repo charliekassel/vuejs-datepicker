@@ -135,7 +135,6 @@ export default {
     fullMonthName: Boolean,
     disabled: Object,
     highlighted: Object,
-    disabledDateHighlight: Boolean,
     placeholder: String,
     inline: Boolean,
     calendarClass: [String, Object],
@@ -517,7 +516,7 @@ export default {
       }
     },
     previousMonthDisabled () {
-      if (!this.disabled || !this.disabled.to || this.disabledDateHighlight) {
+      if (!this.disabled || !this.disabled.to) {
         return false
       }
       let d = this.pageDate
@@ -530,7 +529,7 @@ export default {
       }
     },
     nextMonthDisabled () {
-      if (!this.disabled || !this.disabled.from || this.disabledDateHighlight) {
+      if (!this.disabled || !this.disabled.from) {
         return false
       }
       let d = this.pageDate
@@ -648,7 +647,7 @@ export default {
      * @return {Boolean}
      */
     isHighlightedDate (date) {
-      if (this.isDisabledDate(date) && !this.disabledDateHighlight) {
+      if (this.isDisabledDate(date)) {
         return false
       }
 
