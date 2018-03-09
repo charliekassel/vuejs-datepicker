@@ -105,6 +105,14 @@ export default {
       },
       'days': ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la']
     },
+    'fo': {
+      'language': 'Faroese',
+      'months': {
+        'original': ['Januar', 'Februar', 'Mars', 'Apríl', 'Mai', 'Juni', 'Juli', 'August', 'Septembur', 'Oktobur', 'Novembur', 'Desembur'],
+        'abbr': ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
+      },
+      'days': ['Sun', 'Mán', 'Týs', 'Mik', 'Hós', 'Frí', 'Ley']
+    },
     'fr': {
       'language': 'French',
       'months': {
