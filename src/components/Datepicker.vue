@@ -1,6 +1,9 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <div :class="{'input-group' : bootstrapStyling}">
+      <!-- Prepend slot -->
+      <slot name="prepend"></slot>
+
       <!-- Calendar Button -->
       <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
         <i :class="calendarButtonIcon">
@@ -29,6 +32,9 @@
           <span v-if="!clearButtonIcon">&times;</span>
         </i>
       </span>
+
+      <!-- Append slot -->
+      <slot name="append"></slot>
     </div>
 
     <!-- Day View -->

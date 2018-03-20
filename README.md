@@ -224,7 +224,22 @@ var state = {
 </script>
 <datepicker :highlighted="state.highlighted"></datepicker>
 ```
+## Slots
 
+Sometimes you need to show custom content before or after the `input` element. 
+For such cases you can use the two named slots `prepend` and `append`.
+An example would be to use bootstrap's `input-group-prepend` and `input-group-append` 
+to show some custom text:
+``` html
+<datepicker :bootstrap-styling="true">
+  <div slot="prepend" class="input-group-prepend">
+    <span class="input-group-text">Release Date</span>
+  </div>
+  <div slot="append" class="input-group-append">
+      <span class="input-group-text">at noon</span>
+    </div>
+</datepicker>
+```
 
 ## Translations
 
