@@ -1,35 +1,6 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
-    <div :class="{'input-group' : bootstrapStyling}">
-      <!-- Calendar Button -->
-      <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
-        <i :class="calendarButtonIcon">
-          {{ calendarButtonIconContent }}
-          <span v-if="!calendarButtonIcon">&hellip;</span>
-        </i>
-      </span>
-      <!-- Input -->
-      <input
-        :type="inline ? 'hidden' : 'text'"
-        :class="[ inputClass, { 'form-control' : bootstrapStyling } ]"
-        :name="name"
-        :ref="refName"
-        :id="id"
-        @click="showCalendar"
-        :value="formattedValue"
-        :open-date="openDate"
-        :placeholder="placeholder"
-        :clear-button="clearButton"
-        :disabled="disabledPicker"
-        :required="required"
-        readonly>
-      <!-- Clear Button -->
-      <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
-        <i :class="clearButtonIcon">
-          <span v-if="!clearButtonIcon">&times;</span>
-        </i>
-      </span>
-    </div>
+    <date-input :props="inputProps" @showCalendar="showCalendar" />
 
     <!-- Day View -->
     <template v-if="allowedToShowView('day')">
@@ -108,8 +79,11 @@
 <script>
 import DateUtils from '@/utils/DateUtils.js'
 import DateLanguages from '@/utils/DateLanguages.js'
-
+import DateInput from '@/components/DateInput'
 export default {
+  components: {
+    DateInput
+  },
   props: {
     value: {
       validator: function (val) {
@@ -198,6 +172,28 @@ export default {
     }
   },
   computed: {
+    inputProps () {
+      return {
+        selectedDate: this.selectedDate,
+        format: this.format,
+        translation: this.translation,
+        inline: this.inline,
+        id: this.id,
+        name: this.name,
+        refName: this.refName,
+        openDate: this.openDate,
+        placeholder: this.placeholder,
+        inputClass: this.inputClass,
+        clearButton: this.clearButton,
+        clearButtonIcon: this.clearButtonIcon,
+        calendarButton: this.calendarButton,
+        calendarButtonIcon: this.calendarButtonIcon,
+        calendarButtonIconContent: this.calendarButtonIconContent,
+        disabledPicker: this.disabledPicker,
+        required: this.required,
+        bootstrapStyling: this.bootstrapStyling
+      }
+    },
     computedInitialView () {
       if (!this.initialView) {
         return this.minimumView
@@ -208,15 +204,7 @@ export default {
     pageDate () {
       return new Date(this.pageTimestamp)
     },
-    formattedValue () {
-      if (!this.selectedDate) {
-        return null
-      }
 
-      return typeof this.format === 'function'
-        ? this.format(this.selectedDate)
-        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
-    },
     translation () {
       return DateLanguages.translations[this.language]
     },
