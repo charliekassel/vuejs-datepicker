@@ -10,7 +10,7 @@
     <!-- Input -->
     <input
       :type="props.inline ? 'hidden' : 'text'"
-      :class="[ props.inputClass, { 'form-control' : props.bootstrapStyling } ]"
+      :class="inputClass"
       :name="props.name"
       :ref="props.refName"
       :id="props.id"
@@ -42,8 +42,16 @@ export default {
         return null
       }
       return typeof this.props.format === 'function'
-        ? this.format(this.selectedDate)
+        ? this.props.format(this.selectedDate)
         : DateUtils.formatDate(new Date(this.props.selectedDate), this.props.format, this.props.translation)
+    },
+
+    inputClass () {
+      let cssClass = [this.props.inputClass]
+      if (this.props.bootstrapStyling) {
+        cssClass.push('form-control')
+      }
+      return cssClass.join(' ')
     }
   },
   methods: {

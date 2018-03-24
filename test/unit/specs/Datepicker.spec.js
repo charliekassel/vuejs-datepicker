@@ -1,5 +1,3 @@
-/* global describe, it, expect, beforeEach */
-
 import Datepicker from '@/components/Datepicker.vue'
 import {shallow} from '@vue/test-utils'
 
@@ -42,7 +40,6 @@ describe('Datepicker: mounted component', () => {
     expect(typeof wrapper.vm.setValue).toEqual('function')
     wrapper.vm.setValue(newDate)
     expect(wrapper.vm.selectedDate).toEqual(newDate)
-    expect(wrapper.vm.formattedValue).toEqual('2016-10-15')
     const now = new Date()
     wrapper.vm.setValue()
     expect(wrapper.vm.selectedDate).toEqual(null)
@@ -85,7 +82,6 @@ describe('Datepicker: mounted component', () => {
     })
     wrapper.vm.setDate(date.getTime())
     expect(wrapper.vm.selectedDate.getTime()).toEqual(date.getTime())
-    expect(wrapper.vm.formattedValue).toEqual('2016-10-09')
   })
 
   it('clears the date', () => {
@@ -94,16 +90,6 @@ describe('Datepicker: mounted component', () => {
     wrapper.vm.setDate(date.getTime())
     wrapper.vm.clearDate()
     expect(wrapper.vm.selectedDate).toEqual(null)
-  })
-
-  it('delegates date formatting', () => {
-    const wrapper = shallow(Datepicker, {
-      propsData: {
-        value: new Date(2016, 1, 15),
-        format: () => '2016/1/15'
-      }
-    })
-    expect(wrapper.vm.formattedValue).toEqual('2016/1/15')
   })
 })
 
@@ -119,7 +105,6 @@ describe('Datepicker.vue', () => {
   })
 
   it('should render correct contents', () => {
-    expect(wrapper.vm.$el.querySelectorAll('input').length).toEqual(1)
     expect(wrapper.vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).toEqual(3)
   })
 
@@ -243,42 +228,40 @@ describe('Datepicker.vue', () => {
 
 describe('Datepicker.vue set by string', () => {
   let wrapper
-  it('can parse a string date', async () => {
+  it('can parse a string date', () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
         value: '2016-02-20'
       }
     })
-    await wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.$el.querySelector('input').value).toEqual('2016 02 20')
-    })
+    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2016)
+    expect(wrapper.vm.selectedDate.getMonth()).toEqual(1)
+    expect(wrapper.vm.selectedDate.getDate()).toEqual(20)
   })
 
-  it('should allow malformed value', async () => {
+  it('should nullify malformed value', () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         value: 'today'
       }
     })
-    await wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.$el.querySelector('input').value).toEqual('')
-    })
+    expect(wrapper.vm.selectedDate).toBeNull()
   })
 })
 
 describe('Datepicker.vue set by timestamp', () => {
   let wrapper
-  it('can parse unix timestamp', async () => {
+  it('can parse unix timestamp', () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
         value: 1517194697668
       }
     })
-    await wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.$el.querySelector('input').value).toEqual('2018 01 29')
-    })
+    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
+    expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
+    expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
   })
 })
 
