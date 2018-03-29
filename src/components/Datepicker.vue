@@ -34,6 +34,7 @@
     <!-- Day View -->
     <template v-if="allowedToShowView('day')">
       <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
+          <slot name="beforeCalendarHeader"></slot>
           <header>
               <span
                   @click="isRtl ? nextMonth() : previousMonth()"
