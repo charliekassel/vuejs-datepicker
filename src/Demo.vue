@@ -4,6 +4,17 @@
     <h1>Datepicker Examples</h1>
 
     <div class="example">
+      <h3>Required form submit</h3>
+      <form>
+        <datepicker required></datepicker>
+        <button type="submit">Submit</button>
+      </form>
+      <code>
+          &lt;datepicker required&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Default datepicker</h3>
       <datepicker placeholder="Select Date" wrapper-class="my-datapicker"/>
       <code>
