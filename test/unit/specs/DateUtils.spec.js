@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 import DateUtils from '../../../src/utils/DateUtils'
 import DateLanguages from '../../../src/utils/DateLanguages'
 
