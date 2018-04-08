@@ -1,4 +1,4 @@
-import DateLanguages from './DateLanguages'
+import {en} from '@/locale'
 
 export default {
 
@@ -104,7 +104,7 @@ export default {
    * @return {String}
    */
   formatDate (date, format, translation) {
-    translation = (!translation) ? DateLanguages.translations.en : translation
+    translation = (!translation) ? en : translation
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     let day = date.getDate()
@@ -113,8 +113,8 @@ export default {
       .replace(/d/, day)
       .replace(/yyyy/, year)
       .replace(/yy/, String(year).slice(2))
-      .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months.original))
-      .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.months.abbr))
+      .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months))
+      .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.monthsAbbr))
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a|ä|e)/, month)
       .replace(/su/, this.getNthSuffix(date.getDate()))

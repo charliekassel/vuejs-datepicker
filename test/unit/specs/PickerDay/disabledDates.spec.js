@@ -1,6 +1,6 @@
 import PickerDay from '@/components/PickerDay.vue'
 import {shallow} from '@vue/test-utils'
-import languages from '@/utils/DateLanguages'
+import {en} from '@/locale'
 
 describe('PickerDay: disabled', () => {
   let wrapper
@@ -9,7 +9,7 @@ describe('PickerDay: disabled', () => {
       propsData: {
         allowedToShowView: () => true,
         showMonthCalendar: () => {},
-        translation: languages.translations.en,
+        translation: en,
         disabled: {
           to: new Date(2016, 9, 4),
           from: new Date(2016, 9, 26)

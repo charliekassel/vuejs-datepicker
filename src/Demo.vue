@@ -5,7 +5,15 @@
 
     <div class="example">
       <h3>Default datepicker</h3>
-      <datepicker placeholder="Select Date" wrapper-class="my-datapicker"/>
+      <datepicker placeholder="Select Date"/>
+      <code>
+          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>French datepicker</h3>
+      <datepicker placeholder="Select Date" :language="languages.fr" />
       <code>
           &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
       </code>
@@ -172,9 +180,9 @@
       <h3>Translations</h3>
       <h5>{{ languages[language].language }} datepicker</h5>
 
-      <datepicker :language="language" format="d MMMM yyyy"></datepicker>
+      <datepicker :language="languages[language]" format="d MMMM yyyy"></datepicker>
       <code>
-          &lt;datepicker language="{{ language }}"&gt;&lt;/datepicker&gt;
+          &lt;datepicker :language="languages.{{ language }}"&gt;&lt;/datepicker&gt;
       </code>
       <div class="settings">
         <h5>Settings</h5>
@@ -193,9 +201,9 @@
     </div>
     <div class="example">
       <h3>RTL datepicker</h3>
-      <datepicker language="he"></datepicker>
+      <datepicker :language="languages.he"></datepicker>
       <code>
-          &lt;datepicker  language="he"&gt;&lt;/datepicker&gt;
+          &lt;datepicker :language="languages.he"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -209,9 +217,9 @@
 
     <div class="example">
       <h3>Day view only RTL</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'" language="he"></datepicker>
+      <datepicker :minimumView="'day'" :maximumView="'day'" :language="languages.he"></datepicker>
       <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="he"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="languages.he"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -244,14 +252,14 @@
 
 <script>
 import Datepicker from '@/components/Datepicker'
-import DateLanguages from '@/utils/DateLanguages'
+import * as lang from '@/locale'
 
 const state = {
   date1: new Date()
 }
 
 export default {
-  name: 'app',
+  name: 'demo',
   components: {
     Datepicker
   },
@@ -278,8 +286,8 @@ export default {
       eventMsg: null,
       state: state,
       language: 'en',
-      languages: DateLanguages.translations,
-      vModelExample: null
+      vModelExample: null,
+      languages: lang
     }
   },
   methods: {

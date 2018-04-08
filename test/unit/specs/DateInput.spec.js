@@ -1,5 +1,6 @@
 import DateInput from '@/components/DateInput.vue'
 import {shallow} from '@vue/test-utils'
+import {en} from '@/locale'
 
 describe('DateInput', () => {
   let wrapper
@@ -8,7 +9,8 @@ describe('DateInput', () => {
     wrapper = shallow(DateInput, {
       propsData: {
         selectedDate: new Date(2018, 2, 24),
-        format: 'dd MMM yyyy'
+        format: 'dd MMM yyyy',
+        translation: en
       }
     })
   })

@@ -77,7 +77,8 @@
   </div>
 </template>
 <script>
-import DateLanguages from '@/utils/DateLanguages.js'
+// import DateLanguages from '@/utils/DateLanguages.js'
+import {en} from '@/locale'
 import DateInput from '@/components/DateInput'
 import PickerDay from '@/components/PickerDay'
 import PickerMonth from '@/components/PickerMonth'
@@ -91,7 +92,7 @@ export default {
   },
   props: {
     value: {
-      validator: function (val) {
+      validator: (val) => {
         return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
@@ -103,12 +104,12 @@ export default {
       default: 'dd MMM yyyy'
     },
     language: {
-      type: String,
-      default: 'en'
+      type: Object,
+      default: () => en
     },
     openDate: {
-      validator: function (val) {
-        return val === null || val instanceof Date || typeof val === 'string'
+      validator: (val) => {
+        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
     fullMonthName: Boolean,
@@ -189,7 +190,7 @@ export default {
     },
 
     translation () {
-      return DateLanguages.translations[this.language]
+      return this.language
     },
 
     calendarStyle () {

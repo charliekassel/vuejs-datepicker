@@ -19,6 +19,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!src/main.js',
-    '!src/Demo.vue'
+    '!src/Demo.vue',
+    '!src/locale/translations/**/*.js'
   ]
 }

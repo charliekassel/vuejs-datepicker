@@ -1,6 +1,6 @@
 import PickerDay from '@/components/PickerDay.vue'
 import {shallow} from '@vue/test-utils'
-import languages from '@/utils/DateLanguages'
+import {en} from '@/locale'
 
 describe('PickerDay highlight date', () => {
   let wrapper
@@ -8,7 +8,7 @@ describe('PickerDay highlight date', () => {
     wrapper = shallow(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
-        translation: languages.translations.en,
+        translation: en,
         pageDate: new Date(2016, 9, 1),
         highlighted: {
           to: new Date(2016, 12, 8),

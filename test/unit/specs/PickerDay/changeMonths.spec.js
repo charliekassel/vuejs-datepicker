@@ -1,13 +1,13 @@
 import PickerDay from '@/components/PickerDay.vue'
 import {shallow} from '@vue/test-utils'
-import languages from '@/utils/DateLanguages'
+import {en} from '@/locale'
 
 describe('PickerDay: changing months', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallow(PickerDay, {
       propsData: {
-        translation: languages.translations.en,
+        translation: en,
         allowedToShowView: () => true,
         selectedDate: new Date(2018, 2, 24),
         pageDate: new Date(2018, 1, 1)

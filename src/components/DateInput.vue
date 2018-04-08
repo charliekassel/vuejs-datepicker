@@ -31,12 +31,13 @@
   </div>
 </template>
 <script>
-import DateUtils from '../utils/DateUtils'
+import DateUtils from '@/utils/DateUtils'
+import Language from '@/locale/Language'
 export default {
   props: {
     selectedDate: Date,
     format: String,
-    translation: Object,
+    translation: Language,
     inline: Boolean,
     id: String,
     name: String,

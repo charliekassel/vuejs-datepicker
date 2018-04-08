@@ -1,6 +1,6 @@
 import PickerMonth from '@/components/PickerMonth.vue'
 import {shallow} from '@vue/test-utils'
-import languages from '@/utils/DateLanguages'
+import {en} from '@/locale'
 
 describe('PickerMonth', () => {
   let wrapper
@@ -8,7 +8,7 @@ describe('PickerMonth', () => {
     wrapper = shallow(PickerMonth, {
       propsData: {
         allowedToShowView: () => true,
-        translation: languages.translations.en,
+        translation: en,
         pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24)
       }

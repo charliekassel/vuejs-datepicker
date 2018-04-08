@@ -97,7 +97,7 @@ export default {
     },
 
     currMonthName () {
-      const monthName = this.fullMonthName ? this.translation.months.original : this.translation.months.abbr
+      const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
       return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
     },
 
