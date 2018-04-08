@@ -56,6 +56,8 @@
                 :key="day.timestamp"
                 track-by="timestamp"
                 v-bind:class="dayClasses(day)"
+                @mouseenter="mouseEnterDate(day)"
+                @mouseleave="mouseLeaveDate(day)"
                 @click="selectDate(day)">{{ day.date }}</span>
           </div>
       </div>
@@ -80,6 +82,8 @@
               :key="month.timestamp"
               track-by="timestamp"
               v-bind:class="{ 'selected': month.isSelected, 'disabled': month.isDisabled }"
+              @mouseenter="mouseEnterMonth(month)"
+              @mouseleave="mouseLeaveMonth(month)"
               @click.stop="selectMonth(month)">{{ month.month }}</span>
       </div>
     </template>
@@ -100,6 +104,8 @@
               :key="year.timestamp"
               track-by="timestamp"
               v-bind:class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+              @mouseenter="mouseEnterYear(year)"
+              @mouseleave="mouseLeaveYear(year)"
               @click.stop="selectYear(year)">{{ year.year }}</span>
       </div>
     </template>
@@ -477,6 +483,42 @@ export default {
           this.close(true)
         }
       }
+    },
+    /**
+     * @param {Object} day
+     */
+    mouseEnterDate (day) {
+      this.$emit('mouseEnterDate', day)
+    },
+    /**
+     * @param {Object} day
+     */
+    mouseLeaveDate (day) {
+      this.$emit('mouseLeaveDate', day)
+    },
+    /**
+     * @param {Object} month
+     */
+    mouseEnterMonth (month) {
+      this.$emit('mouseEnterMonth', month)
+    },
+    /**
+     * @param {Object} month
+     */
+    mouseLeaveMonth (month) {
+      this.$emit('mouseLeaveMonth', month)
+    },
+    /**
+     * @param {Object} year
+     */
+    mouseEnterYear (year) {
+      this.$emit('mouseEnterYear', year)
+    },
+    /**
+     * @param {Object} year
+     */
+    mouseLeaveYear (year) {
+      this.$emit('mouseLeaveYear')
     },
     /**
      * @return {Number}
