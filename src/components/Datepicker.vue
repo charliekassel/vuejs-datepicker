@@ -1,6 +1,26 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
-    <date-input :props="inputProps" @showCalendar="showCalendar" />
+    <date-input
+      :selectedDate="selectedDate"
+      :format="format"
+      :translation="translation"
+      :inline="inline"
+      :id="id"
+      :name="name"
+      :refName="refName"
+      :openDate="openDate"
+      :placeholder="placeholder"
+      :inputClass="inputClass"
+      :clearButton="clearButton"
+      :clearButtonIcon="clearButtonIcon"
+      :calendarButton="calendarButton"
+      :calendarButtonIcon="calendarButtonIcon"
+      :calendarButtonIconContent="calendarButtonIconContent"
+      :disabledPicker="disabledPicker"
+      :required="required"
+      :bootstrapStyling="bootstrapStyling"
+      @showCalendar="showCalendar"
+    />
 
     <!-- Day View -->
     <picker-day
@@ -157,28 +177,6 @@ export default {
     }
   },
   computed: {
-    inputProps () {
-      return {
-        selectedDate: this.selectedDate,
-        format: this.format,
-        translation: this.translation,
-        inline: this.inline,
-        id: this.id,
-        name: this.name,
-        refName: this.refName,
-        openDate: this.openDate,
-        placeholder: this.placeholder,
-        inputClass: this.inputClass,
-        clearButton: this.clearButton,
-        clearButtonIcon: this.clearButtonIcon,
-        calendarButton: this.calendarButton,
-        calendarButtonIcon: this.calendarButtonIcon,
-        calendarButtonIconContent: this.calendarButtonIconContent,
-        disabledPicker: this.disabledPicker,
-        required: this.required,
-        bootstrapStyling: this.bootstrapStyling
-      }
-    },
     computedInitialView () {
       if (!this.initialView) {
         return this.minimumView

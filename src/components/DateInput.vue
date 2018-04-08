@@ -1,31 +1,31 @@
 <template>
-  <div :class="{'input-group' : props.bootstrapStyling}">
+  <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
-    <span v-if="props.calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : props.bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : props.disabledPicker}">
-      <i :class="props.calendarButtonIcon">
-        {{ props.calendarButtonIconContent }}
-        <span v-if="!props.calendarButtonIcon">&hellip;</span>
+    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-addon' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabledPicker}">
+      <i :class="calendarButtonIcon">
+        {{ calendarButtonIconContent }}
+        <span v-if="!calendarButtonIcon">&hellip;</span>
       </i>
     </span>
     <!-- Input -->
     <input
-      :type="props.inline ? 'hidden' : 'text'"
-      :class="inputClass"
-      :name="props.name"
-      :ref="props.refName"
-      :id="props.id"
+      :type="inline ? 'hidden' : 'text'"
+      :class="computedInputClass"
+      :name="name"
+      :ref="refName"
+      :id="id"
       :value="formattedValue"
-      :open-date="props.openDate"
-      :placeholder="props.placeholder"
-      :clear-button="props.clearButton"
-      :disabled="props.disabledPicker"
-      :required="props.required"
+      :open-date="openDate"
+      :placeholder="placeholder"
+      :clear-button="clearButton"
+      :disabled="disabledPicker"
+      :required="required"
       @click="showCalendar"
       readonly>
     <!-- Clear Button -->
-    <span v-if="props.clearButton && props.selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : props.bootstrapStyling}" @click="clearDate()">
-      <i :class="props.clearButtonIcon">
-        <span v-if="!props.clearButtonIcon">&times;</span>
+    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
+      <i :class="clearButtonIcon">
+        <span v-if="!clearButtonIcon">&times;</span>
       </i>
     </span>
   </div>
@@ -34,21 +34,38 @@
 import DateUtils from '../utils/DateUtils'
 export default {
   props: {
-    props: Object
+    selectedDate: Date,
+    format: String,
+    translation: Object,
+    inline: Boolean,
+    id: String,
+    name: String,
+    refName: String,
+    openDate: Date,
+    placeholder: String,
+    inputClass: [String, Object],
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    disabledPicker: Boolean,
+    required: Boolean,
+    bootstrapStyling: Boolean
   },
   computed: {
     formattedValue () {
-      if (!this.props.selectedDate) {
+      if (!this.selectedDate) {
         return null
       }
-      return typeof this.props.format === 'function'
-        ? this.props.format(this.selectedDate)
-        : DateUtils.formatDate(new Date(this.props.selectedDate), this.props.format, this.props.translation)
+      return typeof this.format === 'function'
+        ? this.format(this.selectedDate)
+        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
     },
 
-    inputClass () {
-      let cssClass = [this.props.inputClass]
-      if (this.props.bootstrapStyling) {
+    computedInputClass () {
+      let cssClass = [this.inputClass]
+      if (this.bootstrapStyling) {
         cssClass.push('form-control')
       }
       return cssClass.join(' ')

@@ -7,10 +7,8 @@ describe('DateInput', () => {
   beforeEach(() => {
     wrapper = shallow(DateInput, {
       propsData: {
-        props: {
-          selectedDate: new Date(2018, 2, 24),
-          format: 'dd MMM yyyy'
-        }
+        selectedDate: new Date(2018, 2, 24),
+        format: 'dd MMM yyyy'
       }
     })
   })
@@ -21,9 +19,7 @@ describe('DateInput', () => {
 
   it('nulls date', () => {
     wrapper.setProps({
-      props: {
-        selectedDate: null
-      }
+      selectedDate: null
     })
     expect(wrapper.vm.formattedValue).toBeNull()
     expect(wrapper.find('input').element.value).toEqual('')
@@ -36,10 +32,8 @@ describe('DateInput', () => {
 
   it('delegates date formatting', () => {
     wrapper.setProps({
-      props: {
-        selectedDate: new Date(2016, 1, 15),
-        format: () => '2016/1/15'
-      }
+      selectedDate: new Date(2016, 1, 15),
+      format: () => '2016/1/15'
     })
     expect(wrapper.vm.formattedValue).toEqual('2016/1/15')
     expect(wrapper.find('input').element.value).toEqual('2016/1/15')
@@ -52,10 +46,8 @@ describe('DateInput', () => {
 
   it('add bootstrap classes', () => {
     wrapper.setProps({
-      props: {
-        bootstrapStyling: true
-      }
+      bootstrapStyling: true
     })
-    expect(wrapper.vm.inputClass).toContain('form-control')
+    expect(wrapper.vm.computedInputClass).toContain('form-control')
   })
 })
