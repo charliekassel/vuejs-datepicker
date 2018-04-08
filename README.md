@@ -112,7 +112,12 @@ These events are emitted on actions in the datepicker
 | changedMonth      | Object     | Month page has been changed          |
 | changedYear       | Object     | Year page has been changed           |
 | changedDecade     | Object     | Decade page has been changed         |
-
+| mouseEnterDate    | Object     | Mouse entered a date                 |
+| mouseLeaveDate    | Object     | Mouse left a date                    |
+| mouseEnterMonth   | Object     | Mouse entered a month                |
+| mouseLeaveMonth   | Object     | Mouse left a month                   |
+| mouseEnterYear    | Object     | Mouse entered a year                 |
+| mouseLeaveYear    | Object     | Mouse left a year                    |
 
 ## Date formatting
 
