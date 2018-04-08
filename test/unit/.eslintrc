@@ -1,6 +1,6 @@
 {
   "env": {
-    "mocha": true
+    "jest": true
   },
   "globals": {
     "expect": true,
