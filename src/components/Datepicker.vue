@@ -22,7 +22,7 @@
         :clear-button="clearButton"
         :disabled="disabledPicker"
         :required="required"
-        readonly>
+        onkeypress='return false'>
       <!-- Clear Button -->
       <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
         <i :class="clearButtonIcon">
