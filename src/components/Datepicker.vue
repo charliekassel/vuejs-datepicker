@@ -934,7 +934,7 @@ $width = 300px
         padding 0 5px
         width (100/7)%
         height 40px
-        line-height 40px
+        line-height 38px
         text-align center
         vertical-align middle
         border 1px solid transparent
