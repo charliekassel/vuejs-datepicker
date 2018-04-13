@@ -587,6 +587,28 @@ describe('Datepicker highlight date', () => {
     expect(wrapper.vm.isHighlightedDate(new Date(2016, 9, 3))).toEqual(false)
   })
 
+  it('can accept an array of json or a mix with the required class name', () => {
+    vm = getViewModel(Datepicker, {
+      highlighted: {
+        dates: [
+          {date: new Date(2016, 9, 2), className: 'customClassName'},
+          {date: new Date(2016, 9, 9)},
+          new Date(2016, 9, 16)
+        ]
+      }
+    })
+    expect(vm.isHighlightedDate(new Date(2016, 9, 2))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 3))).to.equal(false)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 9))).to.equal(true)
+    expect(vm.isHighlightedDate(new Date(2016, 9, 16))).to.equal(true)
+  })
+
+  it('could figure out where is the Date object', () => {
+    expect(vm.findDateObject(new Date(2016, 9, 2))).to.eql(new Date(2016, 9, 2))
+    expect(vm.findDateObject({date: new Date(2016, 9, 2)})).to.eql(new Date(2016, 9, 2))
+    expect(vm.findDateObject({date: new Date(2016, 9, 2), className: 'customClassName'})).to.eql(new Date(2016, 9, 2))
+  })
+
   it('can accept an array of highlighted days of the week', () => {
     wrapper = shallow(Datepicker, {
       propsData: {

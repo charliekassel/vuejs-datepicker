@@ -153,6 +153,26 @@
     </div>
 
     <div class="example">
+      <h3>Overwrite the highlight class</h3>
+      <code>
+        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <div class="form-group">
+          <label>Highlight date:</label>
+          <datepicker v-on:selected="highlightDate"></datepicker>
+        </div>
+
+        <pre>highlighted: {{ highlighted }}</pre>
+
+
+        <h5>Resulting Date picker</h5>
+        <datepicker :highlighted="highlighted" :disabled="disabled" :disabledDateHighlight="true"></datepicker>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>With default open date</h3>
       <datepicker :open-date="openDate"></datepicker>
       <code>
@@ -344,6 +364,18 @@ export default {
         }
       }
       this.disabled.from = val
+    },
+    highlightDate (val) {
+      if (typeof this.disabled.dates === 'undefined') {
+        this.highlighted = {
+          dates: [
+            {
+              date: val,
+              className: 'customClassName'
+            }
+          ]
+        }
+      }
     }
   }
 }

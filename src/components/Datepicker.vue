@@ -264,6 +264,7 @@ export default {
           isHighlighted: this.isHighlightedDate(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
           isHighlightEnd: this.isHighlightEnd(dObj),
+          highlightClassName: this.overwriteHighlightClassName(dObj),
           isToday: dObj.toDateString() === (new Date()).toDateString(),
           isWeekend: dObj.getDay() === 0 || dObj.getDay() === 6,
           isSaturday: dObj.getDay() === 6,
@@ -659,7 +660,7 @@ export default {
 
       if (typeof this.highlighted.dates !== 'undefined') {
         this.highlighted.dates.forEach((d) => {
-          if (date.toDateString() === d.toDateString()) {
+          if (date.toDateString() === this.findDateObject(d).toDateString()) {
             highlighted = true
             return true
           }
@@ -832,11 +833,32 @@ export default {
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
+
+    overwriteHighlightClassName (date) {
+      if (typeof this.highlighted === 'undefined') {
+        return false
+      }
+
+      if (typeof this.highlighted.dates !== 'undefined') {
+        let currentDate = this.highlighted.dates.filter(d => {
+          return date.toDateString() === this.findDateObject(d).toDateString()
+        })[0]
+        return currentDate && currentDate.className ? currentDate.className : false
+      }
+      return false
+    },
+    findDateObject (item) {
+      return DateUtils.isValidDate(item) ? item : item.date
+    },
+    hasClassNameToOverwrite (day) {
+      return day.highlightClassName
+    },
     dayClasses (day) {
       return {
         'selected': day.isSelected,
         'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
+        [day.highlightClassName]: day.isHighlighted && this.hasClassNameToOverwrite(day),
+        'highlighted': day.isHighlighted && !this.hasClassNameToOverwrite(day),
         'today': day.isToday,
         'weekend': day.isWeekend,
         'sat': day.isSaturday,
