@@ -10,3 +10,5 @@ const language = new Language(
 language.ymd = true
 
 export default language
+// eslint-disable-next-line
+;

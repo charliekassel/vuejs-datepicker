@@ -6,3 +6,5 @@ export default new Language(
   ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
   ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör']
 )
+// eslint-disable-next-line
+;

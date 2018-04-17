@@ -1,19 +1,9 @@
 <template>
   <div id="app">
-
     <h1>Datepicker Examples</h1>
-
     <div class="example">
-      <h3>Default datepicker</h3>
-      <datepicker placeholder="Select Date"/>
-      <code>
-          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>French datepicker</h3>
-      <datepicker placeholder="Select Date" :language="languages.fr" />
+      <h3>Default datepicker...</h3>
+      <datepicker placeholder="Select Date" />
       <code>
           &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
       </code>
@@ -251,8 +241,8 @@
 </template>
 
 <script>
-import Datepicker from '@/components/Datepicker'
-import * as lang from '@/locale'
+import Datepicker from '../src/components/Datepicker.vue'
+import * as lang from '../src/locale/index.js'
 
 const state = {
   date1: new Date()
@@ -285,9 +275,9 @@ export default {
       highlighted: {},
       eventMsg: null,
       state: state,
-      language: 'en',
       vModelExample: null,
-      languages: lang
+      languages: lang,
+      language: 'en'
     }
   },
   methods: {

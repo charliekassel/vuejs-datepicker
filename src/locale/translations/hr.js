@@ -6,3 +6,5 @@ export default new Language(
   ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
   ['Ned', 'Pon', 'Uto', 'Sri', 'Čet', 'Pet', 'Sub']
 )
+// eslint-disable-next-line
+;

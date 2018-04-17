@@ -6,3 +6,5 @@ export default new Language(
   ['led', 'úno', 'bře', 'dub', 'kvě', 'čer', 'čec', 'srp', 'zář', 'říj', 'lis', 'pro'],
   ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so']
 )
+// eslint-disable-next-line
+;

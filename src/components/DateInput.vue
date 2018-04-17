@@ -31,13 +31,12 @@
   </div>
 </template>
 <script>
-import DateUtils from '@/utils/DateUtils'
-import Language from '@/locale/Language'
+import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
     format: String,
-    translation: Language,
+    translation: Object,
     inline: Boolean,
     id: String,
     name: String,
@@ -78,4 +77,6 @@ export default {
     }
   }
 }
+// eslint-disable-next-line
+;
 </script>

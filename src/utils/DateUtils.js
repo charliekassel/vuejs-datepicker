@@ -1,4 +1,4 @@
-import {en} from '@/locale'
+import en from '../locale/translations/en'
 
 export default {
 
@@ -138,3 +138,5 @@ export default {
   }
 
 }
+// eslint-disable-next-line
+;

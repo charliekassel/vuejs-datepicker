@@ -6,3 +6,5 @@ export default new Language(
   ['tammi', 'helmi', 'maalis', 'huhti', 'touko', 'kesä', 'heinä', 'elo', 'syys', 'loka', 'marras', 'joulu'],
   ['su', 'ma', 'ti', 'ke', 'to', 'pe', 'la']
 )
+// eslint-disable-next-line
+;

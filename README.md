@@ -230,12 +230,14 @@ var state = {
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
-- Add your language object to the DateLanguages.js file. Please keep in alphabetical order.
+- Add your language as a module in the `src/locale/translations` dir.
+- Import and export it in the `src/locale/index` file
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
-``` html
-<datepicker language="es"></datepicker>
+```javascript
+import {en, es} from 'vuejs-datepicker/locale'
+<datepicker :language="es"></datepicker>
 ```
 Available languages
 

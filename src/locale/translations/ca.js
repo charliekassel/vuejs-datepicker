@@ -6,3 +6,5 @@ export default new Language(
   ['Gen', 'Feb', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Des'],
   ['Diu', 'Dil', 'Dmr', 'Dmc', 'Dij', 'Div', 'Dis']
 )
+// eslint-disable-next-line
+;

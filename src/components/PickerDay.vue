@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import DateUtils from '@/utils/DateUtils'
+import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     showDayView: Boolean,
@@ -311,4 +311,6 @@ export default {
     }
   }
 }
+// eslint-disable-next-line
+;
 </script>
