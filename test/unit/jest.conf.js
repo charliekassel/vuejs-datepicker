@@ -18,8 +18,6 @@ module.exports = {
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
-    '!src/main.js',
-    '!src/Demo.vue',
     '!src/locale/translations/**/*.js'
   ]
 }
