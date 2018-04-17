@@ -15,7 +15,8 @@
         :bootstrapStyling="true"
         :calendarButton="true"
         :clearButton="true"
-      ></datepicker>
+      >
+      </datepicker>
       <code>
           &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
       </code>

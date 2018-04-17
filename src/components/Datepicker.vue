@@ -22,6 +22,7 @@
       @showCalendar="showCalendar"
     />
 
+
     <!-- Day View -->
     <picker-day
       v-if="allowedToShowView('day')"
