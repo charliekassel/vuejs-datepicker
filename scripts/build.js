@@ -2,9 +2,12 @@ import path from 'path'
 import uglify from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
+import postcss from 'rollup-plugin-postcss'
+import autoprefixer from 'autoprefixer'
 import {rollup} from 'rollup'
-const version = require('../package.json').version
+import chalk from 'chalk'
 
+const version = require('../package.json').version
 const banner =
   '/*!\n' +
   ' * vuejs-datepicker v' + version + '\n' +
@@ -35,11 +38,17 @@ const configs = {
 async function build () {
   Object.keys(configs).forEach(async function (key) {
     const config = configs[key]
+    console.log(chalk.cyan(`Building ${key}: ${config.output}`))
     const inputOptions = {
       input: path.join(__dirname, '..', 'src', 'components', 'Datepicker.vue'),
       plugins: [
         vue({
           css: true
+        }),
+        postcss({
+          plugins: [
+            autoprefixer()
+          ]
         }),
         buble()
       ].concat(config.plugins || [])
@@ -53,31 +62,7 @@ async function build () {
     }
     await bundle.write(outputOptions)
   })
+  await console.log(chalk.green('All modules built'))
 }
 
 build()
-
-// export default {
-//   input: path.join(__dirname, '..', 'src', 'components', 'Datepicker.vue'),
-//   output: {
-//     file: path.join(__dirname, '..', 'dist', 'vuejs-datepicker.min.js'),
-//     format: 'umd',
-//     name: 'vuejs-datepicker'
-//   },
-//   plugins: [
-//     // replace({
-//     //   'process.env.NODE_ENV': JSON.stringify('production')
-//     // }),
-//     nodeResolve({
-//       jsnext: true,
-//       main: true
-//     }),
-//     commonjs(),
-//     // resolve(),
-//     vue({
-//       css: true
-//     })
-//     // buble(),
-//     // uglify()
-//   ]
-// }
