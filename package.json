@@ -28,6 +28,9 @@
     "prepublish": "yarn build"
   },
   "dependencies": {},
+  "peerDependencies": {
+    "vue": "^2.3.0"
+  },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.12",
     "autoprefixer": "^6.7.2",
