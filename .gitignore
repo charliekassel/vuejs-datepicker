@@ -4,6 +4,8 @@ npm-debug.log
 .vscode
 .coveralls.yml
 dist/*
+example/demo.js
+example/demo.js.map
 test/unit/coverage
 yarn-debug.log*
 yarn-error.log*
