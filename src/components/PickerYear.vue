@@ -2,10 +2,10 @@
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle">
     <header>
       <span @click="previousDecade" class="prev"
-        :class="{ 'disabled' : previousDecadeDisabled(pageTimestamp) }">&lt;</span>
+        :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
       <span>{{ getPageDecade }}</span>
       <span @click="nextDecade" class="next"
-        :class="{ 'disabled' : nextDecadeDisabled(pageTimestamp) }">&gt;</span>
+        :class="{ 'disabled' : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span
       class="cell year"
@@ -68,24 +68,24 @@ export default {
       this.$emit('changedDecade', date)
     },
     previousDecade () {
-      if (this.previousDecadeDisabled()) {
+      if (this.isPreviousDecadeDisabled()) {
         return false
       }
       this.changeYear(-10)
     },
-    previousDecadeDisabled () {
+    isPreviousDecadeDisabled () {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
       return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
     },
     nextDecade () {
-      if (this.nextDecadeDisabled()) {
+      if (this.isNextDecadeDisabled()) {
         return false
       }
       this.changeYear(10)
     },
-    nextDecadeDisabled () {
+    isNextDecadeDisabled () {
       if (!this.disabled || !this.disabled.from) {
         return false
       }

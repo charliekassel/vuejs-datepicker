@@ -4,12 +4,12 @@
       <span
         @click="previousYear"
         class="prev"
-        :class="{ 'disabled' : previousYearDisabled(pageTimestamp) }">&lt;</span>
-      <span @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear }}</span>
+        :class="{ 'disabled' : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
+      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear }}</span>
       <span
         @click="nextYear"
         class="next"
-        :class="{ 'disabled' : nextYearDisabled(pageTimestamp) }">&gt;</span>
+        :class="{ 'disabled' : isNextYearDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span class="cell month"
       v-for="month in months"
@@ -57,39 +57,64 @@ export default {
     }
   },
   methods: {
+    /**
+     * Emits a selectMonth event
+     * @param {Object} month
+     */
     selectMonth (month) {
       if (month.isDisabled) {
         return false
       }
       this.$emit('selectMonth', month)
     },
+    /**
+     * Changes the year up or down
+     * @param {Number} incrementBy
+     */
     changeYear (incrementBy) {
       let date = this.pageDate
       date.setYear(date.getFullYear() + incrementBy)
       this.$emit('changedYear', date)
     },
+    /**
+     * Decrements the year
+     */
     previousYear () {
-      if (!this.previousYearDisabled()) {
+      if (!this.isPreviousYearDisabled()) {
         this.changeYear(-1)
       }
     },
-    previousYearDisabled () {
+    /**
+     * Checks if the previous year is disabled or not
+     * @return {Boolean}
+     */
+    isPreviousYearDisabled () {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
       return this.disabled.to.getFullYear() >= this.pageDate.getFullYear()
     },
+    /**
+     * Increments the year
+     */
     nextYear () {
-      if (!this.nextYearDisabled()) {
+      if (!this.isNextYearDisabled()) {
         this.changeYear(1)
       }
     },
-    nextYearDisabled () {
+    /**
+     * Checks if the next year is disabled or not
+     * @return {Boolean}
+     */
+    isNextYearDisabled () {
       if (!this.disabled || !this.disabled.from) {
         return false
       }
       return this.disabled.from.getFullYear() <= this.pageDate.getFullYear()
     },
+    /**
+     * Emits an event that shows the year calendar
+     */
     showYearCalendar () {
       this.$emit('showYearCalendar')
     },

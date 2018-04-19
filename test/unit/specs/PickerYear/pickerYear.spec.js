@@ -44,4 +44,9 @@ describe('PickerYear', () => {
     })
     expect(wrapper.vm.getPageDecade).toEqual('2000 - 2009')
   })
+
+  it('emits an event when selected', () => {
+    wrapper.vm.selectYear({isDisabled: false})
+    expect(wrapper.emitted().selectYear).toBeTruthy()
+  })
 })

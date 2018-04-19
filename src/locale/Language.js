@@ -51,17 +51,6 @@ export default class Language {
     }
     this._days = days
   }
-
-  toJSON () {
-    return {
-      language: this.language,
-      months: this.months,
-      monthsAbbr: this.monthsAbbr,
-      days: this.days,
-      rtl: this.rtl,
-      ymd: this.ymd
-    }
-  }
 }
 // eslint-disable-next-line
 ;

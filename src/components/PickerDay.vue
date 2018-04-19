@@ -4,12 +4,12 @@
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{ 'disabled' : isRtl ? nextMonthDisabled(pageTimestamp) : previousMonthDisabled(pageTimestamp) }">&lt;</span>
-      <span @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYear : currMonthName }} {{ isYmd ? currMonthName : currYear }}</span>
+        :class="{ 'disabled' : isRtl ? isNextMonthDisabled(pageTimestamp) : isPreviousMonthDisabled(pageTimestamp) }">&lt;</span>
+      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYear : currMonthName }} {{ isYmd ? currMonthName : currYear }}</span>
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{ 'disabled' : isRtl ? previousMonthDisabled(pageTimestamp) : nextMonthDisabled(pageTimestamp) }">&gt;</span>
+        :class="{ 'disabled' : isRtl ? isPreviousMonthDisabled(pageTimestamp) : isNextMonthDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -95,16 +95,25 @@ export default {
       }
       return days
     },
-
+    /**
+     * Gets the name of the month the current page is on
+     * @return {String}
+     */
     currMonthName () {
       const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
       return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
     },
-
+    /**
+     * Gets the year that the current page is on
+     * @return {Number}
+     */
     currYear () {
       return this.pageDate.getFullYear()
     },
-
+    /**
+     * Is this translation using year/month/day format?
+     * @return {Boolean}
+     */
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
     }
@@ -124,26 +133,33 @@ export default {
       return this.pageDate.getMonth()
     },
     /**
-     * @return {Number}
+     * Emit an event to show the month picker
      */
-    getPageYear () {
-      return this.pageDate.getYear()
-    },
     showMonthCalendar () {
       this.$emit('showMonthCalendar')
     },
+    /**
+     * Change the page month
+     * @param {Number} incrementBy
+     */
     changeMonth (incrementBy) {
       let date = this.pageDate
       date.setMonth(date.getMonth() + incrementBy)
       this.$emit('changedMonth', date)
     },
-
+    /**
+     * Decrement the page month
+     */
     previousMonth () {
-      if (!this.previousMonthDisabled()) {
+      if (!this.isPreviousMonthDisabled()) {
         this.changeMonth(-1)
       }
     },
-    previousMonthDisabled () {
+    /**
+     * Is the previous month disabled?
+     * @return {Boolean}
+     */
+    isPreviousMonthDisabled () {
       if (!this.disabled || !this.disabled.to) {
         return false
       }
@@ -151,12 +167,19 @@ export default {
       return this.disabled.to.getMonth() >= d.getMonth() &&
         this.disabled.to.getFullYear() >= d.getFullYear()
     },
+    /**
+     * Increment the current page month
+     */
     nextMonth () {
-      if (!this.nextMonthDisabled()) {
+      if (!this.isNextMonthDisabled()) {
         this.changeMonth(+1)
       }
     },
-    nextMonthDisabled () {
+    /**
+     * Is the next month disabled?
+     * @return {Boolean}
+     */
+    isNextMonthDisabled () {
       if (!this.disabled || !this.disabled.from) {
         return false
       }

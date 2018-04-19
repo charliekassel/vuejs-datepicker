@@ -26,8 +26,6 @@ describe('PickerDay: disabled', () => {
 
   it('should not select a disabled date', () => {
     expect(wrapper.vm.selectDate({isDisabled: true})).toEqual(false)
-    // expect(wrapper.vm.selectMonth({isDisabled: true})).toEqual(false)
-    // expect(wrapper.vm.selectYear({isDisabled: true})).toEqual(false)
   })
 
   it('cant change to a disabled month', () => {
@@ -37,24 +35,8 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.pageDate.getMonth()).toEqual(9)
   })
 
-  // year
-  // it('can\'t change to a disabled year', () => {
-  //   wrapper.vm.previousYear()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  //   wrapper.vm.nextYear()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  // })
-
-  // decade
-  // it('can\'t change to a disabled decade', () => {
-  //   wrapper.vm.previousDecade()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  //   wrapper.vm.nextDecade()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  // })
-
   it('can change month despite having a disabled month', () => {
-    expect(wrapper.vm.nextMonthDisabled()).toBeTruthy()
+    expect(wrapper.vm.isNextMonthDisabled()).toBeTruthy()
   })
 
   it('should detect disabled dates', () => {
@@ -89,38 +71,6 @@ describe('PickerDay: disabled', () => {
   //   expect(wrapper.vm.getPageYear()).toEqual(2015)
   //   wrapper.vm.nextYear()
   //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  // })
-
-  // decade
-  // it('can\'t change decade previous or next decades are disabled', () => {
-  //   wrapper = shallow(Datepicker, {
-  //     propsData: {
-  //       disabled: {
-  //         to: new Date(2010, 8, 6),
-  //         from: new Date(2017, 10, 24)
-  //       }
-  //     }
-  //   })
-  //   const newDate = new Date(2016, 9, 15)
-  //   wrapper.vm.setValue(newDate)
-  //   wrapper.vm.previousDecade()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  //   wrapper.vm.nextDecade()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  // })
-
-  // decade
-  // it('can change decade despite having a disabled decade', () => {
-  //   wrapper = shallow(Datepicker, {
-  //     propsData: {
-  //       disabled: {
-  //         to: new Date(2000, 11, 19),
-  //         from: new Date(2021, 11, 19)
-  //       }
-  //     }
-  //   })
-  //   expect(wrapper.vm.previousDecadeDisabled()).toEqual(false)
-  //   expect(wrapper.vm.nextDecadeDisabled()).toEqual(false)
   // })
 
   it('can accept an array of disabled dates', () => {
