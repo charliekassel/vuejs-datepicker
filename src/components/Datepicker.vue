@@ -210,16 +210,10 @@ export default {
   },
   methods: {
     /**
-     * Close all calendar layers
+     * Called in the event that the user navigates to date pages and
+     * closes the picker without selecting a date.
      */
-    close (full) {
-      this.showDayView = this.showMonthView = this.showYearView = false
-      if (!this.isInline) {
-        if (full) this.$emit('closed')
-        document.removeEventListener('click', this.clickOutside, false)
-      }
-    },
-    resetDefaultDate () {
+    resetDefaultPageDate () {
       if (this.selectedDate === null) {
         this.setPageDate()
         return
@@ -228,7 +222,7 @@ export default {
     },
     /**
      * Effectively a toggle to show/hide the calendar
-     * @return {mixed} [description]
+     * @return {mixed}
      */
     showCalendar () {
       if (this.disabledPicker || this.isInline) {
@@ -242,13 +236,14 @@ export default {
         this.$emit('opened')
       }
     },
+    /**
+     * Sets the initial picker page view: day, month or year
+     */
     setInitialView () {
       const initialView = this.computedInitialView
-
       if (!this.allowedToShowView(initialView)) {
         throw new Error(`initialView '${this.initialView}' cannot be rendered based on minimum '${this.minimumView}' and maximum '${this.maximumView}'`)
       }
-
       switch (initialView) {
         case 'year':
           this.showYearCalendar()
@@ -261,6 +256,11 @@ export default {
           break
       }
     },
+    /**
+     * Are we allowed to show a specific picker view?
+     * @param {String} view
+     * @return {Boolean}
+     */
     allowedToShowView (view) {
       const views = ['day', 'month', 'year']
       const minimumViewIndex = views.indexOf(this.minimumView)
@@ -269,6 +269,10 @@ export default {
 
       return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex
     },
+    /**
+     * Show the day picker
+     * @return {Boolean}
+     */
     showDayCalendar () {
       if (!this.allowedToShowView('day')) {
         return false
@@ -276,7 +280,12 @@ export default {
       this.close()
       this.showDayView = true
       this.addOutsideClickListener()
+      return true
     },
+    /**
+     * Show the month picker
+     * @return {Boolean}
+     */
     showMonthCalendar () {
       if (!this.allowedToShowView('month')) {
         return false
@@ -285,6 +294,10 @@ export default {
       this.showMonthView = true
       this.addOutsideClickListener()
     },
+    /**
+     * Show the year picker
+     * @return {Boolean}
+     */
     showYearCalendar () {
       if (!this.allowedToShowView('year')) {
         return false
@@ -293,13 +306,10 @@ export default {
       this.showYearView = true
       this.addOutsideClickListener()
     },
-    addOutsideClickListener () {
-      if (!this.isInline) {
-        setTimeout(() => {
-          document.addEventListener('click', this.clickOutside, false)
-        }, 100)
-      }
-    },
+    /**
+     * Set the selected date
+     * @param {Number} timestamp
+     */
     setDate (timestamp) {
       const date = new Date(timestamp)
       this.selectedDate = new Date(date)
@@ -307,8 +317,12 @@ export default {
       this.$emit('selected', new Date(date))
       this.$emit('input', new Date(date))
     },
+    /**
+     * Clear the selected date
+     */
     clearDate () {
       this.selectedDate = null
+      this.setPageDate()
       this.$emit('selected', null)
       this.$emit('input', null)
       this.$emit('cleared')
@@ -385,20 +399,39 @@ export default {
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
     /**
+     * Set up an event listener for clicks outside the picker
+     */
+    addOutsideClickListener () {
+      if (!this.isInline) {
+        setTimeout(() => {
+          document.addEventListener('click', this.clickOutside, false)
+        }, 100)
+      }
+    },
+    /**
      * Close the calendar if clicked outside the datepicker
      * @param  {Event} event
      */
     clickOutside (event) {
       if (this.$el && !this.$el.contains(event.target)) {
-        if (this.isInline) {
-          return this.showDayCalendar()
-        }
-        this.resetDefaultDate()
+        this.resetDefaultPageDate()
         this.close(true)
         document.removeEventListener('click', this.clickOutside, false)
       }
     },
-
+    /**
+     * Close all calendar layers
+     */
+    close (full) {
+      this.showDayView = this.showMonthView = this.showYearView = false
+      if (!this.isInline) {
+        if (full) this.$emit('closed')
+        document.removeEventListener('click', this.clickOutside, false)
+      }
+    },
+    /**
+     * Initiate the component
+     */
     init () {
       if (this.value) {
         this.setValue(this.value)

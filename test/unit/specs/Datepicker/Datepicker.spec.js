@@ -93,6 +93,18 @@ describe('Datepicker mounted', () => {
 
     wrapper.vm.showDayCalendar()
     expect(wrapper.vm.isOpen).toEqual(true)
+    // calendar is already open so acts as a toggle
+    wrapper.vm.showCalendar()
+    expect(wrapper.vm.isOpen).toEqual(false)
+  })
+
+  it('should close the picker when clicked outside', () => {
+    jest.useFakeTimers()
+    wrapper.vm.showCalendar()
+    jest.runAllTimers()
+    expect(wrapper.vm.isOpen).toEqual(true)
+    document.body.click()
+    expect(wrapper.vm.isOpen).toEqual(false)
   })
 
   it('can select a day', () => {
@@ -119,6 +131,19 @@ describe('Datepicker mounted', () => {
     expect(wrapper.emitted().changedYear[0][0].timestamp).toEqual(date.getTime())
     expect(new Date(wrapper.vm.pageTimestamp).getFullYear()).toEqual(date.getFullYear())
     expect(wrapper.vm.showMonthView).toEqual(true)
+  })
+
+  it('resets the default page date', () => {
+    const wrapper = shallow(Datepicker)
+    const today = new Date()
+    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
+    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
+    expect(wrapper.vm.pageDate.getDate()).toEqual(1)
+    wrapper.vm.setPageDate(new Date(2020, 3, 20))
+    wrapper.vm.resetDefaultPageDate()
+    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
+    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
+    expect(wrapper.vm.pageDate.getDate()).toEqual(1)
   })
 })
 

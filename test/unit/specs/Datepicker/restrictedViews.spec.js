@@ -52,6 +52,7 @@ describe('Datepicker with restricted views', () => {
     expect(wrapper.vm.allowedToShowView('year')).toEqual(false)
     expect(wrapper.vm.allowedToShowView('day')).toEqual(true)
     expect(wrapper.vm.allowedToShowView('month')).toEqual(true)
+    expect(wrapper.vm.showYearCalendar()).toEqual(false)
 
     wrapper = mount(Datepicker, {
       propsData: {
@@ -62,6 +63,8 @@ describe('Datepicker with restricted views', () => {
     expect(wrapper.vm.allowedToShowView('day')).toEqual(false)
     expect(wrapper.vm.allowedToShowView('year')).toEqual(false)
     expect(wrapper.vm.allowedToShowView('month')).toEqual(true)
+    expect(wrapper.vm.showDayCalendar()).toEqual(false)
+    expect(wrapper.vm.showYearCalendar()).toEqual(false)
 
     wrapper = mount(Datepicker, {
       propsData: {
@@ -99,6 +102,7 @@ describe('Datepicker with restricted views', () => {
     expect(wrapper.vm.$el.querySelectorAll('.vdp-datepicker__calendar').length).toEqual(1)
     expect(wrapper.vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.month').length).toEqual(0)
     expect(wrapper.vm.$el.querySelectorAll('.vdp-datepicker__calendar .cell.year').length).toEqual(0)
+    expect(wrapper.vm.showMonthCalendar()).toEqual(false)
 
     wrapper = mount(Datepicker, {
       propsData: {
