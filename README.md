@@ -7,7 +7,11 @@
 
 A datepicker Vue component. Compatible with Vue 2.x
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
+### Notice!
+`latest` tag is on 0.9.29 - https://github.com/charliekassel/vuejs-datepicker/tree/c3f5f0ff2d963f81c57d142cd7d1464ad5122128
+`master` branch contains work still in beta and can be tested by installing `yarn install vuejs-datepicker@beta`
+
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
 
 ## Demo
 
@@ -19,8 +23,13 @@ To view demo examples locally clone the repo and run `yarn install && yarn serve
 ## Install
 
 ``` bash
-$ npm install vuejs-datepicker --save
+npm install vuejs-datepicker --save
 ```
+or
+``` bash
+yarn add vuejs-datepicker
+```
+
 ``` javascript
 import Datepicker from 'vuejs-datepicker';
 
@@ -54,7 +63,7 @@ support name attribute for normal html form submission
 ``` html
 <datepicker :value="state.date" name="uniquename"></datepicker>
 ```
-Use `v-model` for two-way binding
+Using `v-model`
 ``` html
 <datepicker v-model="state.date" name="uniquename"></datepicker>
 ```
