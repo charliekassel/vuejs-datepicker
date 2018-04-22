@@ -11,7 +11,7 @@ describe('PickerMonth', () => {
         translation: en,
         pageDate: new Date(2018, 3, 1),
         selectedDate: new Date(2018, 3, 19),
-        disabled: {
+        disabledDates: {
           to: new Date(2018, 2, 14),
           from: new Date(2018, 4, 15)
         }

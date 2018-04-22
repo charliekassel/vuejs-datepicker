@@ -10,7 +10,7 @@ describe('PickerDay: disabled', () => {
         allowedToShowView: () => true,
         showMonthCalendar: () => {},
         translation: en,
-        disabled: {
+        disabledDates: {
           to: new Date(2016, 9, 4),
           from: new Date(2016, 9, 26)
         },
@@ -41,7 +41,7 @@ describe('PickerDay: disabled', () => {
 
   it('should detect disabled dates', () => {
     wrapper.setProps({
-      disabled: {
+      disabledDates: {
         ranges: [{
           from: new Date(2005, 6, 5),
           to: new Date(2016, 9, 4)
@@ -55,27 +55,9 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.isDisabledDate(new Date(2026, 9, 2))).toEqual(true)
   })
 
-  // year
-  // it('can change year despite having a disabled year', () => {
-  //   wrapper = shallow(Datepicker, {
-  //     propsData: {
-  //       disabled: {
-  //         to: new Date(2015, 8, 5),
-  //         from: new Date(2017, 10, 25)
-  //       }
-  //     }
-  //   })
-  //   const newDate = new Date(2016, 9, 15)
-  //   wrapper.vm.setValue(newDate)
-  //   wrapper.vm.previousYear()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2015)
-  //   wrapper.vm.nextYear()
-  //   expect(wrapper.vm.getPageYear()).toEqual(2016)
-  // })
-
   it('can accept an array of disabled dates', () => {
     wrapper.setProps({
-      disabled: {
+      disabledDates: {
         dates: [
           new Date(2016, 9, 2),
           new Date(2016, 9, 9),
@@ -89,7 +71,7 @@ describe('PickerDay: disabled', () => {
 
   it('can accept an array of disabled days of the week', () => {
     wrapper.setProps({
-      disabled: {
+      disabledDates: {
         days: [6, 0]
       }
     })
@@ -99,7 +81,7 @@ describe('PickerDay: disabled', () => {
 
   it('can accept an array of disabled days of the month', () => {
     wrapper.setProps({
-      disabled: {
+      disabledDates: {
         daysOfMonth: [29, 30, 31]
       }
     })
@@ -111,7 +93,7 @@ describe('PickerDay: disabled', () => {
 
   it('can accept a customPredictor to check if the date is disabled', () => {
     wrapper.setProps({
-      disabled: {
+      disabledDates: {
         customPredictor (date) {
           if (date.getDate() % 4 === 0) {
             return true
