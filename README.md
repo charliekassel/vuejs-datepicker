@@ -8,6 +8,7 @@
 A datepicker Vue component. Compatible with Vue 2.x
 ### Notice!
 `latest` tag is on 0.9.29 - https://github.com/charliekassel/vuejs-datepicker/tree/c3f5f0ff2d963f81c57d142cd7d1464ad5122128
+
 `master` branch contains work still in beta and can be tested by installing `yarn install vuejs-datepicker@beta`
 
 - [Demo](#demo)

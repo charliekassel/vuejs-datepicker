@@ -58,7 +58,7 @@ async function build () {
       file: path.join(__dirname, '..', 'dist', config.output),
       format: config.format,
       banner: banner,
-      name: 'vuejs-datepicker'
+      name: 'vuejsDatepicker'
     }
     await bundle.write(outputOptions)
   })
