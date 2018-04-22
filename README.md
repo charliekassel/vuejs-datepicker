@@ -51,6 +51,22 @@ export default {
 }
 ```
 
+Or use directly from a CDN
+``` html
+<div id="app">
+  <vuejs-datepicker></vuejs-datepicker>
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuejs-datepicker@1.0.0-beta.1/dist/vuejs-datepicker.min.js"></script>
+<script>
+const app = new Vue({
+  el: '#app',
+  components: {
+  	vuejsDatepicker
+  }
+})
+</script>
+```
 
 ## Usage
 
