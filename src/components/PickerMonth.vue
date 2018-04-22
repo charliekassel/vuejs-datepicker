@@ -26,7 +26,7 @@ export default {
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
-    disabled: Object,
+    disabledDates: Object,
     calendarClass: String,
     calendarStyle: Object,
     translation: Object,
@@ -89,10 +89,10 @@ export default {
      * @return {Boolean}
      */
     isPreviousYearDisabled () {
-      if (!this.disabled || !this.disabled.to) {
+      if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return this.disabled.to.getFullYear() >= this.pageDate.getFullYear()
+      return this.disabledDates.to.getFullYear() >= this.pageDate.getFullYear()
     },
     /**
      * Increments the year
@@ -107,10 +107,10 @@ export default {
      * @return {Boolean}
      */
     isNextYearDisabled () {
-      if (!this.disabled || !this.disabled.from) {
+      if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return this.disabled.from.getFullYear() <= this.pageDate.getFullYear()
+      return this.disabledDates.from.getFullYear() <= this.pageDate.getFullYear()
     },
     /**
      * Emits an event that shows the year calendar
@@ -134,30 +134,30 @@ export default {
      * @return {Boolean}
      */
     isDisabledMonth (date) {
-      let disabled = false
+      let disabledDates = false
 
-      if (typeof this.disabled === 'undefined') {
+      if (typeof this.disabledDates === 'undefined') {
         return false
       }
 
-      if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
         if (
-          (date.getMonth() < this.disabled.to.getMonth() && date.getFullYear() <= this.disabled.to.getFullYear()) ||
-          date.getFullYear() < this.disabled.to.getFullYear()
+          (date.getMonth() < this.disabledDates.to.getMonth() && date.getFullYear() <= this.disabledDates.to.getFullYear()) ||
+          date.getFullYear() < this.disabledDates.to.getFullYear()
         ) {
-          disabled = true
+          disabledDates = true
         }
       }
-      if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
         if (
-          this.disabled.from &&
-          (date.getMonth() > this.disabled.from.getMonth() && date.getFullYear() >= this.disabled.from.getFullYear()) ||
-          date.getFullYear() > this.disabled.from.getFullYear()
+          this.disabledDates.from &&
+          (date.getMonth() > this.disabledDates.from.getMonth() && date.getFullYear() >= this.disabledDates.from.getFullYear()) ||
+          date.getFullYear() > this.disabledDates.from.getFullYear()
         ) {
-          disabled = true
+          disabledDates = true
         }
       }
-      return disabled
+      return disabledDates
     }
   }
 }

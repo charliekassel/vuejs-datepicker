@@ -110,7 +110,7 @@ Inline always open version
 | format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
 | language                      | String          | en          | Translation for days and months          |
-| disabled                      | Object          |             | See below for configuration              |
+| disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
 | calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
@@ -124,7 +124,7 @@ Inline always open version
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
 | bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
 | initial-view                  | String          | minimumView | If set, open on that view                |
-| disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
+| disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
@@ -190,7 +190,7 @@ Dates can be disabled in a number of ways.
 ``` html
 <script>
 var state = {
-  disabled: {
+  disabledDates: {
     to: new Date(2016, 0, 5), // Disable all dates up to specific date
     from: new Date(2016, 0, 26), // Disable all dates after specific date
     days: [6, 0], // Disable Saturday's and Sunday's
@@ -220,7 +220,7 @@ var state = {
   }
 }
 </script>
-<datepicker :disabled="state.disabled"></datepicker>
+<datepicker :disabledDates="state.disabledDates"></datepicker>
 ```
 
 ## Highlighted Dates

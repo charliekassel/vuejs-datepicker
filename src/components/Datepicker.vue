@@ -16,7 +16,7 @@
       :calendarButton="calendarButton"
       :calendarButtonIcon="calendarButtonIcon"
       :calendarButtonIconContent="calendarButtonIconContent"
-      :disabledPicker="disabledPicker"
+      :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       @showCalendar="showCalendar"
@@ -31,7 +31,7 @@
       :showDayView="showDayView"
       :fullMonthName="fullMonthName"
       :allowedToShowView="allowedToShowView"
-      :disabled="disabled"
+      :disabledDates="disabledDates"
       :highlighted="highlighted"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
@@ -52,7 +52,7 @@
       :selectedDate="selectedDate"
       :showMonthView="showMonthView"
       :allowedToShowView="allowedToShowView"
-      :disabled="disabled"
+      :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
@@ -68,7 +68,7 @@
       :selectedDate="selectedDate"
       :showYearView="showYearView"
       :allowedToShowView="allowedToShowView"
-      :disabled="disabled"
+      :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
@@ -113,7 +113,7 @@ export default {
       }
     },
     fullMonthName: Boolean,
-    disabled: Object,
+    disabledDates: Object,
     highlighted: Object,
     placeholder: String,
     inline: Boolean,
@@ -128,7 +128,7 @@ export default {
     calendarButtonIconContent: String,
     bootstrapStyling: Boolean,
     initialView: String,
-    disabledPicker: Boolean,
+    disabled: Boolean,
     required: Boolean,
     minimumView: {
       type: String,

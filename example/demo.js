@@ -8222,7 +8222,7 @@
   ;
 
   (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=""; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
-  var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{'input-group' : _vm.bootstrapStyling}},[(_vm.calendarButton)?_c('span',{staticClass:"vdp-datepicker__calendar-button",class:{'input-group-addon' : _vm.bootstrapStyling},style:({'cursor:not-allowed;' : _vm.disabledPicker}),on:{"click":_vm.showCalendar}},[_c('i',{class:_vm.calendarButtonIcon},[_vm._v(" "+_vm._s(_vm.calendarButtonIconContent)+" "),(!_vm.calendarButtonIcon)?_c('span',[_vm._v("…")]):_vm._e()])]):_vm._e(),_vm._v(" "),_c('input',{ref:_vm.refName,class:_vm.computedInputClass,attrs:{"type":_vm.inline ? 'hidden' : 'text',"name":_vm.name,"id":_vm.id,"open-date":_vm.openDate,"placeholder":_vm.placeholder,"clear-button":_vm.clearButton,"disabled":_vm.disabledPicker,"required":_vm.required,"onkeypress":"return false"},domProps:{"value":_vm.formattedValue},on:{"click":_vm.showCalendar}}),_vm._v(" "),(_vm.clearButton && _vm.selectedDate)?_c('span',{staticClass:"vdp-datepicker__clear-button",class:{'input-group-addon' : _vm.bootstrapStyling},on:{"click":function($event){_vm.clearDate();}}},[_c('i',{class:_vm.clearButtonIcon},[(!_vm.clearButtonIcon)?_c('span',[_vm._v("×")]):_vm._e()])]):_vm._e()])},staticRenderFns: [],
+  var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{'input-group' : _vm.bootstrapStyling}},[(_vm.calendarButton)?_c('span',{staticClass:"vdp-datepicker__calendar-button",class:{'input-group-addon' : _vm.bootstrapStyling},style:({'cursor:not-allowed;' : _vm.disabledPicker}),on:{"click":_vm.showCalendar}},[_c('i',{class:_vm.calendarButtonIcon},[_vm._v(" "+_vm._s(_vm.calendarButtonIconContent)+" "),(!_vm.calendarButtonIcon)?_c('span',[_vm._v("…")]):_vm._e()])]):_vm._e(),_vm._v(" "),_c('input',{ref:_vm.refName,class:_vm.computedInputClass,attrs:{"type":_vm.inline ? 'hidden' : 'text',"name":_vm.name,"id":_vm.id,"open-date":_vm.openDate,"placeholder":_vm.placeholder,"clear-button":_vm.clearButton,"disabled":_vm.disabled,"required":_vm.required,"onkeypress":"return false"},domProps:{"value":_vm.formattedValue},on:{"click":_vm.showCalendar}}),_vm._v(" "),(_vm.clearButton && _vm.selectedDate)?_c('span',{staticClass:"vdp-datepicker__clear-button",class:{'input-group-addon' : _vm.bootstrapStyling},on:{"click":function($event){_vm.clearDate();}}},[_c('i',{class:_vm.clearButtonIcon},[(!_vm.clearButtonIcon)?_c('span',[_vm._v("×")]):_vm._e()])]):_vm._e()])},staticRenderFns: [],
     props: {
       selectedDate: Date,
       format: String,
@@ -8279,7 +8279,7 @@
       pageTimestamp: Number,
       fullMonthName: Boolean,
       allowedToShowView: Function,
-      disabled: Object,
+      disabledDates: Object,
       highlighted: Object,
       calendarClass: String,
       calendarStyle: Object,
@@ -8407,12 +8407,12 @@
        * @return {Boolean}
        */
       isPreviousMonthDisabled: function isPreviousMonthDisabled () {
-        if (!this.disabled || !this.disabled.to) {
+        if (!this.disabledDates || !this.disabledDates.to) {
           return false
         }
         var d = this.pageDate;
-        return this.disabled.to.getMonth() >= d.getMonth() &&
-          this.disabled.to.getFullYear() >= d.getFullYear()
+        return this.disabledDates.to.getMonth() >= d.getMonth() &&
+          this.disabledDates.to.getFullYear() >= d.getFullYear()
       },
       /**
        * Increment the current page month
@@ -8427,12 +8427,12 @@
        * @return {Boolean}
        */
       isNextMonthDisabled: function isNextMonthDisabled () {
-        if (!this.disabled || !this.disabled.from) {
+        if (!this.disabledDates || !this.disabledDates.from) {
           return false
         }
         var d = this.pageDate;
-        return this.disabled.from.getMonth() <= d.getMonth() &&
-          this.disabled.from.getFullYear() <= d.getFullYear()
+        return this.disabledDates.from.getMonth() <= d.getMonth() &&
+          this.disabledDates.from.getFullYear() <= d.getFullYear()
       },
       /**
        * Whether a day is selected
@@ -8448,46 +8448,46 @@
        * @return {Boolean}
        */
       isDisabledDate: function isDisabledDate (date) {
-        var disabled = false;
+        var disabledDates = false;
 
-        if (typeof this.disabled === 'undefined') {
+        if (typeof this.disabledDates === 'undefined') {
           return false
         }
 
-        if (typeof this.disabled.dates !== 'undefined') {
-          this.disabled.dates.forEach(function (d) {
+        if (typeof this.disabledDates.dates !== 'undefined') {
+          this.disabledDates.dates.forEach(function (d) {
             if (date.toDateString() === d.toDateString()) {
-              disabled = true;
+              disabledDates = true;
               return true
             }
           });
         }
-        if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
-          disabled = true;
+        if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to && date < this.disabledDates.to) {
+          disabledDates = true;
         }
-        if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
-          disabled = true;
+        if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from && date > this.disabledDates.from) {
+          disabledDates = true;
         }
-        if (typeof this.disabled.ranges !== 'undefined') {
-          this.disabled.ranges.forEach(function (range) {
+        if (typeof this.disabledDates.ranges !== 'undefined') {
+          this.disabledDates.ranges.forEach(function (range) {
             if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
               if (date < range.to && date > range.from) {
-                disabled = true;
+                disabledDates = true;
                 return true
               }
             }
           });
         }
-        if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
-          disabled = true;
+        if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(date.getDay()) !== -1) {
+          disabledDates = true;
         }
-        if (typeof this.disabled.daysOfMonth !== 'undefined' && this.disabled.daysOfMonth.indexOf(date.getDate()) !== -1) {
-          disabled = true;
+        if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(date.getDate()) !== -1) {
+          disabledDates = true;
         }
-        if (typeof this.disabled.customPredictor === 'function' && this.disabled.customPredictor(date)) {
-          disabled = true;
+        if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+          disabledDates = true;
         }
-        return disabled
+        return disabledDates
       },
       /**
        * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
@@ -8591,7 +8591,7 @@
       selectedDate: Date,
       pageDate: Date,
       pageTimestamp: Number,
-      disabled: Object,
+      disabledDates: Object,
       calendarClass: String,
       calendarStyle: Object,
       translation: Object,
@@ -8656,10 +8656,10 @@
        * @return {Boolean}
        */
       isPreviousYearDisabled: function isPreviousYearDisabled () {
-        if (!this.disabled || !this.disabled.to) {
+        if (!this.disabledDates || !this.disabledDates.to) {
           return false
         }
-        return this.disabled.to.getFullYear() >= this.pageDate.getFullYear()
+        return this.disabledDates.to.getFullYear() >= this.pageDate.getFullYear()
       },
       /**
        * Increments the year
@@ -8674,10 +8674,10 @@
        * @return {Boolean}
        */
       isNextYearDisabled: function isNextYearDisabled () {
-        if (!this.disabled || !this.disabled.from) {
+        if (!this.disabledDates || !this.disabledDates.from) {
           return false
         }
-        return this.disabled.from.getFullYear() <= this.pageDate.getFullYear()
+        return this.disabledDates.from.getFullYear() <= this.pageDate.getFullYear()
       },
       /**
        * Emits an event that shows the year calendar
@@ -8701,30 +8701,30 @@
        * @return {Boolean}
        */
       isDisabledMonth: function isDisabledMonth (date) {
-        var disabled = false;
+        var disabledDates = false;
 
-        if (typeof this.disabled === 'undefined') {
+        if (typeof this.disabledDates === 'undefined') {
           return false
         }
 
-        if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
+        if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
           if (
-            (date.getMonth() < this.disabled.to.getMonth() && date.getFullYear() <= this.disabled.to.getFullYear()) ||
-            date.getFullYear() < this.disabled.to.getFullYear()
+            (date.getMonth() < this.disabledDates.to.getMonth() && date.getFullYear() <= this.disabledDates.to.getFullYear()) ||
+            date.getFullYear() < this.disabledDates.to.getFullYear()
           ) {
-            disabled = true;
+            disabledDates = true;
           }
         }
-        if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
+        if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
           if (
-            this.disabled.from &&
-            (date.getMonth() > this.disabled.from.getMonth() && date.getFullYear() >= this.disabled.from.getFullYear()) ||
-            date.getFullYear() > this.disabled.from.getFullYear()
+            this.disabledDates.from &&
+            (date.getMonth() > this.disabledDates.from.getMonth() && date.getFullYear() >= this.disabledDates.from.getFullYear()) ||
+            date.getFullYear() > this.disabledDates.from.getFullYear()
           ) {
-            disabled = true;
+            disabledDates = true;
           }
         }
-        return disabled
+        return disabledDates
       }
     }
   }
@@ -8755,7 +8755,7 @@
       selectedDate: Date,
       pageDate: Date,
       pageTimestamp: Number,
-      disabled: Object,
+      disabledDates: Object,
       highlighted: Object,
       calendarClass: String,
       calendarStyle: Object,
@@ -8809,10 +8809,10 @@
         this.changeYear(-10);
       },
       isPreviousDecadeDisabled: function isPreviousDecadeDisabled () {
-        if (!this.disabled || !this.disabled.to) {
+        if (!this.disabledDates || !this.disabledDates.to) {
           return false
         }
-        return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
+        return Math.floor(this.disabledDates.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
       },
       nextDecade: function nextDecade () {
         if (this.isNextDecadeDisabled()) {
@@ -8821,10 +8821,10 @@
         this.changeYear(10);
       },
       isNextDecadeDisabled: function isNextDecadeDisabled () {
-        if (!this.disabled || !this.disabled.from) {
+        if (!this.disabledDates || !this.disabledDates.from) {
           return false
         }
-        return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
+        return Math.ceil(this.disabledDates.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
       },
 
       /**
@@ -8841,23 +8841,23 @@
        * @return {Boolean}
        */
       isDisabledYear: function isDisabledYear (date) {
-        var disabled = false;
-        if (typeof this.disabled === 'undefined' || !this.disabled) {
+        var disabledDates = false;
+        if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
           return false
         }
 
-        if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
-          if (date.getFullYear() < this.disabled.to.getFullYear()) {
-            disabled = true;
+        if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+          if (date.getFullYear() < this.disabledDates.to.getFullYear()) {
+            disabledDates = true;
           }
         }
-        if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
-          if (date.getFullYear() > this.disabled.from.getFullYear()) {
-            disabled = true;
+        if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+          if (date.getFullYear() > this.disabledDates.from.getFullYear()) {
+            disabledDates = true;
           }
         }
 
-        return disabled
+        return disabledDates
       }
     }
   }
@@ -8865,7 +8865,7 @@
   ;
 
   (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=".rtl { direction: rtl; } .vdp-datepicker { position: relative; text-align: left; } .vdp-datepicker * { box-sizing: border-box; } .vdp-datepicker__calendar { position: absolute; z-index: 100; background: #fff; width: 300px; border: 1px solid #ccc; } .vdp-datepicker__calendar header { display: block; line-height: 40px; } .vdp-datepicker__calendar header span { display: inline-block; text-align: center; width: 71.42857142857143%; float: left; } .vdp-datepicker__calendar header .prev, .vdp-datepicker__calendar header .next { width: 14.285714285714286%; float: left; text-indent: -10000px; position: relative; } .vdp-datepicker__calendar header .prev:after, .vdp-datepicker__calendar header .next:after { content: ''; position: absolute; left: 50%; top: 50%; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%); border: 6px solid transparent; } .vdp-datepicker__calendar header .prev:after { border-right: 10px solid #000; margin-left: -5px; } .vdp-datepicker__calendar header .prev.disabled:after { border-right: 10px solid #ddd; } .vdp-datepicker__calendar header .next:after { border-left: 10px solid #000; margin-left: 5px; } .vdp-datepicker__calendar header .next.disabled:after { border-left: 10px solid #ddd; } .vdp-datepicker__calendar header .prev:not(.disabled), .vdp-datepicker__calendar header .next:not(.disabled), .vdp-datepicker__calendar header .up:not(.disabled) { cursor: pointer; } .vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover { background: #eee; } .vdp-datepicker__calendar .disabled { color: #ddd; cursor: default; } .vdp-datepicker__calendar .flex-rtl { display: flex; width: inherit; flex-wrap: wrap; } .vdp-datepicker__calendar .cell { display: inline-block; padding: 0 5px; width: 14.285714285714286%; height: 40px; line-height: 40px; text-align: center; vertical-align: middle; border: 1px solid transparent; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year { cursor: pointer; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover { border: 1px solid #4bd; } .vdp-datepicker__calendar .cell.selected { background: #4bd; } .vdp-datepicker__calendar .cell.selected:hover { background: #4bd; } .vdp-datepicker__calendar .cell.selected.highlighted { background: #4bd; } .vdp-datepicker__calendar .cell.highlighted { background: #cae5ed; } .vdp-datepicker__calendar .cell.highlighted.disabled { color: #a3a3a3; } .vdp-datepicker__calendar .cell.grey { color: #888; } .vdp-datepicker__calendar .cell.grey:hover { background: inherit; } .vdp-datepicker__calendar .cell.day-header { font-size: 75%; white-space: no-wrap; cursor: inherit; } .vdp-datepicker__calendar .cell.day-header:hover { background: inherit; } .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year { width: 33.333%; } .vdp-datepicker__clear-button, .vdp-datepicker__calendar-button { cursor: pointer; font-style: normal; } .vdp-datepicker__clear-button.disabled, .vdp-datepicker__calendar-button.disabled { color: #999; cursor: default; } "; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
-  var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vdp-datepicker",class:[_vm.wrapperClass, _vm.isRtl ? 'rtl' : '']},[_c('date-input',{attrs:{"selectedDate":_vm.selectedDate,"format":_vm.format,"translation":_vm.translation,"inline":_vm.inline,"id":_vm.id,"name":_vm.name,"refName":_vm.refName,"openDate":_vm.openDate,"placeholder":_vm.placeholder,"inputClass":_vm.inputClass,"clearButton":_vm.clearButton,"clearButtonIcon":_vm.clearButtonIcon,"calendarButton":_vm.calendarButton,"calendarButtonIcon":_vm.calendarButtonIcon,"calendarButtonIconContent":_vm.calendarButtonIconContent,"disabledPicker":_vm.disabledPicker,"required":_vm.required,"bootstrapStyling":_vm.bootstrapStyling},on:{"showCalendar":_vm.showCalendar}}),_vm._v(" "),(_vm.allowedToShowView('day'))?_c('picker-day',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showDayView":_vm.showDayView,"fullMonthName":_vm.fullMonthName,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"highlighted":_vm.highlighted,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation,"pageTimestamp":_vm.pageTimestamp,"isRtl":_vm.isRtl,"mondayFirst":_vm.mondayFirst},on:{"changedMonth":_vm.setPageDate,"selectDate":_vm.selectDate,"showMonthCalendar":_vm.showMonthCalendar,"selectedDisabled":function($event){_vm.$emit('selectedDisabled');}}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('month'))?_c('picker-month',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showMonthView":_vm.showMonthView,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectMonth":_vm.selectMonth,"showYearCalendar":_vm.showYearCalendar,"changedYear":_vm.setPageDate}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('year'))?_c('picker-year',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showYearView":_vm.showYearView,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectYear":_vm.selectYear,"changedDecade":_vm.setPageDate}}):_vm._e()],1)},staticRenderFns: [],
+  var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vdp-datepicker",class:[_vm.wrapperClass, _vm.isRtl ? 'rtl' : '']},[_c('date-input',{attrs:{"selectedDate":_vm.selectedDate,"format":_vm.format,"translation":_vm.translation,"inline":_vm.inline,"id":_vm.id,"name":_vm.name,"refName":_vm.refName,"openDate":_vm.openDate,"placeholder":_vm.placeholder,"inputClass":_vm.inputClass,"clearButton":_vm.clearButton,"clearButtonIcon":_vm.clearButtonIcon,"calendarButton":_vm.calendarButton,"calendarButtonIcon":_vm.calendarButtonIcon,"calendarButtonIconContent":_vm.calendarButtonIconContent,"disabled":_vm.disabled,"required":_vm.required,"bootstrapStyling":_vm.bootstrapStyling},on:{"showCalendar":_vm.showCalendar}}),_vm._v(" "),(_vm.allowedToShowView('day'))?_c('picker-day',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showDayView":_vm.showDayView,"fullMonthName":_vm.fullMonthName,"allowedToShowView":_vm.allowedToShowView,"disabledDates":_vm.disabledDates,"highlighted":_vm.highlighted,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation,"pageTimestamp":_vm.pageTimestamp,"isRtl":_vm.isRtl,"mondayFirst":_vm.mondayFirst},on:{"changedMonth":_vm.setPageDate,"selectDate":_vm.selectDate,"showMonthCalendar":_vm.showMonthCalendar,"selectedDisabled":function($event){_vm.$emit('selectedDisabled');}}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('month'))?_c('picker-month',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showMonthView":_vm.showMonthView,"allowedToShowView":_vm.allowedToShowView,"disabledDates":_vm.disabledDates,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectMonth":_vm.selectMonth,"showYearCalendar":_vm.showYearCalendar,"changedYear":_vm.setPageDate}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('year'))?_c('picker-year',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showYearView":_vm.showYearView,"allowedToShowView":_vm.allowedToShowView,"disabledDates":_vm.disabledDates,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectYear":_vm.selectYear,"changedDecade":_vm.setPageDate}}):_vm._e()],1)},staticRenderFns: [],
     components: {
       DateInput: DateInput,
       PickerDay: PickerDay,
@@ -8895,7 +8895,7 @@
         }
       },
       fullMonthName: Boolean,
-      disabled: Object,
+      disabledDates: Object,
       highlighted: Object,
       placeholder: String,
       inline: Boolean,
@@ -8910,7 +8910,7 @@
       calendarButtonIconContent: String,
       bootstrapStyling: Boolean,
       initialView: String,
-      disabledPicker: Boolean,
+      disabled: Boolean,
       required: Boolean,
       minimumView: {
         type: String,
@@ -9684,7 +9684,7 @@
     date1: new Date()
   };
 
-  var Demo = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('h1',[_vm._v("Datepicker Examples")]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Default datepicker...")]),_vm._v(" "),_c('datepicker',{attrs:{"placeholder":"Select Date"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Bootstrap styled datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"bootstrapStyling":true,"calendarButton":true,"clearButton":true}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("v-model datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"placeholder":"Select Date"},model:{value:(_vm.vModelExample),callback:function ($$v) {_vm.vModelExample=$$v;},expression:"vModelExample"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\" v-model=\"vmodelexample\"></datepicker> ")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.vModelExample))])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Format datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"format":_vm.format}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :format=\"format\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Format")]),_vm._v(" "),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.format),expression:"format"}],on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.format=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},[_c('option',{attrs:{"value":"d MMM yyyy","selected":"selected"}},[_vm._v("d MMM yyyy - e.g 12 Feb 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"d MMMM yyyy"}},[_vm._v("d MMMM yyyy - e.g 12 February 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"yyyy-MM-dd"}},[_vm._v("yyyy-MM-dd - e.g 2016-02-12")]),_vm._v(" "),_c('option',{attrs:{"value":"dsu MMM yyyy"}},[_vm._v("dsu MMM yyyy - e.g 12th Feb 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"D dsu MMM yyyy"}},[_vm._v("D dsu MMM yyyy - e.g Sat 12th Feb 2016")])])])])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("With minimum and maximum date range")]),_vm._v(" "),_c('datepicker',{attrs:{"disabled":_vm.disabled}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :disabled=\"disabled\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled to:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.disableTo}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled from:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.disableFrom}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled Days of Month:")]),_vm._v(" "),_c('input',{attrs:{"type":"text","value":""},on:{"change":_vm.setDisabledDays}})]),_vm._v(" "),_c('pre',[_vm._v("disabled: "+_vm._s(_vm.disabled))]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"disabled":_vm.disabled}})],1)],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('pre',[_vm._v("        disabled: {\n          customPredictor: function (date) {\n            // disables every day of a month which is a multiple of 3\n            if (date.getDate() % 3 === 0) {\n              return true\n            }\n          }\n        }\n      ")]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"disabled":_vm.disabledFn}})],1)]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Highlighting Dates Matching Given Function")]),_vm._v(" "),_c('datepicker',{attrs:{"disabled":_vm.disabled}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :highlighted=\"highlighted\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('pre',[_vm._v("        highlighted: {\n          customPredictor: function (date) {\n            // highlights every day of a month which is a multiple of 4\n            if (date.getDate() % 4 === 0) {\n              return true\n            }\n          }\n        }\n      ")]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"highlighted":_vm.highlightedFn}})],1)],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Highlighting Dates")]),_vm._v(" "),_c('code',[_vm._v(" <datepicker :highlighted=\"highlighted\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight from:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.highlightFrom}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight to:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.highlightTo}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight Days of Month:")]),_vm._v(" "),_c('input',{attrs:{"type":"text","value":""},on:{"change":_vm.setHighlightedDays}})]),_vm._v(" "),_c('pre',[_vm._v("highlighted: "+_vm._s(_vm.highlighted))]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"highlighted":_vm.highlighted}})],1)]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("With default open date")]),_vm._v(" "),_c('datepicker',{attrs:{"open-date":_vm.openDate}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :disabled=\"disabled\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Open date:")]),_vm._v(" "),_c('datepicker',{model:{value:(_vm.openDate),callback:function ($$v) {_vm.openDate=$$v;},expression:"openDate"}})],1),_vm._v(" "),_c('pre',[_vm._v("openDate: "+_vm._s(_vm.openDate))])])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Translations")]),_vm._v(" "),_c('h5',[_vm._v(_vm._s(_vm.languages[_vm.language].language)+" datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"language":_vm.languages[_vm.language],"format":"d MMMM yyyy"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :language=\"languages."+_vm._s(_vm.language)+"\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.language),expression:"language"}],on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.language=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},_vm._l((_vm.languages),function(language$$1,key){return _c('option',{key:key,domProps:{"value":key}},[_vm._v(_vm._s(language$$1.language))])}))])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Inline datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"inline":true}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :inline=\"true\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("RTL datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"language":_vm.languages.he}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :language=\"languages.he\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'day'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'day'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day view only RTL")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'day',"language":_vm.languages.he}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'day'\" language=\"languages.he\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'month',"maximumView":'month'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'month'\" :maximumView=\"'month'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day and month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'month',"initialView":'month'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'month'\" :initialView=\"'month'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Year and month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'month',"maximumView":'year',"initialView":'year'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'month'\" :maximumView=\"'year'\" :initialView=\"'year'\"></datepicker> ")])],1)])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled Function:")])])}],
+  var Demo = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"app"}},[_c('h1',[_vm._v("Datepicker Examples")]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Default datepicker...")]),_vm._v(" "),_c('datepicker',{attrs:{"placeholder":"Select Date"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Bootstrap styled datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"bootstrapStyling":true,"calendarButton":true,"clearButton":true}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("v-model datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"placeholder":"Select Date"},model:{value:(_vm.vModelExample),callback:function ($$v) {_vm.vModelExample=$$v;},expression:"vModelExample"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker placeholder=\"Select Date\" v-model=\"vmodelexample\"></datepicker> ")]),_vm._v(" "),_c('hr'),_vm._v(" "),_c('p',[_vm._v(_vm._s(_vm.vModelExample))])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Format datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"format":_vm.format}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :format=\"format\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Format")]),_vm._v(" "),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.format),expression:"format"}],on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.format=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},[_c('option',{attrs:{"value":"d MMM yyyy","selected":"selected"}},[_vm._v("d MMM yyyy - e.g 12 Feb 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"d MMMM yyyy"}},[_vm._v("d MMMM yyyy - e.g 12 February 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"yyyy-MM-dd"}},[_vm._v("yyyy-MM-dd - e.g 2016-02-12")]),_vm._v(" "),_c('option',{attrs:{"value":"dsu MMM yyyy"}},[_vm._v("dsu MMM yyyy - e.g 12th Feb 2016")]),_vm._v(" "),_c('option',{attrs:{"value":"D dsu MMM yyyy"}},[_vm._v("D dsu MMM yyyy - e.g Sat 12th Feb 2016")])])])])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("With minimum and maximum date range")]),_vm._v(" "),_c('datepicker',{attrs:{"disabledDates":_vm.disabledDates}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :disabledDates=\"disabledDates\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled to:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.disableTo}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled from:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.disableFrom}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled Days of Month:")]),_vm._v(" "),_c('input',{attrs:{"type":"text","value":"","placeholder":"5,6,12,13"},on:{"change":_vm.setDisabledDays}})]),_vm._v(" "),_c('pre',[_vm._v("disabled: "+_vm._s(_vm.disabledDates))]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"disabledDates":_vm.disabledDates}})],1)],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_vm._m(0),_vm._v(" "),_c('pre',[_vm._v("        disabledDates: {\n          customPredictor: function (date) {\n            // disables every day of a month which is a multiple of 3\n            if (date.getDate() % 3 === 0) {\n              return true\n            }\n          }\n        }\n      ")]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"disabledDates":_vm.disabledFn}})],1)]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Highlighting Dates Matching Given Function")]),_vm._v(" "),_c('datepicker',{attrs:{"highlighted":_vm.highlighted}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :highlighted=\"highlighted\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('pre',[_vm._v("        highlighted: {\n          customPredictor: function (date) {\n            // highlights every day of a month which is a multiple of 4\n            if (date.getDate() % 4 === 0) {\n              return true\n            }\n          }\n        }\n      ")]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"highlighted":_vm.highlightedFn}})],1)],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Highlighting Dates")]),_vm._v(" "),_c('code',[_vm._v(" <datepicker :highlighted=\"highlighted\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight from:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.highlightFrom}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight to:")]),_vm._v(" "),_c('datepicker',{on:{"selected":_vm.highlightTo}})],1),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Highlight Days of Month:")]),_vm._v(" "),_c('input',{attrs:{"type":"text","value":""},on:{"change":_vm.setHighlightedDays}})]),_vm._v(" "),_c('pre',[_vm._v("highlighted: "+_vm._s(_vm.highlighted))]),_vm._v(" "),_c('h5',[_vm._v("Resulting Date picker")]),_vm._v(" "),_c('datepicker',{attrs:{"highlighted":_vm.highlighted}})],1)]),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("With default open date")]),_vm._v(" "),_c('datepicker',{attrs:{"open-date":_vm.openDate}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :disabled=\"disabled\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Open date:")]),_vm._v(" "),_c('datepicker',{model:{value:(_vm.openDate),callback:function ($$v) {_vm.openDate=$$v;},expression:"openDate"}})],1),_vm._v(" "),_c('pre',[_vm._v("openDate: "+_vm._s(_vm.openDate))])])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Translations")]),_vm._v(" "),_c('h5',[_vm._v(_vm._s(_vm.languages[_vm.language].language)+" datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"language":_vm.languages[_vm.language],"format":"d MMMM yyyy"}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :language=\"languages."+_vm._s(_vm.language)+"\"></datepicker> ")]),_vm._v(" "),_c('div',{staticClass:"settings"},[_c('h5',[_vm._v("Settings")]),_vm._v(" "),_c('select',{directives:[{name:"model",rawName:"v-model",value:(_vm.language),expression:"language"}],on:{"change":function($event){var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return val}); _vm.language=$event.target.multiple ? $$selectedVal : $$selectedVal[0];}}},_vm._l((_vm.languages),function(language$$1,key){return _c('option',{key:key,domProps:{"value":key}},[_vm._v(_vm._s(language$$1.language))])}))])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Inline datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"inline":true}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :inline=\"true\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("RTL datepicker")]),_vm._v(" "),_c('datepicker',{attrs:{"language":_vm.languages.he}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :language=\"languages.he\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'day'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'day'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day view only RTL")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'day',"language":_vm.languages.he}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'day'\" language=\"languages.he\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'month',"maximumView":'month'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'month'\" :maximumView=\"'month'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Day and month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'day',"maximumView":'month',"initialView":'month'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'day'\" :maximumView=\"'month'\" :initialView=\"'month'\"></datepicker> ")])],1),_vm._v(" "),_c('div',{staticClass:"example"},[_c('h3',[_vm._v("Year and month view only")]),_vm._v(" "),_c('datepicker',{attrs:{"minimumView":'month',"maximumView":'year',"initialView":'year'}}),_vm._v(" "),_c('code',[_vm._v(" <datepicker :minimumView=\"'month'\" :maximumView=\"'year'\" :initialView=\"'year'\"></datepicker> ")])],1)])},staticRenderFns: [function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"form-group"},[_c('label',[_vm._v("Disabled Function:")])])}],
     name: 'demo',
     components: {
       Datepicker: Datepicker
@@ -9692,7 +9692,7 @@
     data: function data () {
       return {
         format: 'd MMMM yyyy',
-        disabled: {},
+        disabledDates: {},
         openDate: null,
         disabledFn: {
           customPredictor: function customPredictor (date) {
@@ -9753,31 +9753,31 @@
           return
         }
         var disabledDays = elem.target.value.split(',').map(function (day) { return parseInt(day); });
-        this.disabled = {
-          from: this.disabled.from,
-          to: this.disabled.to,
+        this.disabledDates = {
+          from: this.disabledDates.from,
+          to: this.disabledDates.to,
           daysOfMonth: disabledDays
         };
       },
       disableTo: function disableTo (val) {
-        if (typeof this.disabled.to === 'undefined') {
-          this.disabled = {
+        if (typeof this.disabledDates.to === 'undefined') {
+          this.disabledDates = {
             to: null,
-            daysOfMonth: this.disabled.daysOfMonth,
-            from: this.disabled.from
+            daysOfMonth: this.disabledDates.daysOfMonth,
+            from: this.disabledDates.from
           };
         }
-        this.disabled.to = val;
+        this.disabledDates.to = val;
       },
       disableFrom: function disableFrom (val) {
-        if (typeof this.disabled.from === 'undefined') {
-          this.disabled = {
-            to: this.disabled.to,
-            daysOfMonth: this.disabled.daysOfMonth,
+        if (typeof this.disabledDates.from === 'undefined') {
+          this.disabledDates = {
+            to: this.disabledDates.to,
+            daysOfMonth: this.disabledDates.daysOfMonth,
             from: null
           };
         }
-        this.disabled.from = val;
+        this.disabledDates.from = val;
       }
     }
   }

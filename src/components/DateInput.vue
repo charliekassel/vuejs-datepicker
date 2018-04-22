@@ -18,7 +18,7 @@
       :open-date="openDate"
       :placeholder="placeholder"
       :clear-button="clearButton"
-      :disabled="disabledPicker"
+      :disabled="disabled"
       :required="required"
       @click="showCalendar"
       onkeypress="return false">

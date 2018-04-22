@@ -55,9 +55,9 @@
 
     <div class="example">
       <h3>With minimum and maximum date range</h3>
-      <datepicker :disabled="disabled"></datepicker>
+      <datepicker :disabledDates="disabledDates"></datepicker>
       <code>
-        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :disabledDates="disabledDates"&gt;&lt;/datepicker&gt;
       </code>
       <div class="settings">
         <h5>Settings</h5>
@@ -71,12 +71,12 @@
         </div>
         <div class="form-group">
           <label>Disabled Days of Month:</label>
-          <input type="text" value="" v-on:change="setDisabledDays">
+          <input type="text" value="" v-on:change="setDisabledDays" placeholder="5,6,12,13">
         </div>
-        <pre>disabled: {{ disabled }}</pre>
+        <pre>disabled: {{ disabledDates }}</pre>
 
         <h5>Resulting Date picker</h5>
-        <datepicker :disabled="disabled"></datepicker>
+        <datepicker :disabledDates="disabledDates"></datepicker>
       </div>
     </div>
 
@@ -87,7 +87,7 @@
           <label>Disabled Function:</label>
         </div>
         <pre>
-          disabled: {
+          disabledDates: {
             customPredictor: function (date) {
               // disables every day of a month which is a multiple of 3
               if (date.getDate() % 3 === 0) {
@@ -97,13 +97,13 @@
           }
         </pre>
         <h5>Resulting Date picker</h5>
-        <datepicker :disabled="disabledFn"></datepicker>
+        <datepicker :disabledDates="disabledFn"></datepicker>
       </div>
     </div>
 
     <div class="example">
       <h3>Highlighting Dates Matching Given Function</h3>
-      <datepicker :disabled="disabled"></datepicker>
+      <datepicker :highlighted="highlighted"></datepicker>
       <code>
         &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
       </code>
@@ -257,7 +257,7 @@ export default {
   data () {
     return {
       format: 'd MMMM yyyy',
-      disabled: {},
+      disabledDates: {},
       openDate: null,
       disabledFn: {
         customPredictor (date) {
@@ -318,31 +318,31 @@ export default {
         return
       }
       let disabledDays = elem.target.value.split(',').map(day => parseInt(day))
-      this.disabled = {
-        from: this.disabled.from,
-        to: this.disabled.to,
+      this.disabledDates = {
+        from: this.disabledDates.from,
+        to: this.disabledDates.to,
         daysOfMonth: disabledDays
       }
     },
     disableTo (val) {
-      if (typeof this.disabled.to === 'undefined') {
-        this.disabled = {
+      if (typeof this.disabledDates.to === 'undefined') {
+        this.disabledDates = {
           to: null,
-          daysOfMonth: this.disabled.daysOfMonth,
-          from: this.disabled.from
+          daysOfMonth: this.disabledDates.daysOfMonth,
+          from: this.disabledDates.from
         }
       }
-      this.disabled.to = val
+      this.disabledDates.to = val
     },
     disableFrom (val) {
-      if (typeof this.disabled.from === 'undefined') {
-        this.disabled = {
-          to: this.disabled.to,
-          daysOfMonth: this.disabled.daysOfMonth,
+      if (typeof this.disabledDates.from === 'undefined') {
+        this.disabledDates = {
+          to: this.disabledDates.to,
+          daysOfMonth: this.disabledDates.daysOfMonth,
           from: null
         }
       }
-      this.disabled.from = val
+      this.disabledDates.from = val
     }
   }
 }

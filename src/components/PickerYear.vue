@@ -22,7 +22,7 @@ export default {
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
-    disabled: Object,
+    disabledDates: Object,
     highlighted: Object,
     calendarClass: String,
     calendarStyle: Object,
@@ -74,10 +74,10 @@ export default {
       this.changeYear(-10)
     },
     isPreviousDecadeDisabled () {
-      if (!this.disabled || !this.disabled.to) {
+      if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
+      return Math.floor(this.disabledDates.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -86,10 +86,10 @@ export default {
       this.changeYear(10)
     },
     isNextDecadeDisabled () {
-      if (!this.disabled || !this.disabled.from) {
+      if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.disabled.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
+      return Math.ceil(this.disabledDates.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
     },
 
     /**
@@ -106,23 +106,23 @@ export default {
      * @return {Boolean}
      */
     isDisabledYear (date) {
-      let disabled = false
-      if (typeof this.disabled === 'undefined' || !this.disabled) {
+      let disabledDates = false
+      if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
         return false
       }
 
-      if (typeof this.disabled.to !== 'undefined' && this.disabled.to) {
-        if (date.getFullYear() < this.disabled.to.getFullYear()) {
-          disabled = true
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+        if (date.getFullYear() < this.disabledDates.to.getFullYear()) {
+          disabledDates = true
         }
       }
-      if (typeof this.disabled.from !== 'undefined' && this.disabled.from) {
-        if (date.getFullYear() > this.disabled.from.getFullYear()) {
-          disabled = true
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+        if (date.getFullYear() > this.disabledDates.from.getFullYear()) {
+          disabledDates = true
         }
       }
 
-      return disabled
+      return disabledDates
     }
   }
 }

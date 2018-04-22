@@ -34,7 +34,7 @@ export default {
     pageTimestamp: Number,
     fullMonthName: Boolean,
     allowedToShowView: Function,
-    disabled: Object,
+    disabledDates: Object,
     highlighted: Object,
     calendarClass: String,
     calendarStyle: Object,
@@ -160,12 +160,12 @@ export default {
      * @return {Boolean}
      */
     isPreviousMonthDisabled () {
-      if (!this.disabled || !this.disabled.to) {
+      if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
       let d = this.pageDate
-      return this.disabled.to.getMonth() >= d.getMonth() &&
-        this.disabled.to.getFullYear() >= d.getFullYear()
+      return this.disabledDates.to.getMonth() >= d.getMonth() &&
+        this.disabledDates.to.getFullYear() >= d.getFullYear()
     },
     /**
      * Increment the current page month
@@ -180,12 +180,12 @@ export default {
      * @return {Boolean}
      */
     isNextMonthDisabled () {
-      if (!this.disabled || !this.disabled.from) {
+      if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
       let d = this.pageDate
-      return this.disabled.from.getMonth() <= d.getMonth() &&
-        this.disabled.from.getFullYear() <= d.getFullYear()
+      return this.disabledDates.from.getMonth() <= d.getMonth() &&
+        this.disabledDates.from.getFullYear() <= d.getFullYear()
     },
     /**
      * Whether a day is selected
@@ -201,46 +201,46 @@ export default {
      * @return {Boolean}
      */
     isDisabledDate (date) {
-      let disabled = false
+      let disabledDates = false
 
-      if (typeof this.disabled === 'undefined') {
+      if (typeof this.disabledDates === 'undefined') {
         return false
       }
 
-      if (typeof this.disabled.dates !== 'undefined') {
-        this.disabled.dates.forEach((d) => {
+      if (typeof this.disabledDates.dates !== 'undefined') {
+        this.disabledDates.dates.forEach((d) => {
           if (date.toDateString() === d.toDateString()) {
-            disabled = true
+            disabledDates = true
             return true
           }
         })
       }
-      if (typeof this.disabled.to !== 'undefined' && this.disabled.to && date < this.disabled.to) {
-        disabled = true
+      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to && date < this.disabledDates.to) {
+        disabledDates = true
       }
-      if (typeof this.disabled.from !== 'undefined' && this.disabled.from && date > this.disabled.from) {
-        disabled = true
+      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from && date > this.disabledDates.from) {
+        disabledDates = true
       }
-      if (typeof this.disabled.ranges !== 'undefined') {
-        this.disabled.ranges.forEach((range) => {
+      if (typeof this.disabledDates.ranges !== 'undefined') {
+        this.disabledDates.ranges.forEach((range) => {
           if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
             if (date < range.to && date > range.from) {
-              disabled = true
+              disabledDates = true
               return true
             }
           }
         })
       }
-      if (typeof this.disabled.days !== 'undefined' && this.disabled.days.indexOf(date.getDay()) !== -1) {
-        disabled = true
+      if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(date.getDay()) !== -1) {
+        disabledDates = true
       }
-      if (typeof this.disabled.daysOfMonth !== 'undefined' && this.disabled.daysOfMonth.indexOf(date.getDate()) !== -1) {
-        disabled = true
+      if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(date.getDate()) !== -1) {
+        disabledDates = true
       }
-      if (typeof this.disabled.customPredictor === 'function' && this.disabled.customPredictor(date)) {
-        disabled = true
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true
       }
-      return disabled
+      return disabledDates
     },
     /**
      * Whether a day is highlighted (only if it is not disabled already except when highlighted.includeDisabled is true)
