@@ -57,7 +57,7 @@ Or use directly from a CDN
   <vuejs-datepicker></vuejs-datepicker>
 </div>
 <script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vuejs-datepicker@1.0.0-beta.1/dist/vuejs-datepicker.min.js"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
 <script>
 const app = new Vue({
   el: '#app',
