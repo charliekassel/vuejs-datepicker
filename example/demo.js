@@ -8069,17 +8069,6 @@
     this._days = days;
   };
 
-  Language.prototype.toJSON = function toJSON () {
-    return {
-      language: this.language,
-      months: this.months,
-      monthsAbbr: this.monthsAbbr,
-      days: this.days,
-      rtl: this.rtl,
-      ymd: this.ymd
-    }
-  };
-
   Object.defineProperties( Language.prototype, prototypeAccessors$1 );
 
   var en = new Language(
@@ -8233,7 +8222,7 @@
   ;
 
   (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=""; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
-  var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{'input-group' : _vm.bootstrapStyling}},[(_vm.calendarButton)?_c('span',{staticClass:"vdp-datepicker__calendar-button",class:{'input-group-addon' : _vm.bootstrapStyling},style:({'cursor:not-allowed;' : _vm.disabledPicker}),on:{"click":_vm.showCalendar}},[_c('i',{class:_vm.calendarButtonIcon},[_vm._v(" "+_vm._s(_vm.calendarButtonIconContent)+" "),(!_vm.calendarButtonIcon)?_c('span',[_vm._v("…")]):_vm._e()])]):_vm._e(),_vm._v(" "),_c('input',{ref:_vm.refName,class:_vm.computedInputClass,attrs:{"type":_vm.inline ? 'hidden' : 'text',"name":_vm.name,"id":_vm.id,"open-date":_vm.openDate,"placeholder":_vm.placeholder,"clear-button":_vm.clearButton,"disabled":_vm.disabledPicker,"required":_vm.required,"readonly":"readonly"},domProps:{"value":_vm.formattedValue},on:{"click":_vm.showCalendar}}),_vm._v(" "),(_vm.clearButton && _vm.selectedDate)?_c('span',{staticClass:"vdp-datepicker__clear-button",class:{'input-group-addon' : _vm.bootstrapStyling},on:{"click":function($event){_vm.clearDate();}}},[_c('i',{class:_vm.clearButtonIcon},[(!_vm.clearButtonIcon)?_c('span',[_vm._v("×")]):_vm._e()])]):_vm._e()])},staticRenderFns: [],
+  var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:{'input-group' : _vm.bootstrapStyling}},[(_vm.calendarButton)?_c('span',{staticClass:"vdp-datepicker__calendar-button",class:{'input-group-addon' : _vm.bootstrapStyling},style:({'cursor:not-allowed;' : _vm.disabledPicker}),on:{"click":_vm.showCalendar}},[_c('i',{class:_vm.calendarButtonIcon},[_vm._v(" "+_vm._s(_vm.calendarButtonIconContent)+" "),(!_vm.calendarButtonIcon)?_c('span',[_vm._v("…")]):_vm._e()])]):_vm._e(),_vm._v(" "),_c('input',{ref:_vm.refName,class:_vm.computedInputClass,attrs:{"type":_vm.inline ? 'hidden' : 'text',"name":_vm.name,"id":_vm.id,"open-date":_vm.openDate,"placeholder":_vm.placeholder,"clear-button":_vm.clearButton,"disabled":_vm.disabledPicker,"required":_vm.required,"onkeypress":"return false"},domProps:{"value":_vm.formattedValue},on:{"click":_vm.showCalendar}}),_vm._v(" "),(_vm.clearButton && _vm.selectedDate)?_c('span',{staticClass:"vdp-datepicker__clear-button",class:{'input-group-addon' : _vm.bootstrapStyling},on:{"click":function($event){_vm.clearDate();}}},[_c('i',{class:_vm.clearButtonIcon},[(!_vm.clearButtonIcon)?_c('span',[_vm._v("×")]):_vm._e()])]):_vm._e()])},staticRenderFns: [],
     props: {
       selectedDate: Date,
       format: String,
@@ -8282,7 +8271,7 @@
   ;
 
   (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=""; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
-  var PickerDay = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showDayView),expression:"showDayView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.isRtl ? _vm.nextMonthDisabled(_vm.pageTimestamp) : _vm.previousMonthDisabled(_vm.pageTimestamp) },on:{"click":function($event){_vm.isRtl ? _vm.nextMonth() : _vm.previousMonth();}}},[_vm._v("<")]),_vm._v(" "),_c('span',{class:_vm.allowedToShowView('month') ? 'up' : '',on:{"click":_vm.showMonthCalendar}},[_vm._v(_vm._s(_vm.isYmd ? _vm.currYear : _vm.currMonthName)+" "+_vm._s(_vm.isYmd ? _vm.currMonthName : _vm.currYear))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.isRtl ? _vm.previousMonthDisabled(_vm.pageTimestamp) : _vm.nextMonthDisabled(_vm.pageTimestamp) },on:{"click":function($event){_vm.isRtl ? _vm.previousMonth() : _vm.nextMonth();}}},[_vm._v(">")])]),_vm._v(" "),_c('div',{class:_vm.isRtl ? 'flex-rtl' : ''},[_vm._l((_vm.daysOfWeek),function(d){return _c('span',{key:d.timestamp,staticClass:"cell day-header"},[_vm._v(_vm._s(d))])}),_vm._v(" "),(_vm.blankDays > 0)?_vm._l((_vm.blankDays),function(d){return _c('span',{key:d.timestamp,staticClass:"cell day blank"})}):_vm._e(),_vm._l((_vm.days),function(day){return _c('span',{key:day.timestamp,staticClass:"cell day",class:_vm.dayClasses(day),on:{"click":function($event){_vm.selectDate(day);}}},[_vm._v(_vm._s(day.date))])})],2)])},staticRenderFns: [],
+  var PickerDay = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showDayView),expression:"showDayView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.isRtl ? _vm.isNextMonthDisabled(_vm.pageTimestamp) : _vm.isPreviousMonthDisabled(_vm.pageTimestamp) },on:{"click":function($event){_vm.isRtl ? _vm.nextMonth() : _vm.previousMonth();}}},[_vm._v("<")]),_vm._v(" "),_c('span',{staticClass:"day__month_btn",class:_vm.allowedToShowView('month') ? 'up' : '',on:{"click":_vm.showMonthCalendar}},[_vm._v(_vm._s(_vm.isYmd ? _vm.currYear : _vm.currMonthName)+" "+_vm._s(_vm.isYmd ? _vm.currMonthName : _vm.currYear))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.isRtl ? _vm.isPreviousMonthDisabled(_vm.pageTimestamp) : _vm.isNextMonthDisabled(_vm.pageTimestamp) },on:{"click":function($event){_vm.isRtl ? _vm.previousMonth() : _vm.nextMonth();}}},[_vm._v(">")])]),_vm._v(" "),_c('div',{class:_vm.isRtl ? 'flex-rtl' : ''},[_vm._l((_vm.daysOfWeek),function(d){return _c('span',{key:d.timestamp,staticClass:"cell day-header"},[_vm._v(_vm._s(d))])}),_vm._v(" "),(_vm.blankDays > 0)?_vm._l((_vm.blankDays),function(d){return _c('span',{key:d.timestamp,staticClass:"cell day blank"})}):_vm._e(),_vm._l((_vm.days),function(day){return _c('span',{key:day.timestamp,staticClass:"cell day",class:_vm.dayClasses(day),on:{"click":function($event){_vm.selectDate(day);}}},[_vm._v(_vm._s(day.date))])})],2)])},staticRenderFns: [],
     props: {
       showDayView: Boolean,
       selectedDate: Date,
@@ -8353,16 +8342,25 @@
         }
         return days
       },
-
+      /**
+       * Gets the name of the month the current page is on
+       * @return {String}
+       */
       currMonthName: function currMonthName () {
         var monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr;
         return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
       },
-
+      /**
+       * Gets the year that the current page is on
+       * @return {Number}
+       */
       currYear: function currYear () {
         return this.pageDate.getFullYear()
       },
-
+      /**
+       * Is this translation using year/month/day format?
+       * @return {Boolean}
+       */
       isYmd: function isYmd () {
         return this.translation.ymd && this.translation.ymd === true
       }
@@ -8382,26 +8380,33 @@
         return this.pageDate.getMonth()
       },
       /**
-       * @return {Number}
+       * Emit an event to show the month picker
        */
-      getPageYear: function getPageYear () {
-        return this.pageDate.getYear()
-      },
       showMonthCalendar: function showMonthCalendar () {
         this.$emit('showMonthCalendar');
       },
+      /**
+       * Change the page month
+       * @param {Number} incrementBy
+       */
       changeMonth: function changeMonth (incrementBy) {
         var date = this.pageDate;
         date.setMonth(date.getMonth() + incrementBy);
         this.$emit('changedMonth', date);
       },
-
+      /**
+       * Decrement the page month
+       */
       previousMonth: function previousMonth () {
-        if (!this.previousMonthDisabled()) {
+        if (!this.isPreviousMonthDisabled()) {
           this.changeMonth(-1);
         }
       },
-      previousMonthDisabled: function previousMonthDisabled () {
+      /**
+       * Is the previous month disabled?
+       * @return {Boolean}
+       */
+      isPreviousMonthDisabled: function isPreviousMonthDisabled () {
         if (!this.disabled || !this.disabled.to) {
           return false
         }
@@ -8409,12 +8414,19 @@
         return this.disabled.to.getMonth() >= d.getMonth() &&
           this.disabled.to.getFullYear() >= d.getFullYear()
       },
+      /**
+       * Increment the current page month
+       */
       nextMonth: function nextMonth () {
-        if (!this.nextMonthDisabled()) {
+        if (!this.isNextMonthDisabled()) {
           this.changeMonth(+1);
         }
       },
-      nextMonthDisabled: function nextMonthDisabled () {
+      /**
+       * Is the next month disabled?
+       * @return {Boolean}
+       */
+      isNextMonthDisabled: function isNextMonthDisabled () {
         if (!this.disabled || !this.disabled.from) {
           return false
         }
@@ -8573,7 +8585,7 @@
   ;
 
   (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=""; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
-  var PickerMonth = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showMonthView),expression:"showMonthView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.previousYearDisabled(_vm.pageTimestamp) },on:{"click":_vm.previousYear}},[_vm._v("<")]),_vm._v(" "),_c('span',{class:_vm.allowedToShowView('year') ? 'up' : '',on:{"click":_vm.showYearCalendar}},[_vm._v(_vm._s(_vm.getPageYear))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.nextYearDisabled(_vm.pageTimestamp) },on:{"click":_vm.nextYear}},[_vm._v(">")])]),_vm._v(" "),_vm._l((_vm.months),function(month){return _c('span',{key:month.timestamp,staticClass:"cell month",class:{'selected': month.isSelected, 'disabled': month.isDisabled},on:{"click":function($event){$event.stopPropagation();_vm.selectMonth(month);}}},[_vm._v(_vm._s(month.month))])})],2)},staticRenderFns: [],
+  var PickerMonth = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showMonthView),expression:"showMonthView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.isPreviousYearDisabled(_vm.pageTimestamp) },on:{"click":_vm.previousYear}},[_vm._v("<")]),_vm._v(" "),_c('span',{staticClass:"month__year_btn",class:_vm.allowedToShowView('year') ? 'up' : '',on:{"click":_vm.showYearCalendar}},[_vm._v(_vm._s(_vm.getPageYear))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.isNextYearDisabled(_vm.pageTimestamp) },on:{"click":_vm.nextYear}},[_vm._v(">")])]),_vm._v(" "),_vm._l((_vm.months),function(month){return _c('span',{key:month.timestamp,staticClass:"cell month",class:{'selected': month.isSelected, 'disabled': month.isDisabled},on:{"click":function($event){$event.stopPropagation();_vm.selectMonth(month);}}},[_vm._v(_vm._s(month.month))])})],2)},staticRenderFns: [],
     props: {
       showMonthView: Boolean,
       selectedDate: Date,
@@ -8612,39 +8624,64 @@
       }
     },
     methods: {
+      /**
+       * Emits a selectMonth event
+       * @param {Object} month
+       */
       selectMonth: function selectMonth (month) {
         if (month.isDisabled) {
           return false
         }
         this.$emit('selectMonth', month);
       },
+      /**
+       * Changes the year up or down
+       * @param {Number} incrementBy
+       */
       changeYear: function changeYear (incrementBy) {
         var date = this.pageDate;
         date.setYear(date.getFullYear() + incrementBy);
         this.$emit('changedYear', date);
       },
+      /**
+       * Decrements the year
+       */
       previousYear: function previousYear () {
-        if (!this.previousYearDisabled()) {
+        if (!this.isPreviousYearDisabled()) {
           this.changeYear(-1);
         }
       },
-      previousYearDisabled: function previousYearDisabled () {
+      /**
+       * Checks if the previous year is disabled or not
+       * @return {Boolean}
+       */
+      isPreviousYearDisabled: function isPreviousYearDisabled () {
         if (!this.disabled || !this.disabled.to) {
           return false
         }
         return this.disabled.to.getFullYear() >= this.pageDate.getFullYear()
       },
+      /**
+       * Increments the year
+       */
       nextYear: function nextYear () {
-        if (!this.nextYearDisabled()) {
+        if (!this.isNextYearDisabled()) {
           this.changeYear(1);
         }
       },
-      nextYearDisabled: function nextYearDisabled () {
+      /**
+       * Checks if the next year is disabled or not
+       * @return {Boolean}
+       */
+      isNextYearDisabled: function isNextYearDisabled () {
         if (!this.disabled || !this.disabled.from) {
           return false
         }
         return this.disabled.from.getFullYear() <= this.pageDate.getFullYear()
       },
+      /**
+       * Emits an event that shows the year calendar
+       */
       showYearCalendar: function showYearCalendar () {
         this.$emit('showYearCalendar');
       },
@@ -8712,7 +8749,7 @@
 
 
 
-  var PickerYear = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showYearView),expression:"showYearView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.previousDecadeDisabled(_vm.pageTimestamp) },on:{"click":_vm.previousDecade}},[_vm._v("<")]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.getPageDecade))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.nextDecadeDisabled(_vm.pageTimestamp) },on:{"click":_vm.nextDecade}},[_vm._v(">")])]),_vm._v(" "),_vm._l((_vm.years),function(year){return _c('span',{key:year.timestamp,staticClass:"cell year",class:{ 'selected': year.isSelected, 'disabled': year.isDisabled },on:{"click":function($event){$event.stopPropagation();_vm.selectYear(year);}}},[_vm._v(_vm._s(year.year))])})],2)},staticRenderFns: [],
+  var PickerYear = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showYearView),expression:"showYearView"}],class:[_vm.calendarClass, 'vdp-datepicker__calendar'],style:(_vm.calendarStyle)},[_c('header',[_c('span',{staticClass:"prev",class:{ 'disabled' : _vm.isPreviousDecadeDisabled(_vm.pageTimestamp) },on:{"click":_vm.previousDecade}},[_vm._v("<")]),_vm._v(" "),_c('span',[_vm._v(_vm._s(_vm.getPageDecade))]),_vm._v(" "),_c('span',{staticClass:"next",class:{ 'disabled' : _vm.isNextDecadeDisabled(_vm.pageTimestamp) },on:{"click":_vm.nextDecade}},[_vm._v(">")])]),_vm._v(" "),_vm._l((_vm.years),function(year){return _c('span',{key:year.timestamp,staticClass:"cell year",class:{ 'selected': year.isSelected, 'disabled': year.isDisabled },on:{"click":function($event){$event.stopPropagation();_vm.selectYear(year);}}},[_vm._v(_vm._s(year.year))])})],2)},staticRenderFns: [],
     props: {
       showYearView: Boolean,
       selectedDate: Date,
@@ -8766,24 +8803,24 @@
         this.$emit('changedDecade', date);
       },
       previousDecade: function previousDecade () {
-        if (this.previousDecadeDisabled()) {
+        if (this.isPreviousDecadeDisabled()) {
           return false
         }
         this.changeYear(-10);
       },
-      previousDecadeDisabled: function previousDecadeDisabled () {
+      isPreviousDecadeDisabled: function isPreviousDecadeDisabled () {
         if (!this.disabled || !this.disabled.to) {
           return false
         }
         return Math.floor(this.disabled.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
       },
       nextDecade: function nextDecade () {
-        if (this.nextDecadeDisabled()) {
+        if (this.isNextDecadeDisabled()) {
           return false
         }
         this.changeYear(10);
       },
-      nextDecadeDisabled: function nextDecadeDisabled () {
+      isNextDecadeDisabled: function isNextDecadeDisabled () {
         if (!this.disabled || !this.disabled.from) {
           return false
         }
@@ -8827,7 +8864,7 @@
   // eslint-disable-next-line
   ;
 
-  (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=".rtl { direction: rtl; } .vdp-datepicker { position: relative; text-align: left; } .vdp-datepicker * { box-sizing: border-box; } .vdp-datepicker__calendar { position: absolute; z-index: 100; background: #fff; width: 300px; border: 1px solid #ccc; } .vdp-datepicker__calendar header { display: block; line-height: 40px; } .vdp-datepicker__calendar header span { display: inline-block; text-align: center; width: 71.42857142857143%; float: left; } .vdp-datepicker__calendar header .prev, .vdp-datepicker__calendar header .next { width: 14.285714285714286%; float: left; text-indent: -10000px; position: relative; } .vdp-datepicker__calendar header .prev:after, .vdp-datepicker__calendar header .next:after { content: ''; position: absolute; left: 50%; top: 50%; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%); border: 6px solid transparent; } .vdp-datepicker__calendar header .prev:after { border-right: 10px solid #000; margin-left: -5px; } .vdp-datepicker__calendar header .prev.disabled:after { border-right: 10px solid #ddd; } .vdp-datepicker__calendar header .next:after { border-left: 10px solid #000; margin-left: 5px; } .vdp-datepicker__calendar header .next.disabled:after { border-left: 10px solid #ddd; } .vdp-datepicker__calendar header .prev:not(.disabled), .vdp-datepicker__calendar header .next:not(.disabled), .vdp-datepicker__calendar header .up:not(.disabled) { cursor: pointer; } .vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover { background: #eee; } .vdp-datepicker__calendar .disabled { color: #ddd; cursor: default; } .vdp-datepicker__calendar .flex-rtl { display: -webkit-box; display: -ms-flexbox; display: flex; width: inherit; -ms-flex-wrap: wrap; flex-wrap: wrap; } .vdp-datepicker__calendar .cell { display: inline-block; padding: 0 5px; width: 14.285714285714286%; height: 40px; line-height: 40px; text-align: center; vertical-align: middle; border: 1px solid transparent; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year { cursor: pointer; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover { border: 1px solid #4bd; } .vdp-datepicker__calendar .cell.selected { background: #4bd; } .vdp-datepicker__calendar .cell.selected:hover { background: #4bd; } .vdp-datepicker__calendar .cell.selected.highlighted { background: #4bd; } .vdp-datepicker__calendar .cell.highlighted { background: #cae5ed; } .vdp-datepicker__calendar .cell.highlighted.disabled { color: #a3a3a3; } .vdp-datepicker__calendar .cell.grey { color: #888; } .vdp-datepicker__calendar .cell.grey:hover { background: inherit; } .vdp-datepicker__calendar .cell.day-header { font-size: 75%; white-space: no-wrap; cursor: inherit; } .vdp-datepicker__calendar .cell.day-header:hover { background: inherit; } .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year { width: 33.333%; } .vdp-datepicker__clear-button, .vdp-datepicker__calendar-button { cursor: pointer; font-style: normal; } .vdp-datepicker__clear-button.disabled, .vdp-datepicker__calendar-button.disabled { color: #999; cursor: default; } "; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
+  (function(){ if(typeof document !== 'undefined'){ var head=document.head||document.getElementsByTagName('head')[0], style=document.createElement('style'), css=".rtl { direction: rtl; } .vdp-datepicker { position: relative; text-align: left; } .vdp-datepicker * { box-sizing: border-box; } .vdp-datepicker__calendar { position: absolute; z-index: 100; background: #fff; width: 300px; border: 1px solid #ccc; } .vdp-datepicker__calendar header { display: block; line-height: 40px; } .vdp-datepicker__calendar header span { display: inline-block; text-align: center; width: 71.42857142857143%; float: left; } .vdp-datepicker__calendar header .prev, .vdp-datepicker__calendar header .next { width: 14.285714285714286%; float: left; text-indent: -10000px; position: relative; } .vdp-datepicker__calendar header .prev:after, .vdp-datepicker__calendar header .next:after { content: ''; position: absolute; left: 50%; top: 50%; -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%); border: 6px solid transparent; } .vdp-datepicker__calendar header .prev:after { border-right: 10px solid #000; margin-left: -5px; } .vdp-datepicker__calendar header .prev.disabled:after { border-right: 10px solid #ddd; } .vdp-datepicker__calendar header .next:after { border-left: 10px solid #000; margin-left: 5px; } .vdp-datepicker__calendar header .next.disabled:after { border-left: 10px solid #ddd; } .vdp-datepicker__calendar header .prev:not(.disabled), .vdp-datepicker__calendar header .next:not(.disabled), .vdp-datepicker__calendar header .up:not(.disabled) { cursor: pointer; } .vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover { background: #eee; } .vdp-datepicker__calendar .disabled { color: #ddd; cursor: default; } .vdp-datepicker__calendar .flex-rtl { display: flex; width: inherit; flex-wrap: wrap; } .vdp-datepicker__calendar .cell { display: inline-block; padding: 0 5px; width: 14.285714285714286%; height: 40px; line-height: 40px; text-align: center; vertical-align: middle; border: 1px solid transparent; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year { cursor: pointer; } .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).day:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).month:hover, .vdp-datepicker__calendar .cell:not(.blank):not(.disabled).year:hover { border: 1px solid #4bd; } .vdp-datepicker__calendar .cell.selected { background: #4bd; } .vdp-datepicker__calendar .cell.selected:hover { background: #4bd; } .vdp-datepicker__calendar .cell.selected.highlighted { background: #4bd; } .vdp-datepicker__calendar .cell.highlighted { background: #cae5ed; } .vdp-datepicker__calendar .cell.highlighted.disabled { color: #a3a3a3; } .vdp-datepicker__calendar .cell.grey { color: #888; } .vdp-datepicker__calendar .cell.grey:hover { background: inherit; } .vdp-datepicker__calendar .cell.day-header { font-size: 75%; white-space: no-wrap; cursor: inherit; } .vdp-datepicker__calendar .cell.day-header:hover { background: inherit; } .vdp-datepicker__calendar .month, .vdp-datepicker__calendar .year { width: 33.333%; } .vdp-datepicker__clear-button, .vdp-datepicker__calendar-button { cursor: pointer; font-style: normal; } .vdp-datepicker__clear-button.disabled, .vdp-datepicker__calendar-button.disabled { color: #999; cursor: default; } "; style.type='text/css'; if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style); } })();
   var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vdp-datepicker",class:[_vm.wrapperClass, _vm.isRtl ? 'rtl' : '']},[_c('date-input',{attrs:{"selectedDate":_vm.selectedDate,"format":_vm.format,"translation":_vm.translation,"inline":_vm.inline,"id":_vm.id,"name":_vm.name,"refName":_vm.refName,"openDate":_vm.openDate,"placeholder":_vm.placeholder,"inputClass":_vm.inputClass,"clearButton":_vm.clearButton,"clearButtonIcon":_vm.clearButtonIcon,"calendarButton":_vm.calendarButton,"calendarButtonIcon":_vm.calendarButtonIcon,"calendarButtonIconContent":_vm.calendarButtonIconContent,"disabledPicker":_vm.disabledPicker,"required":_vm.required,"bootstrapStyling":_vm.bootstrapStyling},on:{"showCalendar":_vm.showCalendar}}),_vm._v(" "),(_vm.allowedToShowView('day'))?_c('picker-day',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showDayView":_vm.showDayView,"fullMonthName":_vm.fullMonthName,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"highlighted":_vm.highlighted,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation,"pageTimestamp":_vm.pageTimestamp,"isRtl":_vm.isRtl,"mondayFirst":_vm.mondayFirst},on:{"changedMonth":_vm.setPageDate,"selectDate":_vm.selectDate,"showMonthCalendar":_vm.showMonthCalendar,"selectedDisabled":function($event){_vm.$emit('selectedDisabled');}}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('month'))?_c('picker-month',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showMonthView":_vm.showMonthView,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectMonth":_vm.selectMonth,"showYearCalendar":_vm.showYearCalendar,"changedYear":_vm.setPageDate}}):_vm._e(),_vm._v(" "),(_vm.allowedToShowView('year'))?_c('picker-year',{attrs:{"pageDate":_vm.pageDate,"selectedDate":_vm.selectedDate,"showYearView":_vm.showYearView,"allowedToShowView":_vm.allowedToShowView,"disabled":_vm.disabled,"calendarClass":_vm.calendarClass,"calendarStyle":_vm.calendarStyle,"translation":_vm.translation},on:{"selectYear":_vm.selectYear,"changedDecade":_vm.setPageDate}}):_vm._e()],1)},staticRenderFns: [],
     components: {
       DateInput: DateInput,
@@ -8955,16 +8992,10 @@
     },
     methods: {
       /**
-       * Close all calendar layers
+       * Called in the event that the user navigates to date pages and
+       * closes the picker without selecting a date.
        */
-      close: function close (full) {
-        this.showDayView = this.showMonthView = this.showYearView = false;
-        if (!this.isInline) {
-          if (full) { this.$emit('closed'); }
-          document.removeEventListener('click', this.clickOutside, false);
-        }
-      },
-      resetDefaultDate: function resetDefaultDate () {
+      resetDefaultPageDate: function resetDefaultPageDate () {
         if (this.selectedDate === null) {
           this.setPageDate();
           return
@@ -8973,7 +9004,7 @@
       },
       /**
        * Effectively a toggle to show/hide the calendar
-       * @return {mixed} [description]
+       * @return {mixed}
        */
       showCalendar: function showCalendar () {
         if (this.disabledPicker || this.isInline) {
@@ -8987,13 +9018,14 @@
           this.$emit('opened');
         }
       },
+      /**
+       * Sets the initial picker page view: day, month or year
+       */
       setInitialView: function setInitialView () {
         var initialView = this.computedInitialView;
-
         if (!this.allowedToShowView(initialView)) {
           throw new Error(("initialView '" + (this.initialView) + "' cannot be rendered based on minimum '" + (this.minimumView) + "' and maximum '" + (this.maximumView) + "'"))
         }
-
         switch (initialView) {
           case 'year':
             this.showYearCalendar();
@@ -9006,6 +9038,11 @@
             break
         }
       },
+      /**
+       * Are we allowed to show a specific picker view?
+       * @param {String} view
+       * @return {Boolean}
+       */
       allowedToShowView: function allowedToShowView (view) {
         var views = ['day', 'month', 'year'];
         var minimumViewIndex = views.indexOf(this.minimumView);
@@ -9014,6 +9051,10 @@
 
         return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex
       },
+      /**
+       * Show the day picker
+       * @return {Boolean}
+       */
       showDayCalendar: function showDayCalendar () {
         if (!this.allowedToShowView('day')) {
           return false
@@ -9021,7 +9062,12 @@
         this.close();
         this.showDayView = true;
         this.addOutsideClickListener();
+        return true
       },
+      /**
+       * Show the month picker
+       * @return {Boolean}
+       */
       showMonthCalendar: function showMonthCalendar () {
         if (!this.allowedToShowView('month')) {
           return false
@@ -9030,6 +9076,10 @@
         this.showMonthView = true;
         this.addOutsideClickListener();
       },
+      /**
+       * Show the year picker
+       * @return {Boolean}
+       */
       showYearCalendar: function showYearCalendar () {
         if (!this.allowedToShowView('year')) {
           return false
@@ -9038,15 +9088,10 @@
         this.showYearView = true;
         this.addOutsideClickListener();
       },
-      addOutsideClickListener: function addOutsideClickListener () {
-        var this$1 = this;
-
-        if (!this.isInline) {
-          setTimeout(function () {
-            document.addEventListener('click', this$1.clickOutside, false);
-          }, 100);
-        }
-      },
+      /**
+       * Set the selected date
+       * @param {Number} timestamp
+       */
       setDate: function setDate (timestamp) {
         var date = new Date(timestamp);
         this.selectedDate = new Date(date);
@@ -9054,8 +9099,12 @@
         this.$emit('selected', new Date(date));
         this.$emit('input', new Date(date));
       },
+      /**
+       * Clear the selected date
+       */
       clearDate: function clearDate () {
         this.selectedDate = null;
+        this.setPageDate();
         this.$emit('selected', null);
         this.$emit('input', null);
         this.$emit('cleared');
@@ -9132,20 +9181,41 @@
         this.pageTimestamp = (new Date(date)).setDate(1);
       },
       /**
+       * Set up an event listener for clicks outside the picker
+       */
+      addOutsideClickListener: function addOutsideClickListener () {
+        var this$1 = this;
+
+        if (!this.isInline) {
+          setTimeout(function () {
+            document.addEventListener('click', this$1.clickOutside, false);
+          }, 100);
+        }
+      },
+      /**
        * Close the calendar if clicked outside the datepicker
        * @param  {Event} event
        */
       clickOutside: function clickOutside (event) {
         if (this.$el && !this.$el.contains(event.target)) {
-          if (this.isInline) {
-            return this.showDayCalendar()
-          }
-          this.resetDefaultDate();
+          this.resetDefaultPageDate();
           this.close(true);
           document.removeEventListener('click', this.clickOutside, false);
         }
       },
-
+      /**
+       * Close all calendar layers
+       */
+      close: function close (full) {
+        this.showDayView = this.showMonthView = this.showYearView = false;
+        if (!this.isInline) {
+          if (full) { this.$emit('closed'); }
+          document.removeEventListener('click', this.clickOutside, false);
+        }
+      },
+      /**
+       * Initiate the component
+       */
       init: function init () {
         if (this.value) {
           this.setValue(this.value);
@@ -9721,3 +9791,4 @@
   });
 
 }());
+//# sourceMappingURL=demo.js.map
