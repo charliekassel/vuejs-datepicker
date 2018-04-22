@@ -6,10 +6,18 @@
 [![Downloads](https://img.shields.io/npm/dm/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
 
 A datepicker Vue component. Compatible with Vue 2.x
-
 ### Notice!
 `latest` tag is on 0.9.29 - https://github.com/charliekassel/vuejs-datepicker/tree/c3f5f0ff2d963f81c57d142cd7d1464ad5122128
 `master` branch contains work still in beta and can be tested by installing `yarn install vuejs-datepicker@beta`
+
+- [Demo](#demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#available-props)
+- [Events](#events)
+- [Disabled dates](#disabled-dates)
+- [Highlighted dates](#highlighted-dates)
+- [Translations](#translations)
 
 NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
 
@@ -198,7 +206,7 @@ var state = {
 <datepicker :disabled="state.disabled"></datepicker>
 ```
 
-## Highlight Dates
+## Highlighted Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important:
 By default disabled dates are ignored, to highlight disabled dates set the `includeDisabled`
 property to `true`. Note: Both `to` and `from` properties are required to define a range of
