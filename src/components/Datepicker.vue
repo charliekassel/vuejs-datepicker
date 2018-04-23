@@ -20,6 +20,8 @@
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       @showCalendar="showCalendar"
+      @typedDate="setTypedDate"
+      @clearDate="clearDate"
     />
 
 
@@ -293,6 +295,7 @@ export default {
       this.close()
       this.showMonthView = true
       this.addOutsideClickListener()
+      return true
     },
     /**
      * Show the year picker
@@ -305,6 +308,7 @@ export default {
       this.close()
       this.showYearView = true
       this.addOutsideClickListener()
+      return true
     },
     /**
      * Set the selected date
@@ -397,6 +401,12 @@ export default {
         }
       }
       this.pageTimestamp = (new Date(date)).setDate(1)
+    },
+    /**
+     * Set the date from a typedDate event
+     */
+    setTypedDate (date) {
+      this.setDate(date.getTime())
     },
     /**
      * Set up an event listener for clicks outside the picker

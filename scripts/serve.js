@@ -5,6 +5,7 @@ import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
+import common from 'rollup-plugin-commonjs'
 
 export default {
   input: path.join(__dirname, '..', 'example', 'main.js'),
@@ -26,6 +27,7 @@ export default {
       jsnext: true,
       browser: true
     }),
+    common(),
     buble(),
     serve({
       contentBase: path.join(__dirname, '..', 'example'),

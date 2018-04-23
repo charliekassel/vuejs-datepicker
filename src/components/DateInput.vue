@@ -21,7 +21,8 @@
       :disabled="disabled"
       :required="required"
       @click="showCalendar"
-      onkeypress="return false">
+      @keyup="parseTypedDate"
+      @blur="inputBlur">
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
       <i :class="clearButtonIcon">
@@ -32,6 +33,7 @@
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
+
 export default {
   props: {
     selectedDate: Date,
@@ -53,10 +55,19 @@ export default {
     required: Boolean,
     bootstrapStyling: Boolean
   },
+  data () {
+    return {
+      input: null,
+      typedDate: false
+    }
+  },
   computed: {
     formattedValue () {
       if (!this.selectedDate) {
         return null
+      }
+      if (this.typedDate) {
+        return this.typedDate
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
@@ -74,7 +85,33 @@ export default {
   methods: {
     showCalendar () {
       this.$emit('showCalendar')
+    },
+    parseTypedDate () {
+      const typedDate = Date.parse(this.input.value)
+      if (!isNaN(typedDate)) {
+        this.typedDate = this.input.value
+        this.$emit('typedDate', new Date(this.typedDate))
+      }
+    },
+    /**
+     * nullify the typed date to defer to regular formatting
+     */
+    inputBlur () {
+      if (isNaN(Date.parse(this.input.value))) {
+        this.clearDate()
+      }
+      this.input.value = null
+      this.typedDate = null
+    },
+    /**
+     * emit a clearDate event
+     */
+    clearDate () {
+      this.$emit('clearDate')
     }
+  },
+  mounted () {
+    this.input = this.$el.querySelector('input')
   }
 }
 // eslint-disable-next-line
