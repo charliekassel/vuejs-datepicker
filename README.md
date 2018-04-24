@@ -131,7 +131,7 @@ NB. This is not very robust at all - use at your own risk! Needs a better implem
 | MMM   | abbreviated month name | Jan         |
 | MMMM  | month name             | January     |
 | yy    | two digit year         | 16          |
-| yyyy  | four digit year        | 2016        |
+| YYYY  | four digit year        | 2016        |
 
 #### Function formatter
 
