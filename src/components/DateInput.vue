@@ -22,7 +22,7 @@
       :required="required"
       @click="showCalendar"
       @keyup="parseTypedDate"
-      @blur="inputBlur">
+      @blur="inputBlurred">
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
       <i :class="clearButtonIcon">
@@ -86,6 +86,9 @@ export default {
     showCalendar () {
       this.$emit('showCalendar')
     },
+    /**
+     * Attempt to parse a typed date
+     */
     parseTypedDate () {
       const typedDate = Date.parse(this.input.value)
       if (!isNaN(typedDate)) {
@@ -95,8 +98,12 @@ export default {
     },
     /**
      * nullify the typed date to defer to regular formatting
+     * called once the input is blurred
      */
-    inputBlur () {
+    inputBlurred () {
+      if (!this.typedDate) {
+        return
+      }
       if (isNaN(Date.parse(this.input.value))) {
         this.clearDate()
       }
