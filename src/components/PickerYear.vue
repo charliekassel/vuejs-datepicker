@@ -52,7 +52,8 @@ export default {
     getPageDecade () {
       const decadeStart = Math.floor(this.pageDate.getFullYear() / 10) * 10
       const decadeEnd = decadeStart + 9
-      return `${decadeStart} - ${decadeEnd}`
+      const yearSuffix = this.translation.yearSuffix
+      return `${decadeStart} - ${decadeEnd}${yearSuffix}`
     }
   },
   methods: {

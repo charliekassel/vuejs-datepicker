@@ -5,7 +5,7 @@
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
         :class="{ 'disabled' : isRtl ? isNextMonthDisabled(pageTimestamp) : isPreviousMonthDisabled(pageTimestamp) }">&lt;</span>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYear : currMonthName }} {{ isYmd ? currMonthName : currYear }}</span>
+      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
@@ -104,11 +104,12 @@ export default {
       return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
     },
     /**
-     * Gets the year that the current page is on
+     * Gets the name of the year that current page is on
      * @return {Number}
      */
-    currYear () {
-      return this.pageDate.getFullYear()
+    currYearName () {
+      const yearSuffix = this.translation.yearSuffix
+      return `${this.pageDate.getFullYear()}${yearSuffix}`
     },
     /**
      * Is this translation using year/month/day format?

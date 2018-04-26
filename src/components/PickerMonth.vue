@@ -5,7 +5,7 @@
         @click="previousYear"
         class="prev"
         :class="{ 'disabled' : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
-      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ getPageYear }}</span>
+      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
         @click="nextYear"
         class="next"
@@ -50,10 +50,12 @@ export default {
       return months
     },
     /**
-     * @return {Number}
+     * Get year name on current page.
+     * @return {String}
      */
-    getPageYear () {
-      return this.pageDate.getFullYear()
+    pageYearName () {
+      const yearSuffix = this.translation.yearSuffix
+      return `${this.pageDate.getFullYear()}${yearSuffix}`
     }
   },
   methods: {
