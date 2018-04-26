@@ -3,8 +3,9 @@ node_modules
 npm-debug.log
 .vscode
 .coveralls.yml
-dist/build.js
-dist/build.js.map
+dist/*
+example/demo.js
+example/demo.js.map
 test/unit/coverage
 yarn-debug.log*
 yarn-error.log*

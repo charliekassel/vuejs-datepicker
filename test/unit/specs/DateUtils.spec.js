@@ -1,7 +1,5 @@
-/* global describe, it, expect */
-
-import DateUtils from '../../../src/utils/DateUtils'
-import DateLanguages from '../../../src/utils/DateLanguages'
+import DateUtils from '@/utils/DateUtils'
+import {en} from '@/locale'
 
 describe('DateUtils', () => {
   it('should detect invalid date object', () => {
@@ -66,11 +64,11 @@ describe('DateUtils', () => {
   })
 
   it('getDayNameAbbr moans if date is not a Date object', () => {
-    expect(() => DateUtils.getDayNameAbbr(123, DateLanguages.translations.en.months.original)).toThrow(TypeError)
+    expect(() => DateUtils.getDayNameAbbr(123, en.months)).toThrow(TypeError)
   })
 
   it('getMonthName moans if date is not a Date object', () => {
-    expect(() => DateUtils.getMonthName('string', DateLanguages.translations.en.months.original)).toThrow(TypeError)
+    expect(() => DateUtils.getMonthName('string', en.months)).toThrow(TypeError)
   })
 
   it('getMonthName complains if missing months array', () => {
@@ -78,15 +76,15 @@ describe('DateUtils', () => {
   })
 
   it('getMonthName accepts a number', () => {
-    expect(DateUtils.getMonthName(3, DateLanguages.translations.en.months.original)).toEqual('April')
+    expect(DateUtils.getMonthName(3, en.months)).toEqual('April')
   })
 
   it('getMonthName accepts a Date object', () => {
-    expect(DateUtils.getMonthName(new Date(2016, 9, 10), DateLanguages.translations.en.months.original)).toEqual('October')
+    expect(DateUtils.getMonthName(new Date(2016, 9, 10), en.months)).toEqual('October')
   })
 
   it('getMonthNameAbbr moans if date is not a Date object', () => {
-    expect(() => DateUtils.getMonthNameAbbr('abc', DateLanguages.translations.en.months.original)).toThrow(TypeError)
+    expect(() => DateUtils.getMonthNameAbbr('abc', en.months)).toThrow(TypeError)
   })
 
   it('getMonthNameAbbr complains if missing months array', () => {
@@ -94,11 +92,11 @@ describe('DateUtils', () => {
   })
 
   it('getMonthNameAbbr accepts a Date object', () => {
-    expect(DateUtils.getMonthNameAbbr(new Date(2016, 9, 10), DateLanguages.translations.en.months.abbr)).toEqual('Oct')
+    expect(DateUtils.getMonthNameAbbr(new Date(2016, 9, 10), en.monthsAbbr)).toEqual('Oct')
   })
 
   it('getMonthName accepts a number', () => {
-    expect(DateUtils.getMonthNameAbbr(3, DateLanguages.translations.en.months.abbr)).toEqual('Apr')
+    expect(DateUtils.getMonthNameAbbr(3, en.monthsAbbr)).toEqual('Apr')
   })
 })
 

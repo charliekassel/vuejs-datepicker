@@ -7,32 +7,62 @@
 
 A datepicker Vue component. Compatible with Vue 2.x
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with 1.x you can install with `npm install vuejs-datepicker@0.9.9`
+- [Demo](#demo)
+- [Install](#install)
+- [Usage](#usage)
+- [Props](#available-props)
+- [Events](#events)
+- [Disabled dates](#disabled-dates)
+- [Highlighted dates](#highlighted-dates)
+- [Translations](#translations)
+
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
 
 ## Demo
 
 To view a demo online:
 https://codesandbox.io/s/mpklq49wp
 
-To view demo examples locally clone the repo and run `npm install && npm run dev`
+To view demo examples locally clone the repo and run `yarn install && yarn serve`
 
 ## Install
 
 ``` bash
-$ npm install vuejs-datepicker --save
+npm install vuejs-datepicker --save
 ```
+or
+``` bash
+yarn add vuejs-datepicker
+```
+
 ``` javascript
 import Datepicker from 'vuejs-datepicker';
 
 export default {
   // ...
   components: {
-      Datepicker
+    Datepicker
   }
   // ...
 }
 ```
 
+Or use directly from a CDN
+``` html
+<div id="app">
+  <vuejs-datepicker></vuejs-datepicker>
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
+<script>
+const app = new Vue({
+  el: '#app',
+  components: {
+  	vuejsDatepicker
+  }
+})
+</script>
+```
 
 ## Usage
 
@@ -54,7 +84,7 @@ support name attribute for normal html form submission
 ``` html
 <datepicker :value="state.date" name="uniquename"></datepicker>
 ```
-Use `v-model` for two-way binding
+Using `v-model`
 ``` html
 <datepicker v-model="state.date" name="uniquename"></datepicker>
 ```
@@ -76,7 +106,7 @@ Inline always open version
 | format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
 | language                      | String          | en          | Translation for days and months          |
-| disabled                      | Object          |             | See below for configuration              |
+| disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
 | calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
@@ -90,7 +120,7 @@ Inline always open version
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
 | bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
 | initial-view                  | String          | minimumView | If set, open on that view                |
-| disabled-picker               | Boolean         | false       | If true, disable Datepicker on screen    |
+| disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
@@ -156,7 +186,7 @@ Dates can be disabled in a number of ways.
 ``` html
 <script>
 var state = {
-  disabled: {
+  disabledDates: {
     to: new Date(2016, 0, 5), // Disable all dates up to specific date
     from: new Date(2016, 0, 26), // Disable all dates after specific date
     days: [6, 0], // Disable Saturday's and Sunday's
@@ -186,10 +216,10 @@ var state = {
   }
 }
 </script>
-<datepicker :disabled="state.disabled"></datepicker>
+<datepicker :disabledDates="state.disabledDates"></datepicker>
 ```
 
-## Highlight Dates
+## Highlighted Dates
 Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important:
 By default disabled dates are ignored, to highlight disabled dates set the `includeDisabled`
 property to `true`. Note: Both `to` and `from` properties are required to define a range of
@@ -225,10 +255,10 @@ var state = {
 <datepicker :highlighted="state.highlighted"></datepicker>
 ```
 ## Slots
- 
-Sometimes you need to show custom content before the header for the calendar. 
+
+Sometimes you need to show custom content before the header for the calendar.
 For such cases you can use the named slot 'beforeCalendarHeader.
-An example would be to use bootstrap's `input-group-prepend` and `input-group-append` 
+An example would be to use bootstrap's `input-group-prepend` and `input-group-append`
 to show some custom text:
 ``` html
 <datepicker :bootstrap-styling="true">
@@ -242,12 +272,14 @@ to show some custom text:
 
 Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
 
-- Add your language object to the DateLanguages.js file. Please keep in alphabetical order.
+- Add your language as a module in the `src/locale/translations` dir.
+- Import and export it in the `src/locale/index` file
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
-``` html
-<datepicker language="es"></datepicker>
+```javascript
+import {en, es} from 'vuejs-datepicker/locale'
+<datepicker :language="es"></datepicker>
 ```
 Available languages
 
