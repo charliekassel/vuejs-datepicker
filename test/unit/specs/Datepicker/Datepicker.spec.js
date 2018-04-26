@@ -1,4 +1,5 @@
 import Datepicker from '@/components/Datepicker.vue'
+import DateInput from '@/components/DateInput.vue'
 import {shallow} from '@vue/test-utils'
 
 describe('Datepicker unmounted', () => {
@@ -144,6 +145,49 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
     expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
     expect(wrapper.vm.pageDate.getDate()).toEqual(1)
+  })
+
+  it('sets the date on typedDate event', () => {
+    const wrapper = shallow(Datepicker)
+    const today = new Date()
+    wrapper.vm.setTypedDate(today)
+    expect(wrapper.vm.selectedDate).toEqual(today)
+  })
+
+  it('watches value', async () => {
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        value: '2018-01-01'
+      }
+    })
+    const spy = jest.spyOn(wrapper.vm, 'setValue')
+    wrapper.vm.value = '2018-04-26'
+    await wrapper.vm.$nextTick()
+    expect(spy).toBeCalled()
+  })
+
+  it('watches openDate', async () => {
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        openDate: new Date(2018, 0, 1)
+      }
+    })
+    const spy = jest.spyOn(wrapper.vm, 'setPageDate')
+    wrapper.vm.openDate = new Date(2018, 3, 26)
+    await wrapper.vm.$nextTick()
+    expect(spy).toBeCalled()
+  })
+
+  it('watches initialView', async () => {
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        initialView: 'day'
+      }
+    })
+    const spy = jest.spyOn(wrapper.vm, 'setInitialView')
+    wrapper.vm.initialView = 'month'
+    await wrapper.vm.$nextTick()
+    expect(spy).toBeCalled()
   })
 })
 
