@@ -6,6 +6,7 @@ export default class Language {
     this.days = days
     this.rtl = false
     this.ymd = false
+    this.yearSuffix = ''
   }
 
   get language () {
