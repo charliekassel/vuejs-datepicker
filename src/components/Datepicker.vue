@@ -227,7 +227,7 @@ export default {
      * @return {mixed}
      */
     showCalendar () {
-      if (this.disabledPicker || this.isInline) {
+      if (this.disabled || this.isInline) {
         return false
       }
       if (this.isOpen) {
