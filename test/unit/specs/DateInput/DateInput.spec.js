@@ -52,4 +52,11 @@ describe('DateInput', () => {
     })
     expect(wrapper.vm.computedInputClass).toContain('form-control')
   })
+
+  it('can be disabled', () => {
+    wrapper.setProps({
+      disabled: true
+    })
+    expect(wrapper.find('input').attributes().disabled).toBeDefined()
+  })
 })
