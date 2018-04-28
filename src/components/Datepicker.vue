@@ -21,6 +21,7 @@
       :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
+      :use-utc="useUtc"
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
@@ -46,6 +47,7 @@
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
+      :use-utc="useUtc"
       @changedMonth="setPageDate"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -65,6 +67,7 @@
       :calendarStyle="calendarStyle"
       :translation="translation"
       :isRtl="isRtl"
+      :use-utc="useUtc"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate">
@@ -83,6 +86,7 @@
       :calendarStyle="calendarStyle"
       :translation="translation"
       :isRtl="isRtl"
+      :use-utc="useUtc"
       @selectYear="selectYear"
       @changedDecade="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
@@ -95,6 +99,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
+import DateUtils from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
@@ -144,6 +149,7 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
+    useUtc: Boolean,
     minimumView: {
       type: String,
       default: 'day'
@@ -155,13 +161,14 @@ export default {
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
+    const pageTimestamp = DateUtils.setDate(startDate, 1, this.useUtc)
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageTimestamp: startDate.setDate(1),
+      pageTimestamp,
       /*
        * Selected Date
        * {Date}
@@ -405,7 +412,7 @@ export default {
           date = new Date()
         }
       }
-      this.pageTimestamp = (new Date(date)).setDate(1)
+      this.pageTimestamp = DateUtils.setDate(new Date(date), 1, this.useUtc)
     },
     /**
      * Set the date from a typedDate event

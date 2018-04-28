@@ -35,7 +35,6 @@
 </template>
 <script>
 import DateUtils from '../utils/DateUtils'
-
 export default {
   props: {
     selectedDate: Date,
@@ -57,7 +56,8 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
-    bootstrapStyling: Boolean
+    bootstrapStyling: Boolean,
+    useUtc: Boolean
   },
   data () {
     return {
@@ -75,7 +75,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation, this.useUtc)
     },
 
     computedInputClass () {

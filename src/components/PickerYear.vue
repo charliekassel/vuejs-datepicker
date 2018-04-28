@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -33,22 +34,25 @@ export default {
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
-    allowedToShowView: Function
+    allowedToShowView: Function,
+    useUtc: Boolean
   },
   computed: {
     years () {
       const d = this.pageDate
       let years = []
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+      // set up a new date object to the beginning of the current 'page'7
+      let dObj = this.useUtc ?
+        new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate())) :
+        new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
-          year: dObj.getFullYear(),
+          year: DateUtils.getFullYear(dObj, this.useUtc),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
         })
-        dObj.setFullYear(dObj.getFullYear() + 1)
+        DateUtils.setFullYear(dObj, DateUtils.getFullYear(dObj, this.useUtc) + 1, this.useUtc)
       }
       return years
     },
@@ -56,7 +60,7 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.pageDate.getFullYear() / 10) * 10
+      const decadeStart = Math.floor(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
@@ -89,7 +93,7 @@ export default {
     },
     changeYear (incrementBy) {
       let date = this.pageDate
-      date.setYear(date.getFullYear() + incrementBy)
+      DateUtils.setFullYear(date, DateUtils.getFullYear(date, this.useUtc) + incrementBy, this.useUtc)
       this.$emit('changedDecade', date)
     },
     previousDecade () {
@@ -102,7 +106,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(this.disabledDates.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
+      return Math.floor(DateUtils.getFullYear(this.disabledDates.to, this.useUtc) / 10) * 10 >= Math.floor(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -114,7 +118,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.disabledDates.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
+      return Math.ceil(DateUtils.getFullYear(this.disabledDates.from, this.useUtc) / 10) * 10 <= Math.ceil(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
     },
 
     /**
@@ -123,7 +127,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
+      return this.selectedDate && DateUtils.getFullYear(this.selectedDate, this.useUtc) === DateUtils.getFullYear(date, this.useUtc)
     },
     /**
      * Whether a year is disabled
@@ -137,12 +141,12 @@ export default {
       }
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (date.getFullYear() < this.disabledDates.to.getFullYear()) {
+        if (DateUtils.getFullYear(date, this.useUtc) < DateUtils.getFullYear(this.disabledDates.to, this.useUtc)) {
           disabledDates = true
         }
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (date.getFullYear() > this.disabledDates.from.getFullYear()) {
+        if (DateUtils.getFullYear(date, this.useUtc) > DateUtils.getFullYear(this.disabledDates.from, this.useUtc)) {
           disabledDates = true
         }
       }

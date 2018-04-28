@@ -3,6 +3,108 @@ import en from '../locale/translations/en'
 export default {
 
   /**
+   * Returns the full year, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getFullYear (date, useUtc) {
+    return useUtc ? date.getUTCFullYear() : date.getFullYear()
+  },
+
+  /**
+   * Returns the month, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getMonth (date, useUtc) {
+    return useUtc ? date.getUTCMonth() : date.getMonth()
+  },
+
+  /**
+   * Returns the date, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getDate (date, useUtc) {
+    return useUtc ? date.getUTCDate() : date.getDate()
+  },
+
+  /**
+   * Returns the day, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getDay (date, useUtc) {
+    return useUtc ? date.getUTCDay() : date.getDay()
+  },
+
+  /**
+   * Returns the hours, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getHours (date, useUtc) {
+    return useUtc ? date.getUTCHours() : date.getHours()
+  },
+
+  /**
+   * Returns the minutes, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  getMinutes (date, useUtc) {
+    return useUtc ? date.getUTCMinutes() : date.getMinutes()
+  },
+
+  /**
+   * Sets the full year, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  setFullYear (date, value, useUtc) {
+    return useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
+  },
+
+  /**
+   * Sets the month, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  setMonth (date, value, useUtc) {
+    return useUtc ? date.setUTCMonth(value) : date.setMonth(value)
+  },
+
+  /**
+   * Sets the date, using UTC or not
+   * @param {Date} date
+   * @param {Boolean} useUtc
+   */
+  setDate (date, value, useUtc) {
+    return useUtc ? date.setUTCDate(value) : date.setDate(value)
+  },
+
+  /**
+   * Check if date1 is equivalent to date2, without comparing the time
+   * @see https://stackoverflow.com/a/6202196/4455925
+   * @param {Date} date1
+   * @param {Date} date2
+   * @param {Boolean} useUtc
+   */
+  compareDates (date1, date2, useUtc) {
+    const d1 = new Date(date1.getTime())
+    const d2 = new Date(date2.getTime())
+
+    if (useUtc) {
+      d1.setUTCHours(0, 0, 0, 0)
+      d2.setUTCHours(0, 0, 0, 0)
+    } else {
+      d1.setHours(0, 0, 0, 0)
+      d2.setHours(0, 0, 0, 0)
+    }
+    return d1.getTime() === d2.getTime()
+  },
+
+  /**
    * Validates a date object
    * @param {Date} date - an object instantiated with the new Date constructor
    * @return {Boolean}
@@ -20,11 +122,11 @@ export default {
    * @param {Array}
    * @return {String}
    */
-  getDayNameAbbr (date, days) {
+  getDayNameAbbr (date, days, useUtc) {
     if (typeof date !== 'object') {
       throw TypeError('Invalid Type')
     }
-    return days[date.getDay()]
+    return days[this.getDay(date, useUtc)]
   },
 
   /**
@@ -33,12 +135,12 @@ export default {
    * @param {Array}
    * @return {String}
    */
-  getMonthName (month, months) {
+  getMonthName (month, months, useUtc) {
     if (!months) {
       throw Error('missing 2nd parameter Months array')
     }
     if (typeof month === 'object') {
-      return months[month.getMonth()]
+      return months[this.getMonth(month, useUtc)]
     }
     if (typeof month === 'number') {
       return months[month]
@@ -51,12 +153,12 @@ export default {
    * @param {Number|Date}
    * @return {String}
    */
-  getMonthNameAbbr (month, monthsAbbr) {
+  getMonthNameAbbr (month, monthsAbbr, useUtc) {
     if (!monthsAbbr) {
       throw Error('missing 2nd paramter Months array')
     }
     if (typeof month === 'object') {
-      return monthsAbbr[month.getMonth()]
+      return monthsAbbr[this.getMonth(month, useUtc)]
     }
     if (typeof month === 'number') {
       return monthsAbbr[month]
@@ -103,22 +205,22 @@ export default {
    * @param {Object}
    * @return {String}
    */
-  formatDate (date, format, translation) {
+  formatDate (date, format, translation, useUtc) {
     translation = (!translation) ? en : translation
-    let year = date.getFullYear()
-    let month = date.getMonth() + 1
-    let day = date.getDate()
+    let year = this.getFullYear(date, useUtc)
+    let month = this.getMonth(date, useUtc) + 1
+    let day = this.getDate(date, useUtc)
     let str = format
       .replace(/dd/, ('0' + day).slice(-2))
       .replace(/d/, day)
       .replace(/yyyy/, year)
       .replace(/yy/, String(year).slice(2))
-      .replace(/MMMM/, this.getMonthName(date.getMonth(), translation.months))
-      .replace(/MMM/, this.getMonthNameAbbr(date.getMonth(), translation.monthsAbbr))
+      .replace(/MMMM/, this.getMonthName(this.getMonth(date, useUtc), translation.months, useUtc))
+      .replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date, useUtc), translation.monthsAbbr, useUtc))
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a|ä|e)/, month)
-      .replace(/su/, this.getNthSuffix(date.getDate()))
-      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
+      .replace(/su/, this.getNthSuffix(this.getDate(date, useUtc)))
+      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days, useUtc))
     return str
   },
 
@@ -128,11 +230,11 @@ export default {
    * @param {Date} end
    * @return {Array}
    */
-  createDateArray (start, end) {
+  createDateArray (start, end, useUtc) {
     let dates = []
     while (start <= end) {
       dates.push(new Date(start))
-      start = new Date(start).setDate(new Date(start).getDate() + 1)
+      start = this.setDate(new Date(start), this.getDate(new Date(start), useUtc) + 1, useUtc)
     }
     return dates
   }

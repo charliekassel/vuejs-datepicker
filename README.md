@@ -125,6 +125,7 @@ Inline always open version
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
 | typeable                      | Boolean         | false       | If true, allow the user to type the date |
+| use-utc                       | Boolean         | false       | use UTC for time calculations            |
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
@@ -277,7 +278,7 @@ to show some custom text:
 
 #### afterDateInput
 
-To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named 
+To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named
 `afterDateInput` allows you to do that:
 
 ``` html
@@ -287,7 +288,7 @@ To implement some custom styling (for instance to add an animated placeholder) o
   </span>
 </datepicker>
 ```
- 
+
 
 ## Translations
 

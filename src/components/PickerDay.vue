@@ -46,7 +46,8 @@ export default {
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
-    mondayFirst: Boolean
+    mondayFirst: Boolean,
+    useUtc: Boolean
   },
   computed: {
     /**
@@ -68,11 +69,13 @@ export default {
      */
     blankDays () {
       const d = this.pageDate
-      let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let dObj = this.useUtc ?
+        new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) :
+        new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       if (this.mondayFirst) {
-        return dObj.getDay() > 0 ? dObj.getDay() - 1 : 6
+        return DateUtils.getDay(dObj, this.useUtc) > 0 ? DateUtils.getDay(dObj, this.useUtc) - 1 : 6
       }
-      return dObj.getDay()
+      return DateUtils.getDay(dObj, this.useUtc)
     },
     /**
      * @return {Object[]}
@@ -81,23 +84,25 @@ export default {
       const d = this.pageDate
       let days = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      let daysInMonth = DateUtils.daysInMonth(dObj.getFullYear(), dObj.getMonth())
+      let dObj = this.useUtc ?
+        new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) :
+        new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let daysInMonth = DateUtils.daysInMonth(DateUtils.getFullYear(dObj, this.useUtc), DateUtils.getMonth(dObj, this.useUtc))
       for (let i = 0; i < daysInMonth; i++) {
         days.push({
-          date: dObj.getDate(),
+          date: DateUtils.getDate(dObj, this.useUtc),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
           isHighlightEnd: this.isHighlightEnd(dObj),
-          isToday: dObj.toDateString() === (new Date()).toDateString(),
-          isWeekend: dObj.getDay() === 0 || dObj.getDay() === 6,
-          isSaturday: dObj.getDay() === 6,
-          isSunday: dObj.getDay() === 0
+          isToday: DateUtils.compareDates(dObj, new Date(), this.useUtc),
+          isWeekend: DateUtils.getDay(dObj, this.useUtc) === 0 || DateUtils.getDay(dObj, this.useUtc) === 6,
+          isSaturday: DateUtils.getDay(dObj, this.useUtc) === 6,
+          isSunday: DateUtils.getDay(dObj, this.useUtc) === 0
         })
-        dObj.setDate(dObj.getDate() + 1)
+        DateUtils.setDate(dObj, DateUtils.getDate(dObj, this.useUtc) + 1, this.useUtc)
       }
       return days
     },
@@ -107,7 +112,7 @@ export default {
      */
     currMonthName () {
       const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
-      return DateUtils.getMonthNameAbbr(this.pageDate.getMonth(), monthName)
+      return DateUtils.getMonthNameAbbr(DateUtils.getMonth(this.pageDate, this.useUtc), monthName, this.useUtc)
     },
     /**
      * Gets the name of the year that current page is on
@@ -115,7 +120,7 @@ export default {
      */
     currYearName () {
       const yearSuffix = this.translation.yearSuffix
-      return `${this.pageDate.getFullYear()}${yearSuffix}`
+      return `${DateUtils.getFullYear(this.pageDate, this.useUtc)}${yearSuffix}`
     },
     /**
      * Is this translation using year/month/day format?
@@ -155,7 +160,7 @@ export default {
      * @return {Number}
      */
     getPageMonth () {
-      return this.pageDate.getMonth()
+      return DateUtils.getMonth(this.pageDate, this.useUtc)
     },
     /**
      * Emit an event to show the month picker
@@ -169,7 +174,7 @@ export default {
      */
     changeMonth (incrementBy) {
       let date = this.pageDate
-      date.setMonth(date.getMonth() + incrementBy)
+      DateUtils.setMonth(date, DateUtils.getMonth(date, this.useUtc) + incrementBy, this.useUtc)
       this.$emit('changedMonth', date)
     },
     /**
@@ -189,8 +194,8 @@ export default {
         return false
       }
       let d = this.pageDate
-      return this.disabledDates.to.getMonth() >= d.getMonth() &&
-        this.disabledDates.to.getFullYear() >= d.getFullYear()
+      return DateUtils.getMonth(this.disabledDates.to, this.useUtc) >= DateUtils.getMonth(d, this.useUtc) &&
+        DateUtils.getFullYear(this.disabledDates.to, this.useUtc) >= DateUtils.getFullYear(d, this.useUtc)
     },
     /**
      * Increment the current page month
@@ -209,8 +214,8 @@ export default {
         return false
       }
       let d = this.pageDate
-      return this.disabledDates.from.getMonth() <= d.getMonth() &&
-        this.disabledDates.from.getFullYear() <= d.getFullYear()
+      return DateUtils.getMonth(this.disabledDates.from, this.useUtc) <= DateUtils.getMonth(d, this.useUtc) &&
+        DateUtils.getFullYear(this.disabledDates.from, this.useUtc) <= DateUtils.getFullYear(d, this.useUtc)
     },
     /**
      * Whether a day is selected
@@ -218,7 +223,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedDate (dObj) {
-      return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
+      return this.selectedDate && DateUtils.compareDates(this.selectedDate, dObj, this.useUtc)
     },
     /**
      * Whether a day is disabled
@@ -234,7 +239,7 @@ export default {
 
       if (typeof this.disabledDates.dates !== 'undefined') {
         this.disabledDates.dates.forEach((d) => {
-          if (date.toDateString() === d.toDateString()) {
+          if (DateUtils.compareDates(date, d, this.useUtc)) {
             disabledDates = true
             return true
           }
@@ -256,10 +261,10 @@ export default {
           }
         })
       }
-      if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(date.getDay()) !== -1) {
+      if (typeof this.disabledDates.days !== 'undefined' && this.disabledDates.days.indexOf(DateUtils.getDay(date, this.useUtc)) !== -1) {
         disabledDates = true
       }
-      if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(date.getDate()) !== -1) {
+      if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(DateUtils.getDate(date, this.useUtc)) !== -1) {
         disabledDates = true
       }
       if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
@@ -285,7 +290,7 @@ export default {
 
       if (typeof this.highlighted.dates !== 'undefined') {
         this.highlighted.dates.forEach((d) => {
-          if (date.toDateString() === d.toDateString()) {
+          if (DateUtils.compareDates(date, d, this.useUtc)) {
             highlighted = true
             return true
           }
@@ -296,11 +301,11 @@ export default {
         highlighted = date >= this.highlighted.from && date <= this.highlighted.to
       }
 
-      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(date.getDay()) !== -1) {
+      if (typeof this.highlighted.days !== 'undefined' && this.highlighted.days.indexOf(DateUtils.getDay(date, this.useUtc)) !== -1) {
         highlighted = true
       }
 
-      if (typeof this.highlighted.daysOfMonth !== 'undefined' && this.highlighted.daysOfMonth.indexOf(date.getDate()) !== -1) {
+      if (typeof this.highlighted.daysOfMonth !== 'undefined' && this.highlighted.daysOfMonth.indexOf(DateUtils.getDate(date, this.useUtc)) !== -1) {
         highlighted = true
       }
 
@@ -332,9 +337,9 @@ export default {
     isHighlightStart (date) {
       return this.isHighlightedDate(date) &&
         (this.highlighted.from instanceof Date) &&
-        (this.highlighted.from.getFullYear() === date.getFullYear()) &&
-        (this.highlighted.from.getMonth() === date.getMonth()) &&
-        (this.highlighted.from.getDate() === date.getDate())
+        (DateUtils.getFullYear(this.highlighted.from, this.useUtc) === DateUtils.getFullYear(date, this.useUtc)) &&
+        (DateUtils.getMonth(this.highlighted.from, this.useUtc) === DateUtils.getMonth(date, this.useUtc)) &&
+        (DateUtils.getDate(this.highlighted.from, this.useUtc) === DateUtils.getDate(date, this.useUtc))
     },
     /**
      * Whether a day is highlighted and it is the first date
@@ -345,9 +350,9 @@ export default {
     isHighlightEnd (date) {
       return this.isHighlightedDate(date) &&
         (this.highlighted.to instanceof Date) &&
-        (this.highlighted.to.getFullYear() === date.getFullYear()) &&
-        (this.highlighted.to.getMonth() === date.getMonth()) &&
-        (this.highlighted.to.getDate() === date.getDate())
+        (DateUtils.getFullYear(this.highlighted.to, this.useUtc) === DateUtils.getFullYear(date, this.useUtc)) &&
+        (DateUtils.getMonth(this.highlighted.to, this.useUtc) === DateUtils.getMonth(date, this.useUtc)) &&
+        (DateUtils.getDate(this.highlighted.to, this.useUtc) === DateUtils.getDate(date, this.useUtc))
     },
     /**
      * Helper
