@@ -10,6 +10,7 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Demo](#demo)
 - [Install](#install)
 - [Usage](#usage)
+- [Date Formatting](#date-formatting)
 - [Props](#available-props)
 - [Events](#events)
 - [Disabled dates](#disabled-dates)

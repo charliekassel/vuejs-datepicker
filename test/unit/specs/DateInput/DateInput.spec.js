@@ -59,4 +59,11 @@ describe('DateInput', () => {
     })
     expect(wrapper.find('input').attributes().disabled).toBeDefined()
   })
+
+  it('accepts a function as a formatter', () => {
+    wrapper.setMethods({
+      format: () => '!'
+    })
+    expect(wrapper.find('input').element.value).toEqual('!')
+  })
 })

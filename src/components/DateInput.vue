@@ -37,7 +37,7 @@ import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
-    format: String,
+    format: [String, Function],
     translation: Object,
     inline: Boolean,
     id: String,
