@@ -12,6 +12,7 @@ import en from './translations/en'
 import es from './translations/es'
 import fa from './translations/fa'
 import fi from './translations/fi'
+import fo from './translations/fo'
 import fr from './translations/fr'
 import ge from './translations/ge'
 import he from './translations/he'
@@ -59,6 +60,7 @@ export {
   es,
   fa,
   fi,
+  fo,
   fr,
   ge,
   he,

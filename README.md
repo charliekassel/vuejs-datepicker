@@ -300,6 +300,7 @@ Available languages
 | es          | Spanish          |          |
 | fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
+| fo          | Faroese          |          |
 | fr          | French           |          |
 | ge          | Georgia          |          |
 | he          | Hebrew           |          |
