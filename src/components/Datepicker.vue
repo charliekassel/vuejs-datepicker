@@ -11,6 +11,7 @@
       :openDate="openDate"
       :placeholder="placeholder"
       :inputClass="inputClass"
+      :typeable="typeable"
       :clearButton="clearButton"
       :clearButtonIcon="clearButtonIcon"
       :calendarButton="calendarButton"
@@ -132,6 +133,7 @@ export default {
     initialView: String,
     disabled: Boolean,
     required: Boolean,
+    typeable: Boolean,
     minimumView: {
       type: String,
       default: 'day'
