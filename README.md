@@ -279,7 +279,7 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
 ```javascript
-import {en, es} from 'vuejs-datepicker/locale'
+import {en, es} from 'vuejs-datepicker/dist/locale'
 <datepicker :language="es"></datepicker>
 ```
 Available languages
