@@ -123,6 +123,7 @@ Inline always open version
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
+| typeable                      | Boolean         | false       | If true, allow the user to type the date |
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
@@ -300,6 +301,7 @@ Available languages
 | es          | Spanish          |          |
 | fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
+| fo          | Faroese          |          |
 | fr          | French           |          |
 | ge          | Georgia          |          |
 | he          | Hebrew           |          |

@@ -9,7 +9,8 @@ describe('DateInput', () => {
     wrapper = shallow(DateInput, {
       propsData: {
         format: 'dd MMM yyyy',
-        translation: en
+        translation: en,
+        typeable: true
       }
     })
   })
@@ -31,7 +32,7 @@ describe('DateInput', () => {
   it('emit the date when typed', () => {
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'
-    input.trigger('keyup')
+    input.trigger('keypress')
     expect(wrapper.emitted().typedDate).toBeDefined()
     expect(wrapper.emitted().typedDate[0][0]).toBeInstanceOf(Date)
   })
@@ -46,4 +47,18 @@ describe('DateInput', () => {
     input.trigger('blur')
     expect(wrapper.emitted().clearDate).toBeDefined()
   })
+})
+
+it('doesn\'t emit the date if typeable=false', () => {
+  const wrapper = shallow(DateInput, {
+    propsData: {
+      format: 'dd MMM yyyy',
+      translation: en,
+      typeable: false
+    }
+  })
+  const input = wrapper.find('input')
+  wrapper.vm.input.value = '2018-04-24'
+  input.trigger('keypress')
+  expect(wrapper.emitted().typedDate).not.toBeDefined()
 })

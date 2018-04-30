@@ -21,7 +21,7 @@
       :disabled="disabled"
       :required="required"
       @click="showCalendar"
-      @keyup="parseTypedDate"
+      @keypress="parseTypedDate"
       @blur="inputBlurred">
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
@@ -53,6 +53,7 @@ export default {
     calendarButtonIconContent: String,
     disabled: Boolean,
     required: Boolean,
+    typeable: Boolean,
     bootstrapStyling: Boolean
   },
   data () {
@@ -89,7 +90,11 @@ export default {
     /**
      * Attempt to parse a typed date
      */
-    parseTypedDate () {
+    parseTypedDate (e) {
+      if (!this.typeable) {
+        e.preventDefault()
+        return false
+      }
       const typedDate = Date.parse(this.input.value)
       if (!isNaN(typedDate)) {
         this.typedDate = this.input.value
