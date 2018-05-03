@@ -417,6 +417,7 @@ export default {
       if (!this.isInline) {
         setTimeout(() => {
           document.addEventListener('click', this.clickOutside, false)
+          document.addEventListener('keyup', this.escapeCalendar, false)
         }, 100)
       }
     },
@@ -428,17 +429,32 @@ export default {
       if (this.$el && !this.$el.contains(event.target)) {
         this.resetDefaultPageDate()
         this.close(true)
-        document.removeEventListener('click', this.clickOutside, false)
+      }
+    },
+    /**
+     * close the calendar if escape or enter are pressed
+     * @param {Event}
+     */
+    escapeCalendar (event) {
+      if ([
+        27, // escape
+        13  // enter
+      ].includes(event.keyCode)) {
+        this.close(true)
       }
     },
     /**
      * Close all calendar layers
+     * @param {Boolean} full - emit close event
      */
     close (full) {
       this.showDayView = this.showMonthView = this.showYearView = false
       if (!this.isInline) {
-        if (full) this.$emit('closed')
+        if (full) {
+          this.$emit('closed')
+        }
         document.removeEventListener('click', this.clickOutside, false)
+        document.addEventListener('keyup', this.escapeCalendar, false)
       }
     },
     /**
