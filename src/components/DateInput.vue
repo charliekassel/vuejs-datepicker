@@ -21,7 +21,7 @@
       :disabled="disabled"
       :required="required"
       @click="showCalendar"
-      @keypress="parseTypedDate"
+      @keyup="parseTypedDate"
       @blur="inputBlurred">
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-addon' : bootstrapStyling}" @click="clearDate()">
@@ -90,9 +90,20 @@ export default {
     /**
      * Attempt to parse a typed date
      */
-    parseTypedDate (e) {
+    parseTypedDate (event) {
+      // close calendar if escape or enter are pressed
+      if ([
+        27, // escape
+        13  // enter
+      ].includes(event.keyCode)) {
+        this.input.blur()
+        this.inputBlurred()
+        this.$emit('closeCalendar')
+        return false
+      }
+      // prevent typing if not typeable
       if (!this.typeable) {
-        e.preventDefault()
+        event.preventDefault()
         return false
       }
       const typedDate = Date.parse(this.input.value)

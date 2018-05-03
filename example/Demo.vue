@@ -10,6 +10,14 @@
     </div>
 
     <div class="example">
+      <h3>Typeable datepicker</h3>
+      <datepicker placeholder="Type or select date" :typeable="true" />
+      <code>
+          &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Bootstrap styled datepicker</h3>
       <datepicker
         :bootstrapStyling="true"
