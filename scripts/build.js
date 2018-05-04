@@ -50,7 +50,9 @@ async function build () {
             autoprefixer()
           ]
         }),
-        buble()
+        buble({
+          objectAssign: 'Object.assign'
+        })
       ].concat(config.plugins || [])
     }
     const bundle = await rollup(inputOptions)

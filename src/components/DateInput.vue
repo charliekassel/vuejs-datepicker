@@ -76,11 +76,13 @@ export default {
     },
 
     computedInputClass () {
-      let cssClass = [this.inputClass]
       if (this.bootstrapStyling) {
-        cssClass.push('form-control')
+        if (typeof this.inputClass === 'string') {
+          return [this.inputClass, 'form-control'].join(' ')
+        }
+        return {'form-control': true, ...this.inputClass}
       }
-      return cssClass.join(' ')
+      return this.inputClass
     }
   },
   methods: {

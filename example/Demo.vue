@@ -264,6 +264,7 @@ export default {
   },
   data () {
     return {
+      styleInput: null,
       format: 'd MMMM yyyy',
       disabledDates: {},
       openDate: null,
@@ -287,6 +288,11 @@ export default {
       vModelExample: null,
       languages: lang,
       language: 'en'
+    }
+  },
+  computed: {
+    getInputStyle () {
+      return this.styleInput
     }
   },
   methods: {

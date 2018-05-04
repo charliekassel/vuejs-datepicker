@@ -28,7 +28,9 @@ export default {
       browser: true
     }),
     common(),
-    buble(),
+    buble({
+      objectAssign: 'Object.assign'
+    }),
     serve({
       contentBase: path.join(__dirname, '..', 'example'),
       host: 'localhost',
