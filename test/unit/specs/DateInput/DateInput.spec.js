@@ -46,11 +46,20 @@ describe('DateInput', () => {
     expect(wrapper.emitted().showCalendar).toBeTruthy()
   })
 
-  it('add bootstrap classes', () => {
+  it('adds bootstrap classes', () => {
     wrapper.setProps({
       bootstrapStyling: true
     })
-    expect(wrapper.vm.computedInputClass).toContain('form-control')
+    expect(wrapper.find('input').element.classList).toContain('form-control')
+  })
+
+  it('appends bootstrap classes', () => {
+    wrapper.setProps({
+      inputClass: 'someClass',
+      bootstrapStyling: true
+    })
+    expect(wrapper.find('input').element.classList).toContain('form-control')
+    expect(wrapper.find('input').element.classList).toContain('someClass')
   })
 
   it('can be disabled', () => {
