@@ -93,6 +93,7 @@ export default {
     /**
      * Prevent typing if not typeable
      * @param {Event} event
+     * @return {Boolean}
      */
     allowTyping (event) {
       if (!this.typeable) {
