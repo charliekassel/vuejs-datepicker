@@ -21,6 +21,7 @@
       :disabled="disabled"
       :required="required"
       @click="showCalendar"
+      @keypress="allowTyping"
       @keyup="parseTypedDate"
       @blur="inputBlurred">
     <!-- Clear Button -->
@@ -90,7 +91,19 @@ export default {
       this.$emit('showCalendar')
     },
     /**
+     * Prevent typing if not typeable
+     * @param {Event} event
+     */
+    allowTyping (event) {
+      if (!this.typeable) {
+        event.preventDefault()
+        return false
+      }
+      return true
+    },
+    /**
      * Attempt to parse a typed date
+     * @param {Event} event
      */
     parseTypedDate (event) {
       // close calendar if escape or enter are pressed
@@ -103,11 +116,7 @@ export default {
         this.$emit('closeCalendar')
         return false
       }
-      // prevent typing if not typeable
-      if (!this.typeable) {
-        event.preventDefault()
-        return false
-      }
+
       const typedDate = Date.parse(this.input.value)
       if (!isNaN(typedDate)) {
         this.typedDate = this.input.value
