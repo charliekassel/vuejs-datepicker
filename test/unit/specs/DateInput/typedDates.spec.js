@@ -32,7 +32,6 @@ describe('DateInput', () => {
   it('emits the date when typed', () => {
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'
-    input.trigger('keypress')
     input.trigger('keyup')
     expect(wrapper.emitted().typedDate).toBeDefined()
     expect(wrapper.emitted().typedDate[0][0]).toBeInstanceOf(Date)
