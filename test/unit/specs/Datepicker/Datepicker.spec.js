@@ -43,7 +43,7 @@ describe('Datepicker mounted', () => {
     wrapper.vm.setValue()
     expect(wrapper.vm.selectedDate).toEqual(null)
     const pageDate = new Date(wrapper.vm.pageDate)
-    expect(pageDate.getYear()).toEqual(now.getYear())
+    expect(pageDate.getFullYear()).toEqual(now.getFullYear())
     expect(pageDate.getMonth()).toEqual(now.getMonth())
     expect(pageDate.getDate()).toEqual(1)
   })
@@ -98,15 +98,6 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.isOpen).toEqual(false)
   })
 
-  it('should close the picker when clicked outside', () => {
-    jest.useFakeTimers()
-    wrapper.vm.showCalendar()
-    jest.runAllTimers()
-    expect(wrapper.vm.isOpen).toEqual(true)
-    document.body.click()
-    expect(wrapper.vm.isOpen).toEqual(false)
-  })
-
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
     wrapper.vm.selectDate({timestamp: date.getTime()})
@@ -139,10 +130,23 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
     expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
     expect(wrapper.vm.pageDate.getDate()).toEqual(1)
-    wrapper.vm.setPageDate(new Date(2020, 3, 20))
     wrapper.vm.resetDefaultPageDate()
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
     expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
+    expect(wrapper.vm.pageDate.getDate()).toEqual(1)
+  })
+
+  it('does not set the default page date if a date is selected', () => {
+    const wrapper = shallow(Datepicker)
+    const today = new Date()
+    const pastDate = new Date(2018, 3, 20)
+    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())
+    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
+    expect(wrapper.vm.pageDate.getDate()).toEqual(1)
+    wrapper.vm.setDate(pastDate.getTime())
+    wrapper.vm.resetDefaultPageDate()
+    expect(wrapper.vm.pageDate.getFullYear()).toEqual(pastDate.getFullYear())
+    expect(wrapper.vm.pageDate.getMonth()).toEqual(pastDate.getMonth())
     expect(wrapper.vm.pageDate.getDate()).toEqual(1)
   })
 
@@ -199,9 +203,9 @@ describe('Datepicker.vue set by string', () => {
         value: '2016-02-20'
       }
     })
-    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2016)
-    expect(wrapper.vm.selectedDate.getMonth()).toEqual(1)
-    expect(wrapper.vm.selectedDate.getDate()).toEqual(20)
+    expect(wrapper.vm.selectedDate.getUTCFullYear()).toEqual(2016)
+    expect(wrapper.vm.selectedDate.getUTCMonth()).toEqual(1)
+    expect(wrapper.vm.selectedDate.getUTCDate()).toEqual(20)
   })
 
   it('should nullify malformed value', () => {
@@ -223,9 +227,9 @@ describe('Datepicker.vue set by timestamp', () => {
         value: 1517194697668
       }
     })
-    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
-    expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
-    expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
+    expect(wrapper.vm.selectedDate.getUTCFullYear()).toEqual(2018)
+    expect(wrapper.vm.selectedDate.getUTCMonth()).toEqual(0)
+    expect(wrapper.vm.selectedDate.getUTCDate()).toEqual(29)
   })
 })
 

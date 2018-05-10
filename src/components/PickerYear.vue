@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle">
+  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
     <header>
       <span @click="previousDecade" class="prev"
         :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>

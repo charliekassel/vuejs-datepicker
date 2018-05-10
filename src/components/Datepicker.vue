@@ -284,7 +284,6 @@ export default {
       }
       this.close()
       this.showDayView = true
-      this.addOutsideClickListener()
       return true
     },
     /**
@@ -297,7 +296,6 @@ export default {
       }
       this.close()
       this.showMonthView = true
-      this.addOutsideClickListener()
       return true
     },
     /**
@@ -310,7 +308,6 @@ export default {
       }
       this.close()
       this.showYearView = true
-      this.addOutsideClickListener()
       return true
     },
     /**
@@ -410,26 +407,6 @@ export default {
      */
     setTypedDate (date) {
       this.setDate(date.getTime())
-    },
-    /**
-     * Set up an event listener for clicks outside the picker
-     */
-    addOutsideClickListener () {
-      if (!this.isInline) {
-        setTimeout(() => {
-          document.addEventListener('click', this.clickOutside, false)
-        }, 100)
-      }
-    },
-    /**
-     * Close the calendar if clicked outside the datepicker
-     * @param  {Event} event
-     */
-    clickOutside (event) {
-      if (this.$el && !this.$el.contains(event.target)) {
-        this.resetDefaultPageDate()
-        this.close(true)
-      }
     },
     /**
      * Close all calendar layers
