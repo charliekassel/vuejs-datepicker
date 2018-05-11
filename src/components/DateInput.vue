@@ -113,15 +113,14 @@ export default {
         13  // enter
       ].includes(event.keyCode)) {
         this.input.blur()
-        this.inputBlurred()
-        this.$emit('closeCalendar')
-        return false
       }
 
-      const typedDate = Date.parse(this.input.value)
-      if (!isNaN(typedDate)) {
-        this.typedDate = this.input.value
-        this.$emit('typedDate', new Date(this.typedDate))
+      if (this.typeable) {
+        const typedDate = Date.parse(this.input.value)
+        if (!isNaN(typedDate)) {
+          this.typedDate = this.input.value
+          this.$emit('typedDate', new Date(this.typedDate))
+        }
       }
     },
     /**
@@ -129,14 +128,17 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (!this.typedDate) {
+      if (!this.typeable) {
+        this.$emit('closeCalendar')
         return
       }
+
       if (isNaN(Date.parse(this.input.value))) {
         this.clearDate()
       }
       this.input.value = null
       this.typedDate = null
+      this.$emit('closeCalendar')
     },
     /**
      * emit a clearDate event

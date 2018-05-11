@@ -15,6 +15,13 @@ describe('DateInput', () => {
     })
   })
 
+  it('allows typing', () => {
+    wrapper.setProps({typeable: true})
+    expect(wrapper.vm.allowTyping()).toEqual(true)
+    wrapper.setProps({typeable: false})
+    expect(wrapper.vm.allowTyping({preventDefault: () => {}})).toEqual(false)
+  })
+
   it('does not format the date when typed', () => {
     const dateString = '2018-04-24'
     wrapper.vm.input.value = dateString
@@ -39,12 +46,9 @@ describe('DateInput', () => {
 
   it('emits closeCalendar when return is pressed', () => {
     const input = wrapper.find('input')
+    const blurSpy = jest.spyOn(input.element, 'blur')
     input.trigger('keyup', {keyCode: 13})
-    expect(wrapper.emitted().closeCalendar).toBeDefined()
-  })
-
-  it('returns when blurred if date has not been typed', () => {
-    expect(wrapper.vm.inputBlurred()).toBeFalsy()
+    expect(blurSpy).toBeCalled()
   })
 
   it('clears a typed date if it does not parse', () => {
