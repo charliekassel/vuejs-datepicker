@@ -21,7 +21,7 @@
       :disabled="disabled"
       :required="required"
       @click="showCalendar"
-      @keypress="allowTyping"
+      @keydown="allowTyping"
       @keyup="parseTypedDate"
       @blur="inputBlurred">
     <!-- Clear Button -->

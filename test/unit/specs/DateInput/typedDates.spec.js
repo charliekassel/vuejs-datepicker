@@ -68,7 +68,7 @@ describe('DateInput', () => {
     })
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'
-    input.trigger('keypress')
+    input.trigger('keydown')
     input.trigger('keyup')
     expect(wrapper.emitted().typedDate).not.toBeDefined()
   })
