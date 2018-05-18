@@ -37,7 +37,7 @@ export default {
     allowedToShowView: Function,
     disabledDates: Object,
     highlighted: Object,
-    calendarClass: String,
+    calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
