@@ -133,7 +133,7 @@ export default {
         this.input.value = null
         this.typedDate = null
       }
-      
+
       this.$emit('closeCalendar')
     },
     /**
