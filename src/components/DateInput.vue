@@ -46,7 +46,7 @@ export default {
     refName: String,
     openDate: Date,
     placeholder: String,
-    inputClass: [String, Object],
+    inputClass: [String, Object, Array],
     clearButton: Boolean,
     clearButtonIcon: String,
     calendarButton: Boolean,

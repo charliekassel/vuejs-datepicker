@@ -24,7 +24,7 @@ export default {
     pageTimestamp: Number,
     disabledDates: Object,
     highlighted: Object,
-    calendarClass: String,
+    calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
     allowedToShowView: Function
