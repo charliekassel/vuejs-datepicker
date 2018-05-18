@@ -258,8 +258,12 @@ var state = {
 ```
 ## Slots
 
-Sometimes you need to show custom content before the header for the calendar.
-For such cases you can use the named slot 'beforeCalendarHeader.
+Slots will help you customize content.  .
+
+#### beforeCalendarHeader
+
+Sometimes you need to show custom content before the calendar header. For such cases you can use the named slot `beforeCalendarHeader`.
+
 An example would be to use bootstrap's `input-group-prepend` and `input-group-append`
 to show some custom text:
 ``` html
@@ -269,6 +273,20 @@ to show some custom text:
   </div>
 </datepicker>
 ```
+
+#### afterDateInput
+
+To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput sibling. Slot named 
+`afterDateInput` allows you to do that:
+
+``` html
+<datepicker>
+  <span slot="afterDateInput" class="animated-placeholder">
+    Choose a Date
+  </span>
+</datepicker>
+```
+ 
 
 ## Translations
 
