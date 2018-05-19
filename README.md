@@ -276,7 +276,7 @@ to show some custom text:
 
 #### afterDateInput
 
-To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput sibling. Slot named 
+To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named 
 `afterDateInput` allows you to do that:
 
 ``` html
