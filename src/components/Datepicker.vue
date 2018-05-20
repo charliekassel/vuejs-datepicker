@@ -23,8 +23,9 @@
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
-      @clearDate="clearDate"
-    />
+      @clearDate="clearDate">
+      <slot name="afterDateInput" slot="afterDateInput"></slot>
+    </date-input>
 
 
     <!-- Day View -->
