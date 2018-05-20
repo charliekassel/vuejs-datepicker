@@ -122,6 +122,10 @@ export default {
           disabledDates = true
         }
       }
+      
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+        disabledDates = true
+      }
 
       return disabledDates
     }
