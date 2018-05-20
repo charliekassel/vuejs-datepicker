@@ -30,6 +30,7 @@
         <span v-if="!clearButtonIcon">&times;</span>
       </i>
     </span>
+    <slot name="afterDateInput"></slot>
   </div>
 </template>
 <script>

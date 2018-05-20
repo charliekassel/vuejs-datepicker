@@ -1,5 +1,6 @@
 <template>
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+    <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
         @click="isRtl ? nextMonth() : previousMonth()"

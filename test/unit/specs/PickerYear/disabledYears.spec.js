@@ -52,4 +52,21 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isPreviousDecadeDisabled()).toEqual(false)
     expect(wrapper.vm.isNextDecadeDisabled()).toEqual(false)
   })
+
+  it('can accept a customPredictor to check if the year is disabled', () => {
+    wrapper.setProps({
+      disabledDates: {
+        customPredictor (date) {
+          if (date.getFullYear() % 3 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(wrapper.vm.isDisabledYear(new Date(2018, 4, 29))).toEqual(false)
+    expect(wrapper.vm.isDisabledYear(new Date(2019, 9, 28))).toEqual(true)
+    expect(wrapper.vm.isDisabledYear(new Date(2020, 8, 24))).toEqual(false)
+    expect(wrapper.vm.isDisabledYear(new Date(2021, 2, 11))).toEqual(false)
+    expect(wrapper.vm.isDisabledYear(new Date(2022, 2, 11))).toEqual(true)
+  })
 })

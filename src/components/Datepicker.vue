@@ -23,8 +23,9 @@
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
-      @clearDate="clearDate"
-    />
+      @clearDate="clearDate">
+      <slot name="afterDateInput" slot="afterDateInput"></slot>
+    </date-input>
 
 
     <!-- Day View -->
@@ -46,8 +47,9 @@
       @changedMonth="setPageDate"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="$emit('selectedDisabled')"
-    />
+      @selectedDisabled="$emit('selectedDisabled')">
+      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+    </picker-day>
 
     <!-- Month View -->
     <picker-month
@@ -62,8 +64,9 @@
       :translation="translation"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate"
-    />
+      @changedYear="setPageDate">
+      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+    </picker-month>
 
     <!-- Year View -->
     <picker-year
@@ -77,8 +80,9 @@
       :calendarStyle="calendarStyle"
       :translation="translation"
       @selectYear="selectYear"
-      @changedDecade="setPageDate"
-    />
+      @changedDecade="setPageDate">
+      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+    </picker-year>
   </div>
 </template>
 <script>
