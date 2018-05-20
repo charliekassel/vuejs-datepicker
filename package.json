@@ -30,7 +30,8 @@
     "serve": "rollup -c scripts/serve.js --watch",
     "test": "jest --config test/unit/jest.conf.js --coverage",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "release": "np"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -63,6 +64,7 @@
     "jest": "^22.4.3",
     "jest-serializer-vue": "^1.0.0",
     "lolex": "^1.5.2",
+    "np": "^2.20.1",
     "opn": "^4.0.2",
     "ora": "^1.2.0",
     "parse5": "^2.1.0",
