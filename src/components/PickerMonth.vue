@@ -1,5 +1,6 @@
 <template>
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" :style="calendarStyle" @mousedown.prevent>
+    <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
         @click="previousYear"
@@ -159,7 +160,7 @@ export default {
           disabledDates = true
         }
       }
-      
+
       if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
         disabledDates = true
       }
