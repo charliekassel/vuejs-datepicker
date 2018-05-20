@@ -23,4 +23,20 @@ describe('PickerMonth', () => {
     const month = {isDisabled: true}
     expect(wrapper.vm.selectMonth(month)).toEqual(false)
   })
+
+  it('can accept a customPredictor to check if the month is disabled', () => {
+    wrapper.setProps({
+      disabledDates: {
+        customPredictor (date) {
+          if (date.getMonth() % 4 === 0) {
+            return true
+          }
+        }
+      }
+    })
+    expect(wrapper.vm.isDisabledMonth(new Date(2018, 4, 29))).toEqual(true)
+    expect(wrapper.vm.isDisabledMonth(new Date(2018, 9, 28))).toEqual(false)
+    expect(wrapper.vm.isDisabledMonth(new Date(2018, 8, 24))).toEqual(true)
+    expect(wrapper.vm.isDisabledMonth(new Date(2018, 2, 11))).toEqual(false)
+  })
 })
