@@ -218,7 +218,7 @@ var state = {
   }
 }
 </script>
-<datepicker :disabled="state.disabledDates"></datepicker>
+<datepicker :disabled-dates="state.disabledDates"></datepicker>
 ```
 
 ## Highlighted Dates
