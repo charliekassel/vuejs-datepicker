@@ -39,6 +39,7 @@ import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
+    resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
     inline: Boolean,
@@ -85,6 +86,11 @@ export default {
         return {'form-control': true, ...this.inputClass}
       }
       return this.inputClass
+    }
+  },
+  watch: {
+    resetTypedDate () {
+      this.typedDate = false
     }
   },
   methods: {
@@ -146,9 +152,6 @@ export default {
   },
   mounted () {
     this.input = this.$el.querySelector('input')
-    this.$parent.$on('selectDate', () => {
-      this.typedDate = false
-    })
   }
 }
 // eslint-disable-next-line

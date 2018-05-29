@@ -2,6 +2,7 @@
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
       :selectedDate="selectedDate"
+      :resetTypedDate="resetTypedDate"
       :format="format"
       :translation="translation"
       :inline="inline"
@@ -172,7 +173,8 @@ export default {
       /*
        * Positioning
        */
-      calendarHeight: 0
+      calendarHeight: 0,
+      resetTypedDate: new Date()
     }
   },
   watch: {
@@ -343,7 +345,7 @@ export default {
       if (!this.isInline) {
         this.close(true)
       }
-      this.$emit('selectDate')
+      this.resetTypedDate = new Date()
     },
     /**
      * @param {Object} month
