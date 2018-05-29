@@ -343,6 +343,7 @@ export default {
       if (!this.isInline) {
         this.close(true)
       }
+      this.$emit('selectDate')
     },
     /**
      * @param {Object} month

@@ -146,6 +146,9 @@ export default {
   },
   mounted () {
     this.input = this.$el.querySelector('input')
+    this.$parent.$on('selectDate', () => {
+      this.typedDate = false
+    })
   }
 }
 // eslint-disable-next-line
