@@ -31,6 +31,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
+    isRtl: Boolean,
     allowedToShowView: Function
   },
   computed: {
