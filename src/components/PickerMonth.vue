@@ -3,14 +3,14 @@
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
-        @click="previousYear"
+        @click="isRtl ? nextYear() : previousYear()"
         class="prev"
-        :class="{ 'disabled' : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
+        :class="{ 'disabled' : isRtl ? isNextYearDisabled(pageTimestamp) : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
       <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
-        @click="nextYear"
+        @click="isRtl ? previousYear() : nextYear()"
         class="next"
-        :class="{ 'disabled' : isNextYearDisabled(pageTimestamp) }">&gt;</span>
+        :class="{ 'disabled' : isRtl ? isPreviousYearDisabled(pageTimestamp) : isNextYearDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span class="cell month"
       v-for="month in months"
