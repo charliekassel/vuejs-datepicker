@@ -3,12 +3,12 @@
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
-        @click="previousYear"
+        @click.stop.prevent="previousYear"
         class="prev"
         :class="{ 'disabled' : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
-      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
+      <span class="month__year_btn" @click.stop.prevent="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
-        @click="nextYear"
+        @click.stop.prevent="nextYear"
         class="next"
         :class="{ 'disabled' : isNextYearDisabled(pageTimestamp) }">&gt;</span>
     </header>
@@ -16,7 +16,7 @@
       v-for="month in months"
       :key="month.timestamp"
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
-      @click.stop="selectMonth(month)">{{ month.month }}</span>
+      @click.stop.prevent="selectMonth(month)">{{ month.month }}</span>
   </div>
 </template>
 <script>

@@ -3,12 +3,12 @@
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
-        @click="isRtl ? nextMonth() : previousMonth()"
+        @click.stop.prevent="isRtl ? nextMonth() : previousMonth()"
         class="prev"
         :class="{ 'disabled' : isRtl ? isNextMonthDisabled(pageTimestamp) : isPreviousMonthDisabled(pageTimestamp) }">&lt;</span>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      <span class="day__month_btn" @click.stop.prevent="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
       <span
-        @click="isRtl ? previousMonth() : nextMonth()"
+        @click.stop.prevent="isRtl ? previousMonth() : nextMonth()"
         class="next"
         :class="{ 'disabled' : isRtl ? isPreviousMonthDisabled(pageTimestamp) : isNextMonthDisabled(pageTimestamp) }">&gt;</span>
     </header>
