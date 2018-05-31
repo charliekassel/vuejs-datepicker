@@ -21,7 +21,8 @@
           v-for="day in days"
           :key="day.timestamp"
           :class="dayClasses(day)"
-          @click="selectDate(day)">{{ day.date }}</span>
+          v-html="dayCellContent(day)"
+          @click="selectDate(day)"></span>
     </div>
   </div>
 </template>
@@ -35,6 +36,12 @@ export default {
     pageTimestamp: Number,
     fullMonthName: Boolean,
     allowedToShowView: Function,
+    dayCellContent: {
+        type: Function,
+        default: (day) => {
+          return day.date;
+        },
+    },
     disabledDates: Object,
     highlighted: Object,
     calendarClass: [String, Object, Array],
