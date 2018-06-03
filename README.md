@@ -106,7 +106,7 @@ Inline always open version
 | id                            | String          |             | Input id                                 |
 | format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
-| language                      | String          | en          | Translation for days and months          |
+| language                      | Object          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
@@ -218,7 +218,7 @@ var state = {
   }
 }
 </script>
-<datepicker :disabled="state.disabledDates"></datepicker>
+<datepicker :disabledDates="state.disabledDates"></datepicker>
 ```
 
 ## Highlighted Dates
