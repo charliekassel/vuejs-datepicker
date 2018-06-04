@@ -404,6 +404,7 @@ export default {
         }
       }
       this.pageTimestamp = (new Date(date)).setDate(1)
+      this.$emit('changedMonth', date)
     },
     /**
      * Set the date from a typedDate event
