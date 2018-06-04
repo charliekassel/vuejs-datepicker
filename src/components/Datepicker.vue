@@ -2,6 +2,7 @@
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
       :selectedDate="selectedDate"
+      :resetTypedDate="resetTypedDate"
       :format="format"
       :translation="translation"
       :inline="inline"
@@ -172,7 +173,8 @@ export default {
       /*
        * Positioning
        */
-      calendarHeight: 0
+      calendarHeight: 0,
+      resetTypedDate: new Date()
     }
   },
   watch: {
@@ -320,10 +322,10 @@ export default {
      */
     setDate (timestamp) {
       const date = new Date(timestamp)
-      this.selectedDate = new Date(date)
+      this.selectedDate = date
       this.setPageDate(date)
-      this.$emit('selected', new Date(date))
-      this.$emit('input', new Date(date))
+      this.$emit('selected', date)
+      this.$emit('input', date)
     },
     /**
      * Clear the selected date
@@ -336,13 +338,14 @@ export default {
       this.$emit('cleared')
     },
     /**
-     * @param {Object} day
+     * @param {Object} date
      */
-    selectDate (day) {
-      this.setDate(day.timestamp)
+    selectDate (date) {
+      this.setDate(date.timestamp)
       if (!this.isInline) {
         this.close(true)
       }
+      this.resetTypedDate = new Date()
     },
     /**
      * @param {Object} month
@@ -354,10 +357,7 @@ export default {
         this.$emit('changedMonth', month)
         this.showDayCalendar()
       } else {
-        this.setDate(date)
-        if (!this.isInline) {
-          this.close(true)
-        }
+        this.selectDate(month)
       }
     },
     /**
@@ -370,10 +370,7 @@ export default {
         this.$emit('changedYear', year)
         this.showMonthCalendar()
       } else {
-        this.setDate(date)
-        if (!this.isInline) {
-          this.close(true)
-        }
+        this.selectDate(year)
       }
     },
     /**
