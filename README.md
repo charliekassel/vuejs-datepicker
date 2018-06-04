@@ -119,7 +119,7 @@ Inline always open version
 | calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
-| dayCellContent                | Function        | day.date    | Use to render custom content in day cell |
+| day-cell-content              | Function        |             | Use to render custom content in day cell |
 | bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
