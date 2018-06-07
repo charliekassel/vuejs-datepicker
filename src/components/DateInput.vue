@@ -78,7 +78,7 @@ export default {
       if (this.range) {
         if (typeof this.format === 'function') {
           return this.format(this.selectedRange.from) + ' - ' + this.format(this.selectedRange.to);
-        } else {   
+        } else {
           return this.formatDate(this.selectedRange.from, this.selectedRange.to)
         }
       }
