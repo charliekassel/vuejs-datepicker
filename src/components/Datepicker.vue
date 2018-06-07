@@ -381,9 +381,8 @@ export default {
       } else {
         this.setDate(date.timestamp)
       }
-      
 
-      if (!this.isInline && (this.range && this.validRange)) {
+      if (!this.isInline && !this.range) {
         this.close(true)
       }
       this.resetTypedDate = new Date()
@@ -454,7 +453,7 @@ export default {
           this.selectedDate = date
           this.setPageDate(date)
         }
-      } else {
+      } else {        
         this.selectedDate = new Date(date.from)
         this.setPageDate(date.from)
       }
@@ -470,7 +469,6 @@ export default {
           date = new Date()
         }
       }
-      console.log('SetPageDate', date);
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
     /**
@@ -496,7 +494,10 @@ export default {
      * Initiate the component
      */
     init () {
-      if (this.value) {        
+      if (this.value) {
+        if (this.range) {
+          this.selectedRange = {from: new Date(this.value.from), to: new Date(this.value.to)};
+        }
         this.setValue(this.value)
       }
       if (this.isInline) {
