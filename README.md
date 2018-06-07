@@ -19,6 +19,25 @@ A datepicker Vue component. Compatible with Vue 2.x
 
 NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
 
+## Fork changes:
+
+Had the need to select a range from date A -> date B, therefore I created a simple range prop.
+
+`<datepicker :range="true"  v-model="exampleRange" placeholder="Select range"></datepicker>`
+
+![](https://i.gyazo.com/1eac7a7af9fe02b58df9d2b45aae2e17.gif)
+
+
+This prop modifies some of the core functionality of the datepicker;
+
+- The picker is not closed on selection (like inline)
+- the picker lets user select two dates, one start and one end date.
+- When range prop is true, the picker's input emits an object instead of date: 
+`{ "from": "2018-06-07T21:55:00.000Z", "to": "2018-06-15T21:55:00.000Z" }`
+- Input field value is updated with two dates: `07 - 15 Jun` (or `01 Jan - 01 Feb` if the months are not the same)
+- `:format` prop formats both dates instead of default "selectedDate"
+- I modified the highlighted prop to allow for visualisation of the selected dates
+
 ## Demo
 
 To view a demo online:
