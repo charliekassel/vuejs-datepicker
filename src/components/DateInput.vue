@@ -39,6 +39,7 @@ import DateUtils from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
+    selectedRange: Object,
     resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
@@ -55,6 +56,7 @@ export default {
     calendarButtonIcon: String,
     calendarButtonIconContent: String,
     disabled: Boolean,
+    range: Boolean,
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean
@@ -73,9 +75,16 @@ export default {
       if (this.typedDate) {
         return this.typedDate
       }
+      if (this.range) {
+        if (typeof this.format === 'function') {
+          return this.format(this.selectedRange.from) + ' - ' + this.format(this.selectedRange.to);
+        } else {   
+          return this.formatDate(this.selectedRange.from, this.selectedRange.to)
+        }
+      }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : this.formatDate(this.selectedDate)
     },
 
     computedInputClass () {
@@ -94,6 +103,21 @@ export default {
     }
   },
   methods: {
+    formatDate(date1, date2) {
+      if (date2) {
+        // removes month if date1 & 2 have the same.
+        // NB: might be a cheaper solution, consider refactoring.
+        return (this.formatDate(date1) + ' - ' + this.formatDate(date2))
+        .split(' ')
+        .reverse()
+        .filter((e,i,a) => i==a.indexOf(e))
+        .reverse()
+        .join(' ');
+      } else {
+        return DateUtils.formatDate(new Date(date1), this.format, this.translation)
+      }
+    },
+
     showCalendar () {
       this.$emit('showCalendar')
     },

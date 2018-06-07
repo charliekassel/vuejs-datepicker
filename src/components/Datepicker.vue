@@ -2,6 +2,7 @@
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
       :selectedDate="selectedDate"
+      :selectedRange="selectedRange"
       :resetTypedDate="resetTypedDate"
       :format="format"
       :translation="translation"
@@ -20,6 +21,7 @@
       :calendarButtonIconContent="calendarButtonIconContent"
       :disabled="disabled"
       :required="required"
+      :range="range"
       :bootstrapStyling="bootstrapStyling"
       @showCalendar="showCalendar"
       @closeCalendar="close"
@@ -37,8 +39,8 @@
       :showDayView="showDayView"
       :fullMonthName="fullMonthName"
       :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :highlighted="highlighted"
+      :disabledDates="disabledDatesComputed"
+      :highlighted="highlightedComputed"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
@@ -59,7 +61,7 @@
       :selectedDate="selectedDate"
       :showMonthView="showMonthView"
       :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
+      :disabledDates="disabledDatesComputed"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
@@ -76,7 +78,7 @@
       :selectedDate="selectedDate"
       :showYearView="showYearView"
       :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
+      :disabledDates="disabledDatesComputed"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
@@ -102,7 +104,7 @@ export default {
   props: {
     value: {
       validator: (val) => {
-        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number' || typeof val === 'object'
       }
     },
     name: String,
@@ -138,6 +140,7 @@ export default {
     bootstrapStyling: Boolean,
     initialView: String,
     disabled: Boolean,
+    range: Boolean,
     required: Boolean,
     typeable: Boolean,
     minimumView: {
@@ -163,6 +166,15 @@ export default {
        * {Date}
        */
       selectedDate: null,
+
+      /*
+       * Selected range
+       * {Object}
+       */
+      selectedRange: {
+        from: null,
+        to: null
+      },
       /*
        * Flags to show calendar views
        * {Boolean}
@@ -196,6 +208,24 @@ export default {
 
       return this.initialView
     },
+
+    disabledDatesComputed () {
+      let disabled = {to: this.selectedRange.from};
+
+      if (this.range) {
+        if (this.selectedRange.from && this.selectedRange.to) {
+            disabled.to = null
+          }
+          return Object.assign({}, this.disabledDates, disabled);
+      } else {
+        return this.disabledDates;
+      }
+    },
+
+    highlightedComputed () {
+      return this.range ? this.selectedRange : this.highlighted;
+    },
+
     pageDate () {
       return new Date(this.pageTimestamp)
     },
@@ -217,6 +247,11 @@ export default {
     },
     isRtl () {
       return this.translation.rtl === true
+    },
+
+    validRange () {
+      const sr = this.selectedRange;
+      return sr.from !== null && sr.to !== null;
     }
   },
   methods: {
@@ -341,8 +376,14 @@ export default {
      * @param {Object} date
      */
     selectDate (date) {
-      this.setDate(date.timestamp)
-      if (!this.isInline) {
+      if (this.range) {
+        this.selectRange(date.timestamp)
+      } else {
+        this.setDate(date.timestamp)
+      }
+      
+
+      if (!this.isInline && (this.range && this.validRange)) {
         this.close(true)
       }
       this.resetTypedDate = new Date()
@@ -359,6 +400,28 @@ export default {
       } else {
         this.selectDate(month)
       }
+    },
+    /**
+     * @param {Object} timestamp
+     */
+    selectRange (timestamp) {
+      const date = new Date(timestamp)
+      const range = this.selectedRange;
+
+      if (range.from && range.to) {
+        this.$set(range, 'from', date);
+        this.$set(range, 'to', null);
+      } else if (!range.from) {
+        this.$set(range, 'from', date);
+      } else if (!range.to)  {
+        this.$set(range, 'to', date);
+      }
+
+      this.selectedDate = range.from;
+      this.setPageDate(range.from)
+      this.$emit('selected', date)
+      this.$emit('input', range)
+
     },
     /**
      * @param {Object} year
@@ -378,17 +441,23 @@ export default {
      * @param {Date|String|Number|null} date
      */
     setValue (date) {
-      if (typeof date === 'string' || typeof date === 'number') {
-        let parsed = new Date(date)
-        date = isNaN(parsed.valueOf()) ? null : parsed
-      }
       if (!date) {
         this.setPageDate()
         this.selectedDate = null
         return
       }
-      this.selectedDate = date
-      this.setPageDate(date)
+
+      if (!this.range) {
+        if (typeof date === 'string' || typeof date === 'number') {
+          let parsed = new Date(date)
+          date = isNaN(parsed.valueOf()) ? null : parsed
+          this.selectedDate = date
+          this.setPageDate(date)
+        }
+      } else {
+        this.selectedDate = new Date(date.from)
+        this.setPageDate(date.from)
+      }
     },
     /**
      * Sets the date that the calendar should open on
@@ -401,6 +470,7 @@ export default {
           date = new Date()
         }
       }
+      console.log('SetPageDate', date);
       this.pageTimestamp = (new Date(date)).setDate(1)
     },
     /**
@@ -426,7 +496,7 @@ export default {
      * Initiate the component
      */
     init () {
-      if (this.value) {
+      if (this.value) {        
         this.setValue(this.value)
       }
       if (this.isInline) {
