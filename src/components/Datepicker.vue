@@ -210,20 +210,20 @@ export default {
     },
 
     disabledDatesComputed () {
-      let disabled = {to: this.selectedRange.from};
+      let disabled = {to: this.selectedRange.from}
 
       if (this.range) {
         if (this.selectedRange.from && this.selectedRange.to) {
-            disabled.to = null
-          }
-          return Object.assign({}, this.disabledDates, disabled);
+          disabled.to = null
+        }
+        return Object.assign({}, this.disabledDates, disabled)
       } else {
-        return this.disabledDates;
+        return this.disabledDates
       }
     },
 
     highlightedComputed () {
-      return this.range ? this.selectedRange : this.highlighted;
+      return this.range ? this.selectedRange : this.highlighted
     },
 
     pageDate () {
@@ -250,8 +250,8 @@ export default {
     },
 
     validRange () {
-      const sr = this.selectedRange;
-      return sr.from !== null && sr.to !== null;
+      const sr = this.selectedRange
+      return sr.from !== null && sr.to !== null
     }
   },
   methods: {
@@ -405,22 +405,21 @@ export default {
      */
     selectRange (timestamp) {
       const date = new Date(timestamp)
-      const range = this.selectedRange;
+      const range = this.selectedRange
 
       if (range.from && range.to) {
-        this.$set(range, 'from', date);
-        this.$set(range, 'to', null);
+        this.$set(range, 'from', date)
+        this.$set(range, 'to', null)
       } else if (!range.from) {
-        this.$set(range, 'from', date);
-      } else if (!range.to)  {
-        this.$set(range, 'to', date);
+        this.$set(range, 'from', date)
+      } else if (!range.to) {
+        this.$set(range, 'to', date)
       }
 
-      this.selectedDate = range.from;
+      this.selectedDate = range.from
       this.setPageDate(range.from)
       this.$emit('selected', date)
       this.$emit('input', range)
-
     },
     /**
      * @param {Object} year
@@ -453,7 +452,7 @@ export default {
           this.selectedDate = date
           this.setPageDate(date)
         }
-      } else {        
+      } else {
         this.selectedDate = new Date(date.from)
         this.setPageDate(date.from)
       }
@@ -496,7 +495,7 @@ export default {
     init () {
       if (this.value) {
         if (this.range) {
-          this.selectedRange = {from: new Date(this.value.from), to: new Date(this.value.to)};
+          this.selectedRange = {from: new Date(this.value.from), to: new Date(this.value.to)}
         }
         this.setValue(this.value)
       }
