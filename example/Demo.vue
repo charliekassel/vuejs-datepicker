@@ -300,7 +300,7 @@ export default {
       eventMsg: null,
       state: state,
       vModelExample: null,
-      vModelExampleRange: { "from": "2018-06-12T15:14:00.000Z", "to": "2018-07-11T15:14:00.000Z" },
+      vModelExampleRange: { "from": "2018-06-06T15:14:00.000Z", "to": "2018-06-22T15:14:00.000Z" },
       languages: lang,
       language: 'en'
     }
