@@ -2,20 +2,6 @@
   <div id="app">
     <h1>Datepicker Examples</h1>
     <div class="example">
-      <h3>Range picker</h3>
-      Result: {{vModelExampleRange}}
-      <datepicker
-        :range="true"
-        format="dd MMM"
-        placeholder="Select start & end date"
-        v-model="vModelExampleRange"
-      />
-      <code>
-          &lt;datepicker :range="true" placeholder="Select Date"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
       <h3>Default datepicker...</h3>
       <datepicker placeholder="Select Date" />
       <code>
@@ -73,6 +59,20 @@
           </select>
         </div>
       </div>
+    </div>
+
+    <div class="example">
+      <h3>Range datepicker</h3>
+      <datepicker
+        :range="true"
+        format="dd MMM"
+        placeholder="Select range"
+        v-model="vModelExampleRange"
+      />
+      <code>
+          &lt;datepicker :range="true" format="dd MMM" v-model="vModelExampleRange" placeholder="Select range"&gt;&lt;/datepicker&gt;
+      </code>
+      <p>v-model: {{vModelExampleRange}}</p>
     </div>
 
     <div class="example">
@@ -300,7 +300,7 @@ export default {
       eventMsg: null,
       state: state,
       vModelExample: null,
-      vModelExampleRange: { "from": "2018-06-06T15:14:00.000Z", "to": "2018-06-22T15:14:00.000Z" },
+      vModelExampleRange: null,
       languages: lang,
       language: 'en'
     }
