@@ -109,6 +109,7 @@ Inline always open version
 | language                      | Object          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
+| Range                         | Boolean         |             | Let user select a date range             |
 | inline                        | Boolean         |             | To show the datepicker always open       |
 | calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
 | input-class                   | String\|Object  |             | CSS class applied to the input el        |
