@@ -45,6 +45,7 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
+      :dayCellContent="dayCellContent"
       @changedMonth="setPageDate"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -121,6 +122,7 @@ export default {
         return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
+    dayCellContent: Function,
     fullMonthName: Boolean,
     disabledDates: Object,
     highlighted: Object,
