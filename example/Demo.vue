@@ -68,11 +68,15 @@
         format="dd MMM"
         placeholder="Select range"
         v-model="vModelExampleRange"
+        @start="rangeStart = $event"
+        @end="rangeEnd = $event"
       />
       <code>
-          &lt;datepicker :range="true" format="dd MMM" v-model="vModelExampleRange" placeholder="Select range"&gt;&lt;/datepicker&gt;
+          &lt;datepicker :range="true" format="dd MMM" v-model="vModelExampleRange" @start="rangeStart=$event" @end="rangeEnd=$event" placeholder="Select range"&gt;&lt;/datepicker&gt;
       </code>
       <p>v-model: {{vModelExampleRange}}</p>
+      <p>@start: {{rangeStart}}</p>
+      <p>@end: {{rangeEnd}}</p>
     </div>
 
     <div class="example">
