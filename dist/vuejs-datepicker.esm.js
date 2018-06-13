@@ -1292,6 +1292,8 @@ var Datepicker = {render: function(){var _vm=this;var _h=_vm.$createElement;var 
       this.setPageDate(range.from);
       this.$emit('selected', date);
       this.$emit('input', range);
+      this.$emit('start', range.from);
+      this.$emit('end', range.to);
     },
     /**
      * @param {Object} year

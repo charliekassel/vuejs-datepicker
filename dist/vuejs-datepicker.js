@@ -1298,6 +1298,8 @@
         this.setPageDate(range.from);
         this.$emit('selected', date);
         this.$emit('input', range);
+        this.$emit('start', range.from);
+        this.$emit('end', range.to);
       },
       /**
        * @param {Object} year
