@@ -190,7 +190,7 @@ export default {
     }
   },
   watch: {
-    value (value) {
+    value (value) { 
       this.setValue(value)
     },
     openDate () {
@@ -441,22 +441,23 @@ export default {
      * @param {Date|String|Number|null} date
      */
     setValue (date) {
-      if (!date) {
+      if (!date) {    
         this.setPageDate()
         this.selectedDate = null
         return
       }
 
-      if (!this.range) {
+      if (this.range) {
+        this.selectedDate = new Date(date.from)
+        this.selectedRange = {from: new Date(date.from), to: new Date(date.to)}
+        this.setPageDate(date.from)
+      } else {
         if (typeof date === 'string' || typeof date === 'number') {
           let parsed = new Date(date)
           date = isNaN(parsed.valueOf()) ? null : parsed
           this.selectedDate = date
           this.setPageDate(date)
         }
-      } else {
-        this.selectedDate = new Date(date.from)
-        this.setPageDate(date.from)
       }
     },
     /**
