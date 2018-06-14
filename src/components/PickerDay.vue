@@ -37,8 +37,8 @@ export default {
     fullMonthName: Boolean,
     allowedToShowView: Function,
     dayCellContent: {
-        type: Function,
-        default: day => day.date,
+      type: Function,
+      default: day => day.date
     },
     disabledDates: Object,
     highlighted: Object,
