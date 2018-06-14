@@ -5,12 +5,12 @@
       <span
         @click="isRtl ? nextYear() : previousYear()"
         class="prev"
-        :class="{ 'disabled' : isRtl ? isNextYearDisabled(pageTimestamp) : isPreviousYearDisabled(pageTimestamp) }">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
       <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
         @click="isRtl ? previousYear() : nextYear()"
         class="next"
-        :class="{ 'disabled' : isRtl ? isPreviousYearDisabled(pageTimestamp) : isNextYearDisabled(pageTimestamp) }">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <span class="cell month"
       v-for="month in months"
@@ -58,6 +58,24 @@ export default {
     pageYearName () {
       const yearSuffix = this.translation.yearSuffix
       return `${this.pageDate.getFullYear()}${yearSuffix}`
+    },
+    /**
+     * Is the left hand navigation disabled
+     * @return {Boolean}
+     */
+    isLeftNavDisabled () {
+      return this.isRtl
+        ? this.isNextYearDisabled(this.pageTimestamp)
+        : this.isPreviousYearDisabled(this.pageTimestamp)
+    },
+    /**
+     * Is the right hand navigation disabled
+     * @return {Boolean}
+     */
+    isRightNavDisabled () {
+      return this.isRtl
+        ? this.isPreviousYearDisabled(this.pageTimestamp)
+        : this.isNextYearDisabled(this.pageTimestamp)
     }
   },
   methods: {

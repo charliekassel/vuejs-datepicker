@@ -5,12 +5,12 @@
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{ 'disabled' : isRtl ? isNextMonthDisabled(pageTimestamp) : isPreviousMonthDisabled(pageTimestamp) }">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
       <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{ 'disabled' : isRtl ? isPreviousMonthDisabled(pageTimestamp) : isNextMonthDisabled(pageTimestamp) }">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -123,6 +123,24 @@ export default {
      */
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
+    },
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled () {
+      return this.isRtl
+        ? this.isNextMonthDisabled(this.pageTimestamp)
+        : this.isPreviousMonthDisabled(this.pageTimestamp)
+    },
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled () {
+      return this.isRtl
+        ? this.isPreviousMonthDisabled(this.pageTimestamp)
+        : this.isNextMonthDisabled(this.pageTimestamp)
     }
   },
   methods: {

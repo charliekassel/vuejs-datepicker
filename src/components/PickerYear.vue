@@ -5,12 +5,12 @@
       <span
         @click="isRtl ? nextDecade() : previousDecade()"
         class="prev"
-        :class="{ 'disabled' : isRtl ? isNextDecadeDisabled(pageTimestamp) : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
       <span>{{ getPageDecade }}</span>
       <span
         @click="isRtl ? previousDecade() : nextDecade()"
         class="next"
-        :class="{ 'disabled' : isRtl ? isPreviousDecadeDisabled(pageTimestamp) : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <span
       class="cell year"
@@ -60,6 +60,24 @@ export default {
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
+    },
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled () {
+      return this.isRtl
+        ? this.isNextDecadeDisabled(this.pageTimestamp)
+        : this.isPreviousDecadeDisabled(this.pageTimestamp)
+    },
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled () {
+      return this.isRtl
+        ? this.isPreviousDecadeDisabled(this.pageTimestamp)
+        : this.isNextDecadeDisabled(this.pageTimestamp)
     }
   },
   methods: {
