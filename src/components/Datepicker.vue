@@ -190,7 +190,7 @@ export default {
     }
   },
   watch: {
-    value (value) { 
+    value (value) {
       this.setValue(value)
     },
     openDate () {
@@ -441,7 +441,7 @@ export default {
      * @param {Date|String|Number|null} date
      */
     setValue (date) {
-      if (!date) {    
+      if (!date) {
         this.setPageDate()
         this.selectedDate = null
         return
