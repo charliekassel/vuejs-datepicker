@@ -2,10 +2,10 @@
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
-      <span @click="previousDecade" class="prev"
+      <span @click.stop.prevent="previousDecade" class="prev"
         :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
       <span>{{ getPageDecade }}</span>
-      <span @click="nextDecade" class="next"
+      <span @click.stop.prevent="nextDecade" class="next"
         :class="{ 'disabled' : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
     </header>
     <span
@@ -13,7 +13,7 @@
       v-for="year in years"
       :key="year.timestamp"
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-      @click.stop="selectYear(year)">{{ year.year }}</span>
+      @click.stop.prevent="selectYear(year)">{{ year.year }}</span>
   </div>
 </template>
 <script>
