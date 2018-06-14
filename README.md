@@ -106,7 +106,7 @@ Inline always open version
 | id                            | String          |             | Input id                                 |
 | format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
-| language                      | String          | en          | Translation for days and months          |
+| language                      | Object          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
@@ -119,6 +119,7 @@ Inline always open version
 | calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
 | calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
+| day-cell-content              | Function        |             | Use to render custom content in day cell |
 | bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
