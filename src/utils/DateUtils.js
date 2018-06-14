@@ -1,8 +1,7 @@
 import en from '../locale/translations/en'
 
-export default {
-
-  /**
+const utils = {
+/**
    * Returns the full year, using UTC or not
    * @param {Date} date
    * @param {Boolean} useUtc
@@ -77,6 +76,7 @@ export default {
   /**
    * Sets the date, using UTC or not
    * @param {Date} date
+   * @param {Number} value
    * @param {Boolean} useUtc
    */
   setDate (date, value, useUtc) {
@@ -238,7 +238,20 @@ export default {
     }
     return dates
   }
+}
 
+export const makeDateUtils = useUtc => {
+  const dateUtils = {}
+
+  for (const key in utils) {
+    dateUtils[key] = (...args) => utils[key](...args, useUtc)
+  }
+  return dateUtils
+}
+
+export default {
+  ...utils,
+  makeDateUtils
 }
 // eslint-disable-next-line
 ;

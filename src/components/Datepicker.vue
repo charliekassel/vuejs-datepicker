@@ -99,7 +99,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
-import DateUtils from '../utils/DateUtils'
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
@@ -161,7 +161,8 @@ export default {
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
-    const pageTimestamp = DateUtils.setDate(startDate, 1, this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
@@ -185,7 +186,8 @@ export default {
        * Positioning
        */
       calendarHeight: 0,
-      resetTypedDate: new Date()
+      resetTypedDate: new Date(),
+      utils: constructedDateUtils
     }
   },
   watch: {
@@ -412,7 +414,7 @@ export default {
           date = new Date()
         }
       }
-      this.pageTimestamp = DateUtils.setDate(new Date(date), 1, this.useUtc)
+      this.pageTimestamp = this.utils.setDate(new Date(date), 1)
     },
     /**
      * Set the date from a typedDate event

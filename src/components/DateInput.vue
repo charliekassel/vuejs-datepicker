@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import DateUtils from '../utils/DateUtils'
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
@@ -60,9 +60,11 @@ export default {
     useUtc: Boolean
   },
   data () {
+    const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
       input: null,
-      typedDate: false
+      typedDate: false,
+      utils: constructedDateUtils
     }
   },
   computed: {
@@ -75,7 +77,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : DateUtils.formatDate(new Date(this.selectedDate), this.format, this.translation, this.useUtc)
+        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
     },
 
     computedInputClass () {

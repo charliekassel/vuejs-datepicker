@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import DateUtils from '../utils/DateUtils'
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -47,12 +47,12 @@ export default {
         new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
-          year: DateUtils.getFullYear(dObj, this.useUtc),
+          year: this.utils.getFullYear(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
         })
-        DateUtils.setFullYear(dObj, DateUtils.getFullYear(dObj, this.useUtc) + 1, this.useUtc)
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1)
       }
       return years
     },
@@ -60,7 +60,7 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
+      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
@@ -84,6 +84,12 @@ export default {
         : this.isNextDecadeDisabled(this.pageTimestamp)
     }
   },
+  data () {
+    const constructedDateUtils = makeDateUtils(this.useUtc)
+    return {
+      utils: constructedDateUtils
+    }
+  },
   methods: {
     selectYear (year) {
       if (year.isDisabled) {
@@ -93,7 +99,7 @@ export default {
     },
     changeYear (incrementBy) {
       let date = this.pageDate
-      DateUtils.setFullYear(date, DateUtils.getFullYear(date, this.useUtc) + incrementBy, this.useUtc)
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
       this.$emit('changedDecade', date)
     },
     previousDecade () {
@@ -106,7 +112,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(DateUtils.getFullYear(this.disabledDates.to, this.useUtc) / 10) * 10 >= Math.floor(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
+      return Math.floor(this.utils.getFullYear(this.disabledDates.to) / 10) * 10 >= Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -118,7 +124,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(DateUtils.getFullYear(this.disabledDates.from, this.useUtc) / 10) * 10 <= Math.ceil(DateUtils.getFullYear(this.pageDate, this.useUtc) / 10) * 10
+      return Math.ceil(this.utils.getFullYear(this.disabledDates.from) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
 
     /**
@@ -127,7 +133,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && DateUtils.getFullYear(this.selectedDate, this.useUtc) === DateUtils.getFullYear(date, this.useUtc)
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
     },
     /**
      * Whether a year is disabled
@@ -141,12 +147,12 @@ export default {
       }
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (DateUtils.getFullYear(date, this.useUtc) < DateUtils.getFullYear(this.disabledDates.to, this.useUtc)) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
           disabledDates = true
         }
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (DateUtils.getFullYear(date, this.useUtc) > DateUtils.getFullYear(this.disabledDates.from, this.useUtc)) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
           disabledDates = true
         }
       }
