@@ -454,7 +454,7 @@ export default {
           to: date.to ? new Date(date.to) : null
         }
         this.setPageDate(date.from)
-        this.dataInitialized = true;
+        this.dataInitialized = true
       } else {
         if (typeof date === 'string' || typeof date === 'number') {
           let parsed = new Date(date)
