@@ -57,6 +57,7 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
+    formatTypedDate: Function,
     bootstrapStyling: Boolean
   },
   data () {
@@ -123,10 +124,10 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
-        if (!isNaN(typedDate)) {
+        const parsedDate = Date.parse(this.getTypedDate(this.input.value))
+        if (!isNaN(parsedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', new Date(parsedDate))
         }
       }
     },
@@ -135,7 +136,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && isNaN(Date.parse(this.getTypedDate(this.input.value)))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
@@ -148,6 +149,15 @@ export default {
      */
     clearDate () {
       this.$emit('clearDate')
+    },
+    /**
+     * format Date with regular or custom function
+     */
+    getTypedDate (input) {
+      let date = typeof this.formatTypedDate === 'function'
+        ? this.formatTypedDate(input)
+        : input
+      return date
     }
   },
   mounted () {
