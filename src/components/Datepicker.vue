@@ -190,7 +190,7 @@ export default {
     }
   },
   watch: {
-    value (value) { 
+    value (value) {
       this.setValue(value)
     },
     openDate () {
@@ -441,16 +441,20 @@ export default {
      * @param {Date|String|Number|null} date
      */
     setValue (date) {
-      if (!date) {    
+      if (!date) {
         this.setPageDate()
         this.selectedDate = null
         return
       }
 
-      if (this.range) {
+      if (this.range && !this.dataInitialized) {
         this.selectedDate = new Date(date.from)
-        this.selectedRange = {from: new Date(date.from), to: new Date(date.to)}
+        this.selectedRange = {
+          from: new Date(date.from),
+          to: date.to ? new Date(date.to) : null
+        }
         this.setPageDate(date.from)
+        this.dataInitialized = true
       } else {
         if (typeof date === 'string' || typeof date === 'number') {
           let parsed = new Date(date)
