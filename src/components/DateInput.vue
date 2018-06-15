@@ -79,7 +79,7 @@ export default {
         if (typeof this.format === 'function') {
           return this.format(this.selectedRange.from) + ' - ' + this.format(this.selectedRange.to)
         } else {
-          return this.formatDate(this.selectedRange.from, this.selectedRange.to)
+          return this.formatDate(this.selectedRange.from, this.selectedRange.to, true)
         }
       }
       return typeof this.format === 'function'
@@ -103,16 +103,24 @@ export default {
     }
   },
   methods: {
-    formatDate (date1, date2) {
-      if (date2) {
-        // removes month if date1 & 2 have the same.
-        // NB: might be a cheaper solution, consider refactoring.
-        return (this.formatDate(date1) + ' - ' + this.formatDate(date2))
-        .split(' ')
-        .reverse()
-        .filter((e, i, a) => i === a.indexOf(e))
-        .reverse()
-        .join(' ')
+    formatDate (date1, date2, range=false) {
+      if (range) {
+        let returnDate = this.formatDate(date1)
+        if (date2) {
+          // Return one date if the dates are the same
+          if (date1.getTime() == date2.getTime()) {        
+            return this.formatDate(date1);
+          }
+          // removes month if date1 & 2 have the same.
+          // NB: might be a cheaper solution, consider refactoring.
+          returnDate += ' - ' + this.formatDate(date2);
+          returnDate = returnDate.split(' ')
+          .reverse()
+          .filter((e, i, a) => i === a.indexOf(e))
+          .reverse()
+          .join(' ')
+          }    
+        return returnDate
       } else {
         return DateUtils.formatDate(new Date(date1), this.format, this.translation)
       }
