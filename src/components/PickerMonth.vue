@@ -46,9 +46,9 @@ export default {
       const d = this.pageDate
       let months = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc ?
-        new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate())) :
-        new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
+        : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 12; i++) {
         months.push({
           month: this.utils.getMonthName(i, this.translation.months),

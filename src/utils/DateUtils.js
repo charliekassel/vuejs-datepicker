@@ -1,86 +1,81 @@
 import en from '../locale/translations/en'
 
 const utils = {
-/**
+  /**
+   * @type {Boolean}
+   */
+  useUtc: false,
+  /**
    * Returns the full year, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getFullYear (date, useUtc) {
-    return useUtc ? date.getUTCFullYear() : date.getFullYear()
+  getFullYear (date) {
+    return this.useUtc ? date.getUTCFullYear() : date.getFullYear()
   },
 
   /**
    * Returns the month, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getMonth (date, useUtc) {
-    return useUtc ? date.getUTCMonth() : date.getMonth()
+  getMonth (date) {
+    return this.useUtc ? date.getUTCMonth() : date.getMonth()
   },
 
   /**
    * Returns the date, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getDate (date, useUtc) {
-    return useUtc ? date.getUTCDate() : date.getDate()
+  getDate (date) {
+    return this.useUtc ? date.getUTCDate() : date.getDate()
   },
 
   /**
    * Returns the day, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getDay (date, useUtc) {
-    return useUtc ? date.getUTCDay() : date.getDay()
+  getDay (date) {
+    return this.useUtc ? date.getUTCDay() : date.getDay()
   },
 
   /**
    * Returns the hours, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getHours (date, useUtc) {
-    return useUtc ? date.getUTCHours() : date.getHours()
+  getHours (date) {
+    return this.useUtc ? date.getUTCHours() : date.getHours()
   },
 
   /**
    * Returns the minutes, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
-  getMinutes (date, useUtc) {
-    return useUtc ? date.getUTCMinutes() : date.getMinutes()
+  getMinutes (date) {
+    return this.useUtc ? date.getUTCMinutes() : date.getMinutes()
   },
 
   /**
    * Sets the full year, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
   setFullYear (date, value, useUtc) {
-    return useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
+    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
   },
 
   /**
    * Sets the month, using UTC or not
    * @param {Date} date
-   * @param {Boolean} useUtc
    */
   setMonth (date, value, useUtc) {
-    return useUtc ? date.setUTCMonth(value) : date.setMonth(value)
+    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value)
   },
 
   /**
    * Sets the date, using UTC or not
    * @param {Date} date
    * @param {Number} value
-   * @param {Boolean} useUtc
    */
   setDate (date, value, useUtc) {
-    return useUtc ? date.setUTCDate(value) : date.setDate(value)
+    return this.useUtc ? date.setUTCDate(value) : date.setDate(value)
   },
 
   /**
@@ -88,13 +83,12 @@ const utils = {
    * @see https://stackoverflow.com/a/6202196/4455925
    * @param {Date} date1
    * @param {Date} date2
-   * @param {Boolean} useUtc
    */
-  compareDates (date1, date2, useUtc) {
+  compareDates (date1, date2) {
     const d1 = new Date(date1.getTime())
     const d2 = new Date(date2.getTime())
 
-    if (useUtc) {
+    if (this.useUtc) {
       d1.setUTCHours(0, 0, 0, 0)
       d2.setUTCHours(0, 0, 0, 0)
     } else {
@@ -122,11 +116,11 @@ const utils = {
    * @param {Array}
    * @return {String}
    */
-  getDayNameAbbr (date, days, useUtc) {
+  getDayNameAbbr (date, days) {
     if (typeof date !== 'object') {
       throw TypeError('Invalid Type')
     }
-    return days[this.getDay(date, useUtc)]
+    return days[this.getDay(date)]
   },
 
   /**
@@ -135,12 +129,12 @@ const utils = {
    * @param {Array}
    * @return {String}
    */
-  getMonthName (month, months, useUtc) {
+  getMonthName (month, months) {
     if (!months) {
       throw Error('missing 2nd parameter Months array')
     }
     if (typeof month === 'object') {
-      return months[this.getMonth(month, useUtc)]
+      return months[this.getMonth(month)]
     }
     if (typeof month === 'number') {
       return months[month]
@@ -153,12 +147,12 @@ const utils = {
    * @param {Number|Date}
    * @return {String}
    */
-  getMonthNameAbbr (month, monthsAbbr, useUtc) {
+  getMonthNameAbbr (month, monthsAbbr) {
     if (!monthsAbbr) {
       throw Error('missing 2nd paramter Months array')
     }
     if (typeof month === 'object') {
-      return monthsAbbr[this.getMonth(month, useUtc)]
+      return monthsAbbr[this.getMonth(month)]
     }
     if (typeof month === 'number') {
       return monthsAbbr[month]
@@ -205,22 +199,22 @@ const utils = {
    * @param {Object}
    * @return {String}
    */
-  formatDate (date, format, translation, useUtc) {
+  formatDate (date, format, translation) {
     translation = (!translation) ? en : translation
-    let year = this.getFullYear(date, useUtc)
-    let month = this.getMonth(date, useUtc) + 1
-    let day = this.getDate(date, useUtc)
+    let year = this.getFullYear(date)
+    let month = this.getMonth(date) + 1
+    let day = this.getDate(date)
     let str = format
       .replace(/dd/, ('0' + day).slice(-2))
       .replace(/d/, day)
       .replace(/yyyy/, year)
       .replace(/yy/, String(year).slice(2))
-      .replace(/MMMM/, this.getMonthName(this.getMonth(date, useUtc), translation.months, useUtc))
-      .replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date, useUtc), translation.monthsAbbr, useUtc))
+      .replace(/MMMM/, this.getMonthName(this.getMonth(date), translation.months))
+      .replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date), translation.monthsAbbr))
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a|ä|e)/, month)
-      .replace(/su/, this.getNthSuffix(this.getDate(date, useUtc)))
-      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days, useUtc))
+      .replace(/su/, this.getNthSuffix(this.getDate(date)))
+      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
     return str
   },
 
@@ -230,28 +224,20 @@ const utils = {
    * @param {Date} end
    * @return {Array}
    */
-  createDateArray (start, end, useUtc) {
+  createDateArray (start, end) {
     let dates = []
     while (start <= end) {
       dates.push(new Date(start))
-      start = this.setDate(new Date(start), this.getDate(new Date(start), useUtc) + 1, useUtc)
+      start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1)
     }
     return dates
   }
 }
 
-export const makeDateUtils = useUtc => {
-  const dateUtils = {}
-
-  for (const key in utils) {
-    dateUtils[key] = (...args) => utils[key](...args, useUtc)
-  }
-  return dateUtils
-}
+export const makeDateUtils = useUtc => Object.assign(utils, {useUtc})
 
 export default {
-  ...utils,
-  makeDateUtils
+  ...utils
 }
 // eslint-disable-next-line
 ;

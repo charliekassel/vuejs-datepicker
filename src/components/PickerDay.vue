@@ -75,9 +75,9 @@ export default {
      */
     blankDays () {
       const d = this.pageDate
-      let dObj = this.useUtc ?
-        new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) :
-        new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
+        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       if (this.mondayFirst) {
         return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
       }
@@ -90,9 +90,9 @@ export default {
       const d = this.pageDate
       let days = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc ?
-        new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)) :
-        new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
+        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
       for (let i = 0; i < daysInMonth; i++) {
         days.push({
