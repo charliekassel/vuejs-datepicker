@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -33,22 +34,25 @@ export default {
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
-    allowedToShowView: Function
+    allowedToShowView: Function,
+    useUtc: Boolean
   },
   computed: {
     years () {
       const d = this.pageDate
       let years = []
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+      // set up a new date object to the beginning of the current 'page'7
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
+        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
-          year: dObj.getFullYear(),
+          year: this.utils.getFullYear(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
         })
-        dObj.setFullYear(dObj.getFullYear() + 1)
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1)
       }
       return years
     },
@@ -56,7 +60,7 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.pageDate.getFullYear() / 10) * 10
+      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
@@ -80,6 +84,12 @@ export default {
         : this.isNextDecadeDisabled(this.pageTimestamp)
     }
   },
+  data () {
+    const constructedDateUtils = makeDateUtils(this.useUtc)
+    return {
+      utils: constructedDateUtils
+    }
+  },
   methods: {
     selectYear (year) {
       if (year.isDisabled) {
@@ -89,7 +99,7 @@ export default {
     },
     changeYear (incrementBy) {
       let date = this.pageDate
-      date.setYear(date.getFullYear() + incrementBy)
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
       this.$emit('changedDecade', date)
     },
     previousDecade () {
@@ -102,7 +112,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(this.disabledDates.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
+      return Math.floor(this.utils.getFullYear(this.disabledDates.to) / 10) * 10 >= Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -114,7 +124,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.disabledDates.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
+      return Math.ceil(this.utils.getFullYear(this.disabledDates.from) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
 
     /**
@@ -123,7 +133,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
     },
     /**
      * Whether a year is disabled
@@ -137,12 +147,12 @@ export default {
       }
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (date.getFullYear() < this.disabledDates.to.getFullYear()) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
           disabledDates = true
         }
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (date.getFullYear() > this.disabledDates.from.getFullYear()) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
           disabledDates = true
         }
       }
