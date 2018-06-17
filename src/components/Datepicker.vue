@@ -51,7 +51,7 @@
       @changedMonth="setPageDate"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="$emit('selectedDisabled')">
+      @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -359,6 +359,12 @@ export default {
         this.close(true)
       }
       this.resetTypedDate = new Date()
+    },
+    /**
+     * @param {Object} date
+     */
+    selectDisabledDate (date) {
+      this.$emit('selectedDisabled', date)
     },
     /**
      * @param {Object} month
