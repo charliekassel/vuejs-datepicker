@@ -234,7 +234,7 @@ const utils = {
   }
 }
 
-export const makeDateUtils = useUtc => Object.assign(utils, {useUtc})
+export const makeDateUtils = useUtc => ({...utils, useUtc})
 
 export default {
   ...utils
