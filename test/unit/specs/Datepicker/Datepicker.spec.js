@@ -99,12 +99,19 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.isOpen).toEqual(false)
   })
 
+  it('should emit selectedDisabled on a disabled timestamp', () => {
+    const date = new Date(2016, 9, 1)
+    wrapper.vm.selectDisabledDate({timestamp: date.getTime()})
+    expect(wrapper.emitted().selectedDisabled).toBeTruthy()
+  })
+
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
     wrapper.vm.selectDate({timestamp: date.getTime()})
     expect(wrapper.vm.pageTimestamp).toEqual(date.getTime())
     expect(wrapper.vm.selectedDate.getMonth()).toEqual(9)
     expect(wrapper.vm.showDayView).toEqual(false)
+    expect(wrapper.emitted().selected).toBeTruthy()
   })
 
   it('can select a month', () => {
