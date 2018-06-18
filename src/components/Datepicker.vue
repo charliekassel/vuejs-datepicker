@@ -48,7 +48,7 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
-      @changedMonth="setPageDate"
+      @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
@@ -421,7 +421,13 @@ export default {
         }
       }
       this.pageTimestamp = this.utils.setDate(new Date(date), 1)
-      this.$emit('changedMonth', date)
+    },
+    /**
+     * Handles a month change from the day picker
+     */
+    handleChangedMonthFromDayPicker (date) {
+        this.setPageDate(date)
+        this.$emit('changedMonth', date)
     },
     /**
      * Set the date from a typedDate event
