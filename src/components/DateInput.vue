@@ -45,7 +45,11 @@ export default {
     id: String,
     name: String,
     refName: String,
-    openDate: Date,
+    openDate: {
+      validator: (val) => {
+        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+      }
+    },
     placeholder: String,
     inputClass: [String, Object, Array],
     clearButton: Boolean,
