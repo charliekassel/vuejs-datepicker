@@ -162,6 +162,7 @@ export default {
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
     const constructedDateUtils = makeDateUtils(this.useUtc)
+    constructedDateUtils.resetDateTime(startDate)
     const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
       /*
@@ -186,7 +187,7 @@ export default {
        * Positioning
        */
       calendarHeight: 0,
-      resetTypedDate: new Date(),
+      resetTypedDate: constructedDateUtils.getNewDateObject(),
       utils: constructedDateUtils
     }
   },
@@ -358,7 +359,7 @@ export default {
       if (!this.isInline) {
         this.close(true)
       }
-      this.resetTypedDate = new Date()
+      this.resetTypedDate = this.utils.getNewDateObject()
     },
     /**
      * @param {Object} date
@@ -419,6 +420,7 @@ export default {
         } else {
           date = new Date()
         }
+        this.utils.resetDateTime(date)
       }
       this.pageTimestamp = this.utils.setDate(new Date(date), 1)
     },
