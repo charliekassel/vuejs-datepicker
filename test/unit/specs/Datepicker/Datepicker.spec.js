@@ -200,6 +200,12 @@ describe('Datepicker mounted', () => {
     await wrapper.vm.$nextTick()
     expect(spy).toBeCalled()
   })
+
+  it('should emit changedMonth on a month change received from PickerDay', () => {
+    const date = new Date(2016, 9, 1)
+    wrapper.vm.handleChangedMonthFromDayPicker({timestamp: date.getTime()})
+    expect(wrapper.emitted().changedMonth).toBeTruthy()
+  })
 })
 
 describe('Datepicker.vue set by string', () => {
