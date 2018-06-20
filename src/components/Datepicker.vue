@@ -426,8 +426,8 @@ export default {
      * Handles a month change from the day picker
      */
     handleChangedMonthFromDayPicker (date) {
-        this.setPageDate(date)
-        this.$emit('changedMonth', date)
+      this.setPageDate(date)
+      this.$emit('changedMonth', date)
     },
     /**
      * Set the date from a typedDate event
