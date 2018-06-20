@@ -299,10 +299,28 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
+### How to apply language
+
+Below script tag in component.
 ```javascript
 import {en, es} from 'vuejs-datepicker/dist/locale'
+```
+
+In component data.
+```javascript
+data () {
+    return {
+      en: en,
+      es: es
+    }
+}
+```
+
+html.
+```javascript
 <datepicker :language="es"></datepicker>
 ```
+
 Available languages
 
 | Abbr        | Language         |          |
@@ -336,17 +354,17 @@ Available languages
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
 | mn          | Mongolian        |          |
-| nb-no       | Norwegian Bokmål |          |
+| nbNO        | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |
-| pt-br       | Portuguese-Brazil|          |
+| ptBR        | Portuguese-Brazil|          |
 | ro          | Romanian         |          |
 | ru          | Russian          |          |
 | sk          | Slovak           |          |
-| sl-si       | Slovenian        |          |
+| slSI        | Slovenian        |          |
 | sv          | Swedish          |          |
 | sr          | Serbian (Latin)  |          |
-| sr-Cyrl     | Serbian (Cyrl)   |          |
+| srCyrl      | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
