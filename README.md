@@ -120,7 +120,7 @@ Inline always open version
 | calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
 | day-cell-content              | Function        |             | Use to render custom content in day cell |
-| bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
+| bootstrap-styling             | Boolean         | false       | Output bootstrap v4 styling classes.     |
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
@@ -299,10 +299,28 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
+### How to apply language
+
+Below script tag in component.
 ```javascript
 import {en, es} from 'vuejs-datepicker/dist/locale'
+```
+
+In component data.
+```javascript
+data () {
+    return {
+      en: en,
+      es: es
+    }
+}
+```
+
+html.
+```javascript
 <datepicker :language="es"></datepicker>
 ```
+
 Available languages
 
 | Abbr        | Language         |          |
@@ -336,17 +354,17 @@ Available languages
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
 | mn          | Mongolian        |          |
-| nb-no       | Norwegian Bokmål |          |
+| nbNO        | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |
-| pt-br       | Portuguese-Brazil|          |
+| ptBR        | Portuguese-Brazil|          |
 | ro          | Romanian         |          |
 | ru          | Russian          |          |
 | sk          | Slovak           |          |
-| sl-si       | Slovenian        |          |
+| slSI        | Slovenian        |          |
 | sv          | Swedish          |          |
 | sr          | Serbian (Latin)  |          |
-| sr-Cyrl     | Serbian (Cyrl)   |          |
+| srCyrl      | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
