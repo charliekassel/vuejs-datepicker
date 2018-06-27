@@ -2,11 +2,15 @@
   <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
-      <span @click="previousDecade" class="prev"
-        :class="{ 'disabled' : isPreviousDecadeDisabled(pageTimestamp) }">&lt;</span>
+      <span
+        @click="isRtl ? nextDecade() : previousDecade()"
+        class="prev"
+        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
       <span>{{ getPageDecade }}</span>
-      <span @click="nextDecade" class="next"
-        :class="{ 'disabled' : isNextDecadeDisabled(pageTimestamp) }">&gt;</span>
+      <span
+        @click="isRtl ? previousDecade() : nextDecade()"
+        class="next"
+        :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <span
       class="cell year"
@@ -17,6 +21,7 @@
   </div>
 </template>
 <script>
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -28,22 +33,26 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
-    allowedToShowView: Function
+    isRtl: Boolean,
+    allowedToShowView: Function,
+    useUtc: Boolean
   },
   computed: {
     years () {
       const d = this.pageDate
       let years = []
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+      // set up a new date object to the beginning of the current 'page'7
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
+        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
-          year: dObj.getFullYear(),
+          year: this.utils.getFullYear(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
         })
-        dObj.setFullYear(dObj.getFullYear() + 1)
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1)
       }
       return years
     },
@@ -51,10 +60,34 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.pageDate.getFullYear() / 10) * 10
+      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
+    },
+    /**
+     * Is the left hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isLeftNavDisabled () {
+      return this.isRtl
+        ? this.isNextDecadeDisabled(this.pageTimestamp)
+        : this.isPreviousDecadeDisabled(this.pageTimestamp)
+    },
+    /**
+     * Is the right hand navigation button disabled?
+     * @return {Boolean}
+     */
+    isRightNavDisabled () {
+      return this.isRtl
+        ? this.isPreviousDecadeDisabled(this.pageTimestamp)
+        : this.isNextDecadeDisabled(this.pageTimestamp)
+    }
+  },
+  data () {
+    const constructedDateUtils = makeDateUtils(this.useUtc)
+    return {
+      utils: constructedDateUtils
     }
   },
   methods: {
@@ -66,7 +99,7 @@ export default {
     },
     changeYear (incrementBy) {
       let date = this.pageDate
-      date.setYear(date.getFullYear() + incrementBy)
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
       this.$emit('changedDecade', date)
     },
     previousDecade () {
@@ -79,7 +112,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(this.disabledDates.to.getFullYear() / 10) * 10 >= Math.floor(this.pageDate.getFullYear() / 10) * 10
+      return Math.floor(this.utils.getFullYear(this.disabledDates.to) / 10) * 10 >= Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -91,7 +124,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.disabledDates.from.getFullYear() / 10) * 10 <= Math.ceil(this.pageDate.getFullYear() / 10) * 10
+      return Math.ceil(this.utils.getFullYear(this.disabledDates.from) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
 
     /**
@@ -100,7 +133,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && this.selectedDate.getFullYear() === date.getFullYear()
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
     },
     /**
      * Whether a year is disabled
@@ -114,12 +147,12 @@ export default {
       }
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (date.getFullYear() < this.disabledDates.to.getFullYear()) {
+        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
           disabledDates = true
         }
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (date.getFullYear() > this.disabledDates.from.getFullYear()) {
+        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
           disabledDates = true
         }
       }

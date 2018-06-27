@@ -21,6 +21,7 @@
       :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
+      :use-utc="useUtc"
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
@@ -45,10 +46,12 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
-      @changedMonth="setPageDate"
+      :dayCellContent="dayCellContent"
+      :use-utc="useUtc"
+      @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="$emit('selectedDisabled')">
+      @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -63,6 +66,8 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :isRtl="isRtl"
+      :use-utc="useUtc"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate">
@@ -80,6 +85,8 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :isRtl="isRtl"
+      :use-utc="useUtc"
       @selectYear="selectYear"
       @changedDecade="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
@@ -92,6 +99,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
+import { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
@@ -121,6 +129,7 @@ export default {
         return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
+    dayCellContent: Function,
     fullMonthName: Boolean,
     disabledDates: Object,
     highlighted: Object,
@@ -140,6 +149,7 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
+    useUtc: Boolean,
     minimumView: {
       type: String,
       default: 'day'
@@ -151,13 +161,15 @@ export default {
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
+    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
       /*
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
        * This represents the first day of the current viewing month
        * {Number}
        */
-      pageTimestamp: startDate.setDate(1),
+      pageTimestamp,
       /*
        * Selected Date
        * {Date}
@@ -174,7 +186,8 @@ export default {
        * Positioning
        */
       calendarHeight: 0,
-      resetTypedDate: new Date()
+      resetTypedDate: new Date(),
+      utils: constructedDateUtils
     }
   },
   watch: {
@@ -348,6 +361,12 @@ export default {
       this.resetTypedDate = new Date()
     },
     /**
+     * @param {Object} date
+     */
+    selectDisabledDate (date) {
+      this.$emit('selectedDisabled', date)
+    },
+    /**
      * @param {Object} month
      */
     selectMonth (month) {
@@ -401,7 +420,14 @@ export default {
           date = new Date()
         }
       }
-      this.pageTimestamp = (new Date(date)).setDate(1)
+      this.pageTimestamp = this.utils.setDate(new Date(date), 1)
+    },
+    /**
+     * Handles a month change from the day picker
+     */
+    handleChangedMonthFromDayPicker (date) {
+      this.setPageDate(date)
+      this.$emit('changedMonth', date)
     },
     /**
      * Set the date from a typedDate event
