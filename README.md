@@ -345,6 +345,7 @@ Available languages
 | sv          | Swedish          |          |
 | sr          | Serbian (Latin)  |          |
 | sr-Cyrl     | Serbian (Cyrl)   |          |
+| sq          | Albanian         |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
