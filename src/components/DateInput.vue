@@ -125,7 +125,7 @@ export default {
       // close calendar if escape or enter are pressed
       if ([
         27, // escape
-        13  // enter
+        13 // enter
       ].includes(event.keyCode)) {
         this.input.blur()
       }
