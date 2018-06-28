@@ -46,6 +46,7 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
+      :dayCustomClasses="dayCustomClasses"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       @changedMonth="handleChangedMonthFromDayPicker"
@@ -129,6 +130,7 @@ export default {
         return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
       }
     },
+    dayCustomClasses: Function,
     dayCellContent: Function,
     fullMonthName: Boolean,
     disabledDates: Object,
