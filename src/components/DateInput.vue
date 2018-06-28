@@ -22,7 +22,7 @@
       :clear-button="clearButton"
       :disabled="disabled"
       :required="required"
-      :readonly="readonly"
+      :readonly="!typeable"
       @click="showCalendar"
       @keydown="allowTyping"
       @keyup="parseTypedDate"
@@ -61,7 +61,6 @@ export default {
     calendarButtonIconContent: String,
     disabled: Boolean,
     required: Boolean,
-    readonly: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
     useUtc: Boolean
