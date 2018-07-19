@@ -24,7 +24,6 @@
       :required="required"
       :readonly="!typeable"
       @click="showCalendar"
-      @keydown="allowTyping"
       @keyup="parseTypedDate"
       @blur="inputBlurred"
       autocomplete="off">
@@ -104,18 +103,6 @@ export default {
   methods: {
     showCalendar () {
       this.$emit('showCalendar')
-    },
-    /**
-     * Prevent typing if not typeable
-     * @param {Event} event
-     * @return {Boolean}
-     */
-    allowTyping (event) {
-      if (!this.typeable) {
-        event.preventDefault()
-        return false
-      }
-      return true
     },
     /**
      * Attempt to parse a typed date
