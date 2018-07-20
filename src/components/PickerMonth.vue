@@ -181,9 +181,7 @@ export default {
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
         if (
-          (this.disabledDates.from &&
-            this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) &&
-            this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from)) ||
+          (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from)) ||
           this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)
         ) {
           disabledDates = true
