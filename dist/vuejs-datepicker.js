@@ -1336,10 +1336,12 @@
         }
 
         if (this.range && !this.dataInitialized) {
-          this.selectedDate = DateUtils.isValidDate(new Date(date.from)) ? new Date(date.from) : null;
+          var isValidFrom = date.from && DateUtils.isValidDate(new Date(date.from));
+          var isValidTo = date.to && DateUtils.isValidDate(new Date(date.to));
+          this.selectedDate = isValidFrom ? new Date(date.from) : null;
           this.selectedRange = {
             from: this.selectedDate,
-            to: DateUtils.isValidDate(new Date(date.to)) ? new Date(date.to) : null
+            to: isValidTo ? new Date(date.to) : null
           };
           this.setPageDate(this.selectedDate);
           this.dataInitialized = true;

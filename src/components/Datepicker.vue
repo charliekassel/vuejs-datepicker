@@ -451,7 +451,7 @@ export default {
       if (this.range && !this.dataInitialized) {
         const isValidFrom = date.from && DateUtils.isValidDate(new Date(date.from))
         const isValidTo = date.to && DateUtils.isValidDate(new Date(date.to))
-        this.selectedDate = isValid ? new Date(date.from) : null
+        this.selectedDate = isValidFrom ? new Date(date.from) : null
         this.selectedRange = {
           from: this.selectedDate,
           to: isValidTo ? new Date(date.to) : null
