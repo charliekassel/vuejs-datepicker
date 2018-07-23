@@ -90,6 +90,7 @@
 </template>
 <script>
 import en from '../locale/translations/en'
+import DateUtils from '../utils/DateUtils'
 import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
@@ -448,12 +449,12 @@ export default {
       }
 
       if (this.range && !this.dataInitialized) {
-        this.selectedDate = date.from ? new Date(date.from) : null
+        this.selectedDate = DateUtils.isValidDate(date.from) ? new Date(date.from) : null
         this.selectedRange = {
           from: this.selectedDate,
-          to: date.to ? new Date(date.to) : null
+          to: DateUtils.isValidDate(date.to) ? new Date(date.to) : null
         }
-        this.setPageDate(date.from)
+        this.setPageDate(this.selectedDate)
         this.dataInitialized = true
       } else {
         if (typeof date === 'string' || typeof date === 'number') {
