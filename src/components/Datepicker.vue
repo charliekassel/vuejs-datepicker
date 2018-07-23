@@ -449,10 +449,10 @@ export default {
       }
 
       if (this.range && !this.dataInitialized) {
-        this.selectedDate = DateUtils.isValidDate(date.from) ? new Date(date.from) : null
+        this.selectedDate = DateUtils.isValidDate(new Date(date.from)) ? new Date(date.from) : null
         this.selectedRange = {
           from: this.selectedDate,
-          to: DateUtils.isValidDate(date.to) ? new Date(date.to) : null
+          to: DateUtils.isValidDate(new Date(date.to)) ? new Date(date.to) : null
         }
         this.setPageDate(this.selectedDate)
         this.dataInitialized = true
