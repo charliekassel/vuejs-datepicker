@@ -1336,9 +1336,9 @@
         }
 
         if (this.range && !this.dataInitialized) {
-          this.selectedDate = new Date(date.from);
+          this.selectedDate = date.from ? new Date(date.from) : null;
           this.selectedRange = {
-            from: new Date(date.from),
+            from: this.selectedDate,
             to: date.to ? new Date(date.to) : null
           };
           this.setPageDate(date.from);
