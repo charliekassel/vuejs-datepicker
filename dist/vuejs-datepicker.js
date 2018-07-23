@@ -1336,12 +1336,12 @@
         }
 
         if (this.range && !this.dataInitialized) {
-          this.selectedDate = date.from ? new Date(date.from) : null;
+          this.selectedDate = DateUtils.isValidDate(date.from) ? new Date(date.from) : null;
           this.selectedRange = {
             from: this.selectedDate,
-            to: date.to ? new Date(date.to) : null
+            to: DateUtils.isValidDate(date.to) ? new Date(date.to) : null
           };
-          this.setPageDate(date.from);
+          this.setPageDate(this.selectedDate);
           this.dataInitialized = true;
         } else {
           if (typeof date === 'string' || typeof date === 'number') {
