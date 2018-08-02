@@ -113,7 +113,7 @@ export default {
       if ([
         27, // escape
         13 // enter
-      ].includes(event.keyCode)) {
+      ].indexOf(event.keyCode) !== -1) {
         this.input.blur()
       }
 
