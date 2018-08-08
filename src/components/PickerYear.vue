@@ -124,7 +124,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.utils.getFullYear(this.disabledDates.from) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
+      return Math.ceil((this.utils.getFullYear(this.disabledDates.from) + 1) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
     },
 
     /**
