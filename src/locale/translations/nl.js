@@ -2,9 +2,9 @@ import Language from '../Language'
 
 export default new Language(
   'Dutch',
-  ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-  ['jan', 'feb', 'maa', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-  ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
+  ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
+  ['jan', 'Feb', 'Maa', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+  ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
 )
 // eslint-disable-next-line
 ;
