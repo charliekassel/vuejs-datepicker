@@ -53,6 +53,7 @@
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <slot name="afterCalendar" slot="afterCalendar"></slot>
     </picker-day>
 
     <!-- Month View -->
