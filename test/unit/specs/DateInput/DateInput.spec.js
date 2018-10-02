@@ -41,9 +41,9 @@ describe('DateInput', () => {
     expect(wrapper.find('input').element.value).toEqual('2016/1/15')
   })
 
-  it('emits showCalendar', () => {
+  it('emits show-calendar', () => {
     wrapper.vm.showCalendar()
-    expect(wrapper.emitted().showCalendar).toBeTruthy()
+    expect(wrapper.emitted('show-calendar')).toBeTruthy()
   })
 
   it('adds bootstrap classes', () => {
@@ -76,8 +76,8 @@ describe('DateInput', () => {
     expect(wrapper.find('input').element.value).toEqual('!')
   })
 
-  it('triggers closeCalendar on blur', () => {
+  it('triggers close-calendar on blur', () => {
     wrapper.find('input').trigger('blur')
-    expect(wrapper.emitted('closeCalendar')).toBeTruthy()
+    expect(wrapper.emitted('close-calendar')).toBeTruthy()
   })
 })

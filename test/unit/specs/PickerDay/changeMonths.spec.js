@@ -17,13 +17,13 @@ describe('PickerDay: changing months', () => {
 
   it('can set the next month', () => {
     wrapper.vm.nextMonth()
-    expect(wrapper.emitted().changedMonth).toBeTruthy()
-    expect(wrapper.emitted().changedMonth[0][0].getMonth()).toEqual(2)
+    expect(wrapper.emitted('changed-month')).toBeTruthy()
+    expect(wrapper.emitted('changed-month')[0][0].getMonth()).toEqual(2)
   })
 
   it('can set the previous month', () => {
     wrapper.vm.previousMonth()
-    expect(wrapper.emitted().changedMonth).toBeTruthy()
-    expect(wrapper.emitted().changedMonth[0][0].getMonth()).toEqual(0)
+    expect(wrapper.emitted('changed-month')).toBeTruthy()
+    expect(wrapper.emitted('changed-month')[0][0].getMonth()).toEqual(0)
   })
 })

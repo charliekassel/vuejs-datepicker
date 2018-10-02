@@ -33,8 +33,8 @@ describe('DateInput', () => {
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'
     input.trigger('keyup')
-    expect(wrapper.emitted().typedDate).toBeDefined()
-    expect(wrapper.emitted().typedDate[0][0]).toBeInstanceOf(Date)
+    expect(wrapper.emitted('typed-date')).toBeDefined()
+    expect(wrapper.emitted('typed-date')[0][0]).toBeInstanceOf(Date)
   })
 
   it('emits closeCalendar when return is pressed', () => {
@@ -48,7 +48,7 @@ describe('DateInput', () => {
     const input = wrapper.find('input')
     wrapper.setData({typedDate: 'not a date'})
     input.trigger('blur')
-    expect(wrapper.emitted().clearDate).toBeDefined()
+    expect(wrapper.emitted('clear-date')).toBeDefined()
   })
 
   it('doesn\'t emit the date if typeable=false', () => {
@@ -63,6 +63,6 @@ describe('DateInput', () => {
     wrapper.vm.input.value = '2018-04-24'
     input.trigger('keydown')
     input.trigger('keyup')
-    expect(wrapper.emitted().typedDate).not.toBeDefined()
+    expect(wrapper.emitted('typed-date')).not.toBeDefined()
   })
 })

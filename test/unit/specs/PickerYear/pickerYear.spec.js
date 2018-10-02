@@ -26,12 +26,12 @@ describe('PickerYear', () => {
 
   it('can set the next decade', () => {
     wrapper.vm.nextDecade()
-    expect(wrapper.emitted().changedDecade).toBeTruthy()
+    expect(wrapper.emitted('changed-decade')).toBeTruthy()
   })
 
   it('can set the previous decade', () => {
     wrapper.vm.previousDecade()
-    expect(wrapper.emitted().changedDecade).toBeTruthy()
+    expect(wrapper.emitted('changed-decade')).toBeTruthy()
   })
 
   it('formats the decade range', () => {
@@ -47,6 +47,6 @@ describe('PickerYear', () => {
 
   it('emits an event when selected', () => {
     wrapper.vm.selectYear({isDisabled: false})
-    expect(wrapper.emitted().selectYear).toBeTruthy()
+    expect(wrapper.emitted('select-year')).toBeTruthy()
   })
 })
