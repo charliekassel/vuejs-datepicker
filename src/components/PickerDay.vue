@@ -157,10 +157,10 @@ export default {
   methods: {
     selectDate (date) {
       if (date.isDisabled) {
-        this.$emit('selectedDisabled', date)
+        this.$emit('selected-disabled', date)
         return false
       }
-      this.$emit('selectDate', date)
+      this.$emit('select-date', date)
     },
     /**
      * @return {Number}
@@ -172,7 +172,7 @@ export default {
      * Emit an event to show the month picker
      */
     showMonthCalendar () {
-      this.$emit('showMonthCalendar')
+      this.$emit('show-month-calendar')
     },
     /**
      * Change the page month
@@ -181,7 +181,7 @@ export default {
     changeMonth (incrementBy) {
       let date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
-      this.$emit('changedMonth', date)
+      this.$emit('changed-month', date)
     },
     /**
      * Decrement the page month

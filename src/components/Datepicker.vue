@@ -22,10 +22,10 @@
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
-      @showCalendar="showCalendar"
-      @closeCalendar="close"
-      @typedDate="setTypedDate"
-      @clearDate="clearDate">
+      @show-calendar="showCalendar"
+      @close-calendar="close"
+      @typed-date="setTypedDate"
+      @clear-date="clearDate">
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
@@ -48,10 +48,10 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
-      @changedMonth="handleChangedMonthFromDayPicker"
-      @selectDate="selectDate"
-      @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="selectDisabledDate">
+      @changed-month="handleChangedMonthFromDayPicker"
+      @select-date="selectDate"
+      @show-month-calendar="showMonthCalendar"
+      @selected-disabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -68,9 +68,9 @@
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
-      @selectMonth="selectMonth"
-      @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
+      @select-month="selectMonth"
+      @show-year-calendar="showYearCalendar"
+      @changed-year="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-month>
 
@@ -87,8 +87,8 @@
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
-      @selectYear="selectYear"
-      @changedDecade="setPageDate">
+      @select-year="selectYear"
+      @changed-decade="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-year>
   </div>
@@ -364,7 +364,7 @@ export default {
      * @param {Object} date
      */
     selectDisabledDate (date) {
-      this.$emit('selectedDisabled', date)
+      this.$emit('selected-disabled', date)
     },
     /**
      * @param {Object} month
@@ -373,7 +373,7 @@ export default {
       const date = new Date(month.timestamp)
       if (this.allowedToShowView('day')) {
         this.setPageDate(date)
-        this.$emit('changedMonth', month)
+        this.$emit('changed-month', month)
         this.showDayCalendar()
       } else {
         this.selectDate(month)
@@ -386,7 +386,7 @@ export default {
       const date = new Date(year.timestamp)
       if (this.allowedToShowView('month')) {
         this.setPageDate(date)
-        this.$emit('changedYear', year)
+        this.$emit('changed-year', year)
         this.showMonthCalendar()
       } else {
         this.selectDate(year)
@@ -427,7 +427,7 @@ export default {
      */
     handleChangedMonthFromDayPicker (date) {
       this.setPageDate(date)
-      this.$emit('changedMonth', date)
+      this.$emit('changed-month', date)
     },
     /**
      * Set the date from a typedDate event

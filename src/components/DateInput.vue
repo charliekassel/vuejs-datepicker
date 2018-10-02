@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     showCalendar () {
-      this.$emit('showCalendar')
+      this.$emit('show-calendar')
     },
     /**
      * Attempt to parse a typed date
@@ -121,7 +121,7 @@ export default {
         const typedDate = Date.parse(this.input.value)
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typed-date', new Date(this.typedDate))
         }
       }
     },
@@ -136,13 +136,13 @@ export default {
         this.typedDate = null
       }
 
-      this.$emit('closeCalendar')
+      this.$emit('close-calendar')
     },
     /**
      * emit a clearDate event
      */
     clearDate () {
-      this.$emit('clearDate')
+      this.$emit('clear-date')
     }
   },
   mounted () {

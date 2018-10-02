@@ -96,7 +96,7 @@ export default {
       if (month.isDisabled) {
         return false
       }
-      this.$emit('selectMonth', month)
+      this.$emit('select-month', month)
     },
     /**
      * Changes the year up or down
@@ -105,7 +105,7 @@ export default {
     changeYear (incrementBy) {
       let date = this.pageDate
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
-      this.$emit('changedYear', date)
+      this.$emit('changed-year', date)
     },
     /**
      * Decrements the year
@@ -147,7 +147,7 @@ export default {
      * Emits an event that shows the year calendar
      */
     showYearCalendar () {
-      this.$emit('showYearCalendar')
+      this.$emit('show-year-calendar')
     },
     /**
      * Whether the selected date is in this month

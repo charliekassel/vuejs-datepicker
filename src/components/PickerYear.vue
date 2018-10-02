@@ -95,12 +95,12 @@ export default {
       if (year.isDisabled) {
         return false
       }
-      this.$emit('selectYear', year)
+      this.$emit('select-year', year)
     },
     changeYear (incrementBy) {
       let date = this.pageDate
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
-      this.$emit('changedDecade', date)
+      this.$emit('changed-decade', date)
     },
     previousDecade () {
       if (this.isPreviousDecadeDisabled()) {
