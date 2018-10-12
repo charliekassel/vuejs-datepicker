@@ -22,6 +22,7 @@
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
+      :show-calendar-on-focus="showCalendarOnFocus"
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
@@ -157,7 +158,8 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
-    }
+    },
+    showCalendarOnFocus: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()

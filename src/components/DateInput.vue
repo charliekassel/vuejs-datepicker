@@ -24,6 +24,7 @@
       :required="required"
       :readonly="!typeable"
       @click="showCalendar"
+      @focus="showFocusCalendar"
       @keyup="parseTypedDate"
       @blur="inputBlurred"
       autocomplete="off">
@@ -62,7 +63,8 @@ export default {
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    showCalendarOnFocus: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -102,7 +104,16 @@ export default {
   },
   methods: {
     showCalendar () {
-      this.$emit('showCalendar')
+      // prevent to emit the event twice if we are listening focus
+      if (!this.showCalendarOnFocus) {
+        this.$emit('showCalendar')
+      }
+    },
+
+    showFocusCalendar () {
+      if (this.showCalendarOnFocus) {
+        this.$emit('showCalendar', true)
+      }
     },
     /**
      * Attempt to parse a typed date

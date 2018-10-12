@@ -80,4 +80,12 @@ describe('DateInput', () => {
     wrapper.find('input').trigger('blur')
     expect(wrapper.emitted('closeCalendar')).toBeTruthy()
   })
+
+  it('should open the calendar on focus', () => {
+    wrapper.setProps({
+      showCalendarOnFocus: true
+    })
+    wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted().showCalendar).toBeTruthy()
+  })
 })
