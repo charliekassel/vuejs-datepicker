@@ -3,7 +3,6 @@ node_modules
 npm-debug.log
 .vscode
 .coveralls.yml
-dist/*
 example/demo.js
 example/demo.js.map
 test/unit/coverage
