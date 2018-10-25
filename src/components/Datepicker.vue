@@ -23,7 +23,7 @@
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
       @showCalendar="showCalendar"
-      @closeCalendar="close"
+      @closeCalendar="close(true)"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
       <slot name="afterDateInput" slot="afterDateInput"></slot>
