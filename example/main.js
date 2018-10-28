@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Demo from './Demo.vue'
+import moment from 'moment'
 
 Vue.config.productionTip = false
 

@@ -3,7 +3,7 @@
     <h1>Datepicker Examples</h1>
     <div class="example">
       <h3>Default datepicker...</h3>
-      <datepicker placeholder="Select Date" />
+      <datepicker typeable format="dd.MM.yyyy" placeholder="Select Date" />
       <code>
           &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
       </code>

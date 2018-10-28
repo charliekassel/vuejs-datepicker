@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import { makeDateUtils, parseDate } from '../utils/DateUtils'
 export default {
   props: {
     selectedDate: Date,
@@ -118,10 +118,10 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
-        if (!isNaN(typedDate)) {
+        const typedDate = this.parseDate(this.input.value)
+        if (typedDate) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', typedDate)
         }
       }
     },
@@ -130,13 +130,16 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && this.parseDate(this.input.value)) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
       }
 
       this.$emit('closeCalendar')
+    },
+    parseDate (value) {
+      return parseDate(value, typeof this.format === 'function' ? undefined : this.format)
     },
     /**
      * emit a clearDate event

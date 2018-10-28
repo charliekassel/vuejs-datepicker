@@ -13,7 +13,8 @@ export default {
     file: path.join(__dirname, '..', 'example', 'demo.js'),
     format: 'iife',
     name: 'demo',
-    sourcemap: true
+    sourcemap: true,
+    globals: { 'moment': 'moment' }
   },
   plugins: [
     vue({
@@ -40,5 +41,6 @@ export default {
       verbose: true,
       watch: path.join(__dirname, '..', 'example')
     })
-  ]
+  ],
+  external: [ 'moment' ]
 }

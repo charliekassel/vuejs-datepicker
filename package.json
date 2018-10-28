@@ -36,7 +36,11 @@
     "lint",
     "test"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.22.2",
+    "momentjs": "^2.0.0",
+    "vue-masked-input": "^0.5.2"
+  },
   "peerDependencies": {
     "vue": "^2.3.0"
   },

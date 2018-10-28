@@ -1,4 +1,5 @@
 import en from '../locale/translations/en'
+import moment from 'moment'
 
 const utils = {
   /**
@@ -219,6 +220,18 @@ const utils = {
   },
 
   /**
+   * Parse
+   * @param {String}
+   * @param {String}
+   * @return {Date}
+   */
+  parseDate (dateString, format) {
+    let m = moment(dateString, format)
+    if (m.isValid()) return false
+    else return m.format()
+  },
+
+  /**
    * Creates an array of dates for each day in between two dates.
    * @param {Date} start
    * @param {Date} end
@@ -235,6 +248,7 @@ const utils = {
 }
 
 export const makeDateUtils = useUtc => ({...utils, useUtc})
+export const parseDate = utils.parseDate
 
 export default {
   ...utils
