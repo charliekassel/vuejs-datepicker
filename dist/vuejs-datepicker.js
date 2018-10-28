@@ -4,10 +4,12 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.vuejsDatepicker = factory());
-}(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('moment')) :
+  typeof define === 'function' && define.amd ? define(['moment'], factory) :
+  (global.vuejsDatepicker = factory(global.moment));
+}(this, (function (moment) { 'use strict';
+
+  moment = moment && moment.hasOwnProperty('default') ? moment['default'] : moment;
 
   var Language = function Language (language, months, monthsAbbr, days) {
     this.language = language;
@@ -295,6 +297,18 @@
     },
 
     /**
+     * Parse
+     * @param {String}
+     * @param {String}
+     * @return {Date}
+     */
+    parseDate: function parseDate (dateString, format) {
+      var m = moment(dateString, format);
+      if (m.isValid()) { return false }
+      else { return m.format() }
+    },
+
+    /**
      * Creates an array of dates for each day in between two dates.
      * @param {Date} start
      * @param {Date} end
@@ -313,6 +327,7 @@
   };
 
   var makeDateUtils = function (useUtc) { return (Object.assign({}, utils, {useUtc: useUtc})); };
+  var parseDate = utils.parseDate;
 
   Object.assign({}, utils)
   // eslint-disable-next-line
@@ -397,10 +412,10 @@
         }
 
         if (this.typeable) {
-          var typedDate = Date.parse(this.input.value);
-          if (!isNaN(typedDate)) {
+          var typedDate = this.parseDate(this.input.value);
+          if (typedDate) {
             this.typedDate = this.input.value;
-            this.$emit('typedDate', new Date(this.typedDate));
+            this.$emit('typedDate', typedDate);
           }
         }
       },
@@ -409,13 +424,16 @@
        * called once the input is blurred
        */
       inputBlurred: function inputBlurred () {
-        if (this.typeable && isNaN(Date.parse(this.input.value))) {
+        if (this.typeable && this.parseDate(this.input.value)) {
           this.clearDate();
           this.input.value = null;
           this.typedDate = null;
         }
 
         this.$emit('closeCalendar');
+      },
+      parseDate: function parseDate$1 (value) {
+        return parseDate(value, typeof this.format === 'function' ? undefined : this.format)
       },
       /**
        * emit a clearDate event

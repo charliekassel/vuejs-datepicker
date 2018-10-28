@@ -3,6 +3,8 @@
  * (c) 2016-2018 Charlie Kassel
  * Released under the MIT License.
  */
+import moment from 'moment';
+
 var Language = function Language (language, months, monthsAbbr, days) {
   this.language = language;
   this.months = months;
@@ -289,6 +291,18 @@ var utils = {
   },
 
   /**
+   * Parse
+   * @param {String}
+   * @param {String}
+   * @return {Date}
+   */
+  parseDate: function parseDate (dateString, format) {
+    var m = moment(dateString, format);
+    if (m.isValid()) { return false }
+    else { return m.format() }
+  },
+
+  /**
    * Creates an array of dates for each day in between two dates.
    * @param {Date} start
    * @param {Date} end
@@ -307,6 +321,7 @@ var utils = {
 };
 
 var makeDateUtils = function (useUtc) { return (Object.assign({}, utils, {useUtc: useUtc})); };
+var parseDate = utils.parseDate;
 
 Object.assign({}, utils)
 // eslint-disable-next-line
@@ -391,10 +406,10 @@ var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
       }
 
       if (this.typeable) {
-        var typedDate = Date.parse(this.input.value);
-        if (!isNaN(typedDate)) {
+        var typedDate = this.parseDate(this.input.value);
+        if (typedDate) {
           this.typedDate = this.input.value;
-          this.$emit('typedDate', new Date(this.typedDate));
+          this.$emit('typedDate', typedDate);
         }
       }
     },
@@ -403,13 +418,16 @@ var DateInput = {render: function(){var _vm=this;var _h=_vm.$createElement;var _
      * called once the input is blurred
      */
     inputBlurred: function inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && this.parseDate(this.input.value)) {
         this.clearDate();
         this.input.value = null;
         this.typedDate = null;
       }
 
       this.$emit('closeCalendar');
+    },
+    parseDate: function parseDate$1 (value) {
+      return parseDate(value, typeof this.format === 'function' ? undefined : this.format)
     },
     /**
      * emit a clearDate event
