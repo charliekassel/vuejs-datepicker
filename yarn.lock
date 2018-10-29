@@ -6507,9 +6507,9 @@ vue-jest@^2.2.1:
     tsconfig "^7.0.0"
     vue-template-es2015-compiler "^1.5.3"
 
-vue-masked-input@^0.5.2:
+"vue-masked-input@https://github.com/Gagydzer/vue-masked-input.git#add_focus_and_blur_events":
   version "0.5.2"
-  resolved "https://registry.yarnpkg.com/vue-masked-input/-/vue-masked-input-0.5.2.tgz#b47f64ea38e41378182918b1928066569b7504f4"
+  resolved "https://github.com/Gagydzer/vue-masked-input.git#d990b670fc23dced7d5e11ee0eda7f4404640c7d"
   dependencies:
     inputmask-core "^2.2.0"
     vue "^2.2.6"

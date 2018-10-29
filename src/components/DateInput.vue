@@ -10,23 +10,25 @@
       </span>
     </span>
     <!-- Input -->
-    <input
+    <masked-input
       :type="inline ? 'hidden' : 'text'"
       :class="computedInputClass"
       :name="name"
       :ref="refName"
       :id="id"
       :value="formattedValue"
+      :mask="mask"
       :open-date="openDate"
       :placeholder="placeholder"
       :clear-button="clearButton"
       :disabled="disabled"
       :required="required"
       :readonly="!typeable"
-      @click="showCalendar"
-      @keyup="parseTypedDate"
+      @input="(value) => tempValue = value"
+      @click.native="showCalendar"
+      @keyup.native="parseTypedDate"
       @blur="inputBlurred"
-      autocomplete="off">
+      autocomplete="off"/>
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
       <span :class="{'input-group-text' : bootstrapStyling}">
@@ -39,7 +41,9 @@
   </div>
 </template>
 <script>
+import maskedInput from 'vue-masked-input'
 import { makeDateUtils, parseDate } from '../utils/DateUtils'
+
 export default {
   props: {
     selectedDate: Date,
@@ -64,9 +68,13 @@ export default {
     bootstrapStyling: Boolean,
     useUtc: Boolean
   },
+  components: {
+    maskedInput
+  },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
+      tempValue: '',
       input: null,
       typedDate: false,
       utils: constructedDateUtils
@@ -84,7 +92,12 @@ export default {
         ? this.format(this.selectedDate)
         : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
     },
+    mask () {
+      // if (!this.format || typeof this.format === 'function') return false
+      // return this.format.replace(/[a-zA-Z]/, d).replace(/\./, '\.') // TODO
 
+      return '11.11.1111'
+    },
     computedInputClass () {
       if (this.bootstrapStyling) {
         if (typeof this.inputClass === 'string') {
@@ -98,6 +111,10 @@ export default {
   watch: {
     resetTypedDate () {
       this.typedDate = false
+      this.tempValue = false
+    },
+    selectedDate (val) {
+      if (val) this.tempValue = val.normaliseDot()
     }
   },
   methods: {
@@ -118,10 +135,11 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = this.parseDate(this.input.value)
+        const typedDate = this.parseDate(this.tempValue)
+        console.log('typedDate', typedDate)
         if (typedDate) {
-          this.typedDate = this.input.value
-          this.$emit('typedDate', typedDate)
+          // this.typedDate = this.input.value
+          this.$emit('typedDate', new Date(typedDate))
         }
       }
     },
@@ -130,9 +148,10 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && this.parseDate(this.input.value)) {
+      console.log('inputBlurred', this.parseDate(this.tempValue))
+      if (this.typeable && !this.parseDate(this.tempValue)) {
         this.clearDate()
-        this.input.value = null
+        this.tempValue = null
         this.typedDate = null
       }
 

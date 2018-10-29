@@ -226,8 +226,8 @@ const utils = {
    * @return {Date}
    */
   parseDate (dateString, format) {
-    let m = moment(dateString, format)
-    if (m.isValid()) return false
+    let m = moment(dateString, format.toUpperCase())
+    if (!m.isValid()) return false
     else return m.format()
   },
 
