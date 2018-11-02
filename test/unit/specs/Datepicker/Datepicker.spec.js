@@ -242,9 +242,9 @@ describe('Datepicker.vue set by timestamp', () => {
         value: new Date(2018, 0, 29).getTime()
       }
     })
-    expect(wrapper.vm.selectedDate.getUTCFullYear()).toEqual(2018)
-    expect(wrapper.vm.selectedDate.getUTCMonth()).toEqual(0)
-    expect(wrapper.vm.selectedDate.getUTCDate()).toEqual(29)
+    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
+    expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
+    expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
   })
 })
 
@@ -272,30 +272,6 @@ describe('Datepicker.vue using UTC', () => {
     // It's important to assert the input rendered output
     await wrapper.vm.$nextTick()
     return expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString)
-  })
-})
-
-describe('Datepicker.vue inline', () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = shallow(Datepicker, {
-      propsData: {
-        inline: true
-      }
-    })
-  })
-
-  it('should not showCalendar as already open', () => {
-    expect(wrapper.vm.showCalendar()).toEqual(false)
-    expect(wrapper.vm.isInline).toEqual(true)
-  })
-
-  it('should not close the calendar when date is selected', () => {
-    const date = new Date()
-    wrapper.vm.selectDate({timestamp: date.getTime()})
-    expect(wrapper.vm.isOpen).toEqual(true)
-    document.body.click()
-    expect(wrapper.vm.isOpen).toEqual(true)
   })
 })
 
