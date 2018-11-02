@@ -239,7 +239,7 @@ describe('Datepicker.vue set by timestamp', () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
-        value: new Date(2018, 0, 29).getTime()
+        value: new Date(Date.UTC(2018, 0, 29)).getTime()
       }
     })
     expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
@@ -312,4 +312,3 @@ describe('Datepicker with initial-view', () => {
     expect(wrapper.vm.showYearView).toEqual(true)
   })
 })
-
