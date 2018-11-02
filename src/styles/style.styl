@@ -58,6 +58,10 @@
     .disabled
         color #ddd
         cursor default
+    .flex-ltr
+        display flex
+        width 100%
+        flex-wrap wrap
     .flex-rtl
         display flex
         width inherit
@@ -105,6 +109,19 @@
     .month,
     .year
         width 33.333%
+
+.vdp-datepicker__calendar--week
+    .weeknumber
+        color #999
+    .cell
+        width (100/8)%
+    header
+        span
+            width (100 - (100/8)*2)%
+
+        .prev
+        .next
+            width (100/8)%
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button
