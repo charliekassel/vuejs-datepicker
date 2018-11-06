@@ -99,7 +99,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
-import { makeDateUtils } from '../utils/DateUtils'
+import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
@@ -109,9 +109,7 @@ export default {
   },
   props: {
     value: {
-      validator: (val) => {
-        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
-      }
+      validator: val => utils.validateDateInput(val)
     },
     name: String,
     refName: String,
@@ -125,9 +123,7 @@ export default {
       default: () => en
     },
     openDate: {
-      validator: (val) => {
-        return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
-      }
+      validator: val => utils.validateDateInput(val)
     },
     dayCellContent: Function,
     fullMonthName: Boolean,
@@ -256,9 +252,6 @@ export default {
         return this.close(true)
       }
       this.setInitialView()
-      if (!this.isInline) {
-        this.$emit('opened')
-      }
     },
     /**
      * Sets the initial picker page view: day, month or year
@@ -437,12 +430,12 @@ export default {
     },
     /**
      * Close all calendar layers
-     * @param {Boolean} full - emit close event
+     * @param {Boolean} emitEvent - emit close event
      */
-    close (full) {
+    close (emitEvent) {
       this.showDayView = this.showMonthView = this.showYearView = false
       if (!this.isInline) {
-        if (full) {
+        if (emitEvent) {
           this.$emit('closed')
         }
         document.removeEventListener('click', this.clickOutside, false)
