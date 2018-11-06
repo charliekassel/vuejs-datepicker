@@ -298,6 +298,7 @@ var utils = {
    * @return {Date}
    */
   parseDate: function parseDate (dateString, format) {
+    console.log('parse date', dateString);
     var m = moment(dateString, format.toUpperCase());
     if (!m.isValid()) { return false }
     else { return m.format() }

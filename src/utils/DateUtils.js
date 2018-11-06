@@ -226,6 +226,7 @@ const utils = {
    * @return {Date}
    */
   parseDate (dateString, format) {
+    console.log('parse date', dateString)
     let m = moment(dateString, format.toUpperCase())
     if (!m.isValid()) return false
     else return m.format()
