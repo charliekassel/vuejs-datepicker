@@ -13,9 +13,9 @@ export default {
     file: path.join(__dirname, '..', 'example', 'demo.js'),
     format: 'iife',
     name: 'demo',
-    sourcemap: true,
-    globals: { 'moment': 'moment', 'vue-masked-input': 'vue-masked-input' }
+    sourcemap: true
   },
+  // globals: { 'moment': 'moment', 'vue-masked-input': 'vue-masked-input' },
   plugins: [
     vue({
       css: true
@@ -42,5 +42,5 @@ export default {
       watch: path.join(__dirname, '..', 'example')
     })
   ],
-  external: [ 'moment', 'vue-masked-input' ]
+  // external: [ 'moment', 'vue-masked-input' ]
 }

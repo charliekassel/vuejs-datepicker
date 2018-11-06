@@ -99,6 +99,7 @@ import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
+import '../prototype'
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {

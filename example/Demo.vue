@@ -251,6 +251,7 @@
 
 <script>
 import Datepicker from '../src/components/Datepicker.vue'
+import moment from 'moment'
 import * as lang from '../src/locale/index.js'
 
 const state = {
