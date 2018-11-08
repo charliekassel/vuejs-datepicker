@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'input-group' : bootstrapStyling}">
+  <div :class="{'input-group' : bootstrapStyling, 'ui input left icon' : semanticStyling}">
     <!-- Calendar Button -->
     <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
       <span :class="{'input-group-text' : bootstrapStyling}">
@@ -9,6 +9,7 @@
         </i>
       </span>
     </span>
+    <i v-if="semanticStyling" class="icon calendar"></i>
     <!-- Input -->
     <slot name="beforeDateInput"></slot>
     <input
@@ -63,6 +64,7 @@ export default {
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
+    semanticStyling: Boolean,
     useUtc: Boolean
   },
   data () {
