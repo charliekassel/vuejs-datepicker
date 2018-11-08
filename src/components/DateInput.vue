@@ -10,6 +10,7 @@
       </span>
     </span>
     <!-- Input -->
+    <slot name="beforeDateInput"></slot>
     <input
       :type="inline ? 'hidden' : 'text'"
       :class="computedInputClass"
