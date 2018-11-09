@@ -10,8 +10,13 @@
     </div>
 
     <div class="example">
-      <h3>Typeable datepicker</h3>
-      <datepicker placeholder="Type or select date" :typeable="true" />
+      <h3>Typeable datepicker (format type date)</h3>
+      <datepicker
+        placeholder="Type or select date"
+        format="dd/MM/yyyy"
+        :typeable="true"
+        :format-typed-date="formatTypedDate"
+      />
       <code>
           &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
       </code>
@@ -296,6 +301,10 @@ export default {
     }
   },
   methods: {
+    formatTypedDate(dateString) {
+      const result = dateString.split('/')
+      return result[2] + '-' + result[1] + '-' + result[0] + 'T00:00:00-03:00'
+    },
     highlightTo (val) {
       if (typeof this.highlighted.to === 'undefined') {
         this.highlighted = {

@@ -36,7 +36,9 @@
     "lint",
     "test"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "vue-cleave-component": "^2.1.1"
+  },
   "peerDependencies": {
     "vue": "^2.3.0"
   },

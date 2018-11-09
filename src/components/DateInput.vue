@@ -10,12 +10,14 @@
       </span>
     </span>
     <!-- Input -->
-    <input
+    <cleave
       :type="inline ? 'hidden' : 'text'"
       :class="computedInputClass"
       :name="name"
       :ref="refName"
       :id="id"
+      :raw="cleaveIsRaw"
+      :options="cleaveOptions"
       :value="formattedValue"
       :open-date="openDate"
       :placeholder="placeholder"
@@ -23,10 +25,10 @@
       :disabled="disabled"
       :required="required"
       :readonly="!typeable"
-      @click="showCalendar"
-      @keyup="parseTypedDate"
-      @blur="inputBlurred"
-      autocomplete="off">
+      @click.native="showCalendar"
+      @keyup.native="parseTypedDate"
+      @blur.native="inputBlurred"
+      autocomplete="off" />
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
       <span :class="{'input-group-text' : bootstrapStyling}">
@@ -40,7 +42,11 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import Cleave from 'vue-cleave-component'
 export default {
+  components: {
+    Cleave
+  },
   props: {
     selectedDate: Date,
     resetTypedDate: [Date],
@@ -62,7 +68,17 @@ export default {
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    formatTypedDate: Function,
+    cleaveIsRaw: Boolean,
+    cleaveOptions: {
+      type: Object,
+      default: () => ({
+        date: true,
+        datePattern: ['d', 'm', 'Y'],
+        delimiter: '/'
+      })
+    }
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -118,10 +134,10 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
-        if (!isNaN(typedDate)) {
+        const parsedDate = Date.parse(this.getTypedDate(this.input.value))
+        if (!isNaN(parsedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', new Date(parsedDate))
         }
       }
     },
@@ -130,7 +146,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && isNaN(Date.parse(this.getTypedDate(this.input.value)))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
@@ -143,6 +159,15 @@ export default {
      */
     clearDate () {
       this.$emit('clearDate')
+    },
+    /**
+     * format Date with regular or custom function
+     */
+    getTypedDate (input) {
+      let date = typeof this.formatTypedDate === 'function'
+        ? this.formatTypedDate(input)
+        : input
+      return date
     }
   },
   mounted () {

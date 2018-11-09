@@ -13,6 +13,9 @@
       :placeholder="placeholder"
       :inputClass="inputClass"
       :typeable="typeable"
+      :format-typed-date="formatTypedDate"
+      :cleave-is-raw="cleaveIsRaw"
+      :cleave-options="cleaveOptions"
       :clearButton="clearButton"
       :clearButtonIcon="clearButtonIcon"
       :calendarButton="calendarButton"
@@ -145,6 +148,9 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
+    cleaveIsRaw: Boolean,
+    cleaveOptions: Object,
+    formatTypedDate: Function,
     useUtc: Boolean,
     minimumView: {
       type: String,
