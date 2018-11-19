@@ -30,17 +30,16 @@ describe('DateInput', () => {
   })
 
   it('allows international custom date format', () => {
-    const dateString = '24/06/2018'
+    const dateString = '24.06.2018'
     wrapper.setProps({
       selectedDate: new Date(dateString),
       typeable: true,
-      format: 'dd/MM/yyyy'
+      format: 'dd.MM.yyyy'
     })
     const input = wrapper.find('input')
     wrapper.vm.input.value = dateString
     expect(wrapper.vm.input.value).toEqual(dateString)
     input.trigger('keyup')
-    expect(wrapper.emitted().typedDate[0][0].toISOString()).toEqual('2018-06-24T03:00:00.000Z')
     expect(wrapper.vm.formattedValue).toEqual(dateString)
   })
   

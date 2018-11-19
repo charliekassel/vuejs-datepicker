@@ -167,6 +167,11 @@ export default {
             
       var timezone = new Date().toString().split(" ");
       dat = ymd.join('-') + 'T00:00:00' + timezone[5].substr(3,5); //include timezone to avoid wrong dates after parse
+
+      if (isNaN(Date.parse(dat))) {
+        return datestr;
+      }
+
       return dat;
     }    
   },
