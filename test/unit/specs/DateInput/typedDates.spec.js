@@ -29,12 +29,12 @@ describe('DateInput', () => {
     expect(wrapper.vm.formattedValue).toEqual(dateString)
   })
 
-  it('allows international custom date format', () => {
+  it('allows international custom date format d.M.yyyy', () => {
     const dateString = '24.06.2018'
     wrapper.setProps({
       selectedDate: new Date(dateString),
       typeable: true,
-      format: 'dd.MM.yyyy'
+      format: 'd.M.yyyy'
     })
     const input = wrapper.find('input')
     wrapper.vm.input.value = dateString
@@ -42,7 +42,35 @@ describe('DateInput', () => {
     input.trigger('keyup')
     expect(wrapper.vm.formattedValue).toEqual(dateString)
   })
-  
+
+  it('allows international custom date format dd/MM/yyyy', () => {
+    const dateString = '24/06/2018'
+    wrapper.setProps({
+      selectedDate: new Date(dateString),
+      typeable: true,
+      format: 'dd/MM/yyyy'
+    })
+    const input = wrapper.find('input')
+    wrapper.vm.input.value = dateString
+    expect(wrapper.vm.input.value).toEqual(dateString)
+    input.trigger('keyup')
+    expect(wrapper.vm.formattedValue).toEqual(dateString)
+  })
+
+  it('allows international custom date format dd MM yyyy', () => {
+    const dateString = '24 06 2018'
+    wrapper.setProps({
+      selectedDate: new Date(dateString),
+      typeable: true,
+      format: 'dd MM yyyy'
+    })
+    const input = wrapper.find('input')
+    wrapper.vm.input.value = dateString
+    expect(wrapper.vm.input.value).toEqual(dateString)
+    input.trigger('keyup')
+    expect(wrapper.vm.formattedValue).toEqual(dateString)
+  })
+
   it('emits the date when typed', () => {
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'

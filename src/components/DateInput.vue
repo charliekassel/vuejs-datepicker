@@ -114,16 +114,15 @@ export default {
         27, // escape
         13 // enter
       ].includes(event.keyCode)) {
-        this.input.blur();
+        this.input.blur()
       }
 
       if (this.typeable) {
-        var parseableDate = this.parseableDate(this.input.value, this.format);
-        var parsedDate = Date.parse(parseableDate);
-        var test = new Date(parsedDate)
+        var parseableDate = this.parseableDate(this.input.value, this.format)
+        var parsedDate = Date.parse(parseableDate)
         if (!isNaN(parsedDate)) {
-          this.typedDate = this.input.value;
-          this.$emit('typedDate', new Date(parsedDate));
+          this.typedDate = this.input.value
+          this.$emit('typedDate', new Date(parsedDate))
         }
       }
     },
@@ -132,7 +131,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      var parseableDate = this.parseableDate(this.input.value, this.format);
+      var parseableDate = this.parseableDate(this.input.value, this.format)
       if (isNaN(Date.parse(parseableDate))) {
         this.clearDate()
         this.input.value = null
@@ -152,28 +151,36 @@ export default {
      * makes date parseable
      * to use with international dates
      */
-    parseableDate(datestr,formatstr) {
-      if (!(datestr && formatstr)) {return datestr;}
-      var splitter = formatstr.match(/\-|\/|\s|\./) || ['-']
-         ,df       = formatstr.split(splitter[0])
-         ,ds       = datestr.split(splitter[0])
-         ,ymd      = [0,0,0]
-         ,dat;
-      for (var i=0;i<df.length;i++){
-              if (/yyyy/i.test(df[i])) {ymd[0] = ds[i];}
-         else if (/mm/i.test(df[i]))   {ymd[1] = ds[i];}
-         else if (/dd/i.test(df[i]))   {ymd[2] = ds[i];}
+    parseableDate (datestr, formatstr) {
+      if (!(datestr && formatstr)) { return datestr }
+      var splitter = formatstr.match(/-|\/|\s|\./) || ['-']
+      var df = formatstr.split(splitter[0])
+      var ds = datestr.split(splitter[0])
+      var ymd = [0, 0, 0]
+      var dat
+      for (var i = 0; i < df.length; i++) {
+        if (/yyyy/i.test(df[i])) {
+          ymd[0] = ds[i]
+        } else if (/mm/i.test(df[i])) {
+          ymd[1] = ds[i]
+        } else if (/m/i.test(df[i])) {
+          ymd[1] = ds[i]  
+        } else if (/dd/i.test(df[i])) {
+          ymd[2] = ds[i]
+        } else if (/d/i.test(df[i])) {
+          ymd[2] = ds[i]
+        }
       }
-            
-      var timezone = new Date().toString().split(" ");
-      dat = ymd.join('-') + 'T00:00:00' + timezone[5].substr(3,5); //include timezone to avoid wrong dates after parse
+
+      var timezone = new Date().toString().split(' ')
+      dat = ymd.join('-') + 'T00:00:00' + timezone[5].substr(3, 5)  //  include timezone to avoid wrong dates after parse
 
       if (isNaN(Date.parse(dat))) {
-        return datestr;
+        return datestr
       }
 
-      return dat;
-    }    
+      return dat
+    }
   },
   mounted () {
     this.input = this.$el.querySelector('input')
