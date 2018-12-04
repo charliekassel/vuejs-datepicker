@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent ref="datepicker">
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -53,6 +53,31 @@ export default {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
       utils: constructedDateUtils
+    }
+  },
+  watch: {
+    showDayView: function () {
+      if (this.showDayView) {
+        this.$nextTick(() => {
+          let parent = document.querySelector('#worklist')
+          if (parent) {
+            let calendar = this.$refs.datepicker
+
+            let outOfBoundsRight = calendar.getBoundingClientRect().right > parent.getBoundingClientRect().right
+            let outOfBoundsBottom = calendar.getBoundingClientRect().bottom > parent.getBoundingClientRect().bottom
+
+            if (outOfBoundsBottom) {
+              let bottom = (calendar.getBoundingClientRect().bottom - parent.getBoundingClientRect().bottom) + 15
+              calendar.style.top = `-${bottom}px`
+            }
+
+            if (outOfBoundsRight) {
+              let right = (calendar.getBoundingClientRect().right - parent.getBoundingClientRect().right) + 15
+              calendar.style.left = `-${right}px`
+            }
+          }
+        })
+      }
     }
   },
   computed: {
