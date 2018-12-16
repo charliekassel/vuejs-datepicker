@@ -276,6 +276,19 @@ to show some custom text:
 </datepicker>
 ```
 
+#### bottomArea
+
+Sometimes you need to show custom content after the calendar body. For such cases you can use the named slot `bottomArea`.
+
+An example:
+``` html
+<datepicker :bootstrap-styling="true">
+  <div slot="bottomArea">
+    Select Today
+  </div>
+</datepicker>
+```
+
 #### afterDateInput
 
 To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named

@@ -17,6 +17,7 @@
       :key="month.timestamp"
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
       @click.stop="selectMonth(month)">{{ month.month }}</span>
+    <slot name="bottomArea"></slot>
   </div>
 </template>
 <script>
