@@ -14,15 +14,21 @@
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-      <template v-if="blankDays > 0">
-        <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-      </template><!--
-      --><span class="cell day"
-          v-for="day in days"
-          :key="day.timestamp"
-          :class="dayClasses(day)"
-          v-html="dayCellContent(day)"
-          @click="selectDate(day)"></span>
+      <div class="week"
+        v-for="(week,index) in weeks"
+        :key="week[0].timestamp"
+        :class="weekClasses(week)"
+      >
+        <template v-if="index === 0 && blankDays > 0">
+          <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+        </template><!--
+        --><span class="cell day"
+            v-for="day in week"
+            :key="day.timestamp"
+            :class="dayClasses(day)"
+            v-html="dayCellContent(day)"
+            @click="selectDate(day)"></span>
+      </div>
     </div>
   </div>
 </template>
@@ -106,11 +112,31 @@ export default {
           isToday: this.utils.compareDates(dObj, new Date()),
           isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
           isSaturday: this.utils.getDay(dObj) === 6,
-          isSunday: this.utils.getDay(dObj) === 0
+          isSunday: this.utils.getDay(dObj) === 0,
+          isMonday: this.utils.getDay(dObj) === 1
         })
         this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
       }
       return days
+    },
+    /**
+     * Days grouped by week
+     * @return {Object[][]}
+     */
+    weeks () {
+      const weeks = this.days.reduce((weeks, day, index) => {
+        const isFirstDayOfWeek = this.mondayFirst ? day.isMonday : day.isSunday
+
+        // is first day in month or first day of week
+        if (index === 0 || isFirstDayOfWeek) {
+          weeks.push([])
+        }
+
+        const lastWeekIndex = weeks.length - 1
+        weeks[lastWeekIndex].push(day)
+        return weeks
+      }, [])
+      return weeks
     },
     /**
      * Gets the name of the month the current page is on
@@ -232,6 +258,14 @@ export default {
       return this.selectedDate && this.utils.compareDates(this.selectedDate, dObj)
     },
     /**
+     * Wheter a day in that week is selected
+     * @param {Object[]}
+     * @return {Boolean}
+     */
+    isSelectedWeek (week) {
+      return week.some(day => day.isSelected)
+    },
+    /**
      * Whether a day is disabled
      * @param {Date}
      * @return {Boolean}
@@ -332,6 +366,11 @@ export default {
         'sun': day.isSunday,
         'highlight-start': day.isHighlightStart,
         'highlight-end': day.isHighlightEnd
+      }
+    },
+    weekClasses (week) {
+      return {
+        'selected': this.isSelectedWeek(week)
       }
     },
     /**
