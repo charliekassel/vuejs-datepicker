@@ -151,6 +151,13 @@ describe('UTC functions', () => {
     expect(utcUtils.getDay(date)).toEqual(date.getUTCDay())
   })
 
+  it('getWeek', () => {
+    const date = new Date('2018-12-31T23:59:59')
+    expect(DateUtils.getWeek(date)).toEqual(1)
+    const offset = new Date().getTimezoneOffset()
+    expect(utcUtils.getWeek(date)).toEqual(offset < 0 ? 52 : 1)
+  })
+
   it('getHours', () => {
     const date = getAmbiguousDate()
     expect(DateUtils.getHours(date)).toEqual(date.getHours())
