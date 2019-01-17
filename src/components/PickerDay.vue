@@ -1,5 +1,8 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar', showWeekNumber ? 'including_week-number': '' ]"
+    v-show="showDayView"
+    :style="calendarStyle"
+    @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -13,13 +16,15 @@
         :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
-      <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+      <span class="cell day-header week-number">KW</span><!--
+      --><span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
       <div class="week"
         v-for="(week,index) in weeks"
         :key="week[0].timestamp"
         :class="weekClasses(week)"
       >
-        <template v-if="index === 0 && blankDays > 0">
+        <span v-if="showWeekNumber" class="cell week-number">{{ week[0].weekNumber }}</span><!-- 
+        --><template v-if="index === 0 && blankDays > 0">
           <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
         </template><!--
         --><span class="cell day"
@@ -37,6 +42,7 @@ import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
     showDayView: Boolean,
+    showWeekNumber: Boolean,
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
@@ -113,7 +119,8 @@ export default {
           isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
           isSaturday: this.utils.getDay(dObj) === 6,
           isSunday: this.utils.getDay(dObj) === 0,
-          isMonday: this.utils.getDay(dObj) === 1
+          isMonday: this.utils.getDay(dObj) === 1,
+          weekNumber: this.utils.getWeek(dObj)
         })
         this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
       }

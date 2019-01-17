@@ -12,6 +12,18 @@
     background white
     width 300px
     border 1px solid #ccc
+    .week-number
+        opacity: 0.8
+    &.including_week-number
+        width 343
+        header
+            span
+                width (100 - (100/8)*2)%
+            .prev
+            .next
+                width (100/8)%
+        .cell
+            width (100/8)%
     header
         display block
         line-height 40px
