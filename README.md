@@ -129,6 +129,7 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
+| showWeekNumber                | Boolean         | false       | To show the week of year column          |
 
 
 ## Events
