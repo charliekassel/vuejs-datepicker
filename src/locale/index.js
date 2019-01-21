@@ -23,6 +23,7 @@ import id from './translations/id'
 import is from './translations/is'
 import it from './translations/it'
 import ja from './translations/ja'
+import kk from './translations/kk'
 import ko from './translations/ko'
 import lb from './translations/lb'
 import lt from './translations/lt'
@@ -72,6 +73,7 @@ export {
   is,
   it,
   ja,
+  kk,
   ko,
   lb,
   lt,
