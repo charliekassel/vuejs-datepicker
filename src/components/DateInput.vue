@@ -45,7 +45,10 @@ export default {
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
-    parse: Function,
+    parse: {
+      type: Function,
+      default: (v) => Date.parse(v)
+    },
     translation: Object,
     inline: Boolean,
     id: String,
@@ -119,8 +122,7 @@ export default {
       }
 
       if (this.typeable) {
-        const fn = this.parse || Date.parse
-        const typedDate = fn(this.input.value)
+        const typedDate = this.parse(this.input.value)
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
           this.$emit('typedDate', new Date(typedDate))
@@ -132,8 +134,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      const fn = this.parse || Date.parse
-      if (this.typeable && isNaN(fn(this.input.value))) {
+      if (this.typeable && isNaN(this.parse(this.input.value))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
