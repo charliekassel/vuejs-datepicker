@@ -127,7 +127,7 @@ export default {
         .slice(-this.getBlankDays(this.pageDate) || prevMonthDates.length)
         .concat(currentMonthDates)
         .concat(nextMonthDates
-          .slice(0, (this.mondayFirst ? 6 : 7) - this.getBlankDays(getNextMonthDate(this.pageDate)))
+          .slice(0, 7 - this.getBlankDays(getNextMonthDate(this.pageDate)))
         )
     },
     /**
