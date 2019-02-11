@@ -338,8 +338,8 @@ export default {
     setDate(timestamp) {
       var date = new Date(timestamp);
       if (this.useUtc) {
-        date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-      );
+        date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()))
+      }
 
       this.selectedDate = date;
       this.setPageDate(date);
