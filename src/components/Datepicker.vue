@@ -336,13 +336,11 @@ export default {
      * @param {Number} timestamp
      */
     setDate(timestamp) {
+      var date = new Date(timestamp);
       if (this.useUtc) {
-        const date = new Date(
-          Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-        );
-      } else {
-        const date = new Date(timestamp);
-      }
+        date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+      );
+
       this.selectedDate = date;
       this.setPageDate(date);
       this.$emit("selected", date);
