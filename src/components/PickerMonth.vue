@@ -49,12 +49,26 @@ export default {
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
         : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
+
       for (let i = 0; i < 12; i++) {
+        // if at least one day of this month is NOT disabled,
+        // we can conclude that this month SHOULD be selectable
+        let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
+        let monthIsDisabled = true
+        for (let j = 1; j <= daysInMonth; j++) {
+          let ddObj = new Date(dObj)
+          ddObj.setDate(j)
+          if (!this.isDisabledMonth(ddObj)) {
+            monthIsDisabled = false
+            break
+          }
+        }
+
         months.push({
           month: this.utils.getMonthName(i, this.translation.months),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedMonth(dObj),
-          isDisabled: this.isDisabledMonth(dObj)
+          isDisabled: monthIsDisabled
         })
         this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1)
       }
