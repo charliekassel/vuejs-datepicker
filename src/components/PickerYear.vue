@@ -22,6 +22,7 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import { isYearDisabled } from '../utils/DisabledDatesUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -145,27 +146,7 @@ export default {
      * @return {Boolean}
      */
     isDisabledYear (date) {
-      let disabledDates = false
-      if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
-        return false
-      }
-
-      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
-          disabledDates = true
-        }
-      }
-      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
-          disabledDates = true
-        }
-      }
-
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
-        disabledDates = true
-      }
-
-      return disabledDates
+      return isYearDisabled(date, this.disabledDates, this.utils)
     }
   }
 }

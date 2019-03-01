@@ -91,3 +91,40 @@ export const isMonthDisabled = function (date, disabledDates, utils) {
   }
   return true
 }
+
+/**
+ * Checks if the given year should be disabled according to the specified config
+ * @param {Date} date
+ * @param {Object} disabledDates
+ * @param {DateUtils} utils
+ * @return {Boolean}
+ */
+export const isYearDisabled = function (date, disabledDates, utils) {
+  // skip if no config
+  if (typeof disabledDates === 'undefined' || !disabledDates) {
+    return false
+  }
+
+  // check if the whole year is disabled before checking every individual months
+  if (typeof disabledDates.to !== 'undefined' && disabledDates.to) {
+    if (utils.getFullYear(date) < utils.getFullYear(disabledDates.to)) {
+      return true
+    }
+  }
+  if (typeof disabledDates.from !== 'undefined' && disabledDates.from) {
+    if (utils.getFullYear(date) > utils.getFullYear(disabledDates.from)) {
+      return true
+    }
+  }
+
+  // now we have to check every months of the year
+  for (let j = 0; j < 12; j++) {
+    let monthDate = new Date(date)
+    monthDate.setMonth(j)
+    // if at least one month of this year is NOT disabled, we can conclude that this year SHOULD be selectable
+    if (!isMonthDisabled(monthDate, disabledDates, utils)) {
+      return false
+    }
+  }
+  return true
+}
