@@ -230,6 +230,15 @@ const utils = {
   },
 
   /**
+   * method used as a prop validator for input values
+   * @param {*} val
+   * @return {Boolean}
+   */
+  validateDateInput (val) {
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+  },
+
+  /**
    * Remove hours/minutes/seconds/milliseconds from a date object
    * @param {Date} date
    * @return {Date}

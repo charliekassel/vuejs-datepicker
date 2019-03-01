@@ -112,7 +112,9 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return Math.floor(this.utils.getFullYear(this.disabledDates.to) / 10) * 10 >= Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
+      const disabledYear = this.utils.getFullYear(this.disabledDates.to)
+      const lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1
+      return disabledYear > lastYearInPreviousPage
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
@@ -124,7 +126,9 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return Math.ceil(this.utils.getFullYear(this.disabledDates.from) / 10) * 10 <= Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
+      const disabledYear = this.utils.getFullYear(this.disabledDates.from)
+      const firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
+      return disabledYear < firstYearInNextPage
     },
 
     /**
