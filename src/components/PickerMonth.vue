@@ -21,6 +21,7 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import { isMonthDisabled } from '../utils/DisabledDatesUtils'
 export default {
   props: {
     showMonthView: Boolean,
@@ -49,26 +50,12 @@ export default {
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
         : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
-
       for (let i = 0; i < 12; i++) {
-        // if at least one day of this month is NOT disabled,
-        // we can conclude that this month SHOULD be selectable
-        let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
-        let monthIsDisabled = true
-        for (let j = 1; j <= daysInMonth; j++) {
-          let ddObj = new Date(dObj)
-          ddObj.setDate(j)
-          if (!this.isDisabledMonth(ddObj)) {
-            monthIsDisabled = false
-            break
-          }
-        }
-
         months.push({
           month: this.utils.getMonthName(i, this.translation.months),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedMonth(dObj),
-          isDisabled: monthIsDisabled
+          isDisabled: this.isDisabledMonth(dObj)
         })
         this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1)
       }
@@ -179,33 +166,7 @@ export default {
      * @return {Boolean}
      */
     isDisabledMonth (date) {
-      let disabledDates = false
-
-      if (typeof this.disabledDates === 'undefined') {
-        return false
-      }
-
-      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (
-          (this.utils.getMonth(date) < this.utils.getMonth(this.disabledDates.to) && this.utils.getFullYear(date) <= this.utils.getFullYear(this.disabledDates.to)) ||
-          this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)
-        ) {
-          disabledDates = true
-        }
-      }
-      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (
-          (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from)) ||
-          this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)
-        ) {
-          disabledDates = true
-        }
-      }
-
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
-        disabledDates = true
-      }
-      return disabledDates
+      return isMonthDisabled(date, this.disabledDates, this.utils)
     }
   }
 }
