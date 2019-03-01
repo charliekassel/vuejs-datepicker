@@ -6,46 +6,52 @@
  * @return {Boolean}
  */
 export const isDateDisabled = function (date, disabledDates, utils) {
-  let disabled = false
-
+  // skip if no config
   if (typeof disabledDates === 'undefined') {
     return false
   }
 
-  if (typeof disabledDates.dates !== 'undefined') {
-    disabledDates.dates.forEach((d) => {
-      if (utils.compareDates(date, d)) {
-        disabled = true
+  // check specific dates
+  if (typeof disabledDates.dates !== 'undefined' && disabledDates.dates.length) {
+    const dates = disabledDates.dates
+    for (let i = 0; i < dates.length; i++) {
+      if (utils.compareDates(date, dates[i])) {
         return true
       }
-    })
+    }
   }
+
   if (typeof disabledDates.to !== 'undefined' && disabledDates.to && date < disabledDates.to) {
-    disabled = true
+    return true
   }
   if (typeof disabledDates.from !== 'undefined' && disabledDates.from && date > disabledDates.from) {
-    disabled = true
+    return true
   }
-  if (typeof disabledDates.ranges !== 'undefined') {
-    disabledDates.ranges.forEach((range) => {
+
+  // check date ranges
+  if (typeof disabledDates.ranges !== 'undefined' && disabledDates.ranges.length) {
+    const ranges = disabledDates.ranges
+    for (let i = 0; i < ranges.length; i++) {
+      let range = ranges[i]
       if (typeof range.from !== 'undefined' && range.from && typeof range.to !== 'undefined' && range.to) {
         if (date < range.to && date > range.from) {
-          disabled = true
           return true
         }
       }
-    })
+    }
   }
+
   if (typeof disabledDates.days !== 'undefined' && disabledDates.days.indexOf(utils.getDay(date)) !== -1) {
-    disabled = true
+    return true
   }
   if (typeof disabledDates.daysOfMonth !== 'undefined' && disabledDates.daysOfMonth.indexOf(utils.getDate(date)) !== -1) {
-    disabled = true
+    return true
   }
   if (typeof disabledDates.customPredictor === 'function' && disabledDates.customPredictor(date)) {
-    disabled = true
+    return true
   }
-  return disabled
+
+  return false
 }
 
 /**
