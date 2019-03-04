@@ -342,6 +342,7 @@ Available languages
 | fo          | Faroese          |          |
 | fr          | French           |          |
 | ge          | Georgia          |          |
+| gl          | Galician         |          |
 | he          | Hebrew           |          |
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
