@@ -23,6 +23,7 @@
       :disabled="disabled"
       :required="required"
       :readonly="!typeable"
+      :tabindex="tabindex"
       @click="showCalendar"
       @keyup="parseTypedDate"
       @blur="inputBlurred"
