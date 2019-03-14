@@ -231,6 +231,15 @@ const utils = {
       start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1)
     }
     return dates
+  },
+
+  /**
+   * method used as a prop validator for input values
+   * @param {*} val
+   * @return {Boolean}
+   */
+  validateDateInput (val) {
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
   }
 }
 
