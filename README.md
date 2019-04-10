@@ -104,7 +104,7 @@ Inline always open version
 | value                         | Date\|String    |             | Date value of the datepicker             |
 | name                          | String          |             | Input name property                      |
 | id                            | String          |             | Input id                                 |
-| format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
+| format                        | String\|Function| dd MMM YYYY | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
 | language                      | Object          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
@@ -164,8 +164,8 @@ NB. This is not very robust at all - use at your own risk! Needs a better implem
 | MM    | 0 prefixed month       | 01          |
 | MMM   | abbreviated month name | Jan         |
 | MMMM  | month name             | January     |
-| yy    | two digit year         | 16          |
-| yyyy  | four digit year        | 2016        |
+| YY    | two digit year         | 16          |
+| YYYY  | four digit year        | 2016        |
 
 #### Function formatter
 
