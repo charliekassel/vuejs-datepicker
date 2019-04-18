@@ -15,6 +15,7 @@ import fi from './translations/fi'
 import fo from './translations/fo'
 import fr from './translations/fr'
 import ge from './translations/ge'
+import gl from './translations/gl'
 import he from './translations/he'
 import hr from './translations/hr'
 import hu from './translations/hu'
@@ -22,6 +23,7 @@ import id from './translations/id'
 import is from './translations/is'
 import it from './translations/it'
 import ja from './translations/ja'
+import kk from './translations/kk'
 import ko from './translations/ko'
 import lb from './translations/lb'
 import lt from './translations/lt'
@@ -63,6 +65,7 @@ export {
   fo,
   fr,
   ge,
+  gl,
   he,
   hr,
   hu,
@@ -70,6 +73,7 @@ export {
   is,
   it,
   ja,
+  kk,
   ko,
   lb,
   lt,
