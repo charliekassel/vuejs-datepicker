@@ -46,6 +46,7 @@ import uk from './translations/uk'
 import ur from './translations/ur'
 import vi from './translations/vi'
 import zh from './translations/zh'
+import zhHK from './translations/zh-HK'
 
 export {
   af,
@@ -95,7 +96,8 @@ export {
   uk,
   ur,
   vi,
-  zh
+  zh,
+  zhHK
 }
 // eslint-disable-next-line
 ;
