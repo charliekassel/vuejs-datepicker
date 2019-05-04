@@ -1,11 +1,13 @@
 import path from 'path'
 import { uglify } from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
+
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import { rollup } from 'rollup'
 import chalk from 'chalk'
+import commonjs from 'rollup-plugin-commonjs'
 
 const version = require('../package.json').version
 const banner =
@@ -50,9 +52,12 @@ async function build () {
             autoprefixer()
           ]
         }),
-        buble({
-          objectAssign: 'Object.assign'
-        })
+        babel({
+          runtimeHelpers: true,
+          sourceMap: true,
+          extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue']
+        }),
+        commonjs(),
       ].concat(config.plugins || [])
     }
     const bundle = await rollup(inputOptions)

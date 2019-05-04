@@ -1,10 +1,10 @@
 {
   "name": "@hokify/vuejs-datepicker-next",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "publishConfig": {
     "access": "public"
   },
-  "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations. Fork of initial vuejs-datepicker which is abonded.",
+  "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations. Fork of initial vuejs-datepicker which is abandoned.",
   "keywords": [
     "vue",
     "datepicker",
@@ -46,12 +46,9 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.51",
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "@babel/plugin-transform-async-to-generator": "^7.4.4",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
-    "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.4.4",
     "@vue/test-utils": "^1.0.0-beta.12",
     "autoprefixer": "^9.5.1",
@@ -78,6 +75,7 @@
     "pre-commit": "^1.2.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.11.2",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-livereload": "^1.0.0",
