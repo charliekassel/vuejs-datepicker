@@ -37,6 +37,24 @@ describe('DateInput', () => {
     expect(wrapper.emitted().typedDate[0][0]).toBeInstanceOf(Date)
   })
 
+  it('allows custom date format', () => {
+    const dateString = '24/06/2018'
+    wrapper.setProps({
+      selectedDate: new Date(dateString),
+      typeable: true,
+      formatTypedDate: function (dateString) {
+        let result = dateString.split('/')
+        return result[2] + '-' + result[1] + '-' + result[0] + 'T00:00:00-03:00'
+      }
+    })
+    const input = wrapper.find('input')
+    wrapper.vm.input.value = dateString
+    expect(wrapper.vm.input.value).toEqual(dateString)
+    input.trigger('keyup')
+    expect(wrapper.emitted().typedDate[0][0].toISOString()).toEqual('2018-06-24T03:00:00.000Z')
+    expect(wrapper.vm.formattedValue).toEqual(dateString)
+  })
+
   it('emits closeCalendar when return is pressed', () => {
     const input = wrapper.find('input')
     const blurSpy = jest.spyOn(input.element, 'blur')
