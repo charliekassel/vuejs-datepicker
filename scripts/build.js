@@ -1,10 +1,10 @@
 import path from 'path'
-import uglify from 'rollup-plugin-uglify'
+import { uglify } from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
-import {rollup} from 'rollup'
+import { rollup } from 'rollup'
 import chalk from 'chalk'
 
 const version = require('../package.json').version

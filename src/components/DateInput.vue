@@ -26,7 +26,7 @@
       :readonly="!typeable"
       @click="showCalendar"
       @focus="showFocusCalendar"
-      @keyup="parseTypedDate"
+      @keyup="keyUp"
       @blur="inputBlurred"
       autocomplete="off">
     <!-- Clear Button -->
@@ -63,7 +63,7 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
-    formatTypedDate: Function,
+    parseTypedDate: Function,
     bootstrapStyling: Boolean,
     useUtc: Boolean,
     showCalendarOnFocus: Boolean
@@ -94,7 +94,7 @@ export default {
         if (typeof this.inputClass === 'string') {
           return [this.inputClass, 'form-control'].join(' ')
         }
-        return {'form-control': true, ...this.inputClass}
+        return { 'form-control': true, ...this.inputClass }
       }
       return this.inputClass
     }
@@ -121,17 +121,20 @@ export default {
      * Attempt to parse a typed date
      * @param {Event} event
      */
-    parseTypedDate (event) {
+    keyUp (event) {
+      const code = (event.keyCode ? event.keyCode : event.which)
+
       // close calendar if escape or enter are pressed
       if ([
         27, // escape
         13 // enter
-      ].includes(event.keyCode)) {
+      ].includes(code)) {
         this.input.blur()
       }
 
       if (this.typeable) {
-        const parsedDate = Date.parse(this.getTypedDate(this.input.value))
+        const parsedDate = this.getTypedDate(this.input.value)
+
         if (!isNaN(parsedDate)) {
           this.typedDate = this.input.value
           this.$emit('typedDate', new Date(parsedDate))
@@ -143,7 +146,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.getTypedDate(this.input.value)))) {
+      if (this.typeable && isNaN(this.getTypedDate(this.input.value))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
@@ -158,12 +161,13 @@ export default {
       this.$emit('clearDate')
     },
     /**
-     * format Date with regular or custom function
+     * parse Date with regular or custom function
      */
     getTypedDate (input) {
-      let date = typeof this.formatTypedDate === 'function'
-        ? this.formatTypedDate(input)
-        : input
+      const date = typeof this.parseTypedDate === 'function'
+        ? this.parseTypedDate(input)
+        : Date.parse(input)
+
       return date
     }
   },

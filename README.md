@@ -129,7 +129,7 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
-| format-typed-date		| Function	  |             | Use to parse custom date for typed input |
+| parse-typed-date		| Function: Date  |             | Use to parse custom date for typed input |
 
 ## Events
 

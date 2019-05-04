@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import {rollup} from 'rollup'
+import { rollup } from 'rollup'
 import uglify from 'rollup-plugin-uglify'
 import chalk from 'chalk'
 import buble from 'rollup-plugin-buble'

@@ -1,11 +1,11 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerDay highlight date', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,

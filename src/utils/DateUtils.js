@@ -243,7 +243,7 @@ const utils = {
   }
 }
 
-export const makeDateUtils = useUtc => ({...utils, useUtc})
+export const makeDateUtils = useUtc => ({ ...utils, useUtc })
 
 export default {
   ...utils

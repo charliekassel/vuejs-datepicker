@@ -1,11 +1,11 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerDay: disabled', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         showMonthCalendar: () => {},
@@ -25,7 +25,7 @@ describe('PickerDay: disabled', () => {
   })
 
   it('should not select a disabled date', () => {
-    expect(wrapper.vm.selectDate({isDisabled: true})).toEqual(false)
+    expect(wrapper.vm.selectDate({ isDisabled: true })).toEqual(false)
   })
 
   it('cant change to a disabled month', () => {
@@ -108,7 +108,7 @@ describe('PickerDay: disabled', () => {
   })
 
   it('should emit a selectedDisabled event for a disabled date', () => {
-    expect(wrapper.vm.selectDate({isDisabled: true})).toEqual(false)
+    expect(wrapper.vm.selectDate({ isDisabled: true })).toEqual(false)
     expect(wrapper.emitted().selectedDisabled).toBeTruthy()
   })
 })
