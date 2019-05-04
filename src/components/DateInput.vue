@@ -9,6 +9,7 @@
         </i>
       </span>
     </span>
+    <slot name="beforeDateInput"></slot>
     <!-- Input -->
     <input
       :type="inline ? 'hidden' : 'text'"

@@ -276,6 +276,10 @@ to show some custom text:
 </datepicker>
 ```
 
+#### beforeDateInput
+
+To implement some custom styling on DateINput, you might need to add elemnt beore the DateInput. Similar to afterDateInput, just it is before in the html DOM.
+
 #### afterDateInput
 
 To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named
