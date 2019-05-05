@@ -16,6 +16,7 @@ export default {
     sourcemap: true
   },
   plugins: [
+    common(),
     vue({
       css: true
     }),
@@ -25,10 +26,9 @@ export default {
     resolve({
       mainFields: ['module', 'jsnext', 'browser']
     }),
-    common(),
-    buble({
+    /*buble({
       objectAssign: 'Object.assign'
-    }),
+    }),*/
     serve({
       contentBase: path.join(__dirname, '..', 'example'),
       host: 'localhost',

@@ -70,6 +70,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^24.7.1",
     "lolex": "^4.0.1",
+    "moment": "^2.24.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.11.2",
     "rollup-plugin-buble": "^0.19.6",

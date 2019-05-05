@@ -18,6 +18,14 @@
     </div>
 
     <div class="example">
+      <h3>Typeable datepicker with custom formatter (DD.MM.YYYY)</h3>
+      <datepicker placeholder="Type or select date" :typeable="true" format="dd.MM.yyyy" :parse-typed-date="parseTypedDate" />
+      <code>
+        &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>datepicker opens on focus</h3>
       <datepicker placeholder="Type or select date" :typeable="true" :show-calendar-on-focus="true"/>
       <code>
@@ -260,6 +268,7 @@
 <script>
 import Datepicker from '../src/components/Datepicker.vue'
 import * as lang from '../src/locale/index.js'
+import moment from 'moment'
 
 const state = {
   date1: new Date()
@@ -365,6 +374,13 @@ export default {
         }
       }
       this.disabledDates.from = val
+    },
+    parseTypedDate (input) {
+      console.log('input', input)
+      let momentDate = moment(input, 'DD.MM.YYYY')
+      console.log('momentDate.toDate()', momentDate.toDate())
+
+      return momentDate.toDate()
     }
   }
 }
