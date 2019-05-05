@@ -2,7 +2,7 @@ import path from 'path'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import vue from 'rollup-plugin-vue'
-import babel from 'rollup-plugin-babel'
+import buble from 'rollup-plugin-buble'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import common from 'rollup-plugin-commonjs'
@@ -26,10 +26,8 @@ export default {
       mainFields: ['module', 'jsnext', 'browser']
     }),
     common(),
-    babel({
-      runtimeHelpers: true,
-      sourceMap: true,
-      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue']
+    buble({
+      objectAssign: 'Object.assign'
     }),
     serve({
       contentBase: path.join(__dirname, '..', 'example'),

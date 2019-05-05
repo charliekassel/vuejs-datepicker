@@ -1,13 +1,13 @@
 import path from 'path'
 import { uglify } from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
-import babel from 'rollup-plugin-babel'
+import buble from 'rollup-plugin-buble'
 
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import { rollup } from 'rollup'
 import chalk from 'chalk'
-import commonjs from 'rollup-plugin-commonjs'
+import common from 'rollup-plugin-commonjs'
 
 const version = require('../package.json').version
 const banner =
@@ -44,6 +44,7 @@ async function build () {
     const inputOptions = {
       input: path.join(__dirname, '..', 'src', 'components', 'Datepicker.vue'),
       plugins: [
+        common(),
         vue({
           css: true
         }),
@@ -52,12 +53,9 @@ async function build () {
             autoprefixer()
           ]
         }),
-        babel({
-          runtimeHelpers: true,
-          sourceMap: true,
-          extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue']
-        }),
-        commonjs(),
+        buble({
+          objectAssign: 'Object.assign'
+        })
       ].concat(config.plugins || [])
     }
     const bundle = await rollup(inputOptions)
