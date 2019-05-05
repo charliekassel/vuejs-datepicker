@@ -28,6 +28,7 @@
       @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
+      <slot name="beforeDateInput" slot="beforeDateInput"></slot>
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
