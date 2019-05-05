@@ -8,6 +8,9 @@ import autoprefixer from 'autoprefixer'
 import { rollup } from 'rollup'
 import chalk from 'chalk'
 import common from 'rollup-plugin-commonjs'
+import replace from 'rollup-plugin-replace'
+import node from 'rollup-plugin-node-resolve'
+import css from 'rollup-plugin-css-only'
 
 const version = require('../package.json').version
 const banner =
@@ -44,14 +47,25 @@ async function build () {
     const inputOptions = {
       input: path.join(__dirname, '..', 'src', 'components', 'Datepicker.vue'),
       plugins: [
+        node({
+          extensions: ['.js', '.jsx', '.vue']
+        }),
         common(),
+        css(),
         vue({
-          css: true
+          css: false,
+          compileTemplate: true,
+          template: {
+            isProduction: true
+          }
         }),
         postcss({
           plugins: [
             autoprefixer()
           ]
+        }),
+        replace({
+          'process.env.NODE_ENV': JSON.stringify('production')
         }),
         buble({
           objectAssign: 'Object.assign'
@@ -63,7 +77,9 @@ async function build () {
       file: path.join(__dirname, '..', 'dist', config.output),
       format: config.format,
       banner: banner,
-      name: 'vuejsDatepicker'
+      name: 'vuejsDatepicker',
+      exports: 'named',
+      sourcemap: false
     }
     await bundle.write(outputOptions)
   })
