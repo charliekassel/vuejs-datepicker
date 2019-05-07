@@ -24,7 +24,7 @@
       :required="required"
       :readonly="!typeable"
       @click="showCalendar"
-      @focus="showFocusCalendar"
+      @focus.prevent="showFocusCalendar"
       @keyup="parseTypedDate"
       @blur="inputBlurred"
       autocomplete="off">
@@ -71,6 +71,7 @@ export default {
     return {
       input: null,
       typedDate: false,
+      firstFocus: false,
       utils: constructedDateUtils
     }
   },
@@ -105,14 +106,16 @@ export default {
   methods: {
     showCalendar () {
       // prevent to emit the event twice if we are listening focus
-      if (!this.showCalendarOnFocus) {
+      if (!this.firstFocus) {
         this.$emit('showCalendar')
       }
+      this.firstFocus = false
     },
 
     showFocusCalendar () {
       if (this.showCalendarOnFocus) {
-        this.$emit('showCalendar', true)
+        this.$emit('showCalendar')
+        this.firstFocus = true
       }
     },
     /**
