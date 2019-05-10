@@ -3,10 +3,13 @@
     [
       "@babel/preset-env",
       {
-        "loose": true,
-        "useBuiltIns": "usage",
-        "corejs": 3
+        "loose": true
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-runtime"]
+    }
+  }
 }

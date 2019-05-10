@@ -1,6 +1,6 @@
 {
   "name": "@hokify/vuejs-datepicker",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "publishConfig": {
     "access": "public"
   },
@@ -54,7 +54,7 @@
     "@babel/plugin-external-helpers": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
-    "@babel/runtime-corejs3": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
     "@vue/test-utils": "^1.0.0-beta.12",
     "autoprefixer": "^9.5.1",
     "babel-jest": "^24.7.1",
