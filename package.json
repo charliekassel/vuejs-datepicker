@@ -1,6 +1,6 @@
 {
   "name": "@hokify/vuejs-datepicker",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "publishConfig": {
     "access": "public"
   },
@@ -30,11 +30,17 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "build": "npm run lint && rm -rf dist/* && babel-node scripts/build.js && babel-node scripts/build-locale.js",
-    "serve": "rollup -c scripts/serve.js --watch",
+    "build": "npm run lint && npm run build:main:browser && npm run build:main:es && npm run build:main:umd && npm run build:main:cjs && npm run build:locale",
+    "build:locale": "rollup --config build/rollup.config.locale.js",
+    "build:main:browser": "rollup --config build/rollup.config.main.browser.js",
+    "build:main:es": "rollup --config build/rollup.config.main.es.js",
+    "build:main:umd": "rollup --config build/rollup.config.main.umd.js",
+    "build:main:cjs": "rollup --config build/rollup.config.main.cjs.js",
+    "prepublishOnly": "npm run lint && npm run build",
+    "dev": "cross-env NODE_ENV=development rollup --config build/rollup.config.main.es.js --watch",
+    "serve": "rollup -c build/serve.js --watch",
     "test": "jest --config test/unit/jest.conf.js --coverage",
-    "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "prepublishOnly": "npm run build"
+    "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "pre-commit": [
     "lint",
@@ -44,22 +50,16 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
-    "@babel/node": "^7.2.2",
-    "@babel/plugin-transform-async-to-generator": "^7.4.4",
-    "@babel/plugin-transform-destructuring": "^7.4.4",
-    "@babel/plugin-transform-parameters": "^7.4.4",
+    "@babel/plugin-external-helpers": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/plugin-transform-spread": "^7.2.2",
-    "@babel/plugin-transform-strict-mode": "^7.2.0",
     "@babel/preset-env": "^7.4.4",
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime-corejs3": "^7.4.4",
     "@vue/test-utils": "^1.0.0-beta.12",
-    "rollup-plugin-babel": "^4.3.2",
     "autoprefixer": "^9.5.1",
     "babel-jest": "^24.7.1",
     "chalk": "^2.4.2",
+    "clean-css": "^4.2.1",
     "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
@@ -73,6 +73,7 @@
     "moment": "^2.24.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.11.2",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-css-only": "^1.0.0",
