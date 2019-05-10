@@ -8,12 +8,7 @@
     ]
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime",
-    "@babel/plugin-transform-strict-mode",
-    "@babel/plugin-transform-async-to-generator",
-    "@babel/plugin-transform-spread",
-    "@babel/plugin-transform-destructuring",
-    "@babel/plugin-transform-parameters"
+    "@babel/plugin-transform-runtime"
   ],
   "comments": false,
   "env": {

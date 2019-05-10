@@ -1,3 +1,20 @@
+# fork
+this is a fork of https://github.com/charliekassel/vuejs-datepicker,
+which includes following changes:
+* Upgrade all libraries
+* uses vue-eslint-parser for eslint.
+* Fixed SSR support for NuxtJS
+* Merged #611: show calendar on foucs prop
+* Merged #626: fixes missing close and open events
+* Based on #536: Allow custom types, I changed the method to getTypedDate which should return a fully parsed Date object. 
+* Added a beforeDateInput slot.
+
+
+To install this fork, use:
+```
+npm install --save @hokify/vuejs-datepicker
+```
+
 # Datepicker
 
 [![Travis Build](https://img.shields.io/travis/charliekassel/vuejs-datepicker.svg)](https://travis-ci.org/charliekassel/vuejs-datepicker)

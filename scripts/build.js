@@ -1,7 +1,7 @@
 import path from 'path'
 import { uglify } from 'rollup-plugin-uglify'
 import vue from 'rollup-plugin-vue'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
@@ -67,8 +67,9 @@ async function build () {
         replace({
           'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        buble({
-          objectAssign: 'Object.assign'
+        babel({
+          extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue'],
+          runtimeHelpers: true
         })
       ].concat(config.plugins || [])
     }

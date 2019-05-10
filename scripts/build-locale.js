@@ -3,7 +3,7 @@ import path from 'path'
 import { rollup } from 'rollup'
 import { uglify } from 'rollup-plugin-uglify'
 import chalk from 'chalk'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 
 async function build () {
   console.log(chalk.cyan('Building individual translations.'))
@@ -12,7 +12,10 @@ async function build () {
     const inputOptions = {
       input: path.join(__dirname, '..', 'src', 'locale', 'translations', file),
       plugins: [
-        buble(),
+        babel({
+          extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue'],
+          runtimeHelpers: true
+        }),
         uglify()
       ]
     }
@@ -31,7 +34,10 @@ async function buildAll () {
   const bundle = await rollup({
     input: path.join(__dirname, '..', 'src', 'locale', 'index.js'),
     plugins: [
-      buble(),
+      babel({
+        extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.vue'],
+        runtimeHelpers: true
+      }),
       uglify()
     ]
   })
