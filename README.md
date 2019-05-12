@@ -15,12 +15,55 @@ To install this fork, use:
 npm install --save @hokify/vuejs-datepicker
 ```
 
-# Datepicker
+### regarding CSS / styles
+As this bundle is also useable for SSR rendering, you have to take care of css yourself. 
+(see also https://github.com/vuejs/rollup-plugin-vue/issues/266)
+First I strongly recommen to create a custom component, that wraps the vuejs-datepicker. Then
+it's easy to add custom css and have a consistent style for the datepicker.
 
-[![Travis Build](https://img.shields.io/travis/charliekassel/vuejs-datepicker.svg)](https://travis-ci.org/charliekassel/vuejs-datepicker)
-[![Version](https://img.shields.io/npm/v/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
-[![Coveralls github](https://img.shields.io/coveralls/github/charliekassel/vuejs-datepicker.svg)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
-[![Downloads](https://img.shields.io/npm/dm/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
+#### Method 1: try to include the css directly.
+Ensure you have postcss-import up and running. (https://github.com/postcss/postcss-import)
+E.g.via:
+```
+<style lang="scss">
+/* purgecss start ignore */
+@import "@hokify/vuejs-datepicker/dist/vuejs-datepicker.css"
+/* purgecss end ignore */
+</style>
+```
+
+If you do not use purgeCSS, you can safely remove the comment lines 
+
+#### Method 2: via global nuxt config:
+add inside nuxt.config:
+
+```
+css: [
+ {
+  src: '@hokify/vuejs-datepicker/dist/vuejs-datepicker.css',
+  lang: 'css'
+ },
+```
+
+#### Method 3: Copy the relevant css selectors to your custom component.
+I'm using this method, as I actually customized the datepicker and therefore don't need to
+overwrite css classes again with my style.
+
+```
+<style lang="scss">
+	.vdp-datepicker {
+		overflow: visible;
+		display: inline-block;
+		....
+	}
+	...
+</style>
+```
+
+Ping me if you have any better approaches! :)
+
+
+# Datepicker
 
 A datepicker Vue component. Compatible with Vue 2.x
 
@@ -34,8 +77,6 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Highlighted dates](#highlighted-dates)
 - [Translations](#translations)
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
-
 ## Demo
 
 To view a demo online:
@@ -46,15 +87,15 @@ To view demo examples locally clone the repo and run `yarn install && yarn serve
 ## Install
 
 ``` bash
-npm install vuejs-datepicker --save
+npm install @hokify/vuejs-datepicker --save
 ```
 or
 ``` bash
-yarn add vuejs-datepicker
+yarn add @hokify/vuejs-datepicker
 ```
 
 ``` javascript
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from '@hokify/vuejs-datepicker';
 
 export default {
   // ...
@@ -63,23 +104,6 @@ export default {
   }
   // ...
 }
-```
-
-Or use directly from a CDN
-``` html
-<div id="app">
-  <vuejs-datepicker></vuejs-datepicker>
-</div>
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vuejs-datepicker"></script>
-<script>
-const app = new Vue({
-  el: '#app',
-  components: {
-  	vuejsDatepicker
-  }
-})
-</script>
 ```
 
 ## Usage
@@ -146,7 +170,7 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
-| parse-typed-date		| Function: Date  |             | Use to parse custom date for typed input |
+| parse-typed-date	          	| Function: Date  |             | Use to parse custom date for typed input |
 
 ## Events
 
@@ -320,58 +344,11 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
-### regarding CSS / styles
-As this bundle is also useable for SSR rendering, you have to take care of css yourself. 
-(see also https://github.com/vuejs/rollup-plugin-vue/issues/266)
-First I strongly recommen to create a custom component, that wraps the vuejs-datepicker. Then
-it's easy to add custom css and have a consistent style for the datepicker.
-
-#### Method 1: try to include the css directly.
-Ensure you have postcss-import up and running. (https://github.com/postcss/postcss-import)
-E.g.via:
-```
-<style lang="scss">
-/* purgecss start ignore */
-@import "@hokify/vuejs-datepicker/dist/vuejs-datepicker.css"
-/* purgecss end ignore */
-</style>
-```
-
-If you do not use purgeCSS, you can safely remove the comment lines 
-
-#### Method 2: via global nuxt config:
-add inside nuxt.config:
-
-```
-css: [
- {
-  src: '@hokify/vuejs-datepicker/dist/vuejs-datepicker.css',
-  lang: 'css'
- },
-```
-
-#### Method 3: Copy the relevant css selectors to your custom component.
-I'm using this method, as I actually customized the datepicker and therefore don't need to
-overwrite css classes again with my style.
-
-```
-<style lang="scss">
-	.vdp-datepicker {
-		overflow: visible;
-		display: inline-block;
-		....
-	}
-	...
-</style>
-```
-
-Ping me if you have any better approaches! :)
-
 ### How to apply language
 
 Below script tag in component.
 ```javascript
-import {en, es} from 'vuejs-datepicker/dist/locale'
+import {en, es} from '@hokify/vuejs-datepicker/dist/locale'
 ```
 
 In component data.
