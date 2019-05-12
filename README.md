@@ -320,6 +320,53 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
+### regarding CSS / styles
+As this bundle is also useable for SSR rendering, you have to take care of css yourself. 
+(see also https://github.com/vuejs/rollup-plugin-vue/issues/266)
+First I strongly recommen to create a custom component, that wraps the vuejs-datepicker. Then
+it's easy to add custom css and have a consistent style for the datepicker.
+
+#### Method 1: try to include the css directly.
+Ensure you have postcss-import up and running. (https://github.com/postcss/postcss-import)
+E.g.via:
+```
+<style lang="scss">
+/* purgecss start ignore */
+@import "@hokify/vuejs-datepicker/dist/vuejs-datepicker.css"
+/* purgecss end ignore */
+</style>
+```
+
+If you do not use purgeCSS, you can safely remove the comment lines 
+
+#### Method 2: via global nuxt config:
+add inside nuxt.config:
+
+```
+css: [
+ {
+  src: '@hokify/vuejs-datepicker/dist/vuejs-datepicker.css',
+  lang: 'css'
+ },
+```
+
+#### Method 3: Copy the relevant css selectors to your custom component.
+I'm using this method, as I actually customized the datepicker and therefore don't need to
+overwrite css classes again with my style.
+
+```
+<style lang="scss">
+	.vdp-datepicker {
+		overflow: visible;
+		display: inline-block;
+		....
+	}
+	...
+</style>
+```
+
+Ping me if you have any better approaches! :)
+
 ### How to apply language
 
 Below script tag in component.
