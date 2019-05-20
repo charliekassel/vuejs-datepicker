@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import { makeDateUtils, rtlLangs, langYearSuffix } from '../utils/DateUtils'
 export default {
   props: {
     showMonthView: Boolean,
@@ -30,18 +30,25 @@ export default {
     disabledDates: Object,
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
-    translation: Object,
-    isRtl: Boolean,
+    language: String,
     allowedToShowView: Function,
     useUtc: Boolean
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     return {
       utils: constructedDateUtils
     }
   },
+  watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    }
+  },
   computed: {
+    isRtl () {
+      return rtlLangs.indexOf(this.language) !== -1
+    },
     months () {
       const d = this.pageDate
       let months = []
@@ -51,7 +58,7 @@ export default {
         : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 12; i++) {
         months.push({
-          month: this.utils.getMonthName(i, this.translation.months),
+          month: this.utils.getMonthName(dObj), // , i, this.language.months),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedMonth(dObj),
           isDisabled: this.isDisabledMonth(dObj)
@@ -65,7 +72,7 @@ export default {
      * @return {String}
      */
     pageYearName () {
-      const yearSuffix = this.translation.yearSuffix
+      const yearSuffix = langYearSuffix[this.language] || ''
       return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
     },
     /**

@@ -25,7 +25,7 @@ describe('Datepicker mounted', () => {
     date = new Date(2016, 1, 15)
     wrapper = shallowMount(Datepicker, {
       propsData: {
-        format: 'yyyy-MM-dd',
+        format: 'YYYY-MM-dd',
         value: date
       }
     })
@@ -53,7 +53,7 @@ describe('Datepicker mounted', () => {
     const date = new Date(2016, 9, 9)
     const wrapper = shallowMount(Datepicker, {
       propsData: {
-        format: 'yyyy-MM-dd'
+        format: 'YYYY-MM-dd'
       }
     })
     wrapper.vm.setDate(date.getTime())
@@ -213,7 +213,7 @@ describe('Datepicker.vue set by string', () => {
   it('can parse a string date', () => {
     wrapper = shallowMount(Datepicker, {
       propsData: {
-        format: 'yyyy MM dd',
+        format: 'YYYY MM dd',
         value: '2016-02-20'
       }
     })
@@ -238,7 +238,7 @@ describe('Datepicker.vue set by timestamp', () => {
   it('can parse unix timestamp', () => {
     wrapper = shallowMount(Datepicker, {
       propsData: {
-        format: 'yyyy MM dd',
+        format: 'YYYY MM dd',
         value: new Date(Date.UTC(2018, 0, 29)).getTime()
       }
     })
@@ -264,7 +264,7 @@ describe('Datepicker.vue using UTC', () => {
     // It's important to use the `mount` helper here
     wrapper = mount(Datepicker, {
       propsData: {
-        format: 'yyyy MM dd',
+        format: 'YYYY MM DD',
         value: ambiguousDate,
         useUtc: true // This should fail if `useUtc=false`
       }

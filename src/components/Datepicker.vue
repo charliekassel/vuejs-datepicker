@@ -4,7 +4,7 @@
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
       :format="format"
-      :translation="translation"
+      :language="language"
       :inline="inline"
       :id="id"
       :name="name"
@@ -44,9 +44,8 @@
       :highlighted="highlighted"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
-      :translation="translation"
+      :language="language"
       :pageTimestamp="pageTimestamp"
-      :isRtl="isRtl"
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
@@ -67,8 +66,7 @@
       :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
+      :language="language"
       :use-utc="useUtc"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
@@ -86,8 +84,7 @@
       :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
+      :language="language"
       :use-utc="useUtc"
       @selectYear="selectYear"
       @changedDecade="setPageDate">
@@ -96,12 +93,13 @@
   </div>
 </template>
 <script>
-import en from '../locale/translations/en'
+// import en from '../locale/languages/en'
 import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
-import utils, { makeDateUtils } from '../utils/DateUtils'
+import utils, { makeDateUtils, rtlLangs } from '../utils/DateUtils'
+
 export default {
   components: {
     DateInput,
@@ -118,11 +116,11 @@ export default {
     id: String,
     format: {
       type: [String, Function],
-      default: 'dd MMM yyyy'
+      default: 'dd MMM YYYY'
     },
     language: {
-      type: Object,
-      default: () => en
+      type: String,
+      default: 'en'
     },
     openDate: {
       validator: val => utils.validateDateInput(val)
@@ -161,7 +159,7 @@ export default {
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
       /*
@@ -191,6 +189,9 @@ export default {
     }
   },
   watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    },
     value (value) {
       this.setValue(value)
     },
@@ -213,10 +214,6 @@ export default {
       return new Date(this.pageTimestamp)
     },
 
-    translation () {
-      return this.language
-    },
-
     calendarStyle () {
       return {
         position: this.isInline ? 'static' : undefined
@@ -229,7 +226,7 @@ export default {
       return !!this.inline
     },
     isRtl () {
-      return this.translation.rtl === true
+      return rtlLangs.indexOf(this.language) !== -1
     }
   },
   methods: {

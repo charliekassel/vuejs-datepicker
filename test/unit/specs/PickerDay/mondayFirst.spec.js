@@ -1,6 +1,5 @@
 import PickerDay from '@/components/PickerDay.vue'
 import { shallowMount } from '@vue/test-utils'
-import { en } from '@/locale'
 
 describe('PickerDay: Datepicker with monday as first day of week', () => {
   let wrapper
@@ -8,7 +7,7 @@ describe('PickerDay: Datepicker with monday as first day of week', () => {
     wrapper = shallowMount(PickerDay, {
       propsData: {
         mondayFirst: true,
-        translation: en,
+
         allowedToShowView: () => true,
         pageDate: new Date(2018, 1, 1)
       }

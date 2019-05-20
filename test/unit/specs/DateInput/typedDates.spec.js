@@ -1,6 +1,5 @@
 import DateInput from '@/components/DateInput.vue'
 import { shallowMount } from '@vue/test-utils'
-import { en } from '@/locale'
 
 describe('DateInput', () => {
   let wrapper
@@ -8,8 +7,8 @@ describe('DateInput', () => {
   beforeEach(() => {
     wrapper = shallowMount(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
-        translation: en,
+        format: 'dd MMM YYYY',
+
         typeable: true
       }
     })
@@ -72,8 +71,8 @@ describe('DateInput', () => {
   it('doesn\'t emit the date if typeable=false', () => {
     const wrapper = shallowMount(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
-        translation: en,
+        format: 'dd MMM YYYY',
+
         typeable: false
       }
     })

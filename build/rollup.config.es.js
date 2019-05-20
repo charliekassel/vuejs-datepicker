@@ -8,7 +8,10 @@ const config = Object.assign({}, base, {
     banner: banner,
     globals: {
       'vue': 'Vue'
-    }
+    },
+    external: [
+      'moment'
+    ]
   }
 })
 

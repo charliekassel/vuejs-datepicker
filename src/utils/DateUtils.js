@@ -1,10 +1,14 @@
-import en from '../locale/translations/en'
+import moment from 'moment'
 
 const utils = {
   /**
    * @type {Boolean}
    */
   useUtc: false,
+  /**
+   * @type {String}
+   */
+  language: 'en',
   /**
    * Returns the full year, using UTC or not
    * @param {Date} date
@@ -57,7 +61,7 @@ const utils = {
    * Sets the full year, using UTC or not
    * @param {Date} date
    */
-  setFullYear (date, value, useUtc) {
+  setFullYear (date, value) {
     return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
   },
 
@@ -65,7 +69,7 @@ const utils = {
    * Sets the month, using UTC or not
    * @param {Date} date
    */
-  setMonth (date, value, useUtc) {
+  setMonth (date, value) {
     return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value)
   },
 
@@ -74,7 +78,7 @@ const utils = {
    * @param {Date} date
    * @param {Number} value
    */
-  setDate (date, value, useUtc) {
+  setDate (date, value) {
     return this.useUtc ? date.setUTCDate(value) : date.setDate(value)
   },
 
@@ -116,11 +120,11 @@ const utils = {
    * @param {Array}
    * @return {String}
    */
-  getDayNameAbbr (date, days) {
+  getDayNameAbbr (date) {
     if (typeof date !== 'object') {
       throw TypeError('Invalid Type')
     }
-    return days[this.getDay(date)]
+    return moment().setDay(this.getDay(date)).locale(this.language).format('ddd')
   },
 
   /**
@@ -129,15 +133,12 @@ const utils = {
    * @param {Array}
    * @return {String}
    */
-  getMonthName (month, months) {
-    if (!months) {
-      throw Error('missing 2nd parameter Months array')
+  getMonthName (date) {
+    if (typeof date === 'object') {
+      return moment(date).locale(this.language).format('MMMM')
     }
-    if (typeof month === 'object') {
-      return months[this.getMonth(month)]
-    }
-    if (typeof month === 'number') {
-      return months[month]
+    if (typeof date === 'number') {
+      return moment().month(date).locale(this.language).format('MMMM')
     }
     throw TypeError('Invalid type')
   },
@@ -147,15 +148,12 @@ const utils = {
    * @param {Number|Date}
    * @return {String}
    */
-  getMonthNameAbbr (month, monthsAbbr) {
-    if (!monthsAbbr) {
-      throw Error('missing 2nd paramter Months array')
+  getMonthNameAbbr (date) {
+    if (typeof date === 'object') {
+      return moment(date).locale(this.language).format('MMM')
     }
-    if (typeof month === 'object') {
-      return monthsAbbr[this.getMonth(month)]
-    }
-    if (typeof month === 'number') {
-      return monthsAbbr[month]
+    if (typeof date === 'number') {
+      return moment().month(date).locale(this.language).format('MMM')
     }
     throw TypeError('Invalid type')
   },
@@ -192,6 +190,21 @@ const utils = {
     }
   },
 
+  getDaysOfWeek (mondayFirst) {
+    const date = moment().day(0)
+    if (mondayFirst) {
+      date.day(1)
+    }
+
+    const days = []
+    for (let i = 0; i < 7; i++) {
+      days.push(date.locale(this.language).format('ddd'))
+      date.day(date.day() + 1)
+    }
+
+    return days
+  },
+
   /**
    * Formats date object
    * @param {Date}
@@ -199,23 +212,8 @@ const utils = {
    * @param {Object}
    * @return {String}
    */
-  formatDate (date, format, translation) {
-    translation = (!translation) ? en : translation
-    let year = this.getFullYear(date)
-    let month = this.getMonth(date) + 1
-    let day = this.getDate(date)
-    let str = format
-      .replace(/dd/, ('0' + day).slice(-2))
-      .replace(/d/, day)
-      .replace(/yyyy/, year)
-      .replace(/yy/, String(year).slice(2))
-      .replace(/MMMM/, this.getMonthName(this.getMonth(date), translation.months))
-      .replace(/MMM/, this.getMonthNameAbbr(this.getMonth(date), translation.monthsAbbr))
-      .replace(/MM/, ('0' + month).slice(-2))
-      .replace(/M(?!a|ä|e)/, month)
-      .replace(/su/, this.getNthSuffix(this.getDate(date)))
-      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
-    return str
+  formatDate (date, format) {
+    return moment(date).locale(this.language).format(format)
   },
 
   /**
@@ -243,10 +241,25 @@ const utils = {
   }
 }
 
-export const makeDateUtils = useUtc => ({ ...utils, useUtc })
+export const makeDateUtils = (useUtc = false, language = 'en') => ({ ...utils, useUtc, language })
 
 export default {
   ...utils
 }
+
+/** special cases to keep backwards compatibilty for older vue js datepicker versions */
+// 1. right to left languages
+export const rtlLangs = ['dv', 'fa', 'ha', 'he', 'kwh', 'ks', 'ku', 'ps', 'ur', 'yi']
+
+// 2. translation using year/month/day format
+export const ymdLangs = ['ja', 'lt', 'mn', 'ko']
+
+// 3. special year suffix
+export const langYearSuffix = {
+  'zh': '年',
+  'ja': '年',
+  'ko': '년'
+}
+
 // eslint-disable-next-line
 ;

@@ -1,6 +1,5 @@
 import PickerDay from '@/components/PickerDay.vue'
 import { shallowMount } from '@vue/test-utils'
-import { en } from '@/locale'
 
 describe('PickerDay: disabled', () => {
   let wrapper
@@ -9,7 +8,7 @@ describe('PickerDay: disabled', () => {
       propsData: {
         allowedToShowView: () => true,
         showMonthCalendar: () => {},
-        translation: en,
+
         disabledDates: {
           to: new Date(2016, 9, 4),
           from: new Date(2016, 9, 26)

@@ -1,6 +1,5 @@
 import PickerYear from '@/components/PickerYear.vue'
 import { shallowMount } from '@vue/test-utils'
-import { en } from '@/locale'
 
 describe('PickerYear', () => {
   let wrapper
@@ -8,7 +7,7 @@ describe('PickerYear', () => {
     wrapper = shallowMount(PickerYear, {
       propsData: {
         allowedToShowView: () => true,
-        translation: en,
+
         pageDate: new Date(2018, 3, 1),
         selectedDate: new Date(2018, 3, 19),
         disabledDates: {

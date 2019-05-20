@@ -47,7 +47,7 @@ export default {
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
-    translation: Object,
+    language: String,
     inline: Boolean,
     id: String,
     name: String,
@@ -69,7 +69,7 @@ export default {
     showCalendarOnFocus: Boolean
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     return {
       input: null,
       typedDate: false,
@@ -86,7 +86,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : this.utils.formatDate(new Date(this.selectedDate), this.format)
     },
 
     computedInputClass () {
@@ -100,6 +100,9 @@ export default {
     }
   },
   watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    },
     resetTypedDate () {
       this.typedDate = false
     }

@@ -1,6 +1,6 @@
 {
   "name": "@hokify/vuejs-datepicker",
-  "version": "1.6.7",
+  "version": "2.0.0-alpha",
   "publishConfig": {
     "access": "public"
   },
@@ -35,12 +35,12 @@
   "scripts": {
     "build": "npm run lint && npm run build:main:browser && npm run build:main:es && npm run build:main:umd && npm run build:main:cjs && npm run build:locale",
     "build:locale": "rollup --config build/rollup.config.locale.js",
-    "build:main:browser": "rollup --config build/rollup.config.main.browser.js",
-    "build:main:es": "rollup --config build/rollup.config.main.es.js",
-    "build:main:umd": "rollup --config build/rollup.config.main.umd.js",
-    "build:main:cjs": "rollup --config build/rollup.config.main.cjs.js",
+    "build:main:browser": "rollup --config build/rollup.config.browser.js",
+    "build:main:es": "rollup --config build/rollup.config.es.js",
+    "build:main:umd": "rollup --config build/rollup.config.umd.js",
+    "build:main:cjs": "rollup --config build/rollup.config.cjs.js",
     "prepublishOnly": "npm run lint && npm run build",
-    "dev": "cross-env NODE_ENV=development rollup --config build/rollup.config.main.es.js --watch",
+    "dev": "cross-env NODE_ENV=development rollup --config build/rollup.config.es.js --watch",
     "serve": "rollup -c build/serve.js --watch",
     "test": "jest --config test/unit/jest.conf.js --coverage",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
@@ -49,6 +49,9 @@
     "lint",
     "test"
   ],
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
   "peerDependencies": {
     "vue": "^2.6.10"
   },
@@ -73,7 +76,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^24.7.1",
     "lolex": "^4.0.1",
-    "moment": "^2.24.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.11.2",
     "rollup-plugin-babel": "^4.3.2",

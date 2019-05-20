@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import { makeDateUtils, rtlLangs, langYearSuffix } from '../utils/DateUtils'
 export default {
   props: {
     showYearView: Boolean,
@@ -32,12 +32,19 @@ export default {
     highlighted: Object,
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
-    translation: Object,
-    isRtl: Boolean,
+    language: String,
     allowedToShowView: Function,
     useUtc: Boolean
   },
+  watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    }
+  },
   computed: {
+    isRtl () {
+      return rtlLangs.indexOf(this.language) !== -1
+    },
     years () {
       const d = this.pageDate
       let years = []
@@ -62,7 +69,7 @@ export default {
     getPageDecade () {
       const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
-      const yearSuffix = this.translation.yearSuffix
+      const yearSuffix = langYearSuffix[this.language] || ''
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
     },
     /**
@@ -85,7 +92,7 @@ export default {
     }
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     return {
       utils: constructedDateUtils
     }
