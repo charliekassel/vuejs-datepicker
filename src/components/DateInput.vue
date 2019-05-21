@@ -65,7 +65,6 @@ export default {
     typeable: Boolean,
     parseTypedDate: Function,
     bootstrapStyling: Boolean,
-    useUtc: Boolean,
     showCalendarOnFocus: Boolean
   },
   data () {

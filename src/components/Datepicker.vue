@@ -116,7 +116,7 @@ export default {
     id: String,
     format: {
       type: [String, Function],
-      default: 'dd MMM YYYY'
+      default: 'DD MMM YYYY'
     },
     language: {
       type: String,
