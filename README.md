@@ -1,4 +1,19 @@
-# fork
+# Datepicker 2
+
+A datepicker Vue component. Compatible with Vue 2.x
+
+- [Demo](#demo)
+- [Install](#install)
+- [Upgrade to 2.x+](#upgrade)
+- [Usage](#usage)
+- [Date Formatting](#date-formatting)
+- [Props](#available-props)
+- [Events](#events)
+- [Disabled dates](#disabled-dates)
+- [Highlighted dates](#highlighted-dates)
+- [Translations](#translations)
+
+## fork
 this is a fork of https://github.com/charliekassel/vuejs-datepicker,
 which includes following breaking changes:
 * Upgrade all libraries
@@ -15,10 +30,65 @@ To install this fork, use:
 npm install --save @hokify/vuejs-datepicker
 ```
 
+## Upgrade
 To upgrade to version 2.0+ check:
-* [regarding CSS / styles](#regarding-css)
-* [momentjs / translations](#momentjs-and-translations)
-* [momentjs / formatting](#momentjs-and-formatting)
+* add explicit css inclues, see [regarding CSS / styles](#regarding-css)
+* change translation to moment.js, see [momentjs / translations](#momentjs-and-translations)
+* change date formats to moment.js, see [momentjs / formatting](#momentjs-and-formatting)
+
+### momentjs and translations
+
+I've dropped the additional translations and use the moment.js directly, 
+therefore you need to remove all dependenices
+for the "locale" imports e.g.:
+```import {en, es} from 'vuejs-datepicker/dist/locale'```
+
+The language property changed from an locale object to a simple string (en,de,..)!
+Please see [Translations](#translations) section how to set up your language.
+
+### momentjs and formatting
+
+change custom date formatting to moment js date formatting: https://momentjs.com/docs/#/displaying/
+Examples:
+
+| Old                          | New (moment.js)  | Displays          |
+|-------------------------------|-----------------|------------------ |
+| d MMM yyyy                    | D MMM YYYY      | 12 Feb 2016       |
+| d MMMM yyyy                   | D MMMM YYYY     | 12 February 2016  |
+| yyyy-MM-dd                    | YYYY-MM-DD      | 2016-02-12        |
+| dsu MMM yyyy                  | Do MMM YYYY     | 12th Feb 2016     |
+| D dsu MMM yyyy                | ddd Do MMM YYYY | Sat 12th Feb 2016 |
+
+
+## Demo
+
+To view a demo online:
+https://codesandbox.io/s/vue-datepicker-demo-82x48
+
+To view demo examples locally clone the repo and run `yarn install && yarn serve`
+
+## Install
+
+``` bash
+npm install @hokify/vuejs-datepicker --save
+```
+or
+``` bash
+yarn add @hokify/vuejs-datepicker
+```
+
+``` javascript
+import Datepicker from '@hokify/vuejs-datepicker';
+
+export default {
+  // ...
+  components: {
+    Datepicker
+  }
+  // ...
+}
+```
+
 
 ### regarding CSS
 As this bundle is also useable for SSR rendering, you have to take care of css yourself. 
@@ -66,73 +136,6 @@ overwrite css classes again with my style.
 ```
 
 Ping me if you have any better approaches! :)
-
-### momentjs and translations
-
-I've dropped the additional translations and use the moment.js directly, 
-therefore you need to remove all dependenices
-for the "locale" imports e.g.:
-```import {en, es} from 'vuejs-datepicker/dist/locale'```
-
-The language property changed from an locale object to a simple string (en,de,..)!
-Please see [Translations](#translations) section how to set up your language.
-
-### momentjs and formatting
-
-change custom date formatting to moment js date formatting: https://momentjs.com/docs/#/displaying/
-Examples:
-
-| Old                          | New (moment.js)  | Displays          |
-|-------------------------------|-----------------|------------------ |
-| d MMM yyyy                    | D MMM YYYY      | 12 Feb 2016       |
-| d MMMM yyyy                   | D MMMM YYYY     | 12 February 2016  |
-| yyyy-MM-dd                    | YYYY-MM-DD      | 2016-02-12        |
-| dsu MMM yyyy                  | Do MMM YYYY     | 12th Feb 2016     |
-| D dsu MMM yyyy                | ddd Do MMM YYYY | Sat 12th Feb 2016 |
-
-
-# Datepicker
-
-A datepicker Vue component. Compatible with Vue 2.x
-
-- [Demo](#demo)
-- [Install](#install)
-- [Usage](#usage)
-- [Date Formatting](#date-formatting)
-- [Props](#available-props)
-- [Events](#events)
-- [Disabled dates](#disabled-dates)
-- [Highlighted dates](#highlighted-dates)
-- [Translations](#translations)
-
-## Demo
-
-To view a demo online:
-https://codesandbox.io/s/vue-datepicker-demo-82x48
-
-To view demo examples locally clone the repo and run `yarn install && yarn serve`
-
-## Install
-
-``` bash
-npm install @hokify/vuejs-datepicker --save
-```
-or
-``` bash
-yarn add @hokify/vuejs-datepicker
-```
-
-``` javascript
-import Datepicker from '@hokify/vuejs-datepicker';
-
-export default {
-  // ...
-  components: {
-    Datepicker
-  }
-  // ...
-}
-```
 
 ## Usage
 
