@@ -3,19 +3,19 @@ this is a fork of https://github.com/charliekassel/vuejs-datepicker,
 which includes following breaking changes:
 * Upgrade all libraries
 * uses vue-eslint-parser for eslint.
-* Fixed SSR support for NuxtJS (**breaking change**) see [regarding CSS / styles](#regarding-css)
+* Fixed SSR support for NuxtJS (**breaking change 2.0+**) see [regarding CSS / styles](#regarding-css)
 * Merged #611: show calendar on focus prop
 * Merged #626: fixes missing close and open events
 * Based on #536: Allow custom types, I changed the method to getTypedDate which should return a fully parsed Date object. 
 * Added a beforeDateInput slot.
-* uses moment.js for translations  (**breaking change**) see [momentjs / translations](#momentjs-and-translations)
-* dropped internal formatting rules and also used moment.js (**breaking change**) see [momentjs / formatting](#momentjs-and-formatting)
+* uses moment.js for translations  (**breaking change 2.0+**) see [momentjs / translations](#momentjs-and-translations)
+* dropped internal formatting rules and also used moment.js (**breaking change 2.0+**) see [momentjs / formatting](#momentjs-and-formatting)
 To install this fork, use:
 ```
 npm install --save @hokify/vuejs-datepicker
 ```
 
-To upgrade to this version check:
+To upgrade to version 2.0+ check:
 * [regarding CSS / styles](#regarding-css)
 * [momentjs / translations](#momentjs-and-translations)
 * [momentjs / formatting](#momentjs-and-formatting)
