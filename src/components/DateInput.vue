@@ -102,6 +102,9 @@ export default {
     language (newLanguage) {
       this.utils = makeDateUtils(this.useUtc, newLanguage)
     },
+    useUtc (newUtc) {
+      this.utils = makeDateUtils(newUtc, this.language)
+    },
     resetTypedDate () {
       this.typedDate = false
     }

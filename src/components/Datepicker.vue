@@ -192,6 +192,9 @@ export default {
     language (newLanguage) {
       this.utils = makeDateUtils(this.useUtc, newLanguage)
     },
+    useUtc (newUtc) {
+      this.utils = makeDateUtils(newUtc, this.language)
+    },
     value (value) {
       this.setValue(value)
     },

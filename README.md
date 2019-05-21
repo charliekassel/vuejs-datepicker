@@ -108,7 +108,7 @@ A datepicker Vue component. Compatible with Vue 2.x
 ## Demo
 
 To view a demo online:
-https://codesandbox.io/s/mpklq49wp
+https://codesandbox.io/s/vue-datepicker-demo-82x48
 
 To view demo examples locally clone the repo and run `yarn install && yarn serve`
 

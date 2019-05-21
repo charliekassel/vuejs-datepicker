@@ -19,7 +19,7 @@
 
     <div class="example">
       <h3>Typeable datepicker with custom formatter (DD.MM.YYYY)</h3>
-      <datepicker placeholder="Type or select date" :typeable="true" format="dd.MM.YYYY" :parse-typed-date="parseTypedDate" />
+      <datepicker placeholder="Type or select date" :typeable="true" format="DD.MM.YYYY" :parse-typed-date="parseTypedDate" />
       <code>
         &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
       </code>

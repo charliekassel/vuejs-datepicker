@@ -43,6 +43,9 @@ export default {
   watch: {
     language (newLanguage) {
       this.utils = makeDateUtils(this.useUtc, newLanguage)
+    },
+    useUtc (newUtc) {
+      this.utils = makeDateUtils(newUtc, this.language)
     }
   },
   computed: {
