@@ -74,7 +74,8 @@ therefore you need to remove all dependenices
 for the "locale" imports e.g.:
 ```import {en, es} from 'vuejs-datepicker/dist/locale'```
 
-Afterwards please see [Translations](#translations) section how to set up your language.
+The language property changed from an locale object to a simple string (en,de,..)!
+Please see [Translations](#translations) section how to set up your language.
 
 ### momentjs and formatting
 
@@ -174,7 +175,7 @@ Inline always open version
 | id                            | String          |             | Input id                                 |
 | format                        | String\|Function| DD MMM YYYY | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
-| language                      | Object          | en          | Translation for days and months          |
+| language                      | String          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
