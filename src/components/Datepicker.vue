@@ -396,7 +396,7 @@ export default {
      */
     setValue (date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        let parsed = new Date(date)
+        let parsed = this.utils.parseDate(date)
         date = isNaN(parsed.valueOf()) ? null : parsed
       }
       if (!date) {

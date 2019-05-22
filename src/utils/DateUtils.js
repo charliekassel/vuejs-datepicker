@@ -216,6 +216,10 @@ const utils = {
     return moment(date).locale(this.language).format(format)
   },
 
+  parseDate (dateString, format) {
+    return moment(dateString, format).toDate()
+  },
+
   /**
    * Creates an array of dates for each day in between two dates.
    * @param {Date} start

@@ -85,7 +85,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format)
+        : this.utils.formatDate(this.utils.parseDate(this.selectedDate, this.format), this.format)
     },
 
     computedInputClass () {
@@ -142,7 +142,7 @@ export default {
 
         if (!isNaN(parsedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(parsedDate))
+          this.$emit('typedDate', parsedDate)
         }
       }
     },
@@ -171,7 +171,7 @@ export default {
     getTypedDate (input) {
       const date = typeof this.parseTypedDate === 'function'
         ? this.parseTypedDate(input)
-        : Date.parse(input)
+        : this.utils.parseDate(input, typeof this.format === 'string' ? this.format : undefined)
 
       return date
     }
