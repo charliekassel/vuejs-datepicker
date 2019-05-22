@@ -9,6 +9,7 @@
         </i>
       </span>
     </span>
+    <slot name="beforeDateInput"></slot>
     <!-- Input -->
     <input
       :type="inline ? 'hidden' : 'text'"
@@ -24,7 +25,8 @@
       :required="required"
       :readonly="!typeable"
       @click="showCalendar"
-      @keyup="parseTypedDate"
+      @focus="showFocusCalendar"
+      @keyup="keyUp"
       @blur="inputBlurred"
       autocomplete="off">
     <!-- Clear Button -->
@@ -45,7 +47,7 @@ export default {
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
-    translation: Object,
+    language: String,
     inline: Boolean,
     id: String,
     name: String,
@@ -61,11 +63,12 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
+    parseTypedDate: Function,
     bootstrapStyling: Boolean,
-    useUtc: Boolean
+    showCalendarOnFocus: Boolean
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     return {
       input: null,
       typedDate: false,
@@ -82,7 +85,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : this.utils.formatDate(this.utils.parseDate(this.selectedDate, this.format), this.format)
     },
 
     computedInputClass () {
@@ -90,38 +93,56 @@ export default {
         if (typeof this.inputClass === 'string') {
           return [this.inputClass, 'form-control'].join(' ')
         }
-        return {'form-control': true, ...this.inputClass}
+        return { 'form-control': true, ...this.inputClass }
       }
       return this.inputClass
     }
   },
   watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    },
+    useUtc (newUtc) {
+      this.utils = makeDateUtils(newUtc, this.language)
+    },
     resetTypedDate () {
       this.typedDate = false
     }
   },
   methods: {
     showCalendar () {
-      this.$emit('showCalendar')
+      // prevent to emit the event twice if we are listening focus
+      if (!this.showCalendarOnFocus) {
+        this.$emit('showCalendar')
+      }
+    },
+
+    showFocusCalendar () {
+      if (this.showCalendarOnFocus) {
+        this.$emit('showCalendar', true)
+      }
     },
     /**
      * Attempt to parse a typed date
      * @param {Event} event
      */
-    parseTypedDate (event) {
+    keyUp (event) {
+      const code = (event.keyCode ? event.keyCode : event.which)
+
       // close calendar if escape or enter are pressed
       if ([
         27, // escape
         13 // enter
-      ].includes(event.keyCode)) {
+      ].includes(code)) {
         this.input.blur()
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
-        if (!isNaN(typedDate)) {
+        const parsedDate = this.getTypedDate(this.input.value)
+
+        if (!isNaN(parsedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', parsedDate)
         }
       }
     },
@@ -130,19 +151,29 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && isNaN(this.getTypedDate(this.input.value))) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
       }
 
-      this.$emit('closeCalendar')
+      this.$emit('closeCalendar', true)
     },
     /**
      * emit a clearDate event
      */
     clearDate () {
       this.$emit('clearDate')
+    },
+    /**
+     * parse Date with regular or custom function
+     */
+    getTypedDate (input) {
+      const date = typeof this.parseTypedDate === 'function'
+        ? this.parseTypedDate(input)
+        : this.utils.parseDate(input, typeof this.format === 'string' ? this.format : undefined)
+
+      return date
     }
   },
   mounted () {

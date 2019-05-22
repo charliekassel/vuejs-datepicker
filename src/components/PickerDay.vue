@@ -27,7 +27,8 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
+import { makeDateUtils, rtlLangs, langYearSuffix, ymdLangs } from '../utils/DateUtils'
+
 export default {
   props: {
     showDayView: Boolean,
@@ -44,29 +45,34 @@ export default {
     highlighted: Object,
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
-    translation: Object,
-    isRtl: Boolean,
+    language: String,
     mondayFirst: Boolean,
     useUtc: Boolean
   },
   data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
+    const constructedDateUtils = makeDateUtils(this.useUtc, this.language)
     return {
       utils: constructedDateUtils
     }
   },
+  watch: {
+    language (newLanguage) {
+      this.utils = makeDateUtils(this.useUtc, newLanguage)
+    },
+    useUtc (newUtc) {
+      this.utils = makeDateUtils(newUtc, this.language)
+    }
+  },
   computed: {
+    isRtl () {
+      return rtlLangs.indexOf(this.language) !== -1
+    },
     /**
      * Returns an array of day names
      * @return {String[]}
      */
     daysOfWeek () {
-      if (this.mondayFirst) {
-        const tempDays = this.translation.days.slice()
-        tempDays.push(tempDays.shift())
-        return tempDays
-      }
-      return this.translation.days
+      return this.utils.getDaysOfWeek(this.mondayFirst)
     },
     /**
      * Returns the day number of the week less one for the first of the current month
@@ -117,23 +123,22 @@ export default {
      * @return {String}
      */
     currMonthName () {
-      const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
-      return this.utils.getMonthNameAbbr(this.utils.getMonth(this.pageDate), monthName)
+      return this.utils.getMonthNameAbbr(this.pageDate)
     },
     /**
      * Gets the name of the year that current page is on
      * @return {Number}
      */
     currYearName () {
-      const yearSuffix = this.translation.yearSuffix
+      const yearSuffix = langYearSuffix[this.language] || ''
       return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
     },
     /**
-     * Is this translation using year/month/day format?
+     * Is this language using year/month/day format?
      * @return {Boolean}
      */
     isYmd () {
-      return this.translation.ymd && this.translation.ymd === true
+      return ymdLangs.indexOf(this.language) !== -1
     },
     /**
      * Is the left hand navigation button disabled?

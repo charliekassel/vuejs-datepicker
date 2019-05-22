@@ -1,14 +1,10 @@
-# Datepicker
-
-[![Travis Build](https://img.shields.io/travis/charliekassel/vuejs-datepicker.svg)](https://travis-ci.org/charliekassel/vuejs-datepicker)
-[![Version](https://img.shields.io/npm/v/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
-[![Coveralls github](https://img.shields.io/coveralls/github/charliekassel/vuejs-datepicker.svg)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
-[![Downloads](https://img.shields.io/npm/dm/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
+# Datepicker 2
 
 A datepicker Vue component. Compatible with Vue 2.x
 
 - [Demo](#demo)
 - [Install](#install)
+- [Upgrade to 2.x+](#upgrade)
 - [Usage](#usage)
 - [Date Formatting](#date-formatting)
 - [Props](#available-props)
@@ -17,27 +13,38 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Highlighted dates](#highlighted-dates)
 - [Translations](#translations)
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
+## fork
+this is a fork of https://github.com/charliekassel/vuejs-datepicker,
+which includes following breaking changes:
+* Upgrade all libraries
+* uses vue-eslint-parser for eslint.
+* Fixed SSR support for NuxtJS (**breaking change v2**) see also [regarding CSS / styles](#regarding-css)
+* Merged #611: show calendar on focus prop
+* Merged #626: fixes missing close and open events
+* Based on #536: Allow custom types, I changed the method to getTypedDate which should return a fully parsed Date object. 
+* Added a beforeDateInput slot.
+* uses moment.js for translations  (**breaking change v2+**) see [momentjs / translations](#momentjs-and-translations)
+* dropped internal formatting rules and also used moment.js (**breaking change 2.x+**) see [momentjs / formatting](#momentjs-and-formatting)
 
 ## Demo
 
 To view a demo online:
-https://codesandbox.io/s/mpklq49wp
+https://codesandbox.io/s/vue-datepicker-demo-82x48
 
-To view demo examples locally clone the repo and run `yarn install && yarn serve`
+To view demo examples locally clone the repo and run `npm install && npm run serve`
 
 ## Install
 
 ``` bash
-npm install vuejs-datepicker --save
+npm install @hokify/vuejs-datepicker
 ```
 or
 ``` bash
-yarn add vuejs-datepicker
+yarn add @hokify/vuejs-datepicker
 ```
 
 ``` javascript
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from '@hokify/vuejs-datepicker';
 
 export default {
   // ...
@@ -48,22 +55,81 @@ export default {
 }
 ```
 
-Or use directly from a CDN
-``` html
-<div id="app">
-  <vuejs-datepicker></vuejs-datepicker>
-</div>
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vuejs-datepicker"></script>
-<script>
-const app = new Vue({
-  el: '#app',
-  components: {
-  	vuejsDatepicker
-  }
-})
-</script>
+## Upgrade
+To upgrade to version 2+ check:
+* add explicit css inclues, see [regarding CSS / styles](#regarding-css)
+* change translation to moment.js, see [momentjs / translations](#momentjs-and-translations)
+* change date formats to moment.js, see [momentjs / formatting](#momentjs-and-formatting)
+
+### momentjs and translations
+
+I've dropped the additional translations and use the moment.js directly, 
+therefore you need to remove all dependenices
+for the "locale" imports e.g.:
+```import {en, es} from 'vuejs-datepicker/dist/locale'```
+
+The language property changed from an locale object to a simple string (en,de,..)!
+Please see [Translations](#translations) section how to set up your language.
+
+### momentjs and formatting
+
+change custom date formatting to moment js date formatting: https://momentjs.com/docs/#/displaying/
+Examples:
+
+| Old                          | New (moment.js)  | Displays          |
+|-------------------------------|-----------------|------------------ |
+| d MMM yyyy                    | D MMM YYYY      | 12 Feb 2016       |
+| d MMMM yyyy                   | D MMMM YYYY     | 12 February 2016  |
+| yyyy-MM-dd                    | YYYY-MM-DD      | 2016-02-12        |
+| dsu MMM yyyy                  | Do MMM YYYY     | 12th Feb 2016     |
+| D dsu MMM yyyy                | ddd Do MMM YYYY | Sat 12th Feb 2016 |
+
+### regarding CSS
+As this bundle is also useable for SSR rendering, you have to take care of css yourself. 
+(see also https://github.com/vuejs/rollup-plugin-vue/issues/266)
+I strongly recommend to create a custom component, that wraps the vuejs-datepicker. Then
+it's easy to add custom css and have a consistent style for the datepicker.
+
+#### Method 1: try to include the css directly.
+Ensure you have postcss-import up and running. (https://github.com/postcss/postcss-import)
+E.g.via:
 ```
+<style lang="scss">
+/* purgecss start ignore */
+@import "@hokify/vuejs-datepicker/dist/vuejs-datepicker.css"
+/* purgecss end ignore */
+</style>
+```
+
+If you do not use purgeCSS, you can safely remove the comment lines 
+
+#### Method 2: via global nuxt config:
+add inside nuxt.config:
+
+```
+css: [
+ {
+  src: '@hokify/vuejs-datepicker/dist/vuejs-datepicker.css',
+  lang: 'css'
+ },
+```
+
+#### Method 3: Copy the relevant css selectors to your custom component.
+I'm using this method, as I actually customized the datepicker and therefore don't need to
+overwrite css classes again with my style.
+
+```
+<style lang="scss">
+	.vdp-datepicker {
+		overflow: visible;
+		display: inline-block;
+		....
+	}
+	...
+</style>
+```
+
+Ping me if you have any better approaches! :)
 
 ## Usage
 
@@ -104,9 +170,9 @@ Inline always open version
 | value                         | Date\|String    |             | Date value of the datepicker             |
 | name                          | String          |             | Input name property                      |
 | id                            | String          |             | Input id                                 |
-| format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
+| format                        | String\|Function| DD MMM YYYY | Date formatting string or function       |
 | full-month-name               | Boolean         | false       | To show the full month name              |
-| language                      | Object          | en          | Translation for days and months          |
+| language                      | String          | en          | Translation for days and months          |
 | disabled-dates                | Object          |             | See below for configuration              |
 | placeholder                   | String          |             | Input placeholder text                   |
 | inline                        | Boolean         |             | To show the datepicker always open       |
@@ -129,7 +195,7 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
-
+| parse-typed-date	          	| Function: Date  |             | Use to parse custom date for typed input |
 
 ## Events
 
@@ -152,26 +218,36 @@ These events are emitted on actions in the datepicker
 
 #### String formatter
 
-NB. This is not very robust at all - use at your own risk! Needs a better implementation.
+Uses moment.js for date formatting.
+See https://momentjs.com/docs/#/displaying/
+Examples:
 
-| Token | Desc                   | Example     |
-|-------|------------------------|-------------|
-| d     | day                    | 1           |
-| dd    | 0 prefixed day         | 01          |
-| D     | abbr day               | Mon         |
-| su    | date suffix            | st, nd, rd  |
-| M     | month number (1 based) | 1 (for Jan) |
-| MM    | 0 prefixed month       | 01          |
-| MMM   | abbreviated month name | Jan         |
-| MMMM  | month name             | January     |
-| yy    | two digit year         | 16          |
-| yyyy  | four digit year        | 2016        |
+| Example        | Displays          |
+|------------------|------------------ |
+| D MMM YYYY      | 12 Feb 2016       |
+| D MMMM YYYY     | 12 February 2016  |
+| YYYY-MM-DD      | 2016-02-12        |
+| Do MMM YYYY     | 12th Feb 2016     |
+| ddd Do MMM YYYY | Sat 12th Feb 2016 |
+
+| Token | Desc                   | Example     | Version <2.0 |
+|-------|------------------------|-------------| ---- |
+| D     | day                    | 1           | d |
+| DD    | 0 prefixed day         | 01          | dd |
+| dd    | abbr day               | Mon         | D |
+| Do    | date of Month          | 1st 2nd ... 30th 31st  | (su) |
+| M     | month number (1 based) | 1 (for Jan) | M |
+| MM    | 0 prefixed month       | 01          | MM |
+| MMM   | abbreviated month name | Jan         | MMM |
+| MMMM  | month name             | January     | MMMM | 
+| YY    | two digit year         | 16          | yy |
+| YYYY  | four digit year        | 2016        | yyyy |
 
 #### Function formatter
 
 Delegates date formatting to provided function.
 Function will be called with date and it has to return formated date as a string.
-This allow us to use moment, date-fns, globalize or any other library to format date.
+This allow us to use date-fns, globalize or any other library to format date.
 
 ``` html
 <script>
@@ -276,6 +352,10 @@ to show some custom text:
 </datepicker>
 ```
 
+#### beforeDateInput
+
+To implement some custom styling on DateINput, you might need to add elemnt beore the DateInput. Similar to afterDateInput, just it is before in the html DOM.
+
 #### afterDateInput
 
 To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named
@@ -292,84 +372,32 @@ To implement some custom styling (for instance to add an animated placeholder) o
 
 ## Translations
 
-Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
-
-- Add your language as a module in the `src/locale/translations` dir.
-- Import and export it in the `src/locale/index` file
-- Add the Language to the available languages in the readme file.
-- Run `npm run lint` to make sure your code formatting is in line with the required code style.
-
 ### How to apply language
 
-Below script tag in component.
+See also https://momentjs.com/docs/#/i18n/loading-into-browser/
+Especially if you use webpack!
+
+1. You need to load the language file for the locale, e.g. 
+Node:
 ```javascript
-import {en, es} from 'vuejs-datepicker/dist/locale'
+import 'moment/locale/de';
 ```
 
-In component data.
-```javascript
-data () {
-    return {
-      en: en,
-      es: es
-    }
-}
+Browser:
+```html
+<script src="locale/de.js" charset="UTF-8"></script>
 ```
 
-html.
+There is also a minified version including all versions:
 ```javascript
-<datepicker :language="es"></datepicker>
+import 'moment/min/locales.min'
 ```
 
-Available languages
+2. specify the language in the datepicker component:
+```html
+<datepicker language="de"></datepicker>
+```
+  
+Available languages are all that moment.js supports.
+See demo file or https://github.com/moment/moment/tree/develop/locale for a list of available languages and the correct language code for it.
 
-| Abbr        | Language         |          |
-| ----------- |------------------|----------|
-| af          | Afrikaans        |          |
-| ar          | Arabic           |          |
-| bg          | Bulgarian        |          |
-| bs          | Bosnian          |          |
-| ca          | Catalan          |          |
-| cs          | Czech            |          |
-| da          | Danish           |          |
-| de          | German           |          |
-| ee          | Estonian         |          |
-| el          | Greek            |          |
-| en          | English          | *Default*|
-| es          | Spanish          |          |
-| fa          | Persian (Farsi)  |          |
-| fi          | Finnish          |          |
-| fo          | Faroese          |          |
-| fr          | French           |          |
-| ge          | Georgia          |          |
-| gl          | Galician         |          |
-| he          | Hebrew           |          |
-| hu          | Hungarian        |          |
-| hr          | Croatian         |          |
-| id          | Indonesian       |          |
-| is          | Icelandic        |          |
-| it          | Italian          |          |
-| ja          | Japanese         |          |
-| kk          | Kazakh           |          |
-| ko          | Korean           |          |
-| lb          | Luxembourgish    |          |
-| lt          | Lithuanian       |          |
-| lv          | Latvian          |          |
-| mn          | Mongolian        |          |
-| nbNO        | Norwegian Bokmål |          |
-| nl          | Dutch            |          |
-| pl          | Polish           |          |
-| ptBR        | Portuguese-Brazil|          |
-| ro          | Romanian         |          |
-| ru          | Russian          |          |
-| sk          | Slovak           |          |
-| slSI        | Slovenian        |          |
-| sv          | Swedish          |          |
-| sr          | Serbian (Latin)  |          |
-| srCyrl      | Serbian (Cyrl)   |          |
-| th          | Thai             |          |
-| tr          | Turkish          |          |
-| uk          | Ukrainian        |          |
-| ur          | Urdu             |          |
-| vi          | Vietnamese       |          |
-| zh          | Chinese          |          |

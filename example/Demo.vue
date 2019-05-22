@@ -18,6 +18,22 @@
     </div>
 
     <div class="example">
+      <h3>Typeable datepicker with custom formatter (DD.MM.YYYY)</h3>
+      <datepicker placeholder="Type or select date" :typeable="true" format="DD.MM.YYYY" :parse-typed-date="parseTypedDate" />
+      <code>
+        &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>datepicker opens on focus</h3>
+      <datepicker placeholder="Type or select date" :typeable="true" :show-calendar-on-focus="true"/>
+      <code>
+          &lt;datepicker placeholder="Type or select date" :show-calendar-on-focus="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Bootstrap styled datepicker</h3>
       <datepicker
         :bootstrapStyling="true"
@@ -51,11 +67,11 @@
         <div class="form-group">
           <label>Format</label>
           <select v-model="format">
-            <option value="d MMM yyyy" selected>d MMM yyyy - e.g 12 Feb 2016</option>
-            <option value="d MMMM yyyy">d MMMM yyyy - e.g 12 February 2016</option>
-            <option value="yyyy-MM-dd">yyyy-MM-dd - e.g 2016-02-12</option>
-            <option value="dsu MMM yyyy">dsu MMM yyyy - e.g 12th Feb 2016</option>
-            <option value="D dsu MMM yyyy">D dsu MMM yyyy - e.g Sat 12th Feb 2016</option>
+            <option value="D MMM YYYY" selected>D MMM YYYY - e.g 12 Feb 2016</option>
+            <option value="D MMMM YYYY">D MMMM YYYY - e.g 12 February 2016</option>
+            <option value="YYYY-MM-DD">YYYY-MM-DD - e.g 2016-02-12</option>
+            <option value="Do MMM YYYY">do MMM YYYY - e.g 12th Feb 2016</option>
+            <option value="ddd Do MMM YYYY">ddd do MMM YYYY - e.g Sat 12th Feb 2016</option>
           </select>
         </div>
       </div>
@@ -177,16 +193,16 @@
 
     <div class="example">
       <h3>Translations</h3>
-      <h5>{{ languages[language].language }} datepicker</h5>
+      <h5>{{ language }} datepicker</h5>
 
-      <datepicker :language="languages[language]" format="d MMMM yyyy"></datepicker>
+      <datepicker :language="language" format="D MMMM YYYY"></datepicker>
       <code>
-          &lt;datepicker :language="languages.{{ language }}"&gt;&lt;/datepicker&gt;
+          &lt;datepicker :language="language"&gt;&lt;/datepicker&gt;
       </code>
       <div class="settings">
         <h5>Settings</h5>
         <select v-model="language">
-          <option :value="key" v-for="(language, key) in languages" :key="key">{{ language.language }}</option>
+          <option :value="language" v-for="(language, key) in languages" :key="key">{{ language }}</option>
         </select>
       </div>
     </div>
@@ -198,11 +214,10 @@
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>
     </div>
-    <div class="example">
-      <h3>RTL datepicker</h3>
-      <datepicker :language="languages.he"></datepicker>
+    <div class="example">      <h3>RTL datepicker</h3>
+      <datepicker language="he"></datepicker>
       <code>
-          &lt;datepicker :language="languages.he"&gt;&lt;/datepicker&gt;
+          &lt;datepicker language="he"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -216,9 +231,9 @@
 
     <div class="example">
       <h3>Day view only RTL</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'" :language="languages.he"></datepicker>
+      <datepicker :minimumView="'day'" :maximumView="'day'" language="he"></datepicker>
       <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="languages.he"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="he"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -251,7 +266,8 @@
 
 <script>
 import Datepicker from '../src/components/Datepicker.vue'
-import * as lang from '../src/locale/index.js'
+import moment from 'moment'
+import 'moment/min/locales.min' // include all moment js locales for demo project, see https://momentjs.com/docs/#/i18n/
 
 const state = {
   date1: new Date()
@@ -265,7 +281,7 @@ export default {
   data () {
     return {
       styleInput: null,
-      format: 'd MMMM yyyy',
+      format: 'd MMMM YYYY',
       disabledDates: {},
       openDate: null,
       disabledFn: {
@@ -286,7 +302,7 @@ export default {
       eventMsg: null,
       state: state,
       vModelExample: null,
-      languages: lang,
+      languages: moment.locales(),
       language: 'en'
     }
   },
@@ -357,6 +373,13 @@ export default {
         }
       }
       this.disabledDates.from = val
+    },
+    parseTypedDate (input) {
+      console.log('input', input)
+      let momentDate = moment(input, 'DD.MM.YYYY')
+      console.log('momentDate.toDate()', momentDate.toDate())
+
+      return momentDate.toDate()
     }
   }
 }

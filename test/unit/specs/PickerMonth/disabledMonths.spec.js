@@ -1,14 +1,13 @@
 import PickerMonth from '@/components/PickerMonth.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
 
 describe('PickerMonth', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerMonth, {
+    wrapper = shallowMount(PickerMonth, {
       propsData: {
         allowedToShowView: () => true,
-        translation: en,
+
         pageDate: new Date(2018, 3, 1),
         selectedDate: new Date(2018, 3, 19),
         disabledDates: {
@@ -20,7 +19,7 @@ describe('PickerMonth', () => {
   })
 
   it('cant select a disabled month', () => {
-    const month = {isDisabled: true}
+    const month = { isDisabled: true }
     expect(wrapper.vm.selectMonth(month)).toEqual(false)
   })
 

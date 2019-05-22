@@ -1,14 +1,13 @@
 import PickerMonth from '@/components/PickerMonth.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
 
 describe('PickerMonth', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerMonth, {
+    wrapper = shallowMount(PickerMonth, {
       propsData: {
         allowedToShowView: () => true,
-        translation: en,
+
         pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24)
       }
@@ -36,7 +35,7 @@ describe('PickerMonth', () => {
 
   it('emits date on selection', () => {
     const time = new Date().getTime()
-    wrapper.vm.selectMonth({timestamp: time})
+    wrapper.vm.selectMonth({ timestamp: time })
     expect(wrapper.emitted().selectMonth).toBeTruthy()
     expect(wrapper.emitted().selectMonth[0][0].timestamp).toEqual(time)
   })

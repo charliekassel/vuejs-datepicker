@@ -1,16 +1,15 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DateInput', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(DateInput, {
+    wrapper = shallowMount(DateInput, {
       propsData: {
         selectedDate: new Date(2018, 2, 24),
-        format: 'dd MMM yyyy',
-        translation: en
+        format: 'DD MMM YYYY',
+        language: 'en'
       }
     })
   })
@@ -79,5 +78,13 @@ describe('DateInput', () => {
   it('triggers closeCalendar on blur', () => {
     wrapper.find('input').trigger('blur')
     expect(wrapper.emitted('closeCalendar')).toBeTruthy()
+  })
+
+  it('should open the calendar on focus', () => {
+    wrapper.setProps({
+      showCalendarOnFocus: true
+    })
+    wrapper.find('input').trigger('focus')
+    expect(wrapper.emitted().showCalendar).toBeTruthy()
   })
 })

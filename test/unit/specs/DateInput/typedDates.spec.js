@@ -1,15 +1,14 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallowMount } from '@vue/test-utils'
 
 describe('DateInput', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(DateInput, {
+    wrapper = shallowMount(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
-        translation: en,
+        format: 'dd MMM YYYY',
+
         typeable: true
       }
     })
@@ -37,25 +36,43 @@ describe('DateInput', () => {
     expect(wrapper.emitted().typedDate[0][0]).toBeInstanceOf(Date)
   })
 
+  it('allows custom date format', () => {
+    const dateString = '24/06/2018'
+    wrapper.setProps({
+      selectedDate: new Date(dateString),
+      typeable: true,
+      parseTypedDate: function (dateString) {
+        let result = dateString.split('/')
+        return new Date(result[2] + '-' + result[1] + '-' + result[0] + 'T00:00:00-03:00')
+      }
+    })
+    const input = wrapper.find('input')
+    wrapper.vm.input.value = dateString
+    expect(wrapper.vm.input.value).toEqual(dateString)
+    input.trigger('keyup')
+    expect(wrapper.emitted().typedDate[0][0].toISOString()).toEqual('2018-06-24T03:00:00.000Z')
+    expect(wrapper.vm.formattedValue).toEqual(dateString)
+  })
+
   it('emits closeCalendar when return is pressed', () => {
     const input = wrapper.find('input')
     const blurSpy = jest.spyOn(input.element, 'blur')
-    input.trigger('keyup', {keyCode: 13})
+    input.trigger('keyup.enter')
     expect(blurSpy).toBeCalled()
   })
 
   it('clears a typed date if it does not parse', () => {
     const input = wrapper.find('input')
-    wrapper.setData({typedDate: 'not a date'})
+    wrapper.setData({ typedDate: 'not a date' })
     input.trigger('blur')
     expect(wrapper.emitted().clearDate).toBeDefined()
   })
 
   it('doesn\'t emit the date if typeable=false', () => {
-    const wrapper = shallow(DateInput, {
+    const wrapper = shallowMount(DateInput, {
       propsData: {
-        format: 'dd MMM yyyy',
-        translation: en,
+        format: 'dd MMM YYYY',
+
         typeable: false
       }
     })

@@ -1,10 +1,10 @@
 import Datepicker from '@/components/Datepicker.vue'
-import {shallow} from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 describe('Datepicker.vue inline', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         inline: true
       }
@@ -18,7 +18,7 @@ describe('Datepicker.vue inline', () => {
 
   it('should not close the calendar when date is selected', () => {
     const date = new Date()
-    wrapper.vm.selectDate({timestamp: date.getTime()})
+    wrapper.vm.selectDate({ timestamp: date.getTime() })
     expect(wrapper.vm.isOpen).toEqual(true)
     document.body.click()
     expect(wrapper.vm.isOpen).toEqual(true)
