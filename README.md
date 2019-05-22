@@ -18,20 +18,20 @@ this is a fork of https://github.com/charliekassel/vuejs-datepicker,
 which includes following breaking changes:
 * Upgrade all libraries
 * uses vue-eslint-parser for eslint.
-* Fixed SSR support for NuxtJS (**breaking change 2.0+**) see [regarding CSS / styles](#regarding-css)
+* Fixed SSR support for NuxtJS (**breaking change v2**) see also [regarding CSS / styles](#regarding-css)
 * Merged #611: show calendar on focus prop
 * Merged #626: fixes missing close and open events
 * Based on #536: Allow custom types, I changed the method to getTypedDate which should return a fully parsed Date object. 
 * Added a beforeDateInput slot.
-* uses moment.js for translations  (**breaking change 2.0+**) see [momentjs / translations](#momentjs-and-translations)
-* dropped internal formatting rules and also used moment.js (**breaking change 2.0+**) see [momentjs / formatting](#momentjs-and-formatting)
+* uses moment.js for translations  (**breaking change v2+**) see [momentjs / translations](#momentjs-and-translations)
+* dropped internal formatting rules and also used moment.js (**breaking change 2.x+**) see [momentjs / formatting](#momentjs-and-formatting)
 To install this fork, use:
 ```
 npm install --save @hokify/vuejs-datepicker
 ```
 
 ## Upgrade
-To upgrade to version 2.0+ check:
+To upgrade to version 2+ check:
 * add explicit css inclues, see [regarding CSS / styles](#regarding-css)
 * change translation to moment.js, see [momentjs / translations](#momentjs-and-translations)
 * change date formats to moment.js, see [momentjs / formatting](#momentjs-and-formatting)
@@ -65,12 +65,12 @@ Examples:
 To view a demo online:
 https://codesandbox.io/s/vue-datepicker-demo-82x48
 
-To view demo examples locally clone the repo and run `yarn install && yarn serve`
+To view demo examples locally clone the repo and run `npm install && npm run serve`
 
 ## Install
 
 ``` bash
-npm install @hokify/vuejs-datepicker --save
+npm install @hokify/vuejs-datepicker
 ```
 or
 ``` bash
