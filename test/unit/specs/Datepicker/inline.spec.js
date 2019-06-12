@@ -1,10 +1,10 @@
 import Datepicker from '@/components/Datepicker.vue'
-import {shallowMount} from '@vue/test-utils'
+import {shallow} from '@vue/test-utils'
 
 describe('Datepicker.vue inline', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(Datepicker, {
+    wrapper = shallow(Datepicker, {
       propsData: {
         inline: true
       }

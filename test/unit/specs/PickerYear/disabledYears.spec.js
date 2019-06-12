@@ -1,11 +1,11 @@
 import PickerYear from '@/components/PickerYear.vue'
-import {shallowMount} from '@vue/test-utils'
+import {shallow} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerYear', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(PickerYear, {
+    wrapper = shallow(PickerYear, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,
