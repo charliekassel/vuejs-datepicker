@@ -5,12 +5,20 @@
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">
+          <slot name="prevIntervalBtn">
+            <span class="default">&lt;</span>
+          </slot>
+      </span>
       <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">
+          <slot name="nextIntervalBtn">
+            <span class="default">&gt;</span>
+          </slot>
+      </span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
