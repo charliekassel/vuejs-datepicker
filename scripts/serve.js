@@ -2,7 +2,7 @@ import path from 'path'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import vue from 'rollup-plugin-vue'
-import buble from 'rollup-plugin-buble'
+import babel from 'rollup-plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import common from 'rollup-plugin-commonjs'
@@ -23,15 +23,12 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
     resolve({
-      module: true,
-      jsnext: true,
-      browser: true
+      mainFields: ['module', 'main']
     }),
     common(),
-    buble({
-      objectAssign: 'Object.assign'
-    }),
+    babel({exclude: 'node_modules/**'}),
     serve({
+      open: true,
       contentBase: path.join(__dirname, '..', 'example'),
       host: 'localhost',
       port: 10001
