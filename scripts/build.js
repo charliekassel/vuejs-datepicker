@@ -43,9 +43,10 @@ async function build () {
       input: path.join(__dirname, '..', 'src', 'components', 'Datepicker.vue'),
       plugins: [
         vue({
-          css: true
+          css: false
         }),
         postcss({
+          extract: true,
           plugins: [
             autoprefixer()
           ]
