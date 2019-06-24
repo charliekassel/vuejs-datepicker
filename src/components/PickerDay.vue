@@ -22,7 +22,8 @@
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
-          @click="selectDate(day)"></span>
+          @click="selectDate(day)"></span><!--
+      --><span class="cell day blank" v-for="n in blankAppend" :key="'blank-append' + n"></span>
     </div>
   </div>
 </template>
@@ -82,6 +83,16 @@ export default {
         return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
       }
       return this.utils.getDay(dObj)
+    },
+    blankAppend () {
+      let dayCellsCount = this.days.length + this.blankDays
+      if (dayCellsCount === 28 || dayCellsCount === 35 || dayCellsCount === 42) {
+        return 0
+      } else if (dayCellsCount < 35) {
+        return 35 - dayCellsCount
+      } else {
+        return 42 - dayCellsCount
+      }
     },
     /**
      * @return {Object[]}
