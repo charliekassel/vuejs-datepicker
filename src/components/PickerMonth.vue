@@ -27,6 +27,7 @@ export default {
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
+    fullMonthName: Boolean,
     disabledDates: Object,
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
@@ -50,8 +51,9 @@ export default {
         ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
         : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 12; i++) {
+        const month = this.fullMonthName ? this.utils.getMonthName(i, this.translation.months) : this.utils.getMonthNameAbbr(i, this.translation.monthsAbbr)
         months.push({
-          month: this.utils.getMonthName(i, this.translation.months),
+          month,
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedMonth(dObj),
           isDisabled: this.isDisabledMonth(dObj)
