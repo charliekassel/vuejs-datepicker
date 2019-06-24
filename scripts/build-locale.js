@@ -21,4 +21,18 @@ const config = files.map(file => {
   }
 })
 
-export default config
+const index = {
+  input: path.join(__dirname, '..', 'src', 'locale', 'index.js'),
+  output: {
+    file: path.join(__dirname, '..', 'dist', 'locale', 'index.js'),
+    format: 'umd',
+    name: `vdp_translation_index`
+  },
+  plugins: [
+    commonjs(),
+    babel({exclude: 'node_modules/**'}),
+    terser()
+  ]
+}
+
+export default config.concat(index)
