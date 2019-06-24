@@ -118,10 +118,102 @@ export default {
       }
 
       if (this.typeable) {
-        const typedDate = Date.parse(this.input.value)
+        let typedDate
+
+        /**
+         * Identify the correct separator used when
+         * separating day, month, and year.
+         *
+         * Default: "/"
+         */
+        let separator = [' ', '.', ',', '-', '/'].find((val) => {
+          let count = (this.format.match(new RegExp(val, 'g')) || []).length
+
+          return count === 2
+        }, '/')
+
+        let formatParts = this.format.split(separator)
+        let dateParts = this.input.value.split(separator)
+
+        /**
+         * Get each indexes/sequence for day, month,
+         * and year based on the format.
+         */
+        let indexes = {
+          day: formatParts.findIndex((part) => {
+            return part.toLowerCase().includes('d')
+          }),
+          month: formatParts.findIndex((part) => {
+            return part.toLowerCase().includes('m')
+          }),
+          year: formatParts.findIndex((part) => {
+            return part.toLowerCase().includes('y')
+          })
+        }
+
+        /**
+         * Get each length of day, month, and year
+         */
+        let len = {
+          day: formatParts[indexes.day],
+          month: formatParts[indexes.month],
+          year: formatParts[indexes.year]
+        }
+
+        /**
+         * Get each value of day, month, and year
+         */
+        let values = {
+          day: dateParts[indexes.day],
+          month: dateParts[indexes.month],
+          year: dateParts[indexes.year]
+        }
+
+        /**
+         * Default month number format
+         */
+        let monthNum = values.month - 1
+
+        /**
+         * Only allow if day, month, and year
+         * is already been typed.
+         */
+        if (values.day && values.month && values.year) {
+          /**
+           * Check the length of each item (day, month, year)
+           * if its the same with the passed format.
+           */
+          if (values.day.length === len.day.length && values.month.length === len.month.length && values.year.length === len.year.length) {
+            /**
+             * We only support until this month format ("MMM").
+             * No support yet for month format "MMMM"
+             */
+            let monthNames = [
+              'Jan', 'Feb', 'Mar',
+              'Apr', 'May', 'Jun',
+              'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'
+            ]
+
+            /**
+             * Check once month value is 3 characters in length
+             */
+            if (values.month.length === 3) {
+              monthNum = monthNames.findIndex((name) => {
+                return name === values.month
+              })
+            }
+
+            /**
+             * Get the unix timestamp of typed date.
+             */
+            typedDate = new Date(values.year, monthNum, values.day).valueOf()
+          }
+        }
+
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', new Date(typedDate))
         }
       }
     },
@@ -130,7 +222,7 @@ export default {
      * called once the input is blurred
      */
     inputBlurred () {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if (this.typeable && isNaN(this.selectedDate)) {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
