@@ -28,6 +28,7 @@ import ko from './translations/ko'
 import lb from './translations/lb'
 import lt from './translations/lt'
 import lv from './translations/lv'
+import mk from './translations/mk'
 import mn from './translations/mn'
 import nbNO from './translations/nb-NO'
 import nl from './translations/nl'
@@ -79,6 +80,7 @@ export {
   lb,
   lt,
   lv,
+  mk,
   mn,
   nbNO,
   nl,

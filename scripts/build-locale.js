@@ -1,46 +1,43 @@
 import fs from 'fs'
 import path from 'path'
-import {rollup} from 'rollup'
-import uglify from 'rollup-plugin-uglify'
-import chalk from 'chalk'
-import buble from 'rollup-plugin-buble'
+import {terser} from 'rollup-plugin-terser'
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
 
-async function build () {
-  console.log(chalk.cyan('Building individual translations.'))
-  const files = fs.readdirSync('./src/locale/translations')
-  files.forEach(async function (file) {
-    const inputOptions = {
-      input: path.join(__dirname, '..', 'src', 'locale', 'translations', file),
-      plugins: [
-        buble(),
-        uglify()
-      ]
-    }
-    const bundle = await rollup(inputOptions)
-    const outputOptions = {
+const files = fs.readdirSync('./src/locale/translations')
+const config = files.map(file => {
+  return {
+    input: path.join(__dirname, '..', 'src', 'locale', 'translations', file),
+    output: {
       file: path.join(__dirname, '..', 'dist', 'locale', 'translations', file),
-      format: 'es'
-    }
-    await bundle.write(outputOptions)
-  })
-  await console.log(chalk.green('Individual translations built.'))
-}
-
-async function buildAll () {
-  console.log(chalk.cyan('Building translation importer.'))
-  const bundle = await rollup({
-    input: path.join(__dirname, '..', 'src', 'locale', 'index.js'),
+      format: 'umd',
+      name: `locale-${file}`
+    },
     plugins: [
-      buble(),
-      uglify()
+      commonjs(),
+      babel({exclude: 'node_modules/**'}),
+      terser()
     ]
-  })
-  await bundle.write({
-    file: path.join(__dirname, '..', 'dist', 'locale', 'index.js'),
-    format: 'es'
-  })
-  await console.log(chalk.green('All translations built.'))
-}
+  }
+})
 
-build()
-buildAll()
+export default config
+
+// async function buildAll () {
+//   console.log(chalk.cyan('Building translation importer.'))
+//   const bundle = await rollup({
+//     input: path.join(__dirname, '..', 'src', 'locale', 'index.js'),
+//     plugins: [
+//       buble(),
+//       uglify()
+//     ]
+//   })
+//   await bundle.write({
+//     file: path.join(__dirname, '..', 'dist', 'locale', 'index.js'),
+//     format: 'es'
+//   })
+//   await console.log(chalk.green('All translations built.'))
+// }
+
+// build()
+// buildAll()

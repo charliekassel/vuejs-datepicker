@@ -17,24 +17,21 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Highlighted dates](#highlighted-dates)
 - [Translations](#translations)
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `npm install vuejs-datepicker@0.9.9`
 
 ## Demo
 
 To view a demo online:
 https://codesandbox.io/s/mpklq49wp
 
-To view demo examples locally clone the repo and run `yarn install && yarn serve`
+To view demo examples locally clone the repo and run `npm install && npm run serve`
 
 ## Install
 
 ``` bash
 npm install vuejs-datepicker --save
 ```
-or
-``` bash
-yarn add vuejs-datepicker
-```
+
 
 ``` javascript
 import Datepicker from 'vuejs-datepicker';
@@ -220,7 +217,7 @@ var state = {
   }
 }
 </script>
-<datepicker :disabledDates="state.disabledDates"></datepicker>
+<datepicker :disabled-dates="state.disabledDates"></datepicker>
 ```
 
 ## Highlighted Dates
@@ -355,6 +352,7 @@ Available languages
 | lb          | Luxembourgish    |          |
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
+| mk          | Macedonian       |          |
 | mn          | Mongolian        |          |
 | nbNO        | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
