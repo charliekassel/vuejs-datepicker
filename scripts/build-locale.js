@@ -11,7 +11,7 @@ const config = files.map(file => {
     output: {
       file: path.join(__dirname, '..', 'dist', 'locale', 'translations', file),
       format: 'umd',
-      name: `locale-${file}`
+      name: `vdp_translation_${file}`
     },
     plugins: [
       commonjs(),
@@ -22,22 +22,3 @@ const config = files.map(file => {
 })
 
 export default config
-
-// async function buildAll () {
-//   console.log(chalk.cyan('Building translation importer.'))
-//   const bundle = await rollup({
-//     input: path.join(__dirname, '..', 'src', 'locale', 'index.js'),
-//     plugins: [
-//       buble(),
-//       uglify()
-//     ]
-//   })
-//   await bundle.write({
-//     file: path.join(__dirname, '..', 'dist', 'locale', 'index.js'),
-//     format: 'es'
-//   })
-//   await console.log(chalk.green('All translations built.'))
-// }
-
-// build()
-// buildAll()

@@ -60,6 +60,27 @@ const app = new Vue({
   }
 })
 </script>
+
+<!-- French language example -->
+<div id="app">
+  <vuejs-datepicker :language="fr"></vuejs-datepicker>
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
+<script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/fr.js"></script>
+<script>
+const app = new Vue({
+  el: '#app',
+  data() {
+    return {
+      fr: vdp_translation_fr.js
+    }
+  },
+  components: {
+  	vuejsDatepicker
+  }
+})
+</script>
 ```
 
 ## Usage
