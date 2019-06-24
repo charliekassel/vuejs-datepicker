@@ -371,3 +371,4 @@ Available languages
 | ur          | Urdu             |          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
+| zhHK        | Chinese_HK       |          |
