@@ -18,6 +18,14 @@
     </div>
 
     <div class="example">
+      <h3>datepicker opens on focus</h3>
+      <datepicker placeholder="Type or select date" :typeable="true" :show-calendar-on-focus="true"/>
+      <code>
+          &lt;datepicker placeholder="Type or select date" :show-calendar-on-focus="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Bootstrap styled datepicker</h3>
       <datepicker
         :bootstrapStyling="true"
