@@ -246,6 +246,14 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>Neighbor months is visible</h3>
+      <datepicker :showNeighborMonths="true"></datepicker>
+      <code>
+        &lt;datepicker :showNeighborMonths="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
   </div>
 </template>
 
