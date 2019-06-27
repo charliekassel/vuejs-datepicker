@@ -1,10 +1,11 @@
 <template>
-  <div :class="{'input-group' : bootstrapStyling}">
+  <div class="vdp-datepicker__calendar-wrapper" :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
     <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
       <span :class="{'input-group-text' : bootstrapStyling}">
         <i :class="calendarButtonIcon">
-          {{ calendarButtonIconContent }}
+          <template v-if="!calendarButtonIconContentAsHtml">{{ calendarButtonIconContent }}</template>
+          <span v-else v-html="calendarButtonIconContent"></span>
           <span v-if="!calendarButtonIcon">&hellip;</span>
         </i>
       </span>
@@ -58,6 +59,7 @@ export default {
     calendarButton: Boolean,
     calendarButtonIcon: String,
     calendarButtonIconContent: String,
+    calendarButtonIconContentAsHtml: Boolean,
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,

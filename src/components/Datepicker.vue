@@ -18,6 +18,7 @@
       :calendarButton="calendarButton"
       :calendarButtonIcon="calendarButtonIcon"
       :calendarButtonIconContent="calendarButtonIconContent"
+      :calendarButtonIconContentAsHtml="calendarButtonIconContentAsHtml"
       :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
@@ -140,6 +141,7 @@ export default {
     calendarButton: Boolean,
     calendarButtonIcon: String,
     calendarButtonIconContent: String,
+    calendarButtonIconContentAsHtml: Boolean,
     bootstrapStyling: Boolean,
     initialView: String,
     disabled: Boolean,
