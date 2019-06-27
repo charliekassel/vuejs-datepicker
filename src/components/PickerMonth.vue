@@ -5,12 +5,20 @@
       <span
         @click="isRtl ? nextYear() : previousYear()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">
+          <slot name="prevIntervalBtn">
+            <span class="default">&lt;</span>
+          </slot>
+      </span>
       <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
       <span
         @click="isRtl ? previousYear() : nextYear()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">
+          <slot name="nextIntervalBtn">
+            <span class="default">&gt;</span>
+          </slot>
+      </span>
     </header>
     <span class="cell month"
       v-for="month in months"

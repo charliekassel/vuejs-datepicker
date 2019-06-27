@@ -307,6 +307,21 @@ To implement some custom styling (for instance to add an animated placeholder) o
 </datepicker>
 ```
 
+#### prevIntervalBtn and nextIntervalBtn
+
+To provide custom content for buttons that rotate intervals in calendar header `prevIntervalBtn` and `nextIntervalBtn` slots may be used:
+
+``` html
+<datepicker placeholder="Select Date" >
+  <svg slot="prevIntervalBtn" width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)">
+    <path d="M14 27L24 18.036L14 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <svg slot="nextIntervalBtn" width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 27L24 18.036L14 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</datepicker>
+```
+
 
 ## Translations
 

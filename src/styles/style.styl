@@ -23,25 +23,29 @@
 
         .prev
         .next
+            max-height 40px
             width (100/7)%
             float left
-            text-indent -10000px
             position relative
-            &:after
-                content ''
-                position absolute
-                left 50%
-                top 50%
-                transform translateX(-50%) translateY(-50%)
-                border 6px solid transparent
+            .default
+              text-indent -10000px
+              &:after
+                  content ''
+                  position absolute
+                  left 50%
+                  top 50%
+                  transform translateX(-50%) translateY(-50%)
+                  border 6px solid transparent
 
         .prev
+          .default
             &:after
                 border-right 10px solid #000
                 margin-left -5px
             &.disabled:after
                 border-right 10px solid #ddd
         .next
+          .default
             &:after
                 border-left 10px solid #000
                 margin-left 5px
