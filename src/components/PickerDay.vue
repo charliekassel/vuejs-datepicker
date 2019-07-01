@@ -24,6 +24,7 @@
           v-html="dayCellContent(day)"
           @click="selectDate(day)"></span>
     </div>
+    <slot name="afterCalendar"></slot>
   </div>
 </template>
 <script>
