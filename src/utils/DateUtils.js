@@ -88,13 +88,9 @@ const utils = {
     const d1 = new Date(date1.getTime())
     const d2 = new Date(date2.getTime())
 
-    if (this.useUtc) {
-      d1.setUTCHours(0, 0, 0, 0)
-      d2.setUTCHours(0, 0, 0, 0)
-    } else {
-      d1.setHours(0, 0, 0, 0)
-      d2.setHours(0, 0, 0, 0)
-    }
+    this.resetDateTime(d1)
+    this.resetDateTime(d2)
+
     return d1.getTime() === d2.getTime()
   },
 
@@ -240,6 +236,30 @@ const utils = {
    */
   validateDateInput (val) {
     return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+  },
+
+  /**
+   * Remove hours/minutes/seconds/milliseconds from a date object
+   * @param {Date} date
+   * @return {Date}
+   */
+  resetDateTime (date) {
+    if (this.useUtc) {
+      date.setUTCHours(0, 0, 0, 0)
+    } else {
+      date.setHours(0, 0, 0, 0)
+    }
+    return date
+  },
+
+  /**
+   * Return a new date object with hours/minutes/seconds/milliseconds removed
+   * @return {Date}
+   */
+  getNewDateObject () {
+    var d = new Date()
+    this.resetDateTime(d)
+    return d
   }
 }
 
