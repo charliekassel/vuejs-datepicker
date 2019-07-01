@@ -18,4 +18,8 @@ describe('Language class', () => {
   it('should throw when there are not exacty 7 days', () => {
     expect(() => new Language('a', months, months, ['m', 't', 'w'])).toThrow(RangeError)
   })
+
+  it('should throw when calendarweek is not a string', () => {
+    expect(() => new Language('a', months, months, days, 1)).toThrow(TypeError)
+  })
 })

@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar', {'vdp-datepicker__calendar--week': calendarWeek}]" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -12,17 +12,22 @@
         class="next"
         :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
-    <div :class="isRtl ? 'flex-rtl' : ''">
+    <div :class="{ 'flex-ltr': !isRtl, 'flex-rtl': isRtl }">
+      <span v-if="calendarWeek" class="cell day-header">{{ translation.calendarweek }}</span>
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+      <span v-if="calendarWeek" class="cell weeknumber">{{ weeknumber(0) }}</span>
       <template v-if="blankDays > 0">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-      </template><!--
-      --><span class="cell day"
-          v-for="day in days"
+      </template>
+      <template v-for="(day, index) in days">
+        <span v-if="showCalendarWeek(day, index)" class="cell weeknumber">{{ weeknumber(index + 1) }}</span>
+        <span class="cell day"
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
           @click="selectDate(day)"></span>
+        <span v-if="showCalendarWeek(day, index, false)" class="cell weeknumber">{{ weeknumber(index + 1) }}</span>
+      </template>
     </div>
   </div>
 </template>
@@ -47,6 +52,7 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
+    calendarWeek: Boolean,
     useUtc: Boolean
   },
   data () {
@@ -367,6 +373,33 @@ export default {
      */
     isDefined (prop) {
       return typeof prop !== 'undefined' && prop
+    },
+    /**
+     * Whether the calender week shoud be displayed
+     * @param {Object} day
+     * @param {Number} index
+     * @param {Boolean} before
+     * @return {Boolean}
+     */
+    showCalendarWeek (day, index, before = true) {
+      let show = false
+      if (this.calendarWeek && day.isSunday) {
+        if (before) {
+          show = !this.mondayFirst && index > 0
+        } else {
+          show = this.mondayFirst && index < this.days.length - 1
+        }
+      }
+
+      return show
+    },
+    /**
+     * Get calendar week for specific day
+     * @param {Number} index
+     * @return {Number}
+     */
+    weeknumber (index) {
+      return this.utils.getWeekNumber(new Date(this.days[index].timestamp))
     }
   }
 }

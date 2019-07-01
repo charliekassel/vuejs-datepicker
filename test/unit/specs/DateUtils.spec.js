@@ -98,6 +98,17 @@ describe('DateUtils', () => {
   it('getMonthName accepts a number', () => {
     expect(DateUtils.getMonthNameAbbr(3, en.monthsAbbr)).toEqual('Apr')
   })
+
+  it('should give correct week number', () => {
+    expect(DateUtils.getWeekNumber(new Date(2018, 9, 31))).toEqual(44)
+    expect(DateUtils.getWeekNumber(new Date(2018, 9, 22))).toEqual(43)
+    expect(DateUtils.getWeekNumber(new Date(2018, 9, 20))).toEqual(42)
+    expect(DateUtils.getWeekNumber(new Date(2018, 9, 20), true)).toEqual(42)
+  })
+
+  it('calendarweek equals cw', () => {
+    expect(en.calendarweek).toEqual('CW')
+  })
 })
 
 describe('daysInMonth', () => {
@@ -159,6 +170,12 @@ describe('UTC functions', () => {
 
   it('getMinutes', () => {
     const date = getAmbiguousDate()
+    expect(DateUtils.getMinutes(date)).toEqual(date.getMinutes())
+    expect(utcUtils.getMinutes(date)).toEqual(date.getUTCMinutes())
+  })
+
+  it('getMinutes', () => {
+    const date = new Date(2018, 9, 31)
     expect(DateUtils.getMinutes(date)).toEqual(date.getMinutes())
     expect(utcUtils.getMinutes(date)).toEqual(date.getUTCMinutes())
   })

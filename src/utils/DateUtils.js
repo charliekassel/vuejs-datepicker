@@ -54,6 +54,21 @@ const utils = {
   },
 
   /**
+   * Returns the weeknumber, using UTC or not
+   * - thursday in current week decides the year
+   * - january 4 is always in week 1
+   * - adjust to thursday in week 1 and count number of weeks from date to week1
+   * @param {Date} date
+   */
+  getWeekNumber (date) {
+    this.useUtc ? date.setUTCHours(0, 0, 0, 0) : date.setHours(0, 0, 0, 0)
+    this.setDate(date, this.getDate(date) + 3 - (this.getDay(date) + 6) % 7)
+    const week1 = new Date(this.getFullYear(date), 0, 4)
+
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (this.getDay(week1) + 6) % 7) / 7)
+  },
+
+  /**
    * Sets the full year, using UTC or not
    * @param {Date} date
    */

@@ -1,9 +1,10 @@
 export default class Language {
-  constructor (language, months, monthsAbbr, days) {
+  constructor (language, months, monthsAbbr, days, calendarweek) {
     this.language = language
     this.months = months
     this.monthsAbbr = monthsAbbr
     this.days = days
+    this.calendarweek = calendarweek
     this.rtl = false
     this.ymd = false
     this.yearSuffix = ''
@@ -51,6 +52,17 @@ export default class Language {
       throw new RangeError(`There must be 7 days for ${this.language} language`)
     }
     this._days = days
+  }
+
+  get calendarweek () {
+    return this._calendarweek
+  }
+
+  set calendarweek (calendarweek = '') {
+    if (typeof calendarweek !== 'string') {
+      throw new TypeError('Calendar week must be a string')
+    }
+    this._calendarweek = calendarweek
   }
 }
 // eslint-disable-next-line
