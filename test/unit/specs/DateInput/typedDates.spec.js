@@ -29,6 +29,25 @@ describe('DateInput', () => {
     expect(wrapper.vm.formattedValue).toEqual(dateString)
   })
 
+  it('uses custom date parser', () => {
+    wrapper.vm.parse = function (str) {
+      const tokens = str.split('/')
+      const dd = parseInt(tokens[0])
+      const MM = parseInt(tokens[1])
+      const yyyy = parseInt(tokens[2])
+      const dt = new Date(yyyy, MM - 1, dd)
+      return dt.getTime()
+    }
+    wrapper.vm.format = 'dd/MM/yyyy'
+    wrapper.vm.input.value = '07/01/2019'
+    const input = wrapper.find('input')
+    input.trigger('keyup')
+    const dt = wrapper.emitted().typedDate[0][0]
+    expect(dt.getDate()).toBe(7)
+    expect(dt.getMonth()).toBe(0)
+    expect(dt.getFullYear()).toBe(2019)
+  })
+
   it('emits the date when typed', () => {
     const input = wrapper.find('input')
     wrapper.vm.input.value = '2018-04-24'
@@ -40,7 +59,7 @@ describe('DateInput', () => {
   it('emits closeCalendar when return is pressed', () => {
     const input = wrapper.find('input')
     const blurSpy = jest.spyOn(input.element, 'blur')
-    input.trigger('keyup', {keyCode: 13})
+    input.trigger('keyup.enter')
     expect(blurSpy).toBeCalled()
   })
 

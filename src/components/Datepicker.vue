@@ -4,6 +4,7 @@
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
       :format="format"
+      :parse="parse"
       :translation="translation"
       :inline="inline"
       :id="id"
@@ -118,6 +119,7 @@ export default {
       type: [String, Function],
       default: 'dd MMM yyyy'
     },
+    parse: Function,
     language: {
       type: Object,
       default: () => en
