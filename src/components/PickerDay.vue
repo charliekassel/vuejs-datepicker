@@ -36,6 +36,10 @@ export default {
     pageTimestamp: Number,
     fullMonthName: Boolean,
     allowedToShowView: Function,
+    dayCustomClasses: {
+      type: Function,
+      default: day => { return {} }
+    },
     dayCellContent: {
       type: Function,
       default: day => day.date
@@ -331,7 +335,8 @@ export default {
         'sat': day.isSaturday,
         'sun': day.isSunday,
         'highlight-start': day.isHighlightStart,
-        'highlight-end': day.isHighlightEnd
+        'highlight-end': day.isHighlightEnd,
+        ...this.dayCustomClasses(day)
       }
     },
     /**

@@ -46,6 +46,7 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
+      :dayCustomClasses="dayCustomClasses"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       @changedMonth="handleChangedMonthFromDayPicker"
@@ -125,6 +126,7 @@ export default {
     openDate: {
       validator: val => utils.validateDateInput(val)
     },
+    dayCustomClasses: Function,
     dayCellContent: Function,
     fullMonthName: Boolean,
     disabledDates: Object,
