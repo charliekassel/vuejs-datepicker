@@ -174,9 +174,9 @@ NB. This is not very robust at all - use at your own risk! Needs a better implem
 
 | Token | Desc                   | Example     |
 |-------|------------------------|-------------|
-| d     | day                    | 1           |
-| dd    | 0 prefixed day         | 01          |
-| D     | abbr day               | Mon         |
+| D     | day                    | 1           |
+| DD    | 0 prefixed day         | 01          |
+| ddd   | abbr day               | Mon         |
 | su    | date suffix            | st, nd, rd  |
 | M     | month number (1 based) | 1 (for Jan) |
 | MM    | 0 prefixed month       | 01          |
