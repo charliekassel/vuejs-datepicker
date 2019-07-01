@@ -15,6 +15,7 @@ import fi from './translations/fi'
 import fo from './translations/fo'
 import fr from './translations/fr'
 import ge from './translations/ge'
+import gl from './translations/gl'
 import he from './translations/he'
 import hr from './translations/hr'
 import hu from './translations/hu'
@@ -22,10 +23,12 @@ import id from './translations/id'
 import is from './translations/is'
 import it from './translations/it'
 import ja from './translations/ja'
+import kk from './translations/kk'
 import ko from './translations/ko'
 import lb from './translations/lb'
 import lt from './translations/lt'
 import lv from './translations/lv'
+import mk from './translations/mk'
 import mn from './translations/mn'
 import nbNO from './translations/nb-NO'
 import nl from './translations/nl'
@@ -44,6 +47,7 @@ import uk from './translations/uk'
 import ur from './translations/ur'
 import vi from './translations/vi'
 import zh from './translations/zh'
+import zhHK from './translations/zh-HK'
 
 export {
   af,
@@ -63,6 +67,7 @@ export {
   fo,
   fr,
   ge,
+  gl,
   he,
   hr,
   hu,
@@ -70,10 +75,12 @@ export {
   is,
   it,
   ja,
+  kk,
   ko,
   lb,
   lt,
   lv,
+  mk,
   mn,
   nbNO,
   nl,
@@ -91,7 +98,8 @@ export {
   uk,
   ur,
   vi,
-  zh
+  zh,
+  zhHK
 }
 // eslint-disable-next-line
 ;

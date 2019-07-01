@@ -7,6 +7,7 @@ const language = new Language(
   ['일', '월', '화', '수', '목', '금', '토']
 )
 language.yearSuffix = '년'
+language.ymd = true
 
 export default language
 // eslint-disable-next-line
