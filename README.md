@@ -385,7 +385,9 @@ Available languages
 | slSI        | Slovenian        |          |
 | sv          | Swedish          |          |
 | sr          | Serbian (Latin)  |          |
+| sr-Cyrl     | Serbian (Cyrl)   |          |
 | srCyrl      | Serbian (Cyrl)   |          |
+| sq          | Albanian         |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |

@@ -40,6 +40,7 @@ import sk from './translations/sk'
 import slSI from './translations/sl-SI'
 import srCYRL from './translations/sr-CYRL'
 import sr from './translations/sr'
+import sq from './translations/sq'
 import sv from './translations/sv'
 import th from './translations/th'
 import tr from './translations/tr'
@@ -93,6 +94,7 @@ export {
   srCYRL,
   sr,
   sv,
+  sq,
   th,
   tr,
   uk,
