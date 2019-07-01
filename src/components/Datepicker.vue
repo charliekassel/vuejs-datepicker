@@ -21,11 +21,13 @@
       :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
+      :semanticStyling="semanticStyling"
       :use-utc="useUtc"
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
+      <slot name="beforeDateInput" slot="beforeDateInput"></slot>
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
@@ -141,6 +143,7 @@ export default {
     calendarButtonIcon: String,
     calendarButtonIconContent: String,
     bootstrapStyling: Boolean,
+    semanticStyling: Boolean,
     initialView: String,
     disabled: Boolean,
     required: Boolean,
