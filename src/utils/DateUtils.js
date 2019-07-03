@@ -58,7 +58,7 @@ const utils = {
    * @param {Date} date
    */
   setFullYear (date, value, useUtc) {
-    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
+    return useUtc ? date.setUTCFullYear(value) : (this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value))
   },
 
   /**
@@ -66,7 +66,7 @@ const utils = {
    * @param {Date} date
    */
   setMonth (date, value, useUtc) {
-    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value)
+    return return useUtc ? date.setUTCFullYear(value) : (this.useUtc ? date.setUTCMonth(value) : date.setMonth(value))
   },
 
   /**
@@ -75,7 +75,7 @@ const utils = {
    * @param {Number} value
    */
   setDate (date, value, useUtc) {
-    return this.useUtc ? date.setUTCDate(value) : date.setDate(value)
+    return return useUtc ? date.setUTCFullYear(value) : (this.useUtc ? date.setUTCDate(value) : date.setDate(value))
   },
 
   /**
