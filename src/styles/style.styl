@@ -20,6 +20,8 @@
             text-align center
             width (100 - (100/7)*2)%
             float left
+        div
+            text-align center
 
         .prev
         .next
@@ -72,6 +74,7 @@
         text-align center
         vertical-align middle
         border 1px solid transparent
+        &:not(.blank):not(.disabled).time
         &:not(.blank):not(.disabled).day
         &:not(.blank):not(.disabled).month
         &:not(.blank):not(.disabled).year
@@ -101,10 +104,12 @@
             cursor inherit
             &:hover
                 background inherit
-
+  
     .month,
     .year
         width 33.333%
+    .time
+        width ((100/7)*3)%
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button
