@@ -2,12 +2,12 @@
   <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
     <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
-      <span :class="{'input-group-text' : bootstrapStyling}">
+      <button type="button" :class="{'input-group-text' : bootstrapStyling}" @blur="inputBlurred">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
           <span v-if="!calendarButtonIcon">&hellip;</span>
         </i>
-      </span>
+      </button>
     </span>
     <!-- Input -->
     <input
