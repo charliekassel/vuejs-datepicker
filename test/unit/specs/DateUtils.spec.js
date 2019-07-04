@@ -167,17 +167,20 @@ describe('UTC functions', () => {
     const date = getAmbiguousDate()
     expect(DateUtils.setFullYear(date, 2018)).toEqual(date.setFullYear(2018))
     expect(utcUtils.setFullYear(date, 2018)).toEqual(date.setUTCFullYear(2018))
+    expect(utcUtils.setFullYear(date, 2018, true)).toEqual(date.setUTCFullYear(2018))
   })
 
   it('setMonth', () => {
     const date = getAmbiguousDate()
     expect(DateUtils.setMonth(date, 11)).toEqual(date.setMonth(11))
     expect(utcUtils.setMonth(date, 11)).toEqual(date.setUTCMonth(11))
+    expect(utcUtils.setMonth(date, 11, true)).toEqual(date.setUTCMonth(11))
   })
 
   it('setDate', () => {
     const date = getAmbiguousDate()
     expect(DateUtils.setDate(date, 31)).toEqual(date.setDate(31))
     expect(utcUtils.setDate(date, 31)).toEqual(date.setUTCDate(31))
+    expect(utcUtils.setDate(date, 31, true)).toEqual(date.setUTCDate(31))
   })
 })
