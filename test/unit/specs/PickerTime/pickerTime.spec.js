@@ -10,7 +10,6 @@ describe('PickerTime', () => {
         allowedToShowView: () => true,
         translation: en,
         format: 'yyyy-MM-dd',
-        pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24)
       }
     })

@@ -27,7 +27,7 @@
     <footer class="day__time_foot" v-if="time"  @click="showTimeCalendar" :class="allowedToShowView('time') ? 'up' : ''">
       <slot name="timeButton">
         
-        <span class="day__time_btn">Time</span>
+        <span class="day__time_btn">{{hours}}</span>
         
       </slot>
     </footer>
@@ -64,6 +64,14 @@ export default {
     }
   },
   computed: {
+
+    hours () {
+      if (!this.selectedDate) {
+        return '--:--'
+      }
+      return `${this.utils.getHours(this.selectedDate)}:${this.utils.getMinutes(this.selectedDate)}`
+    },
+
     /**
      * Returns an array of day names
      * @return {String[]}

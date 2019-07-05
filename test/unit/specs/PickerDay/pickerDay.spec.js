@@ -16,6 +16,18 @@ describe('PickerDay: DOM', () => {
     })
   })
 
+  it('knows the selected hour', () => {
+    const newDate = new Date(2016, 9, 15, 15, 15)
+    wrapper.setProps({
+      selectedDate: newDate
+    })
+    expect(wrapper.vm.hours).toEqual('15:15')
+    wrapper.setProps({
+      selectedDate: null
+    })
+    expect(wrapper.vm.hours).toEqual('--:--')
+  })
+
   it('knows the selected date', () => {
     const newDate = new Date(2016, 9, 15)
     wrapper.setProps({
