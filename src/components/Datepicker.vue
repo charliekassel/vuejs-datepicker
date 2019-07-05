@@ -1,6 +1,7 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
+      v-if="!hideInput"
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
       :format="format"
@@ -29,6 +30,9 @@
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
+    <slot name="toggle-button" v-bind:picker="{
+      toggle: showCalendar
+    }" />
 
     <!-- Day View -->
     <picker-day
@@ -124,6 +128,10 @@ export default {
     },
     openDate: {
       validator: val => utils.validateDateInput(val)
+    },
+    hideInput: {
+      type: Boolean,
+      default: false
     },
     dayCellContent: Function,
     fullMonthName: Boolean,
