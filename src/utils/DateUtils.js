@@ -78,6 +78,22 @@ const utils = {
     return this.useUtc ? date.setUTCDate(value) : date.setDate(value)
   },
 
+   /**
+   * Sets the hours, using UTC or not
+   * @param {Date} date
+   */
+  setHours (date, value, useUtc) {
+    return this.useUtc ? date.setUTCHours(value) : date.setHours(value)
+  },
+
+  /**
+   * Sets the minutes, using UTC or not
+   * @param {Date} date
+   */
+  setMinutes (date, value, useUtc) {
+    return this.useUtc ? date.setUTCMinutes(value) : date.setMinutes(value)
+  },
+
   /**
    * Check if date1 is equivalent to date2, without comparing the time
    * @see https://stackoverflow.com/a/6202196/4455925

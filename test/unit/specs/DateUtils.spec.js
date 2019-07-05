@@ -175,6 +175,18 @@ describe('UTC functions', () => {
     expect(utcUtils.setMonth(date, 11)).toEqual(date.setUTCMonth(11))
   })
 
+  it('setHours', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.setHours(date, 11)).toEqual(date.setHours(11))
+    expect(utcUtils.setHours(date, 11)).toEqual(date.setUTCHours(11))
+  })
+
+  it('setMinutes', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.setMinutes(date, 11)).toEqual(date.setMinutes(11))
+    expect(utcUtils.setMinutes(date, 11)).toEqual(date.setUTCMinutes(11))
+  })
+
   it('setDate', () => {
     const date = getAmbiguousDate()
     expect(DateUtils.setDate(date, 31)).toEqual(date.setDate(31))

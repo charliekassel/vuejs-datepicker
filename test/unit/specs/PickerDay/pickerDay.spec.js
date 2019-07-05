@@ -10,9 +10,22 @@ describe('PickerDay: DOM', () => {
         allowedToShowView: () => true,
         translation: en,
         pageDate: new Date(2018, 1, 1),
-        selectedDate: new Date(2018, 2, 24)
+        selectedDate: new Date(2018, 2, 24),
+        time: true
       }
     })
+  })
+
+  it('knows the selected hour', () => {
+    const newDate = new Date(2016, 9, 15, 15, 15)
+    wrapper.setProps({
+      selectedDate: newDate
+    })
+    expect(wrapper.vm.hours).toEqual('15:15')
+    wrapper.setProps({
+      selectedDate: null
+    })
+    expect(wrapper.vm.hours).toEqual('--:--')
   })
 
   it('knows the selected date', () => {
@@ -33,9 +46,15 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.vm.getPageMonth()).toEqual(1)
   })
 
-  it('emits show year calendar event when clicked on the year', () => {
-    const yearBtn = wrapper.find('.day__month_btn')
-    yearBtn.trigger('click')
+  it('emits show month calendar event when clicked on the month', () => {
+    const monthBtn = wrapper.find('.day__month_btn')
+    monthBtn.trigger('click')
     expect(wrapper.emitted().showMonthCalendar).toBeTruthy()
+  })
+
+  it('emits show time calendar event when clicked on the time', () => {
+    const timeBtn = wrapper.find('.day__time_foot')
+    timeBtn.trigger('click')
+    expect(wrapper.emitted().showTimeCalendar).toBeTruthy()
   })
 })

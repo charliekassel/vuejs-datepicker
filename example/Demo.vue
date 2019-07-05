@@ -246,6 +246,14 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>DateTime </h3>
+      <datepicker placeholder="Select Date" :time="true" />
+      <code>
+          &lt;datepicker :time="true" placeholder="Select Date"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
   </div>
 </template>
 
