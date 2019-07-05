@@ -246,6 +246,22 @@
       </code>
     </div>
 
+    <div class="example">
+      <h3>Custom toggle</h3>
+      <p>{{ hiddenDate }}</p>
+      <datepicker hideInput v-model="hiddenDate">
+        <template v-slot:toggle-button="scopedProps">
+          <button title="Toggle" @click="scopedProps.picker.toggle">Change date</button>
+        </template>
+      </datepicker>
+      <code>
+        &lt;datepicker&gt;
+          &lt;template slot=&quot;toggle-button&quot; slot-scope=&quot;picker&quot;&gt;
+            &lt;button title=&quot;Open&quot;&gt;Change date&lt;/button&gt;
+          &lt;/template&gt;
+        &lt;/datepicker&gt;
+      </code>
+    </div>
   </div>
 </template>
 
@@ -287,7 +303,8 @@ export default {
       state: state,
       vModelExample: null,
       languages: lang,
-      language: 'en'
+      language: 'en',
+      hiddenDate: new Date()
     }
   },
   computed: {
