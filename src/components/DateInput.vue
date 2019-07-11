@@ -121,7 +121,7 @@ export default {
         const typedDate = Date.parse(this.input.value)
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+          this.$emit('typedDate', new Date(typedDate))
         }
       }
     },
