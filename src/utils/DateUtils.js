@@ -219,6 +219,15 @@ const utils = {
   },
 
   /**
+   * Parses date string into milliseconds, using UTC or not
+   * @param {String} dateString
+   * @return {Number}
+   */
+  parseDate (dateString) {
+    return Date.parse(this.useUtc ? dateString + ' UTC' : dateString)
+  },
+
+  /**
    * Creates an array of dates for each day in between two dates.
    * @param {Date} start
    * @param {Date} end
