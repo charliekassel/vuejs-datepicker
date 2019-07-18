@@ -215,6 +215,7 @@ export default {
 
     calendarStyle () {
       return {
+        bottom: !this.isInline && window.innerHeight - this.$el.getBoundingClientRect().bottom < 375 ? (this.$el.getBoundingClientRect().bottom - this.$el.getBoundingClientRect().top + 2) + "px" : "auto",
         position: this.isInline ? 'static' : undefined
       }
     },
