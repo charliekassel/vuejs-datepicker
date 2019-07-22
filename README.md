@@ -307,6 +307,17 @@ To implement some custom styling (for instance to add an animated placeholder) o
 </datepicker>
 ```
 
+### beforeDateInput
+To add content before the Date Input you can use the `beforeDateInput` slot.
+
+An example would be to use bootstrap's `input-group-prepend` to show some custom text:
+``` html
+<datepicker :bootstrap-styling="true">
+  <div slot="inputPrepend" class="input-group-prepend">
+    <span class="input-group-text">Release Date</span>
+  </div>
+</datepicker>
+```
 
 ## Translations
 
