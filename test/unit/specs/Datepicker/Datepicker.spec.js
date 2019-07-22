@@ -165,7 +165,7 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.selectedDate).toEqual(today)
   })
 
-  it('watches value', async () => {
+  it('watches value', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         value: '2018-01-01'
@@ -173,11 +173,13 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setValue')
     wrapper.vm.value = '2018-04-26'
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
-  it('watches openDate', async () => {
+  it('watches openDate', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         openDate: new Date(2018, 0, 1)
@@ -185,11 +187,13 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setPageDate')
     wrapper.vm.openDate = new Date(2018, 3, 26)
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
-  it('watches initialView', async () => {
+  it('watches initialView', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         initialView: 'day'
@@ -197,8 +201,10 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setInitialView')
     wrapper.vm.initialView = 'month'
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
   it('should emit changedMonth on a month change received from PickerDay', () => {
@@ -242,15 +248,15 @@ describe('Datepicker.vue set by timestamp', () => {
         value: new Date(Date.UTC(2018, 0, 29)).getTime()
       }
     })
-    expect(wrapper.vm.selectedDate.getUTCFullYear()).toEqual(2018)
-    expect(wrapper.vm.selectedDate.getUTCMonth()).toEqual(0)
-    expect(wrapper.vm.selectedDate.getUTCDate()).toEqual(29)
+    expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
+    expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
+    expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
   })
 })
 
 describe('Datepicker.vue using UTC', () => {
   let wrapper
-  it('correctly sets the value using UTC', async () => {
+  it('correctly sets the value using UTC', done => {
     const timezoneOffset = ((new Date()).getTimezoneOffset() / 60)
 
     // this is ambiguous because localzone differs by one day than UTC
@@ -270,32 +276,10 @@ describe('Datepicker.vue using UTC', () => {
       }
     })
     // It's important to assert the input rendered output
-    await wrapper.vm.$nextTick()
-    return expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString)
-  })
-})
-
-describe('Datepicker.vue inline', () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = shallow(Datepicker, {
-      propsData: {
-        inline: true
-      }
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString)
+      done()
     })
-  })
-
-  it('should not showCalendar as already open', () => {
-    expect(wrapper.vm.showCalendar()).toEqual(false)
-    expect(wrapper.vm.isInline).toEqual(true)
-  })
-
-  it('should not close the calendar when date is selected', () => {
-    const date = new Date()
-    wrapper.vm.selectDate({timestamp: date.getTime()})
-    expect(wrapper.vm.isOpen).toEqual(true)
-    document.body.click()
-    expect(wrapper.vm.isOpen).toEqual(true)
   })
 })
 

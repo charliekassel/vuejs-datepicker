@@ -45,11 +45,11 @@ describe('PickerYear', () => {
     wrapper.setProps({
       pageDate: new Date(2016, 9, 15),
       disabledDates: {
-        to: new Date(2000, 11, 19),
+        to: new Date(2010, 11, 19),
         from: new Date(2021, 11, 19)
       }
     })
-    expect(wrapper.vm.isPreviousDecadeDisabled()).toEqual(false)
+    expect(wrapper.vm.isPreviousDecadeDisabled()).toEqual(true)
     expect(wrapper.vm.isNextDecadeDisabled()).toEqual(false)
   })
 
@@ -68,5 +68,24 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isDisabledYear(new Date(2020, 8, 24))).toEqual(false)
     expect(wrapper.vm.isDisabledYear(new Date(2021, 2, 11))).toEqual(false)
     expect(wrapper.vm.isDisabledYear(new Date(2022, 2, 11))).toEqual(true)
+  })
+
+  it('does not disable the next decade button when disabled from date is in the first year of the next decade', () => {
+    wrapper.setProps({
+      pageDate: new Date(1998, 9, 15),
+      disabledDates: {
+        from: new Date(2000, 0, 1)
+      }
+    })
+    expect(wrapper.vm.isNextDecadeDisabled()).toEqual(false)
+  })
+
+  it('does disable the next decade button when disabled from date is the last day year of the current decade', () => {
+    wrapper.setProps({
+      disabledDates: {
+        from: new Date(1999, 12, 31)
+      }
+    })
+    expect(wrapper.vm.isNextDecadeDisabled()).toEqual(true)
   })
 })
