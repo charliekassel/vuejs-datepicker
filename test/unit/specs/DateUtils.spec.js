@@ -1,4 +1,4 @@
-import DateUtils from '@/utils/DateUtils'
+import DateUtils, { makeDateUtils } from '@/utils/DateUtils'
 import {en} from '@/locale'
 
 describe('DateUtils', () => {
@@ -114,5 +114,70 @@ describe('daysInMonth', () => {
     expect(DateUtils.daysInMonth(2017, 9)).toEqual(31) // Oct
     expect(DateUtils.daysInMonth(2017, 10)).toEqual(30) // Nov
     expect(DateUtils.daysInMonth(2017, 11)).toEqual(31) // Dec
+  })
+})
+
+const getAmbiguousDate = _ => {
+  const timezoneOffset = ((new Date()).getTimezoneOffset() / 60)
+  const ambiguousHour = 25 - timezoneOffset
+  const ambiguousDate = new Date(2018, 11, 31, ambiguousHour)
+  return ambiguousDate
+}
+
+describe('UTC functions', () => {
+  const utcUtils = makeDateUtils(true)
+
+  it('getFullYear', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getFullYear(date)).toEqual(date.getFullYear())
+    expect(utcUtils.getFullYear(date)).toEqual(date.getUTCFullYear())
+  })
+
+  it('getMonth', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getMonth(date)).toEqual(date.getMonth())
+    expect(utcUtils.getMonth(date)).toEqual(date.getUTCMonth())
+  })
+
+  it('getDate', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getDate(date)).toEqual(date.getDate())
+    expect(utcUtils.getDate(date)).toEqual(date.getUTCDate())
+  })
+
+  it('getDay', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getDay(date)).toEqual(date.getDay())
+    expect(utcUtils.getDay(date)).toEqual(date.getUTCDay())
+  })
+
+  it('getHours', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getHours(date)).toEqual(date.getHours())
+    expect(utcUtils.getHours(date)).toEqual(date.getUTCHours())
+  })
+
+  it('getMinutes', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.getMinutes(date)).toEqual(date.getMinutes())
+    expect(utcUtils.getMinutes(date)).toEqual(date.getUTCMinutes())
+  })
+
+  it('setFullYear', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.setFullYear(date, 2018)).toEqual(date.setFullYear(2018))
+    expect(utcUtils.setFullYear(date, 2018)).toEqual(date.setUTCFullYear(2018))
+  })
+
+  it('setMonth', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.setMonth(date, 11)).toEqual(date.setMonth(11))
+    expect(utcUtils.setMonth(date, 11)).toEqual(date.setUTCMonth(11))
+  })
+
+  it('setDate', () => {
+    const date = getAmbiguousDate()
+    expect(DateUtils.setDate(date, 31)).toEqual(date.setDate(31))
+    expect(utcUtils.setDate(date, 31)).toEqual(date.setUTCDate(31))
   })
 })

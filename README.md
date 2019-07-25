@@ -17,24 +17,21 @@ A datepicker Vue component. Compatible with Vue 2.x
 - [Highlighted dates](#highlighted-dates)
 - [Translations](#translations)
 
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `yarn install vuejs-datepicker@0.9.9`
+NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with Vue 1.x you can install with `npm install vuejs-datepicker@0.9.9`
 
 ## Demo
 
 To view a demo online:
 https://codesandbox.io/s/mpklq49wp
 
-To view demo examples locally clone the repo and run `yarn install && yarn serve`
+To view demo examples locally clone the repo and run `npm install && npm run serve`
 
 ## Install
 
 ``` bash
 npm install vuejs-datepicker --save
 ```
-or
-``` bash
-yarn add vuejs-datepicker
-```
+
 
 ``` javascript
 import Datepicker from 'vuejs-datepicker';
@@ -58,6 +55,27 @@ Or use directly from a CDN
 <script>
 const app = new Vue({
   el: '#app',
+  components: {
+  	vuejsDatepicker
+  }
+})
+</script>
+
+<!-- French language example -->
+<div id="app">
+  <vuejs-datepicker :language="fr"></vuejs-datepicker>
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuejs-datepicker"></script>
+<script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/fr.js"></script>
+<script>
+const app = new Vue({
+  el: '#app',
+  data() {
+    return {
+      fr: vdp_translation_fr.js
+    }
+  },
   components: {
   	vuejsDatepicker
   }
@@ -120,11 +138,12 @@ Inline always open version
 | calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
 | calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
 | day-cell-content              | Function        |             | Use to render custom content in day cell |
-| bootstrap-styling             | Boolean         | false       | Output bootstrap styling classes         |
+| bootstrap-styling             | Boolean         | false       | Output bootstrap v4 styling classes.     |
 | initial-view                  | String          | minimumView | If set, open on that view                |
 | disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
 | required                      | Boolean         | false       | Sets html required attribute on input    |
 | typeable                      | Boolean         | false       | If true, allow the user to type the date |
+| use-utc                       | Boolean         | false       | use UTC for time calculations            |
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
@@ -219,7 +238,7 @@ var state = {
   }
 }
 </script>
-<datepicker :disabledDates="state.disabledDates"></datepicker>
+<datepicker :disabled-dates="state.disabledDates"></datepicker>
 ```
 
 ## Highlighted Dates
@@ -277,7 +296,7 @@ to show some custom text:
 
 #### afterDateInput
 
-To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named 
+To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named
 `afterDateInput` allows you to do that:
 
 ``` html
@@ -287,7 +306,7 @@ To implement some custom styling (for instance to add an animated placeholder) o
   </span>
 </datepicker>
 ```
- 
+
 
 ## Translations
 
@@ -298,10 +317,28 @@ Contributing guide - please use appropriate code from this [list](http://www.ian
 - Add the Language to the available languages in the readme file.
 - Run `npm run lint` to make sure your code formatting is in line with the required code style.
 
+### How to apply language
+
+Below script tag in component.
 ```javascript
 import {en, es} from 'vuejs-datepicker/dist/locale'
+```
+
+In component data.
+```javascript
+data () {
+    return {
+      en: en,
+      es: es
+    }
+}
+```
+
+html.
+```javascript
 <datepicker :language="es"></datepicker>
 ```
+
 Available languages
 
 | Abbr        | Language         |          |
@@ -323,6 +360,7 @@ Available languages
 | fo          | Faroese          |          |
 | fr          | French           |          |
 | ge          | Georgia          |          |
+| gl          | Galician         |          |
 | he          | Hebrew           |          |
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
@@ -330,25 +368,28 @@ Available languages
 | is          | Icelandic        |          |
 | it          | Italian          |          |
 | ja          | Japanese         |          |
+| kk          | Kazakh           |          |
 | ko          | Korean           |          |
 | lb          | Luxembourgish    |          |
 | lt          | Lithuanian       |          |
 | lv          | Latvian          |          |
+| mk          | Macedonian       |          |
 | mn          | Mongolian        |          |
-| nb-no       | Norwegian Bokmål |          |
+| nbNO        | Norwegian Bokmål |          |
 | nl          | Dutch            |          |
 | pl          | Polish           |          |
-| pt-br       | Portuguese-Brazil|          |
+| ptBR        | Portuguese-Brazil|          |
 | ro          | Romanian         |          |
 | ru          | Russian          |          |
 | sk          | Slovak           |          |
-| sl-si       | Slovenian        |          |
+| slSI        | Slovenian        |          |
 | sv          | Swedish          |          |
 | sr          | Serbian (Latin)  |          |
-| sr-Cyrl     | Serbian (Cyrl)   |          |
+| srCyrl      | Serbian (Cyrl)   |          |
 | th          | Thai             |          |
 | tr          | Turkish          |          |
 | uk          | Ukrainian        |          |
 | ur          | Urdu             |          |
 | vi          | Vietnamese       |          |
 | zh          | Chinese          |          |
+| zhHK        | Chinese_HK       |          |

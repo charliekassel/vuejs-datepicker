@@ -15,13 +15,6 @@ describe('DateInput', () => {
     })
   })
 
-  it('allows typing', () => {
-    wrapper.setProps({typeable: true})
-    expect(wrapper.vm.allowTyping()).toEqual(true)
-    wrapper.setProps({typeable: false})
-    expect(wrapper.vm.allowTyping({preventDefault: () => {}})).toEqual(false)
-  })
-
   it('does not format the date when typed', () => {
     const dateString = '2018-04-24'
     wrapper.vm.input.value = dateString
