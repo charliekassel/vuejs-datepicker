@@ -447,6 +447,7 @@ export default {
         }
         document.removeEventListener('click', this.clickOutside, false)
       }
+      this.$emit('blur')
     },
     /**
      * Initiate the component
