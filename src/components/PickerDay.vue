@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
