@@ -30,70 +30,70 @@
     </date-input>
 
 
-    <!-- Day View -->
-    <picker-day
-      v-if="allowedToShowView('day')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showDayView="showDayView"
-      :fullMonthName="fullMonthName"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :highlighted="highlighted"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :pageTimestamp="pageTimestamp"
-      :isRtl="isRtl"
-      :mondayFirst="mondayFirst"
-      :dayCellContent="dayCellContent"
-      :use-utc="useUtc"
-      @changedMonth="handleChangedMonthFromDayPicker"
-      @selectDate="selectDate"
-      @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="selectDisabledDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-day>
+    <div class="vdp-datepicker__container" v-show="isOpen">
+      <!-- Day View -->
+      <picker-day
+        v-if="allowedToShowView('day')"
+        :pageDate="pageDate"
+        :selectedDate="selectedDate"
+        :showDayView="showDayView"
+        :fullMonthName="fullMonthName"
+        :allowedToShowView="allowedToShowView"
+        :disabledDates="disabledDates"
+        :highlighted="highlighted"
+        :calendarClass="calendarClass"
+        :translation="translation"
+        :pageTimestamp="pageTimestamp"
+        :isRtl="isRtl"
+        :mondayFirst="mondayFirst"
+        :dayCellContent="dayCellContent"
+        :use-utc="useUtc"
+        @changedMonth="handleChangedMonthFromDayPicker"
+        @selectDate="selectDate"
+        @showMonthCalendar="showMonthCalendar"
+        @selectedDisabled="selectDisabledDate">
+        <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      </picker-day>
 
-    <!-- Month View -->
-    <picker-month
-      v-if="allowedToShowView('month')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showMonthView="showMonthView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectMonth="selectMonth"
-      @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-month>
+      <!-- Month View -->
+      <picker-month
+        v-if="allowedToShowView('month')"
+        :pageDate="pageDate"
+        :selectedDate="selectedDate"
+        :showMonthView="showMonthView"
+        :allowedToShowView="allowedToShowView"
+        :disabledDates="disabledDates"
+        :calendarClass="calendarClass"
+        :translation="translation"
+        :isRtl="isRtl"
+        :use-utc="useUtc"
+        @selectMonth="selectMonth"
+        @showYearCalendar="showYearCalendar"
+        @changedYear="setPageDate">
+        <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      </picker-month>
 
-    <!-- Year View -->
-    <picker-year
-      v-if="allowedToShowView('year')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showYearView="showYearView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectYear="selectYear"
-      @changedDecade="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-year>
+      <!-- Year View -->
+      <picker-year
+        v-if="allowedToShowView('year')"
+        :pageDate="pageDate"
+        :selectedDate="selectedDate"
+        :showYearView="showYearView"
+        :allowedToShowView="allowedToShowView"
+        :disabledDates="disabledDates"
+        :calendarClass="calendarClass"
+        :translation="translation"
+        :isRtl="isRtl"
+        :use-utc="useUtc"
+        @selectYear="selectYear"
+        @changedDecade="setPageDate">
+        <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      </picker-year>
+    </div>
   </div>
 </template>
 <script>
+import Popper from 'popper.js'
 import en from '../locale/translations/en'
 import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
@@ -153,6 +153,13 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
+    },
+    placement: {
+      type: String,
+      default: 'auto',
+      validator: function (value) {
+        return ['top', 'bottom', 'auto'].indexOf(value) !== -1
+      }
     }
   },
   data () {
@@ -195,6 +202,15 @@ export default {
     },
     initialView () {
       this.setInitialView()
+    },
+    isInline (val) {
+      if (val) { this.initPopper() } else { this.destroyPopper() }
+    },
+    placement () {
+      this.setPlacement()
+    },
+    isRtl () {
+      this.setPlacement()
     }
   },
   computed: {
@@ -208,15 +224,8 @@ export default {
     pageDate () {
       return new Date(this.pageTimestamp)
     },
-
     translation () {
       return this.language
-    },
-
-    calendarStyle () {
-      return {
-        position: this.isInline ? 'static' : undefined
-      }
     },
     isOpen () {
       return this.showDayView || this.showMonthView || this.showYearView
@@ -251,6 +260,12 @@ export default {
       if (this.isOpen) {
         return this.close(true)
       }
+      if (this.popper) {
+        this.$nextTick(() => {
+          this.popper.update()
+        })
+      }
+
       this.setInitialView()
     },
     /**
@@ -261,6 +276,7 @@ export default {
       if (!this.allowedToShowView(initialView)) {
         throw new Error(`initialView '${this.initialView}' cannot be rendered based on minimum '${this.minimumView}' and maximum '${this.maximumView}'`)
       }
+
       switch (initialView) {
         case 'year':
           this.showYearCalendar()
@@ -451,6 +467,41 @@ export default {
       if (this.isInline) {
         this.setInitialView()
       }
+      if (!this.isInline) {
+        this.initPopper()
+      }
+    },
+    /**
+     * Initiate Popper.js
+     */
+    initPopper () {
+      if (this.popper) { this.destroyPopper() }
+
+      const direction = this.isRtl ? 'end' : 'start'
+      const placement = `${this.placement}-${direction}`
+      const refEl = this.$el.querySelector('input')
+      const popperEl = this.$el.querySelector('.vdp-datepicker__container')
+
+      this.popper = new Popper(refEl, popperEl, { placement: placement })
+    },
+    /**
+     * Set Popper Placement
+     */
+    setPlacement () {
+      const direction = this.isRtl ? 'end' : 'start'
+      const placement = `${this.placement}-${direction}`
+
+      this.popper.options.placement = placement
+      this.$nextTick(() => {
+        this.popper.update()
+      })
+    },
+    /**
+     * Destroy Popper.js
+     */
+    destroyPopper () {
+      this.popper.destroy()
+      this.popper = null
     }
   },
   mounted () {
