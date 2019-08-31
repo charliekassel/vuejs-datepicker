@@ -192,7 +192,7 @@
     </div>
 
     <div class="example">
-      <h3>Year type</h3>
+      <h3>Era type</h3>
       <label>CE</label>
       <datepicker :language="languages.th" format="d MMMM yyyy" v-model="eraTypeDate"></datepicker>
       <label>BE</label>
