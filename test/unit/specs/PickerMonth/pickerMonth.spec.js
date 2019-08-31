@@ -25,6 +25,14 @@ describe('PickerMonth', () => {
     expect(wrapper.vm.isSelectedMonth(new Date(2017, 1, 1))).toEqual(false)
   })
 
+  it('year to show', () => {
+    expect(wrapper.vm.pageYearName).toEqual('2018')
+    wrapper.setProps({
+      yearType: 'B.E.'
+    })
+    expect(wrapper.vm.pageYearName).toEqual('2561')
+  })
+
   it('can set the next year', () => {
     wrapper.vm.nextYear()
     expect(wrapper.emitted().changedYear[0][0].getFullYear()).toEqual(2019)

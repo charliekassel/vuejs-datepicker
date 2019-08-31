@@ -25,6 +25,14 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.vm.isSelectedDate(new Date(2017, 1, 1))).toEqual(false)
   })
 
+  it('year to show', () => {
+    expect(wrapper.vm.currYearName).toEqual('2018')
+    wrapper.setProps({
+      yearType: 'B.E.'
+    })
+    expect(wrapper.vm.currYearName).toEqual('2561')
+  })
+
   it('emits an event when selected', () => {
     wrapper.vm.selectDate({isDisabled: false})
     expect(wrapper.emitted().selectDate).toBeTruthy()

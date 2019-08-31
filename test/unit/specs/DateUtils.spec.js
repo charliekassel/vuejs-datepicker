@@ -2,6 +2,11 @@ import DateUtils, { makeDateUtils } from '@/utils/DateUtils'
 import {en} from '@/locale'
 
 describe('DateUtils', () => {
+  const yearTypeCal = {
+    'C.E.': 0,
+    'B.E.': 543
+  }
+
   it('should detect invalid date object', () => {
     expect(DateUtils.isValidDate(null)).toEqual(false)
     expect(DateUtils.isValidDate(123)).toEqual(false)
@@ -42,10 +47,6 @@ describe('DateUtils', () => {
   })
 
   it('should format date strings correctly with year type in English', () => {
-    const yearTypeCal = {
-      'C.E.': 0,
-      'B.E.': 543
-    }
     const yearInput = 2016
     for (let key in yearTypeCal) {
       expect(DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy', false, yearTypeCal[key])).toEqual(`1 January ${yearInput + yearTypeCal[key]}`)
