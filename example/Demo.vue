@@ -192,6 +192,18 @@
     </div>
 
     <div class="example">
+      <h3>Year type</h3>
+      <label>C.E.</label>
+      <datepicker :language="languages.th" format="d MMMM yyyy" v-model="beDate"></datepicker>
+      <label>B.E.</label>
+      <datepicker :language="languages.th" yearType="B.E." format="d MMMM yyyy" v-model="beDate"></datepicker>
+      <pre>{{beDate}}</pre>
+      <code>
+        &lt;datepicker :language="languages.th" yearType="B.E." format="d MMMM yyyy" v-model="beDate"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Inline datepicker</h3>
       <datepicker :inline="true"></datepicker>
       <code>
@@ -287,7 +299,8 @@ export default {
       state: state,
       vModelExample: null,
       languages: lang,
-      language: 'en'
+      language: 'en',
+      beDate: null
     }
   },
   computed: {
@@ -416,5 +429,16 @@ h5 {
 .form-group label {
     font-size: 80%;
     display: block;
+}
+
+.datepicker-custom{
+  position: relative;
+}
+.datepicker-custom-input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>

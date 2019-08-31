@@ -13,6 +13,7 @@
     <input
       :type="inline ? 'hidden' : 'text'"
       :class="computedInputClass"
+      style="cursor: pointer;"
       :name="name"
       :ref="refName"
       :id="id"
@@ -40,12 +41,14 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+
 export default {
   props: {
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
+    yearType: String,
     inline: Boolean,
     id: String,
     name: String,
@@ -82,7 +85,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation, this.yearTypeCal[this.yearType])
     },
 
     computedInputClass () {
@@ -93,6 +96,16 @@ export default {
         return {'form-control': true, ...this.inputClass}
       }
       return this.inputClass
+    },
+    /**
+     * For calculate year with type
+     * @return {Object}
+     */
+    yearTypeCal () {
+      return {
+        'C.E.': 0,
+        'B.E.': 543
+      }
     }
   },
   watch: {

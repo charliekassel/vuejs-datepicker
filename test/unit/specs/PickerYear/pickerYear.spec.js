@@ -10,7 +10,8 @@ describe('PickerYear', () => {
         allowedToShowView: () => true,
         translation: en,
         pageDate: new Date(2018, 1, 1),
-        selectedDate: new Date(2018, 2, 24)
+        selectedDate: new Date(2018, 2, 24),
+        yearType: 'C.E.'
       }
     })
   })
