@@ -31,6 +31,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
+    eraType: String,
     isRtl: Boolean,
     allowedToShowView: Function,
     useUtc: Boolean
@@ -66,7 +67,8 @@ export default {
      */
     pageYearName () {
       const yearSuffix = this.translation.yearSuffix
-      return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
+      const year = this.utils.getFullYear(this.pageDate) + this.eraTypeCal[this.eraType]
+      return `${year}${yearSuffix}`
     },
     /**
      * Is the left hand navigation disabled
@@ -85,6 +87,16 @@ export default {
       return this.isRtl
         ? this.isPreviousYearDisabled(this.pageTimestamp)
         : this.isNextYearDisabled(this.pageTimestamp)
+    },
+    /**
+     * For calculate year with type
+     * @return {Object}
+     */
+    eraTypeCal () {
+      return {
+        'CE': 0,
+        'BE': 543
+      }
     }
   },
   methods: {

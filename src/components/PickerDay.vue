@@ -45,6 +45,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
+    eraType: String,
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean
@@ -126,7 +127,8 @@ export default {
      */
     currYearName () {
       const yearSuffix = this.translation.yearSuffix
-      return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
+      const year = this.utils.getFullYear(this.pageDate) + this.eraTypeCal[this.eraType]
+      return `${year}${yearSuffix}`
     },
     /**
      * Is this translation using year/month/day format?
@@ -152,6 +154,16 @@ export default {
       return this.isRtl
         ? this.isPreviousMonthDisabled(this.pageTimestamp)
         : this.isNextMonthDisabled(this.pageTimestamp)
+    },
+    /**
+     * For calculate year with type
+     * @return {Object}
+     */
+    eraTypeCal () {
+      return {
+        'CE': 0,
+        'BE': 543
+      }
     }
   },
   methods: {

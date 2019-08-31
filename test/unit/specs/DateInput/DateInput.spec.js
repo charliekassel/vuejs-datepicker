@@ -10,7 +10,8 @@ describe('DateInput', () => {
       propsData: {
         selectedDate: new Date(2018, 2, 24),
         format: 'dd MMM yyyy',
-        translation: en
+        translation: en,
+        eraType: 'CE'
       }
     })
   })

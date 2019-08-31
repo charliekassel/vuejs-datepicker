@@ -2,6 +2,11 @@ import DateUtils, { makeDateUtils } from '@/utils/DateUtils'
 import {en} from '@/locale'
 
 describe('DateUtils', () => {
+  const eraTypeCal = {
+    'CE': 0,
+    'BE': 543
+  }
+
   it('should detect invalid date object', () => {
     expect(DateUtils.isValidDate(null)).toEqual(false)
     expect(DateUtils.isValidDate(123)).toEqual(false)
@@ -39,6 +44,24 @@ describe('DateUtils', () => {
     expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy')).toEqual('Thu 1st September 2016')
     expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy')).toEqual('Sun 7th August 2016')
     expect(DateUtils.formatDate(new Date(2016, 11, 2), 'dd MMM yyyy')).toEqual('02 Dec 2016')
+  })
+
+  it('should format date strings correctly with year type in English', () => {
+    const yearInput = 2016
+    for (let key in eraTypeCal) {
+      expect(DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy', false, eraTypeCal[key])).toEqual(`1 January ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yyyy', false, eraTypeCal[key])).toEqual(`09 Jan ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yy', false, eraTypeCal[key])).toEqual(`09 Jan ${(yearInput + eraTypeCal[key]).toString().slice(-2)}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'yyyy-MM-dd', false, eraTypeCal[key])).toEqual(`${yearInput + eraTypeCal[key]}-03-09`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`9th March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 1), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`1st March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 2), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`2nd March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 3), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`3rd March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 7, 1), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Mon 1st August ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Thu 1st September ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Sun 7th August ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 11, 2), 'dd MMM yyyy', false, eraTypeCal[key])).toEqual(`02 Dec ${yearInput + eraTypeCal[key]}`)
+    }
   })
 
   it('should give the correct day', () => {

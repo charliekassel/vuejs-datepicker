@@ -14,7 +14,8 @@ describe('PickerYear', () => {
         disabledDates: {
           to: new Date(2018, 2, 14),
           from: new Date(2018, 4, 15)
-        }
+        },
+        eraType: 'CE'
       }
     })
   })

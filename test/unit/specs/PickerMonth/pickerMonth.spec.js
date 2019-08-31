@@ -10,7 +10,8 @@ describe('PickerMonth', () => {
         allowedToShowView: () => true,
         translation: en,
         pageDate: new Date(2018, 1, 1),
-        selectedDate: new Date(2018, 2, 24)
+        selectedDate: new Date(2018, 2, 24),
+        eraType: 'CE'
       }
     })
   })
@@ -22,6 +23,14 @@ describe('PickerMonth', () => {
     })
     expect(wrapper.vm.isSelectedMonth(newDate)).toEqual(true)
     expect(wrapper.vm.isSelectedMonth(new Date(2017, 1, 1))).toEqual(false)
+  })
+
+  it('year to show', () => {
+    expect(wrapper.vm.pageYearName).toEqual('2018')
+    wrapper.setProps({
+      eraType: 'BE'
+    })
+    expect(wrapper.vm.pageYearName).toEqual('2561')
   })
 
   it('can set the next year', () => {

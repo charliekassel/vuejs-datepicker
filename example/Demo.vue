@@ -192,6 +192,18 @@
     </div>
 
     <div class="example">
+      <h3>Era type</h3>
+      <label>CE</label>
+      <datepicker :language="languages.th" format="d MMMM yyyy" v-model="eraTypeDate"></datepicker>
+      <label>BE</label>
+      <datepicker :language="languages.th" eraType="BE" format="d MMMM yyyy" v-model="eraTypeDate"></datepicker>
+      <pre>{{eraTypeDate}}</pre>
+      <code>
+        &lt;datepicker :language="languages.th" eraType="BE" format="d MMMM yyyy" v-model="eraTypeDate"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Inline datepicker</h3>
       <datepicker :inline="true"></datepicker>
       <code>
@@ -287,7 +299,8 @@ export default {
       state: state,
       vModelExample: null,
       languages: lang,
-      language: 'en'
+      language: 'en',
+      eraTypeDate: null
     }
   },
   computed: {
@@ -416,5 +429,16 @@ h5 {
 .form-group label {
     font-size: 80%;
     display: block;
+}
+
+.datepicker-custom{
+  position: relative;
+}
+.datepicker-custom-input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>
