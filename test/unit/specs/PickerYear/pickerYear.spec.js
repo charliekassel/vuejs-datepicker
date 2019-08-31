@@ -5,8 +5,8 @@ import {en} from '@/locale'
 describe('PickerYear', () => {
   let wrapper
   const yearTypeCal = {
-    'C.E.': 0,
-    'B.E.': 543
+    'CE': 0,
+    'BE': 543
   }
   beforeEach(() => {
     wrapper = shallow(PickerYear, {
@@ -15,7 +15,7 @@ describe('PickerYear', () => {
         translation: en,
         pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24),
-        yearType: 'C.E.'
+        yearType: 'CE'
       }
     })
   })
@@ -35,11 +35,11 @@ describe('PickerYear', () => {
     let years
 
     /*
-    * year type is C.E.
+    * year type is CE
     */
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'C.E.'
+      yearType: 'CE'
     })
     for (let n = 0; n < 10; n++) {
       expectYears.push(2020 + n)
@@ -52,11 +52,11 @@ describe('PickerYear', () => {
     }
 
     /*
-    * year type is B.E.
+    * year type is BE
     */
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'B.E.'
+      yearType: 'BE'
     })
     for (let n = 0; n < 10; n++) {
       expectYears.push(2017 + n)
@@ -82,22 +82,22 @@ describe('PickerYear', () => {
   it('formats the decade range', () => {
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'C.E.'
+      yearType: 'CE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2020 - 2029')
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'B.E.'
+      yearType: 'BE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2560 - 2569')
     wrapper.setProps({
       pageDate: new Date(2001, 1, 1),
-      yearType: 'C.E.'
+      yearType: 'CE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2000 - 2009')
     wrapper.setProps({
       pageDate: new Date(2001, 1, 1),
-      yearType: 'B.E.'
+      yearType: 'BE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2540 - 2549')
   })

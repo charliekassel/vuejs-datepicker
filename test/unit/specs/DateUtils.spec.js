@@ -3,8 +3,8 @@ import {en} from '@/locale'
 
 describe('DateUtils', () => {
   const yearTypeCal = {
-    'C.E.': 0,
-    'B.E.': 543
+    'CE': 0,
+    'BE': 543
   }
 
   it('should detect invalid date object', () => {

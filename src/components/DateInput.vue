@@ -103,8 +103,8 @@ export default {
      */
     yearTypeCal () {
       return {
-        'C.E.': 0,
-        'B.E.': 543
+        'CE': 0,
+        'BE': 543
       }
     }
   },

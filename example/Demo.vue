@@ -193,13 +193,13 @@
 
     <div class="example">
       <h3>Year type</h3>
-      <label>C.E.</label>
+      <label>CE</label>
       <datepicker :language="languages.th" format="d MMMM yyyy" v-model="yearTypeDate"></datepicker>
-      <label>B.E.</label>
-      <datepicker :language="languages.th" yearType="B.E." format="d MMMM yyyy" v-model="yearTypeDate"></datepicker>
+      <label>BE</label>
+      <datepicker :language="languages.th" yearType="BE" format="d MMMM yyyy" v-model="yearTypeDate"></datepicker>
       <pre>{{yearTypeDate}}</pre>
       <code>
-        &lt;datepicker :language="languages.th" yearType="B.E." format="d MMMM yyyy" v-model="yearTypeDate"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :language="languages.th" yearType="BE" format="d MMMM yyyy" v-model="yearTypeDate"&gt;&lt;/datepicker&gt;
       </code>
     </div>
 

@@ -128,7 +128,7 @@ export default {
     },
     yearType: {
       type: String,
-      default: 'C.E.'
+      default: 'CE'
     },
     openDate: {
       validator: val => utils.validateDateInput(val)
