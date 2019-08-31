@@ -13,7 +13,7 @@
     <input
       :type="inline ? 'hidden' : 'text'"
       :class="computedInputClass"
-      style="cursor: pointer;"
+      :style="!typeable ? 'cursor: pointer;' : ''"
       :name="name"
       :ref="refName"
       :id="id"
