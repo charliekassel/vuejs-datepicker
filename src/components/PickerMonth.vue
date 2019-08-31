@@ -31,7 +31,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
-    yearType: String,
+    eraType: String,
     isRtl: Boolean,
     allowedToShowView: Function,
     useUtc: Boolean
@@ -67,7 +67,7 @@ export default {
      */
     pageYearName () {
       const yearSuffix = this.translation.yearSuffix
-      const year = this.utils.getFullYear(this.pageDate) + this.yearTypeCal[this.yearType]
+      const year = this.utils.getFullYear(this.pageDate) + this.eraTypeCal[this.eraType]
       return `${year}${yearSuffix}`
     },
     /**
@@ -92,7 +92,7 @@ export default {
      * For calculate year with type
      * @return {Object}
      */
-    yearTypeCal () {
+    eraTypeCal () {
       return {
         'CE': 0,
         'BE': 543

@@ -48,7 +48,7 @@ export default {
     resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
-    yearType: String,
+    eraType: String,
     inline: Boolean,
     id: String,
     name: String,
@@ -85,7 +85,7 @@ export default {
       }
       return typeof this.format === 'function'
         ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation, this.yearTypeCal[this.yearType])
+        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation, this.eraTypeCal[this.eraType])
     },
 
     computedInputClass () {
@@ -101,7 +101,7 @@ export default {
      * For calculate year with type
      * @return {Object}
      */
-    yearTypeCal () {
+    eraTypeCal () {
       return {
         'CE': 0,
         'BE': 543

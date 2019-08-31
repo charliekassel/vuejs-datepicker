@@ -5,7 +5,7 @@
       :resetTypedDate="resetTypedDate"
       :format="format"
       :translation="translation"
-      :yearType="yearType"
+      :eraType="eraType"
       :inline="inline"
       :id="id"
       :name="name"
@@ -44,7 +44,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
-      :yearType="yearType"
+      :eraType="eraType"
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
@@ -68,7 +68,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
-      :yearType="yearType"
+      :eraType="eraType"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectMonth="selectMonth"
@@ -88,7 +88,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
-      :yearType="yearType"
+      :eraType="eraType"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectYear="selectYear"
@@ -126,7 +126,7 @@ export default {
       type: Object,
       default: () => en
     },
-    yearType: {
+    eraType: {
       type: String,
       default: 'CE'
     },

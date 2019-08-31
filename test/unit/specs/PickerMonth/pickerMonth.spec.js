@@ -11,7 +11,7 @@ describe('PickerMonth', () => {
         translation: en,
         pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24),
-        yearType: 'CE'
+        eraType: 'CE'
       }
     })
   })
@@ -28,7 +28,7 @@ describe('PickerMonth', () => {
   it('year to show', () => {
     expect(wrapper.vm.pageYearName).toEqual('2018')
     wrapper.setProps({
-      yearType: 'BE'
+      eraType: 'BE'
     })
     expect(wrapper.vm.pageYearName).toEqual('2561')
   })

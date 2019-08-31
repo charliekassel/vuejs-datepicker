@@ -15,7 +15,7 @@ describe('PickerYear', () => {
           to: new Date(2018, 2, 14),
           from: new Date(2018, 4, 15)
         },
-        yearType: 'CE'
+        eraType: 'CE'
       }
     })
   })

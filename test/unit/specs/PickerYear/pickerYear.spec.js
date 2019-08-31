@@ -4,7 +4,7 @@ import {en} from '@/locale'
 
 describe('PickerYear', () => {
   let wrapper
-  const yearTypeCal = {
+  const eraTypeCal = {
     'CE': 0,
     'BE': 543
   }
@@ -15,7 +15,7 @@ describe('PickerYear', () => {
         translation: en,
         pageDate: new Date(2018, 1, 1),
         selectedDate: new Date(2018, 2, 24),
-        yearType: 'CE'
+        eraType: 'CE'
       }
     })
   })
@@ -39,11 +39,11 @@ describe('PickerYear', () => {
     */
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'CE'
+      eraType: 'CE'
     })
     for (let n = 0; n < 10; n++) {
       expectYears.push(2020 + n)
-      expectShowYears.push(2020 + n + yearTypeCal[wrapper.vm.yearType])
+      expectShowYears.push(2020 + n + eraTypeCal[wrapper.vm.eraType])
     }
     years = wrapper.vm.years
     for (let index in years) {
@@ -56,11 +56,11 @@ describe('PickerYear', () => {
     */
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'BE'
+      eraType: 'BE'
     })
     for (let n = 0; n < 10; n++) {
       expectYears.push(2017 + n)
-      expectShowYears.push(2017 + n + yearTypeCal[wrapper.vm.yearType])
+      expectShowYears.push(2017 + n + eraTypeCal[wrapper.vm.eraType])
     }
     years = wrapper.vm.years
     for (let index in years) {
@@ -82,22 +82,22 @@ describe('PickerYear', () => {
   it('formats the decade range', () => {
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'CE'
+      eraType: 'CE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2020 - 2029')
     wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
-      yearType: 'BE'
+      eraType: 'BE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2560 - 2569')
     wrapper.setProps({
       pageDate: new Date(2001, 1, 1),
-      yearType: 'CE'
+      eraType: 'CE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2000 - 2009')
     wrapper.setProps({
       pageDate: new Date(2001, 1, 1),
-      yearType: 'BE'
+      eraType: 'BE'
     })
     expect(wrapper.vm.getPageDecade).toEqual('2540 - 2549')
   })

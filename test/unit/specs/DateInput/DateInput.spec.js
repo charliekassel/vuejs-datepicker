@@ -11,7 +11,7 @@ describe('DateInput', () => {
         selectedDate: new Date(2018, 2, 24),
         format: 'dd MMM yyyy',
         translation: en,
-        yearType: 'CE'
+        eraType: 'CE'
       }
     })
   })

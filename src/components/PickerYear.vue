@@ -34,7 +34,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
-    yearType: String,
+    eraType: String,
     isRtl: Boolean,
     allowedToShowView: Function,
     useUtc: Boolean
@@ -45,12 +45,12 @@ export default {
       let years = []
       // set up a new date object to the beginning of the current 'page'7
       let dObj = this.useUtc
-        ? new Date(Date.UTC((Math.floor((d.getUTCFullYear() + this.yearTypeCal[this.yearType]) / 10) * 10) - this.yearTypeCal[this.yearType], d.getUTCMonth(), d.getUTCDate()))
-        : new Date(((Math.floor((d.getFullYear() + this.yearTypeCal[this.yearType]) / 10)) * 10) - this.yearTypeCal[this.yearType], d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+        ? new Date(Date.UTC((Math.floor((d.getUTCFullYear() + this.eraTypeCal[this.eraType]) / 10) * 10) - this.eraTypeCal[this.eraType], d.getUTCMonth(), d.getUTCDate()))
+        : new Date(((Math.floor((d.getFullYear() + this.eraTypeCal[this.eraType]) / 10)) * 10) - this.eraTypeCal[this.eraType], d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
           year: this.utils.getFullYear(dObj),
-          showYear: this.utils.getFullYear(dObj) + this.yearTypeCal[this.yearType],
+          showYear: this.utils.getFullYear(dObj) + this.eraTypeCal[this.eraType],
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
@@ -64,7 +64,7 @@ export default {
      */
     getPageDecade () {
       const yearSuffix = this.translation.yearSuffix
-      const decadeStart = Math.floor((this.utils.getFullYear(this.pageDate) + this.yearTypeCal[this.yearType]) / 10) * 10
+      const decadeStart = Math.floor((this.utils.getFullYear(this.pageDate) + this.eraTypeCal[this.eraType]) / 10) * 10
       const decadeEnd = decadeStart + 9
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
     },
@@ -90,7 +90,7 @@ export default {
      * For calculate year with type
      * @return {Object}
      */
-    yearTypeCal () {
+    eraTypeCal () {
       return {
         'CE': 0,
         'BE': 543

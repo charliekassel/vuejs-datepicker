@@ -2,7 +2,7 @@ import DateUtils, { makeDateUtils } from '@/utils/DateUtils'
 import {en} from '@/locale'
 
 describe('DateUtils', () => {
-  const yearTypeCal = {
+  const eraTypeCal = {
     'CE': 0,
     'BE': 543
   }
@@ -48,19 +48,19 @@ describe('DateUtils', () => {
 
   it('should format date strings correctly with year type in English', () => {
     const yearInput = 2016
-    for (let key in yearTypeCal) {
-      expect(DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy', false, yearTypeCal[key])).toEqual(`1 January ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yyyy', false, yearTypeCal[key])).toEqual(`09 Jan ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yy', false, yearTypeCal[key])).toEqual(`09 Jan ${(yearInput + yearTypeCal[key]).toString().slice(-2)}`)
-      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'yyyy-MM-dd', false, yearTypeCal[key])).toEqual(`${yearInput + yearTypeCal[key]}-03-09`)
-      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`9th March ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 2, 1), 'dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`1st March ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 2, 2), 'dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`2nd March ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 2, 3), 'dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`3rd March ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 7, 1), 'D dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`Mon 1st August ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`Thu 1st September ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy', false, yearTypeCal[key])).toEqual(`Sun 7th August ${yearInput + yearTypeCal[key]}`)
-      expect(DateUtils.formatDate(new Date(2016, 11, 2), 'dd MMM yyyy', false, yearTypeCal[key])).toEqual(`02 Dec ${yearInput + yearTypeCal[key]}`)
+    for (let key in eraTypeCal) {
+      expect(DateUtils.formatDate(new Date(2016, 0, 1), 'd MMMM yyyy', false, eraTypeCal[key])).toEqual(`1 January ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yyyy', false, eraTypeCal[key])).toEqual(`09 Jan ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 0, 9), 'dd MMM yy', false, eraTypeCal[key])).toEqual(`09 Jan ${(yearInput + eraTypeCal[key]).toString().slice(-2)}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'yyyy-MM-dd', false, eraTypeCal[key])).toEqual(`${yearInput + eraTypeCal[key]}-03-09`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 9), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`9th March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 1), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`1st March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 2), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`2nd March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 2, 3), 'dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`3rd March ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 7, 1), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Mon 1st August ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 8, 1), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Thu 1st September ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 7, 7), 'D dsu MMMM yyyy', false, eraTypeCal[key])).toEqual(`Sun 7th August ${yearInput + eraTypeCal[key]}`)
+      expect(DateUtils.formatDate(new Date(2016, 11, 2), 'dd MMM yyyy', false, eraTypeCal[key])).toEqual(`02 Dec ${yearInput + eraTypeCal[key]}`)
     }
   })
 
