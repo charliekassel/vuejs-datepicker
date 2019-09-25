@@ -45,7 +45,7 @@
       :translation="translation"
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
-      :mondayFirst="mondayFirst"
+      :firstDayOfWeek="firstDayOfWeek"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       @changedMonth="handleChangedMonthFromDayPicker"
@@ -134,7 +134,7 @@ export default {
     calendarClass: [String, Object, Array],
     inputClass: [String, Object, Array],
     wrapperClass: [String, Object, Array],
-    mondayFirst: Boolean,
+    firstDayOfWeek: Number,
     clearButton: Boolean,
     clearButtonIcon: String,
     calendarButton: Boolean,

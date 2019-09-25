@@ -131,7 +131,7 @@ Inline always open version
 | calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
 | input-class                   | String\|Object  |             | CSS class applied to the input el        |
 | wrapper-class                 | String\|Object  |             | CSS class applied to the outer div       |
-| monday-first                  | Boolean         | false       | To start the week on Monday              |
+| first-day-of-week             | Number          | 0           | To start the week a specific day         |
 | clear-button                  | Boolean         | false       | Show an icon for clearing the date       |
 | clear-button-icon             | String          |             | Use icon for button (ex: fa fa-times)    |
 | calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |

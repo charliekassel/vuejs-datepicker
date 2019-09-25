@@ -7,7 +7,7 @@ describe('PickerDay: Datepicker with monday as first day of week', () => {
   beforeEach(() => {
     wrapper = shallow(PickerDay, {
       propsData: {
-        mondayFirst: true,
+        firstDayOfWeek: 1,
         translation: en,
         allowedToShowView: () => true,
         pageDate: new Date(2018, 1, 1)

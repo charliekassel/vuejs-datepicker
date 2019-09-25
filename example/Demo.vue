@@ -2,6 +2,20 @@
   <div id="app">
     <h1>Datepicker Examples</h1>
     <div class="example">
+      <h3>
+        Datepicker with firstDayOfWeek set to {{ languages[language].days[firstDayOfWeek] }}
+      </h3>
+      <datepicker placeholder="Select Date" :firstDayOfWeek="firstDayOfWeek"/>
+      <code>
+          &lt;datepicker placeholder="Select Date" firstDayOfWeek="{{firstDayOfWeek}}"&gt;&lt;/datepicker&gt;
+      </code>
+
+      <select v-model="firstDayOfWeek">
+        <option :value="key" v-for="(day, key) in languages[language].days" :key="key">{{ day }}</option>
+      </select>
+    </div>
+
+    <div class="example">
       <h3>Default datepicker...</h3>
       <datepicker placeholder="Select Date" />
       <code>
@@ -287,7 +301,8 @@ export default {
       state: state,
       vModelExample: null,
       languages: lang,
-      language: 'en'
+      language: 'en',
+      firstDayOfWeek: 3,
     }
   },
   computed: {
