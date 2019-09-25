@@ -146,7 +146,7 @@ export default {
     }
   },
   mounted () {
-    this.input = this.$el.querySelector('input')
+    if (this.$el && this.$el.querySelector) this.input = this.$el.querySelector('input')
   }
 }
 // eslint-disable-next-line
