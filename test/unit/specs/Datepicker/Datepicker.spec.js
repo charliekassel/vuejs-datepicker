@@ -165,7 +165,7 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.selectedDate).toEqual(today)
   })
 
-  it('watches value', async () => {
+  it('watches value', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         value: '2018-01-01'
@@ -173,11 +173,13 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setValue')
     wrapper.vm.value = '2018-04-26'
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
-  it('watches openDate', async () => {
+  it('watches openDate', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         openDate: new Date(2018, 0, 1)
@@ -185,11 +187,13 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setPageDate')
     wrapper.vm.openDate = new Date(2018, 3, 26)
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
-  it('watches initialView', async () => {
+  it('watches initialView', done => {
     const wrapper = shallow(Datepicker, {
       propsData: {
         initialView: 'day'
@@ -197,8 +201,10 @@ describe('Datepicker mounted', () => {
     })
     const spy = jest.spyOn(wrapper.vm, 'setInitialView')
     wrapper.vm.initialView = 'month'
-    await wrapper.vm.$nextTick()
-    expect(spy).toBeCalled()
+    wrapper.vm.$nextTick(() => {
+      expect(spy).toBeCalled()
+      done()
+    })
   })
 
   it('should emit changedMonth on a month change received from PickerDay', () => {
@@ -250,7 +256,7 @@ describe('Datepicker.vue set by timestamp', () => {
 
 describe('Datepicker.vue using UTC', () => {
   let wrapper
-  it('correctly sets the value using UTC', async () => {
+  it('correctly sets the value using UTC', done => {
     const timezoneOffset = ((new Date()).getTimezoneOffset() / 60)
 
     // this is ambiguous because localzone differs by one day than UTC
@@ -270,8 +276,10 @@ describe('Datepicker.vue using UTC', () => {
       }
     })
     // It's important to assert the input rendered output
-    await wrapper.vm.$nextTick()
-    return expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString)
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString)
+      done()
+    })
   })
 })
 
