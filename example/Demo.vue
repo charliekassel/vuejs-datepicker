@@ -31,6 +31,41 @@
     </div>
 
     <div class="example">
+      <h3>Bootstrap styled datepicker with slot</h3>
+      <datepicker
+        :bootstrapStyling="true"
+        placeholder="Select Date"
+        wrapper-class="input-group"
+        input-class="form-control"
+      >
+        <span slot="afterDateInput" class="input-group-btn">
+          <button class="btn" type="button" @click="onConfirmClicked">Confirm</button>
+          <button class="btn" type="button" @click="onResetClicked">Reset</button>
+        </span>
+      </datepicker>
+      <code>
+          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>Semantic-ui styled datepicker with slot</h3>
+      <datepicker
+        placeholder="Select Date"
+        wrapper-class="ui action input"
+      >
+        <button slot="afterDateInput" class="ui button" @click="onConfirmClicked">Confirm</button>
+        <button slot="afterDateInput" class="ui button" @click="onResetClicked">Reset</button>
+      </datepicker>
+      <pre>
+&lt;datepicker placeholder="Select Date" wrapper-class="ui action input"&gt;
+  &lt;button slot="afterDateInput" class="ui button" @click="onConfirmClicked"&gt;Confirm&lt;/button&gt;
+  &lt;button slot="afterDateInput" class="ui button" @click="onResetClicked"&gt;Reset&lt;/button&gt;
+&lt;/datepicker&gt;
+      </pre>
+    </div>
+
+    <div class="example">
         <h3>v-model datepicker</h3>
         <datepicker placeholder="Select Date" v-model="vModelExample"></datepicker>
         <code>
@@ -296,6 +331,12 @@ export default {
     }
   },
   methods: {
+    onConfirmClicked () {
+      alert('Confirm button clicked!')
+    },
+    onResetClicked () {
+      alert('Reset button clicked!')
+    },
     highlightTo (val) {
       if (typeof this.highlighted.to === 'undefined') {
         this.highlighted = {
@@ -365,6 +406,7 @@ export default {
 <style>
 
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css');
 
 body {
     font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
