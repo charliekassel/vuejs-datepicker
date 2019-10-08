@@ -99,6 +99,11 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.isOpen).toEqual(false)
   })
 
+  it('should emit opened on calendar open', () => {
+    wrapper.vm.showCalendar()
+    expect(wrapper.emitted().opened).toBeTruthy()
+  })
+
   it('should emit selectedDisabled on a disabled timestamp', () => {
     const date = new Date(2016, 9, 1)
     wrapper.vm.selectDisabledDate({timestamp: date.getTime()})
