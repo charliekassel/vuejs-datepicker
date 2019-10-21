@@ -10,59 +10,26 @@
     position absolute
     z-index 100
     background white
-    width 300px
+    width 320px
     border 1px solid #ccc
     header
-        display block
-        line-height 40px
-        span
-            display inline-block
-            text-align center
-            width (100 - (100/7)*2)%
-            float left
-
-        .prev
-        .next
-            width (100/7)%
-            float left
-            text-indent -10000px
-            position relative
-            &:after
-                content ''
-                position absolute
-                left 50%
-                top 50%
-                transform translateX(-50%) translateY(-50%)
-                border 6px solid transparent
-
-        .prev
-            &:after
-                border-right 10px solid #000
-                margin-left -5px
-            &.disabled:after
-                border-right 10px solid #ddd
-        .next
-            &:after
-                border-left 10px solid #000
-                margin-left 5px
-            &.disabled:after
-                border-left 10px solid #ddd
-
-        .prev:not(.disabled)
-        .next:not(.disabled)
-        .up:not(.disabled)
-            cursor pointer
-            &:hover
-                background #eee
-
-    .disabled
-        color #ddd
-        cursor default
+        display flex
+        justify-content: space-between
+        align-items: center
+        padding:0.5rem
     .flex-rtl
         display flex
         width inherit
         flex-wrap wrap
-
+    .prev, .next
+        height:41px
+        width:41px
+    .date-select   
+        width:50%
+        margin:0
+    .picker-days
+        display: flex;
+        flex-wrap:wrap;
     .cell
         display inline-block
         padding 0 5px
@@ -76,27 +43,9 @@
         &:not(.blank):not(.disabled).month
         &:not(.blank):not(.disabled).year
             cursor pointer
-            &:hover
-                border 1px solid #4bd
-        &.selected
-            background #4bd
-            &:hover
-                background #4bd
-            &.highlighted
-                background #4bd
-        &.highlighted
-            background #cae5ed
-            &.disabled
-                color: #a3a3a3
-        &.grey
-            color #888
-
-            &:hover
-                background inherit
-
-
         &.day-header
             font-size 75%
+            font-weight: bold;
             white-space nowrap
             cursor inherit
             &:hover
@@ -113,3 +62,4 @@
     &.disabled
       color #999
       cursor default
+      pointer-events: none

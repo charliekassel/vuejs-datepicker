@@ -1,248 +1,13 @@
 <template>
+
   <div id="app">
     <h1>Datepicker Examples</h1>
-    <div class="example">
-      <h3>Default datepicker...</h3>
-      <datepicker placeholder="Select Date" />
-      <code>
-          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Typeable datepicker</h3>
-      <datepicker placeholder="Type or select date" :typeable="true" />
-      <code>
-          &lt;datepicker placeholder="Type or select date" :typeable="true"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Bootstrap styled datepicker</h3>
-      <datepicker
-        :bootstrapStyling="true"
-        :calendarButton="true"
-        :clearButton="true"
-      >
-      </datepicker>
-      <code>
-          &lt;datepicker placeholder="Select Date"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-        <h3>v-model datepicker</h3>
-        <datepicker placeholder="Select Date" v-model="vModelExample"></datepicker>
-        <code>
-            &lt;datepicker placeholder="Select Date" v-model="vmodelexample"&gt;&lt;/datepicker&gt;
-        </code>
-        <hr/>
-      <p>{{ vModelExample }}</p>
-    </div>
-
-    <div class="example">
-      <h3>Format datepicker</h3>
-      <datepicker :format="format"></datepicker>
-      <code>
-        &lt;datepicker :format="format"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Format</label>
-          <select v-model="format">
-            <option value="d MMM yyyy" selected>d MMM yyyy - e.g 12 Feb 2016</option>
-            <option value="d MMMM yyyy">d MMMM yyyy - e.g 12 February 2016</option>
-            <option value="yyyy-MM-dd">yyyy-MM-dd - e.g 2016-02-12</option>
-            <option value="dsu MMM yyyy">dsu MMM yyyy - e.g 12th Feb 2016</option>
-            <option value="D dsu MMM yyyy">D dsu MMM yyyy - e.g Sat 12th Feb 2016</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="example">
-      <h3>With minimum and maximum date range</h3>
-      <datepicker :disabledDates="disabledDates"></datepicker>
-      <code>
-        &lt;datepicker :disabledDates="disabledDates"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Disabled to:</label>
-          <datepicker v-on:selected="disableTo"></datepicker>
-        </div>
-        <div class="form-group">
-          <label>Disabled from:</label>
-          <datepicker v-on:selected="disableFrom"></datepicker>
-        </div>
-        <div class="form-group">
-          <label>Disabled Days of Month:</label>
-          <input type="text" value="" v-on:change="setDisabledDays" placeholder="5,6,12,13">
-        </div>
-        <pre>disabled: {{ disabledDates }}</pre>
-
-        <h5>Resulting Date picker</h5>
-        <datepicker :disabledDates="disabledDates"></datepicker>
-      </div>
-    </div>
-
-    <div class="example">
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Disabled Function:</label>
-        </div>
-        <pre>
-          disabledDates: {
-            customPredictor: function (date) {
-              // disables every day of a month which is a multiple of 3
-              if (date.getDate() % 3 === 0) {
-                return true
-              }
-            }
-          }
-        </pre>
-        <h5>Resulting Date picker</h5>
-        <datepicker :disabledDates="disabledFn"></datepicker>
-      </div>
-    </div>
-
-    <div class="example">
-      <h3>Highlighting Dates Matching Given Function</h3>
-      <datepicker :highlighted="highlighted"></datepicker>
-      <code>
-        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <pre>
-          highlighted: {
-            customPredictor: function (date) {
-              // highlights every day of a month which is a multiple of 4
-              if (date.getDate() % 4 === 0) {
-                return true
-              }
-            }
-          }
-        </pre>
-
-        <h5>Resulting Date picker</h5>
-        <datepicker :highlighted="highlightedFn"></datepicker>
-      </div>
-    </div>
-
-    <div class="example">
-      <h3>Highlighting Dates</h3>
-      <code>
-        &lt;datepicker :highlighted="highlighted"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Highlight from:</label>
-          <datepicker v-on:selected="highlightFrom"></datepicker>
-        </div>
-        <div class="form-group">
-          <label>Highlight to:</label>
-          <datepicker v-on:selected="highlightTo"></datepicker>
-        </div>
-        <div class="form-group">
-          <label>Highlight Days of Month:</label>
-          <input type="text" value="" v-on:change="setHighlightedDays">
-        </div>
-        <pre>highlighted: {{ highlighted }}</pre>
-
-        <h5>Resulting Date picker</h5>
-        <datepicker :highlighted="highlighted"></datepicker>
-      </div>
-    </div>
-
-    <div class="example">
-      <h3>With default open date</h3>
-      <datepicker :open-date="openDate"></datepicker>
-      <code>
-        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <div class="form-group">
-          <label>Open date:</label>
-          <datepicker v-model="openDate"></datepicker>
-        </div>
-        <pre>openDate: {{ openDate }}</pre>
-      </div>
-    </div>
-
-    <div class="example">
-      <h3>Translations</h3>
-      <h5>{{ languages[language].language }} datepicker</h5>
-
-      <datepicker :language="languages[language]" format="d MMMM yyyy"></datepicker>
-      <code>
-          &lt;datepicker :language="languages.{{ language }}"&gt;&lt;/datepicker&gt;
-      </code>
-      <div class="settings">
-        <h5>Settings</h5>
-        <select v-model="language">
-          <option :value="key" v-for="(language, key) in languages" :key="key">{{ language.language }}</option>
-        </select>
-      </div>
-    </div>
-
+ 
     <div class="example">
       <h3>Inline datepicker</h3>
-      <datepicker :inline="true"></datepicker>
+      <datepicker :inline="true" :monday-first="true" :month-limit="24"></datepicker>
       <code>
-          &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-    <div class="example">
-      <h3>RTL datepicker</h3>
-      <datepicker :language="languages.he"></datepicker>
-      <code>
-          &lt;datepicker :language="languages.he"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Day view only</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Day view only RTL</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'" :language="languages.he"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="languages.he"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Month view only</h3>
-      <datepicker :minimumView="'month'" :maximumView="'month'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'month'" :maximumView="'month'"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Day and month view only</h3>
-      <datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Year and month view only</h3>
-      <datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"&gt;&lt;/datepicker&gt;
+          &lt;datepicker :inline="true" :monday-first="true" :month-limit="24" &gt;&lt;/datepicker&gt;
       </code>
     </div>
 
@@ -261,6 +26,11 @@ export default {
   name: 'demo',
   components: {
     Datepicker
+  },
+  mounted() {  
+    let styleGuideJs = document.createElement('script')
+    styleGuideJs.setAttribute('src', 'https://st-cdn.holidayhype.co.uk/RetailBase/hh/hh.bundle.js')
+    document.head.appendChild(styleGuideJs)
   },
   data () {
     return {
@@ -364,7 +134,7 @@ export default {
 
 <style>
 
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+@import url('https://st-cdn.holidayhype.co.uk/RetailBase/hh/hh.bundle.css');
 
 body {
     font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
@@ -375,10 +145,6 @@ input, select {
     font-size: 100%;
     border: 1px solid #ccc;
     width: 100%
-}
-
-select {
-    height: 2.5em;
 }
 
 .example {

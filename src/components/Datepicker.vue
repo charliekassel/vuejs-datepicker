@@ -1,35 +1,5 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
-    <date-input
-      :selectedDate="selectedDate"
-      :resetTypedDate="resetTypedDate"
-      :format="format"
-      :translation="translation"
-      :inline="inline"
-      :id="id"
-      :name="name"
-      :refName="refName"
-      :openDate="openDate"
-      :placeholder="placeholder"
-      :inputClass="inputClass"
-      :typeable="typeable"
-      :clearButton="clearButton"
-      :clearButtonIcon="clearButtonIcon"
-      :calendarButton="calendarButton"
-      :calendarButtonIcon="calendarButtonIcon"
-      :calendarButtonIconContent="calendarButtonIconContent"
-      :disabled="disabled"
-      :required="required"
-      :bootstrapStyling="bootstrapStyling"
-      :use-utc="useUtc"
-      @showCalendar="showCalendar"
-      @closeCalendar="close"
-      @typedDate="setTypedDate"
-      @clearDate="clearDate">
-      <slot name="afterDateInput" slot="afterDateInput"></slot>
-    </date-input>
-
-
     <!-- Day View -->
     <picker-day
       v-if="allowedToShowView('day')"
@@ -46,6 +16,7 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
+      :monthLimit="monthLimit"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       @changedMonth="handleChangedMonthFromDayPicker"
@@ -54,58 +25,16 @@
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
-
-    <!-- Month View -->
-    <picker-month
-      v-if="allowedToShowView('month')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showMonthView="showMonthView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectMonth="selectMonth"
-      @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-month>
-
-    <!-- Year View -->
-    <picker-year
-      v-if="allowedToShowView('year')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showYearView="showYearView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectYear="selectYear"
-      @changedDecade="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-year>
+    
   </div>
 </template>
 <script>
 import en from '../locale/translations/en'
-import DateInput from './DateInput.vue'
 import PickerDay from './PickerDay.vue'
-import PickerMonth from './PickerMonth.vue'
-import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
-  components: {
-    DateInput,
-    PickerDay,
-    PickerMonth,
-    PickerYear
+  components: {  
+    PickerDay
   },
   props: {
     value: {
@@ -135,6 +64,7 @@ export default {
     inputClass: [String, Object, Array],
     wrapperClass: [String, Object, Array],
     mondayFirst: Boolean,
+    monthLimit: Number,
     clearButton: Boolean,
     clearButtonIcon: String,
     calendarButton: Boolean,
@@ -406,6 +336,7 @@ export default {
      * Sets the date that the calendar should open on
      */
     setPageDate (date) {
+      console.log('setting page date')
       if (!date) {
         if (this.openDate) {
           date = new Date(this.openDate)
@@ -414,13 +345,16 @@ export default {
         }
       }
       this.pageTimestamp = this.utils.setDate(new Date(date), 1)
+      console.log('page date set')
     },
     /**
      * Handles a month change from the day picker
      */
     handleChangedMonthFromDayPicker (date) {
+      console.log('handleChangedMonthFromDayPicker called')
       this.setPageDate(date)
       this.$emit('changedMonth', date)
+      console.log('handleChangedMonthFromDayPicker finished')
     },
     /**
      * Set the date from a typedDate event

@@ -17,7 +17,8 @@ export default {
   },
   plugins: [
     vue({
-      css: true
+      css: true,
+      needMap: false
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify('development')
@@ -31,7 +32,7 @@ export default {
       open: true,
       contentBase: path.join(__dirname, '..', 'example'),
       host: 'localhost',
-      port: 10001
+      port: 10001      
     }),
     livereload({
       verbose: true,
