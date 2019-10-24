@@ -29,7 +29,6 @@
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
-
     <!-- Day View -->
     <picker-day
       v-if="allowedToShowView('day')"
@@ -101,6 +100,7 @@ import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
+  name: 'datepicker',
   components: {
     DateInput,
     PickerDay,
