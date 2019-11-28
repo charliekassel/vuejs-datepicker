@@ -48,6 +48,7 @@ import ur from './translations/ur'
 import vi from './translations/vi'
 import zh from './translations/zh'
 import zhHK from './translations/zh-HK'
+import sq from './translations/sq'
 
 export {
   af,
@@ -99,7 +100,8 @@ export {
   ur,
   vi,
   zh,
-  zhHK
+  zhHK,
+  sq
 }
 // eslint-disable-next-line
 ;
