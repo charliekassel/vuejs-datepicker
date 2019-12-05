@@ -1,5 +1,6 @@
 import af from './translations/af'
 import ar from './translations/ar'
+import be from './translations/be'
 import bg from './translations/bg'
 import bs from './translations/bs'
 import ca from './translations/ca'
@@ -52,6 +53,7 @@ import zhHK from './translations/zh-HK'
 export {
   af,
   ar,
+  be,
   bg,
   bs,
   ca,
