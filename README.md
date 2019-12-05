@@ -345,6 +345,7 @@ Available languages
 | ----------- |------------------|----------|
 | af          | Afrikaans        |          |
 | ar          | Arabic           |          |
+| be          | Belarus          |          |
 | bg          | Bulgarian        |          |
 | bs          | Bosnian          |          |
 | ca          | Catalan          |          |
