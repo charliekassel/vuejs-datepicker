@@ -38,7 +38,11 @@ export default {
     allowedToShowView: Function,
     dayCellContent: {
       type: Function,
-      default: day => day.date
+      default: day => {
+        if (day && Object.keys(day).length) {
+          return day.date
+        }
+      }
     },
     disabledDates: Object,
     highlighted: Object,
