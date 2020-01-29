@@ -23,6 +23,7 @@
       :disabled="disabled"
       :required="required"
       :readonly="!typeable"
+      :tabIndex = "tabIndex"
       @click="showCalendar"
       @keyup="parseTypedDate"
       @blur="inputBlurred"
@@ -62,7 +63,11 @@ export default {
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    tabIndex: {
+      type: Number,
+      default: null
+    }
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
