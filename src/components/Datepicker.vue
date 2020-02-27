@@ -48,10 +48,10 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
-      @changedMonth="handleChangedMonthFromDayPicker"
+      @changed-month="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="selectDisabledDate">
+      @selected-disabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -70,7 +70,7 @@
       :use-utc="useUtc"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
+      @changed-year="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-month>
 
@@ -88,7 +88,7 @@
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectYear="selectYear"
-      @changedDecade="setPageDate">
+      @changed-decade="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-year>
   </div>
@@ -357,6 +357,7 @@ export default {
      * @param {Object} date
      */
     selectDisabledDate (date) {
+      this.$emit('selected-disabled', date)
       this.$emit('selectedDisabled', date)
     },
     /**
@@ -366,6 +367,7 @@ export default {
       const date = new Date(month.timestamp)
       if (this.allowedToShowView('day')) {
         this.setPageDate(date)
+        this.$emit('changed-month', month)
         this.$emit('changedMonth', month)
         this.showDayCalendar()
       } else {
@@ -379,6 +381,7 @@ export default {
       const date = new Date(year.timestamp)
       if (this.allowedToShowView('month')) {
         this.setPageDate(date)
+        this.$emit('changed-year', year)
         this.$emit('changedYear', year)
         this.showMonthCalendar()
       } else {
@@ -420,6 +423,7 @@ export default {
      */
     handleChangedMonthFromDayPicker (date) {
       this.setPageDate(date)
+      this.$emit('changed-month', date)
       this.$emit('changedMonth', date)
     },
     /**

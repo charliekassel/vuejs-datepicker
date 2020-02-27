@@ -105,6 +105,7 @@ export default {
     changeYear (incrementBy) {
       let date = this.pageDate
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
+      this.$emit('changed-year', date)
       this.$emit('changedYear', date)
     },
     /**

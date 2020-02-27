@@ -100,6 +100,7 @@ export default {
     changeYear (incrementBy) {
       let date = this.pageDate
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
+      this.$emit('changed-decade', date)
       this.$emit('changedDecade', date)
     },
     previousDecade () {
