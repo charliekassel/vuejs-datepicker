@@ -23,7 +23,7 @@
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
       @showCalendar="showCalendar"
-      @closeCalendar="close"
+      @closeCalendar="close(true)"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
       <slot name="afterDateInput" slot="afterDateInput"></slot>
@@ -252,6 +252,7 @@ export default {
         return this.close(true)
       }
       this.setInitialView()
+      this.$emit('opened')
     },
     /**
      * Sets the initial picker page view: day, month or year

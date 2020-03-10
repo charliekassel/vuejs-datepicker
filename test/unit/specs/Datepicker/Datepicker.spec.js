@@ -245,12 +245,12 @@ describe('Datepicker.vue set by timestamp', () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
-        value: new Date(Date.UTC(2018, 0, 29)).getTime()
+        value: new Date(Date.UTC(2018, 1, 28)).getTime()
       }
     })
     expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
-    expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
-    expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
+    expect(wrapper.vm.selectedDate.getMonth()).toEqual(1)
+    expect(wrapper.vm.selectedDate.getUTCDate()).toEqual(28)
   })
 })
 
