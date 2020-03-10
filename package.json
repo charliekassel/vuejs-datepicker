@@ -13,6 +13,7 @@
   "types": "index.d.ts",
   "unpkg": "dist/vuejs-datepicker.min.js",
   "files": [
+    "index.d.ts",
     "src",
     "dist"
   ],
