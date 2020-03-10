@@ -10,6 +10,7 @@
   ],
   "main": "dist/vuejs-datepicker.js",
   "module": "dist/vuejs-datepicker.esm.js",
+  "types": "index.d.ts",
   "unpkg": "dist/vuejs-datepicker.min.js",
   "files": [
     "src",
