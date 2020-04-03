@@ -273,7 +273,7 @@ export default {
       if (typeof this.disabledDates.daysOfMonth !== 'undefined' && this.disabledDates.daysOfMonth.indexOf(this.utils.getDate(date)) !== -1) {
         disabledDates = true
       }
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date, 'day')) {
         disabledDates = true
       }
       return disabledDates
