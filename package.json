@@ -32,10 +32,6 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "prepublishOnly": "npm run build"
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
   "dependencies": {},
   "peerDependencies": {
     "vue": "^2.6.10"
