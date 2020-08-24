@@ -122,4 +122,25 @@ describe('PickerDay highlight date', () => {
     expect(wrapper.vm.isHighlightEnd(new Date(2016, 12, 6))).toEqual(false)
     expect(wrapper.vm.isHighlightEnd(new Date(2016, 12, 7))).toEqual(false)
   })
+
+  it('should execute highlight props if date is not disabled', () => {
+    wrapper.setProps({
+      highlightDate: jest.fn()
+    })
+
+    wrapper.vm.highlightOnMouseover(new Date(2016, 12, 7))
+    expect(wrapper.vm.highlightDate).toBeCalled()
+    wrapper.vm.highlightDate.mockClear()
+  })
+
+  it('should NOT execute highlight props if date is disabled', () => {
+    wrapper.setProps({
+      highlightDate: jest.fn()
+    })
+
+    wrapper.vm.highlightDate.mockClear()
+
+    wrapper.vm.highlightOnMouseover(new Date(2016, 12, 5))
+    expect(wrapper.vm.highlightDate).not.toBeCalled()
+  })
 })

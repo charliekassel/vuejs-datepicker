@@ -212,6 +212,12 @@ describe('Datepicker mounted', () => {
     wrapper.vm.handleChangedMonthFromDayPicker({timestamp: date.getTime()})
     expect(wrapper.emitted().changedMonth).toBeTruthy()
   })
+
+  it('should emit highlight-date', () => {
+    wrapper.vm.highlightDate({ timestamp: 100 })
+    expect(wrapper.emitted()['highlight-date']).toBeTruthy()
+    expect(wrapper.emitted()['highlight-date'][0]).toEqual([{ timestamp: 100 }])
+  })
 })
 
 describe('Datepicker.vue set by string', () => {

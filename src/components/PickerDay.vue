@@ -22,7 +22,11 @@
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
+          @mouseover="highlightOnMouseover(day)"
           @click="selectDate(day)"></span>
+    </div>
+    <div>
+      <slot name="afterCalendarContent"></slot>
     </div>
   </div>
 </template>
@@ -47,7 +51,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    highlightDate: Function
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -155,6 +160,10 @@ export default {
     }
   },
   methods: {
+    highlightOnMouseover (date) {
+      if (this.isDisabledDate(date)) return
+      this.highlightDate(date)
+    },
     selectDate (date) {
       if (date.isDisabled) {
         this.$emit('selectedDisabled', date)
