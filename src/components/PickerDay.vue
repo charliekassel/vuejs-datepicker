@@ -22,6 +22,7 @@
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
+          @mouseover="highlightDate(day)"
           @click="selectDate(day)"></span>
     </div>
   </div>
@@ -47,7 +48,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    highlightDate: Function
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)

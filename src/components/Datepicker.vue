@@ -51,7 +51,8 @@
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="selectDisabledDate">
+      @selectedDisabled="selectDisabledDate"
+      :highlightDate="highlightDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -384,6 +385,9 @@ export default {
       } else {
         this.selectDate(year)
       }
+    },
+    highlightDate (date) {
+      this.$emit('highlight-date', date)
     },
     /**
      * Set the datepicker value
