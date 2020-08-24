@@ -22,7 +22,7 @@
           :key="day.timestamp"
           :class="dayClasses(day)"
           v-html="dayCellContent(day)"
-          @mouseover="highlightDate(day)"
+          @mouseover="highlightOnMouseover(day)"
           @click="selectDate(day)"></span>
     </div>
     <div>
@@ -160,6 +160,10 @@ export default {
     }
   },
   methods: {
+    highlightOnMouseover (date) {
+      if (this.isDisabledDate(date)) return
+      this.highlightDate(date)
+    },
     selectDate (date) {
       if (date.isDisabled) {
         this.$emit('selectedDisabled', date)
