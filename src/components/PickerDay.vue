@@ -25,6 +25,9 @@
           @mouseover="highlightDate(day)"
           @click="selectDate(day)"></span>
     </div>
+    <div>
+      <slot name="afterCalendarContent"></slot>
+    </div>
   </div>
 </template>
 <script>
