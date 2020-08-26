@@ -26,20 +26,36 @@
           @click="selectDate(day)"></span>
     </div>
     <div>
-      <slot name="afterCalendarContent"></slot>
+      <Footer
+        v-if="showFooter"
+        :selected-date="selectedDate"
+        :clear-date="clearDate"
+        :set-today="setToday"
+        :footer-class="footerClass"
+        :today-button-class="todayButtonClass"
+        :clear-button-class="clearButtonClass"
+      />
     </div>
   </div>
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import Footer from './Footer.vue'
 export default {
+  components: { Footer },
   props: {
+    showFooter: Boolean,
     showDayView: Boolean,
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
     allowedToShowView: Function,
+    clearDate: Function,
+    setPageDate: Function,
+    footerClass: [String, Object, Array],
+    todayButtonClass: [String, Object, Array],
+    clearButtonClass: [String, Object, Array],
     dayCellContent: {
       type: Function,
       default: day => day.date
@@ -52,7 +68,7 @@ export default {
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean,
-    highlightDate: Function
+    highlightDate: Function,
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -160,6 +176,34 @@ export default {
     }
   },
   methods: {
+    /**
+     * Select date for today button
+     */
+    setToday () {
+      const d = new Date()
+
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
+        : new Date(d.getFullYear(), d.getMonth(), d.getUTCDate(), d.getHours(), d.getMinutes())
+
+      this.selectDate({
+        date: this.utils.getDate(dObj),
+        timestamp: dObj.getTime(),
+        isSelected: this.isSelectedDate(dObj),
+        isDisabled: this.isDisabledDate(dObj),
+        isHighlighted: this.isHighlightedDate(dObj),
+        isHighlightStart: this.isHighlightStart(dObj),
+        isHighlightEnd: this.isHighlightEnd(dObj),
+        isToday: this.utils.compareDates(dObj, new Date()),
+        isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
+        isSaturday: this.utils.getDay(dObj) === 6,
+        isSunday: this.utils.getDay(dObj) === 0
+      })
+    },
+    /**
+     * Emit an event to show the hovered date
+     * @param {Date} date
+     */
     highlightOnMouseover (date) {
       if (this.isDisabledDate(date)) return
       this.highlightDate(date)
