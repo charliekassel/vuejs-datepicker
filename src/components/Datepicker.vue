@@ -38,6 +38,8 @@
       :showDayView="showDayView"
       :fullMonthName="fullMonthName"
       :allowedToShowView="allowedToShowView"
+      :clear-date="clearDate"
+      :set-page-date="setPageDate"
       :disabledDates="disabledDates"
       :highlighted="highlighted"
       :calendarClass="calendarClass"
@@ -48,6 +50,10 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :footer-class="footerClass"
+      :today-button-class="todayButtonClass"
+      :clear-button-class="clearButtonClass"
+      :show-footer="showFooter"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -112,52 +118,56 @@ export default {
     PickerYear
   },
   props: {
-    value: {
-      validator: val => utils.validateDateInput(val)
-    },
-    name: String,
-    refName: String,
-    id: String,
+    bootstrapStyling: Boolean,
+    calendarButton: Boolean,
+    calendarButtonIcon: String,
+    calendarButtonIconContent: String,
+    calendarClass: [String, Object, Array],
+    clearButtonClass: [String, Object, Array],
+    clearButton: Boolean,
+    clearButtonIcon: String,
+    dayCellContent: Function,
+    disabled: Boolean,
+    disabledDates: Object,
     format: {
       type: [String, Function],
       default: 'dd MMM yyyy'
     },
+    footerClass: [String, Object, Array],
+    fullMonthName: Boolean,
+    highlighted: Object,
+    id: String,
+    initialView: String,
+    inline: Boolean,
+    inputClass: [String, Object, Array],
     language: {
       type: Object,
       default: () => en
     },
-    openDate: {
-      validator: val => utils.validateDateInput(val)
+    maximumView: {
+      type: String,
+      default: 'year'
     },
-    dayCellContent: Function,
-    fullMonthName: Boolean,
-    disabledDates: Object,
-    highlighted: Object,
-    placeholder: String,
-    inline: Boolean,
-    calendarClass: [String, Object, Array],
-    inputClass: [String, Object, Array],
-    wrapperClass: [String, Object, Array],
-    mondayFirst: Boolean,
-    clearButton: Boolean,
-    clearButtonIcon: String,
-    calendarButton: Boolean,
-    calendarButtonIcon: String,
-    calendarButtonIconContent: String,
-    bootstrapStyling: Boolean,
-    initialView: String,
-    disabled: Boolean,
-    required: Boolean,
-    typeable: Boolean,
-    useUtc: Boolean,
     minimumView: {
       type: String,
       default: 'day'
     },
-    maximumView: {
-      type: String,
-      default: 'year'
-    }
+    mondayFirst: Boolean,
+    name: String,
+    openDate: {
+      validator: val => utils.validateDateInput(val)
+    },
+    placeholder: String,
+    refName: String,
+    required: Boolean,
+    showFooter: Boolean,
+    todayButtonClass: [String, Object, Array],
+    typeable: Boolean,
+    useUtc: Boolean,
+    value: {
+      validator: val => utils.validateDateInput(val)
+    },
+    wrapperClass: [String, Object, Array]
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
