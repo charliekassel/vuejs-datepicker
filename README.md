@@ -147,6 +147,10 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
+| show-footer                   | Boolean         | false       | If set, footer on date view is shown     |
+| footer-class                  | String          |             | CSS class applied to the outer div       |
+| today-button-class            | String          |             | CSS class applied to the Today button    |
+| clear-button-class            | String          |             | CSS class applied to the Clear button    |
 
 
 ## Events
@@ -164,6 +168,7 @@ These events are emitted on actions in the datepicker
 | changedMonth      | Object     | Month page has been changed          |
 | changedYear       | Object     | Year page has been changed           |
 | changedDecade     | Object     | Decade page has been changed         |
+| highlightDate     | Object     | Mouseover on a date                  |
 
 
 ## Date formatting
