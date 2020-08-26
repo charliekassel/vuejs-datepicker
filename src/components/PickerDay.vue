@@ -68,7 +68,7 @@ export default {
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean,
-    highlightDate: Function,
+    highlightDate: Function
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
