@@ -18,6 +18,7 @@ import ge from './translations/ge'
 import gl from './translations/gl'
 import he from './translations/he'
 import hr from './translations/hr'
+import hi from './translations/hi'
 import hu from './translations/hu'
 import id from './translations/id'
 import is from './translations/is'
@@ -70,6 +71,7 @@ export {
   gl,
   he,
   hr,
+  hi,
   hu,
   id,
   is,

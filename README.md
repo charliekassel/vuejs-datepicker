@@ -364,6 +364,7 @@ Available languages
 | he          | Hebrew           |          |
 | hu          | Hungarian        |          |
 | hr          | Croatian         |          |
+| hi          | Hindi            |          |
 | id          | Indonesian       |          |
 | is          | Icelandic        |          |
 | it          | Italian          |          |
