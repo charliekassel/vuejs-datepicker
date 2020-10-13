@@ -48,6 +48,7 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :transformCurrYearName="transformCurrYearName"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
