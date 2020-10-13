@@ -153,7 +153,8 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
-    }
+    },
+    transformCurrYearName: { type: Function }
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
