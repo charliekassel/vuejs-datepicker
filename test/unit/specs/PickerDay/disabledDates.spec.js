@@ -24,6 +24,11 @@ describe('PickerDay: disabled', () => {
     expect(wrapper.vm.isDisabledDate(new Date(2016, 9, 27))).toEqual(true)
   })
 
+  it('should not disable disabledDates.to and disabledDates.from', () => {
+    expect(wrapper.vm.isDisabledDate(new Date(2016, 9, 4))).toEqual(false)
+    expect(wrapper.vm.isDisabledDate(new Date(2016, 9, 26))).toEqual(false)
+  })
+
   it('should not select a disabled date', () => {
     expect(wrapper.vm.selectDate({isDisabled: true})).toEqual(false)
   })
