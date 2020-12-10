@@ -209,7 +209,7 @@ Dates can be disabled in a number of ways.
 <script>
 var state = {
   disabledDates: {
-    to: new Date(2016, 0, 5), // Disable all dates up to specific date
+    to: new Date(2016, 0, 5), // Disable all dates before specific date
     from: new Date(2016, 0, 26), // Disable all dates after specific date
     days: [6, 0], // Disable Saturday's and Sunday's
     daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
