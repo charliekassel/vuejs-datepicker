@@ -45,6 +45,7 @@ import th from './translations/th'
 import tr from './translations/tr'
 import uk from './translations/uk'
 import ur from './translations/ur'
+import uz from './translations/uz'
 import vi from './translations/vi'
 import zh from './translations/zh'
 import zhHK from './translations/zh-HK'
@@ -97,6 +98,7 @@ export {
   tr,
   uk,
   ur,
+  uz,
   vi,
   zh,
   zhHK
