@@ -151,7 +151,12 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      let d = this.pageDate
+      let d = new Date(this.pageDate.getTime())
+      //Добавляем кол-во отображаемых календарей
+      let showingMothesCount = (this.cols * this.rows);
+      this.utils.setMonth(d, this.utils.getMonth(d) + (showingMothesCount - 1))
+      
+
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
@@ -172,6 +177,7 @@ export default {
         return false
       }
       let d = this.pageDate
+
       return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d)
     },

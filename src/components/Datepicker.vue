@@ -162,7 +162,8 @@ export default {
 
     calendarStyle () {
       return {
-        position: this.isInline ? 'relative' : undefined
+        position: this.isInline ? 'relative' : undefined,
+        "z-index": this.isInline ? 'auto' : undefined
       }
     },
     isOpen () {
