@@ -1,16 +1,7 @@
 <template>
-  <div @mousedown.prevent>
-    <slot name="beforeCalendarHeader"></slot>
+  <div>
     <header>
-      <span
-        @click="isRtl ? nextMonth() : previousMonth()"
-        class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
       <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
-      <span
-        @click="isRtl ? previousMonth() : nextMonth()"
-        class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -131,24 +122,6 @@ export default {
      */
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
-    },
-    /**
-     * Is the left hand navigation button disabled?
-     * @return {Boolean}
-     */
-    isLeftNavDisabled () {
-      return this.isRtl
-        ? this.isNextMonthDisabled(this.pageTimestamp)
-        : this.isPreviousMonthDisabled(this.pageTimestamp)
-    },
-    /**
-     * Is the right hand navigation button disabled?
-     * @return {Boolean}
-     */
-    isRightNavDisabled () {
-      return this.isRtl
-        ? this.isPreviousMonthDisabled(this.pageTimestamp)
-        : this.isNextMonthDisabled(this.pageTimestamp)
     }
   },
   methods: {
@@ -170,55 +143,6 @@ export default {
      */
     showMonthCalendar () {
       this.$emit('showMonthCalendar')
-    },
-    /**
-     * Change the page month
-     * @param {Number} incrementBy
-     */
-    changeMonth (incrementBy) {
-      let date = this.pageDate
-      this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
-      this.$emit('changedMonth', date)
-    },
-    /**
-     * Decrement the page month
-     */
-    previousMonth () {
-      if (!this.isPreviousMonthDisabled()) {
-        this.changeMonth(-1)
-      }
-    },
-    /**
-     * Is the previous month disabled?
-     * @return {Boolean}
-     */
-    isPreviousMonthDisabled () {
-      if (!this.disabledDates || !this.disabledDates.to) {
-        return false
-      }
-      let d = this.pageDate
-      return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
-        this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d)
-    },
-    /**
-     * Increment the current page month
-     */
-    nextMonth () {
-      if (!this.isNextMonthDisabled()) {
-        this.changeMonth(+1)
-      }
-    },
-    /**
-     * Is the next month disabled?
-     * @return {Boolean}
-     */
-    isNextMonthDisabled () {
-      if (!this.disabledDates || !this.disabledDates.from) {
-        return false
-      }
-      let d = this.pageDate
-      return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
-        this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
     /**
      * Whether a day is selected
