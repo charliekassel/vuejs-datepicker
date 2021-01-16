@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -30,7 +30,6 @@
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
-    showDayView: Boolean,
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
@@ -42,8 +41,6 @@ export default {
     },
     disabledDates: Object,
     highlighted: Object,
-    calendarClass: [String, Object, Array],
-    calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,

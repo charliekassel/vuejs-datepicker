@@ -31,7 +31,7 @@
 
 
     <!-- Day View -->
-    <picker-day
+    <picker-day-wrap
       v-if="allowedToShowView('day')"
       :pageDate="pageDate"
       :selectedDate="selectedDate"
@@ -53,7 +53,7 @@
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-day>
+    </picker-day-wrap>
 
     <!-- Month View -->
     <picker-month
@@ -96,14 +96,14 @@
 <script>
 import en from '../locale/translations/en'
 import DateInput from './DateInput.vue'
-import PickerDay from './PickerDay.vue'
+import PickerDayWrap from './PickerDayWrap.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
-    PickerDay,
+    PickerDayWrap,
     PickerMonth,
     PickerYear
   },
