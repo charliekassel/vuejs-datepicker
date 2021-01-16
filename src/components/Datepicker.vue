@@ -46,6 +46,8 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :cols="cols"
+      :rows="rows"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @selectedDisabled="selectDisabledDate">
@@ -102,7 +104,15 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    cols: {
+      type: Number,
+      default: () => 2
+    },
+    rows: {
+      type: Number,
+      default: () => 1
+    }
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -152,7 +162,7 @@ export default {
 
     calendarStyle () {
       return {
-        position: this.isInline ? 'static' : undefined
+        position: this.isInline ? 'relative' : undefined
       }
     },
     isOpen () {
@@ -194,7 +204,7 @@ export default {
      * Sets the initial picker page view: day, month or year
      */
     setInitialView () {
-      this.showDayCalendar();
+      this.showDayCalendar()
     },
     /**
      * Show the day picker

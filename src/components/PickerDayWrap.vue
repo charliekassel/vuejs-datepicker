@@ -2,7 +2,7 @@
   <div :class="[calendarClass, 'vdp-datepicker__calendar']"
     :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
-    <header>
+    <header class="navigation">
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
@@ -13,8 +13,8 @@
         class="next"
         :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
-    <div>
-      <div v-for="month in months" :key="month.timestamp">
+    <div class="monthes-grid" :style="gridStyle">
+      <div class="calendar" v-for="month in months" :key="month.timestamp">
         <picker-day
           :pageDate="month.pageDate"
           :pageTimestamp="month.timestamp"
@@ -61,7 +61,9 @@ export default {
       type: Function,
       default: day => day.date
     },
-    useUtc: Boolean
+    useUtc: Boolean,
+    cols: Number,
+    rows: Number
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -69,7 +71,7 @@ export default {
       utils: constructedDateUtils
     }
   },
-  computed:{
+  computed: {
     months () {
       const d = this.pageDate
       let months = []
@@ -77,8 +79,8 @@ export default {
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
         : new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
-      
-      for (let i = 0; i < 12; i++) {
+
+      for (let i = 0; i < (this.cols * this.rows); i++) {
         let timeStamp = dObj.getTime();
         months.push({
           pageDate: new Date(timeStamp),
@@ -108,6 +110,12 @@ export default {
       return this.isRtl
         ? this.isPreviousMonthDisabled(this.pageTimestamp)
         : this.isNextMonthDisabled(this.pageTimestamp)
+    },
+    gridStyle(){
+      return{
+        'grid-template-columns' : 'repeat(' + this.cols + ', 1fr)',
+        'grid-template-rows' : 'repeat('+ this.rows + ', 1fr)'
+      }
     }
   },
   methods: {
@@ -174,7 +182,6 @@ export default {
     changeMonth (incrementBy) {
       let date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
-      console.log('change month', date)
       this.$emit('changedMonth', date)
     }
   },

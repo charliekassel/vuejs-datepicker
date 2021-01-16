@@ -10,8 +10,10 @@
     position absolute
     z-index 100
     background white
-    width 300px
     border 1px solid #ccc
+    width max-content
+    height max-content
+
     header
         display block
         line-height 40px
@@ -23,12 +25,22 @@
             &.day__month_btn
                 width 100%
 
+
+
         .prev
         .next
-            width (100/7)%
-            float left
-            text-indent -10000px
-            position relative
+            width auto
+            position absolute
+            float none
+            background #fff
+            border-radius 50%
+            border 1px solid #0c73fe
+            width 40px
+            height 40px
+            top 50%
+            left -20px
+            margin-top -20px
+
             &:after
                 content ''
                 position absolute
@@ -36,6 +48,9 @@
                 top 50%
                 transform translateX(-50%) translateY(-50%)
                 border 6px solid transparent
+        .next
+            left auto
+            right -20px
 
         .prev
             &:after
@@ -107,6 +122,13 @@
     .month,
     .year
         width 33.333%
+
+    .monthes-grid
+        display grid
+
+    .calendar
+        width 300px
+        padding 0 20px
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button

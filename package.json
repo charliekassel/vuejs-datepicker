@@ -26,7 +26,7 @@
   "private": false,
   "license": "MIT",
   "scripts": {
-    "build": "npm run lint && rm -rf dist/* && rollup -c scripts/build.js && rollup -c scripts/build-locale.js",
+    "build": "rm -rf dist/* && rollup -c scripts/build.js && rollup -c scripts/build-locale.js",
     "serve": "rollup -c scripts/serve.js --watch",
     "test": "jest --config test/unit/jest.conf.js --coverage",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
