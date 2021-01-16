@@ -1,6 +1,6 @@
 <template>
   <div :class="[calendarClass, 'vdp-datepicker__calendar']"
-    :style="calendarStyle" @mousedown.prevent>
+        :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header class="navigation">
       <span
@@ -31,6 +31,13 @@
           @selectDate="selectDate"
           @selectedDisabled="selectDisabledDate">
           <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+          <template v-slot:monthes-select>
+            <select @click>
+              <option v-for="option in monthesSelectOptions" v-bind:key="option">
+                {{option}}
+              </option>
+            </select>
+          </template>
         </picker-day>
       </div>
     </div>
@@ -68,11 +75,13 @@ export default {
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
-      utils: constructedDateUtils
+      utils: constructedDateUtils,
+      monthesSelectOptions: []
     }
   },
   computed: {
     months () {
+      this.monthesSelectOptions.length = 0;
       const d = this.pageDate
       let months = []
       // set up a new date object to the beginning of the current 'page'
@@ -88,6 +97,7 @@ export default {
           //isSelected: this.isSelectedMonth(dObj),
           //isDisabled: this.isDisabledMonth(dObj),
         })
+        this.monthesSelectOptions.push(timeStamp)
         this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1)
       }
       return months

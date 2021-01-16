@@ -2,6 +2,7 @@
   <div>
     <header>
       <span class="day__month_btn">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      <slot name="monthes-select"></slot>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>

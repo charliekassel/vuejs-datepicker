@@ -223,7 +223,8 @@ export default {
     setDate (timestamp) {
       const date = new Date(timestamp)
       this.selectedDate = date
-      this.setPageDate(date)
+      //Не меняем дату страницы, т.к. прыгает при нескольких календарях
+      //this.setPageDate(date)
       this.$emit('selected', date)
       this.$emit('input', date)
     },
