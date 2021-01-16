@@ -1,5 +1,5 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView"
+  <div :class="[calendarClass, 'vdp-datepicker__calendar']"
     :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
@@ -20,7 +20,6 @@
           :pageTimestamp="month.timestamp"
           :selectedDate="selectedDate"
           :fullMonthName="fullMonthName"
-          :allowedToShowView="allowedToShowView"
           :disabledDates="disabledDates"
           :highlighted="highlighted"
           :translation="translation"
@@ -30,7 +29,6 @@
           :use-utc="useUtc"
           @changedMonth="handleChangedMonthFromDayPicker"
           @selectDate="selectDate"
-          @showMonthCalendar="showMonthCalendar"
           @selectedDisabled="selectDisabledDate">
           <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
         </picker-day>
@@ -46,7 +44,6 @@ export default {
     PickerDay
   },
   props: {
-    showDayView: Boolean,
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
 
@@ -54,7 +51,6 @@ export default {
     pageDate: Date,
     selectedDate: Date,
     fullMonthName: Boolean,
-    allowedToShowView: Function,
     disabledDates: Object,
     highlighted: Object,
     translation: Object,
@@ -127,13 +123,6 @@ export default {
      */
     selectDate (date) {
       this.$emit('selectDate', date)
-    },
-    /**
-     * Show the month picker
-     * @return {Boolean}
-     */
-    showMonthCalendar (date) {
-      this.$emit('showMonthCalendar', date)
     },
     selectDisabledDate (date) {
       this.$emit('selectDisabledDate', date)

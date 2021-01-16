@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      <span class="day__month_btn">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -25,7 +25,6 @@ export default {
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
-    allowedToShowView: Function,
     dayCellContent: {
       type: Function,
       default: day => day.date
@@ -137,12 +136,6 @@ export default {
      */
     getPageMonth () {
       return this.utils.getMonth(this.pageDate)
-    },
-    /**
-     * Emit an event to show the month picker
-     */
-    showMonthCalendar () {
-      this.$emit('showMonthCalendar')
     },
     /**
      * Whether a day is selected

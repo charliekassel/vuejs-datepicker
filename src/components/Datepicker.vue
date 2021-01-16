@@ -32,12 +32,10 @@
 
     <!-- Day View -->
     <picker-day-wrap
-      v-if="allowedToShowView('day')"
+      v-if="showDayView"
       :pageDate="pageDate"
       :selectedDate="selectedDate"
-      :showDayView="showDayView"
       :fullMonthName="fullMonthName"
-      :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDates"
       :highlighted="highlighted"
       :calendarClass="calendarClass"
@@ -50,62 +48,21 @@
       :use-utc="useUtc"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
-      @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day-wrap>
 
-    <!-- Month View -->
-    <picker-month
-      v-if="allowedToShowView('month')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showMonthView="showMonthView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectMonth="selectMonth"
-      @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-month>
-
-    <!-- Year View -->
-    <picker-year
-      v-if="allowedToShowView('year')"
-      :pageDate="pageDate"
-      :selectedDate="selectedDate"
-      :showYearView="showYearView"
-      :allowedToShowView="allowedToShowView"
-      :disabledDates="disabledDates"
-      :calendarClass="calendarClass"
-      :calendarStyle="calendarStyle"
-      :translation="translation"
-      :isRtl="isRtl"
-      :use-utc="useUtc"
-      @selectYear="selectYear"
-      @changedDecade="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
-    </picker-year>
   </div>
 </template>
 <script>
 import en from '../locale/translations/en'
 import DateInput from './DateInput.vue'
 import PickerDayWrap from './PickerDayWrap.vue'
-import PickerMonth from './PickerMonth.vue'
-import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
   components: {
     DateInput,
-    PickerDayWrap,
-    PickerMonth,
-    PickerYear
+    PickerDayWrap
   },
   props: {
     value: {
@@ -145,15 +102,7 @@ export default {
     disabled: Boolean,
     required: Boolean,
     typeable: Boolean,
-    useUtc: Boolean,
-    minimumView: {
-      type: String,
-      default: 'day'
-    },
-    maximumView: {
-      type: String,
-      default: 'year'
-    }
+    useUtc: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -176,8 +125,6 @@ export default {
        * {Boolean}
        */
       showDayView: false,
-      showMonthView: false,
-      showYearView: false,
       /*
        * Positioning
        */
@@ -192,19 +139,9 @@ export default {
     },
     openDate () {
       this.setPageDate()
-    },
-    initialView () {
-      this.setInitialView()
     }
   },
   computed: {
-    computedInitialView () {
-      if (!this.initialView) {
-        return this.minimumView
-      }
-
-      return this.initialView
-    },
     pageDate () {
       return new Date(this.pageTimestamp)
     },
@@ -219,7 +156,7 @@ export default {
       }
     },
     isOpen () {
-      return this.showDayView || this.showMonthView || this.showYearView
+      return this.showDayView
     },
     isInline () {
       return !!this.inline
@@ -257,69 +194,15 @@ export default {
      * Sets the initial picker page view: day, month or year
      */
     setInitialView () {
-      const initialView = this.computedInitialView
-      if (!this.allowedToShowView(initialView)) {
-        throw new Error(`initialView '${this.initialView}' cannot be rendered based on minimum '${this.minimumView}' and maximum '${this.maximumView}'`)
-      }
-      switch (initialView) {
-        case 'year':
-          this.showYearCalendar()
-          break
-        case 'month':
-          this.showMonthCalendar()
-          break
-        default:
-          this.showDayCalendar()
-          break
-      }
-    },
-    /**
-     * Are we allowed to show a specific picker view?
-     * @param {String} view
-     * @return {Boolean}
-     */
-    allowedToShowView (view) {
-      const views = ['day', 'month', 'year']
-      const minimumViewIndex = views.indexOf(this.minimumView)
-      const maximumViewIndex = views.indexOf(this.maximumView)
-      const viewIndex = views.indexOf(view)
-
-      return viewIndex >= minimumViewIndex && viewIndex <= maximumViewIndex
+      this.showDayCalendar();
     },
     /**
      * Show the day picker
      * @return {Boolean}
      */
     showDayCalendar () {
-      if (!this.allowedToShowView('day')) {
-        return false
-      }
       this.close()
       this.showDayView = true
-      return true
-    },
-    /**
-     * Show the month picker
-     * @return {Boolean}
-     */
-    showMonthCalendar () {
-      if (!this.allowedToShowView('month')) {
-        return false
-      }
-      this.close()
-      this.showMonthView = true
-      return true
-    },
-    /**
-     * Show the year picker
-     * @return {Boolean}
-     */
-    showYearCalendar () {
-      if (!this.allowedToShowView('year')) {
-        return false
-      }
-      this.close()
-      this.showYearView = true
       return true
     },
     /**
@@ -358,32 +241,6 @@ export default {
      */
     selectDisabledDate (date) {
       this.$emit('selectedDisabled', date)
-    },
-    /**
-     * @param {Object} month
-     */
-    selectMonth (month) {
-      const date = new Date(month.timestamp)
-      if (this.allowedToShowView('day')) {
-        this.setPageDate(date)
-        this.$emit('changedMonth', month)
-        this.showDayCalendar()
-      } else {
-        this.selectDate(month)
-      }
-    },
-    /**
-     * @param {Object} year
-     */
-    selectYear (year) {
-      const date = new Date(year.timestamp)
-      if (this.allowedToShowView('month')) {
-        this.setPageDate(date)
-        this.$emit('changedYear', year)
-        this.showMonthCalendar()
-      } else {
-        this.selectDate(year)
-      }
     },
     /**
      * Set the datepicker value
@@ -433,7 +290,7 @@ export default {
      * @param {Boolean} emitEvent - emit close event
      */
     close (emitEvent) {
-      this.showDayView = this.showMonthView = this.showYearView = false
+      this.showDayView = false
       if (!this.isInline) {
         if (emitEvent) {
           this.$emit('closed')
