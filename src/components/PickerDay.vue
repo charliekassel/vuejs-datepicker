@@ -9,15 +9,13 @@
       <template v-if="blankDays > 0">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
-      --><span class="cell day"
+      --><template
           v-for="day in days"
-          :key="day.timestamp"
-          :class="dayClasses(day)"
           @click="selectDate(day)">
-            <slot name="dayCellContent" :day="day">
-              {{day.date}}
+            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)">
+              <span :class="dayClasses(day)">{{day.date}}</span>
             </slot>
-          </span>
+          </template>
     </div>
   </div>
 </template>
@@ -237,6 +235,8 @@ export default {
     },
     dayClasses (day) {
       return {
+        'cell': true,
+        'day': true,
         'selected': day.isSelected,
         'disabled': day.isDisabled,
         'highlighted': day.isHighlighted,

@@ -1,7 +1,7 @@
 <template>
   <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
-    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="toggleCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
+    <span v-if="calendarButton" class="dvdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="toggleCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
       <span :class="{'input-group-text' : bootstrapStyling}">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
@@ -30,7 +30,7 @@
       v-on:keydown.tab="closeCalendar"
       autocomplete="off">
     <!-- Clear Button -->
-    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
+    <span v-if="clearButton && selectedDate" class="dvdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
       <span :class="{'input-group-text' : bootstrapStyling}">
         <i :class="clearButtonIcon">
           <span v-if="!clearButtonIcon">&times;</span>

@@ -223,35 +223,19 @@
       </code>
     </div>
 
-    <div class="example">
-      <h3>Custom date content slot</h3>
-      <datepicker>
-        <template v-slot:dayCellContent="{day}">
-          H{{day.date}}
-        </template>
-      </datepicker>
-
-      <code v-pre>
-        &lt;datepicker :rows="'2'" :cols="'1'"&gt;<br/>
-          &nbsp;&nbsp;&nbsp;&lt;template v-slot:dayCellContent="{day}"&gt;<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H{{day.date}}<br/>
-          &nbsp;&nbsp;&nbsp;&lt;/template&gt;<br/>
-        &lt;/datepicker&gt;
-      </code>
-    </div>
 
     <div class="example">
       <h3>Custom date content slot</h3>
       <datepicker>
-        <template v-slot:dayCellContent="{day}">
-          H{{day.date}}
+        <template v-slot:dayCellContent="{day, classes}">
+          <span :class="classes">H{{day.date}}</span>
         </template>
       </datepicker>
 
       <code v-pre>
         &lt;datepicker&gt;<br/>
-          &nbsp;&nbsp;&nbsp;&lt;template v-slot:dayCellContent="{day}"&gt;<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H{{day.date}}<br/>
+          &nbsp;&nbsp;&nbsp;&lt;template v-slot:dayCellContent="{day, classes}"&gt;<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span :class="classes"&gt;H{{day.date}}&lt;/span&gt;<br/>
           &nbsp;&nbsp;&nbsp;&lt;/template&gt;<br/>
         &lt;/datepicker&gt;
       </code>
