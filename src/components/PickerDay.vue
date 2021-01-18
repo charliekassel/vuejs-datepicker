@@ -13,8 +13,11 @@
           v-for="day in days"
           :key="day.timestamp"
           :class="dayClasses(day)"
-          v-html="dayCellContent(day)"
-          @click="selectDate(day)"></span>
+          @click="selectDate(day)">
+            <slot name="dayCellContent" :day="day">
+              {{day.date}}
+            </slot>
+          </span>
     </div>
   </div>
 </template>
@@ -26,10 +29,6 @@ export default {
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
-    dayCellContent: {
-      type: Function,
-      default: day => day.date
-    },
     disabledDates: Object,
     highlighted: Object,
     translation: Object,

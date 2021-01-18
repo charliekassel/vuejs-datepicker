@@ -46,7 +46,6 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
-      :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       :cols="cols"
       :rows="rows"
@@ -54,6 +53,7 @@
       @selectDate="selectDate"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
     </picker-day-wrap>
 
   </div>
@@ -87,7 +87,6 @@ export default {
     openDate: {
       validator: val => utils.validateDateInput(val)
     },
-    dayCellContent: Function,
     fullMonthName: Boolean,
     disabledDates: Object,
     highlighted: Object,

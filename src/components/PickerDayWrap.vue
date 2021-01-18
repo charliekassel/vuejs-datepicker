@@ -25,12 +25,12 @@
           :translation="translation"
           :isRtl="isRtl"
           :mondayFirst="mondayFirst"
-          :dayCellContent="dayCellContent"
           :use-utc="useUtc"
           @changedMonth="handleChangedMonthFromDayPicker"
           @selectDate="selectDate"
           @selectedDisabled="selectDisabledDate">
-          <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+          <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
+
           <template v-slot:monthes-select>
             <select class="monthes-select" v-model="month.selectedOption" @change="onSelectChange(month)" tabindex="-1" @mousedown.stop>
               <template v-for="(value, name) in monthesSelectOptions">
@@ -67,10 +67,6 @@ export default {
     pageTimestamp: Number,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    dayCellContent: {
-      type: Function,
-      default: day => day.date
-    },
     useUtc: Boolean,
     cols: Number,
     rows: Number
