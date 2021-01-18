@@ -32,10 +32,13 @@
           @selectedDisabled="selectDisabledDate">
           <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
           <template v-slot:monthes-select>
-            <select @click>
-              <option v-for="option in monthesSelectOptions" v-bind:key="option">
-                {{option}}
-              </option>
+            <select v-model="month.selectedOption" @change="onSelectChange(month)" @mousedown.stop>
+              <template v-for="(value, name) in monthesSelectOptions">
+                <option disabled>{{name}}</option>
+                <option v-for="option in value" v-bind:key="option.key" :value="option.key">
+                  {{option.name}}
+                </option>
+              </template>
             </select>
           </template>
         </picker-day>
@@ -75,13 +78,12 @@ export default {
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
-      utils: constructedDateUtils,
-      monthesSelectOptions: []
+      utils: constructedDateUtils
     }
   },
   computed: {
+    //Отображаемые блоки с месяцами
     months () {
-      this.monthesSelectOptions.length = 0;
       const d = this.pageDate
       let months = []
       // set up a new date object to the beginning of the current 'page'
@@ -93,15 +95,73 @@ export default {
         let timeStamp = dObj.getTime();
         months.push({
           pageDate: new Date(timeStamp),
-          timestamp: timeStamp
-          //isSelected: this.isSelectedMonth(dObj),
-          //isDisabled: this.isDisabledMonth(dObj),
+          timestamp: timeStamp,
+          selectedOption: this.utils.getFullYear(dObj) + '-' + this.utils.getMonth(dObj)
         })
-        this.monthesSelectOptions.push(timeStamp)
         this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1)
       }
       return months
     },
+    //Опции для select-бокса выбора месяца
+    monthesSelectOptions(){
+      const d = this.pageDate;
+
+      const maxMonthesInSelect = 13;
+
+
+      var getOption = (date) => {
+        let month = this.utils.getMonth(date);
+        let year = this.utils.getFullYear(date);
+        return {
+          name: this.utils.getMonthName(month, this.translation.months),
+          year: year,
+          month: month,
+          key: year + '-' + month
+        };
+      }
+
+      let months = [];
+
+      let dBackwardObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
+        : new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
+      let dTowardObs = new Date(dBackwardObj.getTime());
+
+      //Бежим по датам "назад"
+      const disabledToMonthTime = this.disabledDates && this.disabledDates.to 
+        ? this.utils.getUtcMonthDate(this.disabledDates.to).getTime()
+        : undefined;
+      for (let i = 0; i < maxMonthesInSelect; i++) {
+        this.utils.setMonth(dBackwardObj, this.utils.getMonth(dBackwardObj) - 1);
+        //Is date Disabled
+        if (disabledToMonthTime && this.utils.getUtcMonthDate(dBackwardObj).getTime() < disabledToMonthTime) 
+          break;
+        months.unshift(getOption(dBackwardObj));
+      }
+
+      //Добавляем текущий месяц
+      months.push(getOption(d));
+
+      //Бежим по датам "туда"
+      const disabledFromMonthTime = this.disabledDates && this.disabledDates.from 
+        ? this.utils.getUtcMonthDate(this.disabledDates.from).getTime()
+        : undefined;
+      for (let i = 0; i < maxMonthesInSelect; i++) {
+        this.utils.setMonth(dTowardObs, this.utils.getMonth(dTowardObs) + 1);
+        //Is date Disabled
+        if (disabledFromMonthTime && this.utils.getUtcMonthDate(dTowardObs).getTime() < disabledFromMonthTime) 
+          break;
+        months.push(getOption(dTowardObs));
+      }
+   
+      //group by year
+      let group = months.reduce((r, a) => {
+        r[a.year] = [...r[a.year] || [], a];
+        return r;
+      }, {});
+      return group;
+    },
+
 
     /**
      * Is the left hand navigation button disabled?
@@ -199,6 +259,28 @@ export default {
       let date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
       this.$emit('changedMonth', date)
+    },
+    //При смене значения селектбокса
+    onSelectChange (month){
+      let data = this.monthesSelectOptions;
+      let option;
+      for (const year in data){
+        option = data[year].find(x=> x.key == month.selectedOption);
+        if (option) break;
+      }
+      if (!option) return;
+      
+      //Текущий месяц в календаре
+      let d1 = new Date(month.pageDate.getTime());
+      d1.setUTCHours(0, 0, 0, 0)
+      //Выбранный месяц
+      let d2 = new Date(Date.UTC(option.year, option.month, 1));
+
+      //Считаем разницу в месяцах между датами
+      let diffInMonthes = (d2.getFullYear() - d1.getFullYear()) * 12;
+      diffInMonthes -= d1.getMonth();
+      diffInMonthes += d2.getMonth();
+      this.changeMonth(diffInMonthes);
     }
   },
 }

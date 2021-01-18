@@ -135,8 +135,8 @@ export default {
         this.input.value = null
         this.typedDate = null
       }
-
-      this.$emit('closeCalendar')
+      //More blur event to parent element
+      //this.$emit('closeCalendar')
     },
     /**
      * emit a clearDate event
