@@ -10,10 +10,9 @@
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><template
-          v-for="day in days"
-          @click="selectDate(day)">
-            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)">
-              <span :class="dayClasses(day)">{{day.date}}</span>
+          v-for="day in days">
+            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)" :dayEvents="{click: function(){selectDate(day)}}">
+              <span :class="dayClasses(day)" @click="selectDate(day)">{{day.date}}</span>
             </slot>
           </template>
     </div>

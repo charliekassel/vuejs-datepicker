@@ -145,7 +145,7 @@ export default {
       for (let i = 0; i < maxMonthesInSelect; i++) {
         this.utils.setMonth(dTowardObs, this.utils.getMonth(dTowardObs) + 1);
         //Is date Disabled
-        if (disabledFromMonthTime && this.utils.getUtcMonthDate(dTowardObs).getTime() < disabledFromMonthTime) 
+        if (disabledFromMonthTime && this.utils.getUtcMonthDate(dTowardObs).getTime() > disabledFromMonthTime) 
           break;
         months.push(getOption(dTowardObs));
       }
