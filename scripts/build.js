@@ -37,8 +37,8 @@ export default [{
     name: 'vuejsDatepicker'
   },
   plugins: [
-    vue({css: true}),
-    postcss({plugins: [autoprefixer()]}),
+    vue({css: false}),
+    postcss({extract:true, plugins: [autoprefixer()]}),
     commonjs(),
     terser(),
     babel({exclude: 'node_modules/**'})
