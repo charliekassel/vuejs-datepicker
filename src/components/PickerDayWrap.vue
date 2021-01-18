@@ -32,7 +32,7 @@
           @selectedDisabled="selectDisabledDate">
           <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
           <template v-slot:monthes-select>
-            <select v-model="month.selectedOption" @change="onSelectChange(month)" @mousedown.stop>
+            <select class="monthes-select" v-model="month.selectedOption" @change="onSelectChange(month)" tabindex="-1" @mousedown.stop>
               <template v-for="(value, name) in monthesSelectOptions">
                 <option disabled>{{name}}</option>
                 <option v-for="option in value" v-bind:key="option.key" :value="option.key">

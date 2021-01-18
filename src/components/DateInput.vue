@@ -1,7 +1,7 @@
 <template>
   <div :class="{'input-group' : bootstrapStyling}">
     <!-- Calendar Button -->
-    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
+    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="toggleCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
       <span :class="{'input-group-text' : bootstrapStyling}">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
@@ -23,9 +23,11 @@
       :disabled="disabled"
       :required="required"
       :readonly="!typeable"
-      @click="showCalendar"
+      @click="toggleCalendar"
       @keyup="parseTypedDate"
+      @focus="inputFocused"
       @blur="inputBlurred"
+      v-on:keydown.tab="closeCalendar"
       autocomplete="off">
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
@@ -62,7 +64,8 @@ export default {
     required: Boolean,
     typeable: Boolean,
     bootstrapStyling: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    showDayView: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -101,8 +104,11 @@ export default {
     }
   },
   methods: {
-    showCalendar () {
-      this.$emit('showCalendar')
+    toggleCalendar () {
+      this.$emit('toggleCalendar')
+    },
+    closeCalendar () {
+      this.$emit('closeCalendar')
     },
     /**
      * Attempt to parse a typed date
@@ -134,9 +140,14 @@ export default {
         this.clearDate()
         this.input.value = null
         this.typedDate = null
+        this.$emit('closeCalendar')
       }
-      //More blur event to parent element
-      //this.$emit('closeCalendar')
+    },
+    inputFocused () {
+      let it = this;
+      setTimeout(function(){
+        if (!it.showDayView) it.$emit('showCalendar');
+      }, 100);
     },
     /**
      * emit a clearDate event

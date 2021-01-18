@@ -5,6 +5,8 @@
     text-align left
     *
         box-sizing border-box
+    &:focus
+        background red
 
 .vdp-datepicker__calendar
     position absolute
@@ -18,6 +20,10 @@
     header
         display block
         line-height 40px
+        position relative
+        &.navigation
+            position static
+            
         span
             display inline-block
             text-align center
@@ -25,6 +31,16 @@
             float left
             &.day__month_btn
                 width 100%
+                float none
+        
+        .monthes-select
+            position absolute
+            left 0
+            right 0
+            top 0
+            bottom 0
+            opacity 0
+
 
 
 

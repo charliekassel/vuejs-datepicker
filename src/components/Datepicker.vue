@@ -1,5 +1,5 @@
 <template>
-  <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']" tabindex="-1" @blur="close">
+  <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
@@ -22,7 +22,9 @@
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
+      :showDayView="showDayView"
       @showCalendar="showCalendar"
+      @toggleCalendar="toggleCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
@@ -61,6 +63,7 @@ import en from '../locale/translations/en'
 import DateInput from './DateInput.vue'
 import PickerDayWrap from './PickerDayWrap.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
+let clickOutsideEvent;
 export default {
   components: {
     DateInput,
@@ -192,13 +195,24 @@ export default {
      * Effectively a toggle to show/hide the calendar
      * @return {mixed}
      */
-    showCalendar () {
+    toggleCalendar () {
       if (this.disabled || this.isInline) {
         return false
       }
       if (this.isOpen) {
         return this.close(true)
       }
+      this.setInitialView()
+    },
+    /**
+     * Effectively a toggle to show/hide the calendar
+     * @return {mixed}
+     */
+    showCalendar () {
+      if (this.disabled || this.isInline) {
+        return false
+      }
+      if (this.isOpen) return;
       this.setInitialView()
     },
     /**
@@ -323,7 +337,23 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    this.init();
+    if (!this.isInline) {
+      clickOutsideEvent = (event) => {
+        // here I check that click was outside the el and his children
+        if (!(this.$el == event.target || this.$el.contains(event.target))) {
+          if (this.isOpen){
+            this.close();
+          }
+        }
+      };
+      document.body.addEventListener('click', clickOutsideEvent);
+    }
+  },
+  destroyed (){
+    if (!this.isInline) {
+      document.removeEventListener('click', clickOutsideEvent);
+    }
   }
 }
 // eslint-disable-next-line
