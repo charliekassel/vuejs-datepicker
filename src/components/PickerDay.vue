@@ -243,7 +243,7 @@ export default {
         'day': true,
         'selected': day.isSelected,
         'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
+        'highlighted': day.isHighlighted || day.isHighlightStart || day.isHighlightEnd,
         'today': day.isToday,
         'weekend': day.isWeekend,
         'sat': day.isSaturday,
@@ -259,7 +259,7 @@ export default {
      * @return {Boolean}
      */
     isHighlightStart (date) {
-      return this.isHighlightedDate(date) &&
+      return this.highlighted &&
         (this.highlighted.from instanceof Date) &&
         (this.utils.getFullYear(this.highlighted.from) === this.utils.getFullYear(date)) &&
         (this.utils.getMonth(this.highlighted.from) === this.utils.getMonth(date)) &&
@@ -272,7 +272,7 @@ export default {
      * @return {Boolean}
      */
     isHighlightEnd (date) {
-      return this.isHighlightedDate(date) &&
+      return this.highlighted &&
         (this.highlighted.to instanceof Date) &&
         (this.utils.getFullYear(this.highlighted.to) === this.utils.getFullYear(date)) &&
         (this.utils.getMonth(this.highlighted.to) === this.utils.getMonth(date)) &&
