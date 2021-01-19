@@ -161,15 +161,16 @@
 
     <div class="example">
       <h3>With default open date</h3>
-      <datepicker :open-date="openDate"></datepicker>
+      <datepicker :open-date="openDate" @changePage="changePage"></datepicker>
+      <datepicker :open-date="openDate" @changePage="changePage"></datepicker>
       <code>
-        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :open-date="openDate"  @changePage="changePage"&gt;&lt;/datepicker&gt;
       </code>
       <div class="settings">
         <h5>Settings</h5>
         <div class="form-group">
           <label>Open date:</label>
-          <datepicker v-model="openDate"></datepicker>
+          <datepicker @input="changeOpendate"></datepicker>
         </div>
         <pre>openDate: {{ openDate }}</pre>
       </div>
@@ -369,6 +370,12 @@ export default {
         }
       }
       this.disabledDates.from = val
+    },
+    changePage (pageTimestamp){
+      this.openDate = pageTimestamp;
+    },
+    changeOpendate(date){
+      this.openDate = date.getTime();
     }
   }
 }

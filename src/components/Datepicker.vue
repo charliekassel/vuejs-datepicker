@@ -84,9 +84,7 @@ export default {
       type: Object,
       default: () => en
     },
-    openDate: {
-      validator: val => utils.validateDateInput(val)
-    },
+    openDate: Number,
     fullMonthName: Boolean,
     disabledDates: Object,
     highlighted: Object,
@@ -151,6 +149,9 @@ export default {
     },
     openDate () {
       this.setPageDate()
+    },
+    pageTimestamp:  function(newVal, oldVal){
+      this.$emit('changePage', newVal);
     }
   },
   computed: {
