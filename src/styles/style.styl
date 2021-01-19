@@ -25,11 +25,9 @@
             position static
             
         span
-            display inline-block
             text-align center
-            width (100 - (100/7)*2)%
-            float left
             &.day__month_btn
+                display inline-block
                 width 100%
                 float none
         
@@ -128,6 +126,10 @@
             background #cae5ed
             &.disabled
                 color: #a3a3a3
+            &.highlight-start
+                background #4bd
+            &.highlight-end
+                background #4bd
         &.grey
             color #888
 
@@ -150,8 +152,8 @@
         display grid
 
     .calendar
-        width 300px
-        padding 0 20px
+        width 310px
+        padding 5px 20px
 
 .dvdp-datepicker__clear-button
 .dvdp-datepicker__calendar-button

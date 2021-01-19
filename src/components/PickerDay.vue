@@ -1,7 +1,9 @@
 <template>
   <div>
     <header>
-      <span class="day__month_btn">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      <span class="day__month_btn">
+        <span>{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      </span>
       <slot name="monthes-select"></slot>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
