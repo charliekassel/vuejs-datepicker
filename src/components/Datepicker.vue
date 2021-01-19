@@ -283,7 +283,9 @@ export default {
         return
       }
       this.selectedDate = date
-      this.setPageDate(date)
+      //Не меняем дату страницы, если установлена общая дата страницы (для нескольких календарей)
+      if (!this.openDate) 
+        this.setPageDate(date)
     },
     /**
      * Sets the date that the calendar should open on
