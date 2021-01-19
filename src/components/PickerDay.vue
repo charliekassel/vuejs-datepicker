@@ -2,7 +2,10 @@
   <div>
     <header>
       <span class="day__month_btn">
-        <span>{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+        <span>
+          {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
+          <svg width="6" height="9" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4l1-1-3-3-3 3 1 1 2-2 2 2zM1 5L0 6l3 3 3-3-1-1-2 2-2-2z" fill="currentColor"></path></svg>
+        </span>
       </span>
       <slot name="monthes-select"></slot>
     </header>
