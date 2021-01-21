@@ -249,6 +249,10 @@ const utils = {
    */
   getUtcMonthDate (val) {
     return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), 1));
+  },
+  intlFormatter: new Intl.DateTimeFormat('ru-Ru'),
+  dateTimeToString (val){
+    return this.intlFormatter.format(val);
   }
 }
 

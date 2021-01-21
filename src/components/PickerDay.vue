@@ -85,7 +85,7 @@ export default {
       let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
       for (let i = 0; i < daysInMonth; i++) {
         days.push({
-          key: dObj.toDateString(),
+          key: this.utils.dateTimeToString(dObj),
           date: this.utils.getDate(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
