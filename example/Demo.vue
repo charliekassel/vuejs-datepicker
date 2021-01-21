@@ -161,15 +161,16 @@
 
     <div class="example">
       <h3>With default open date</h3>
-      <datepicker :open-date="openDate"></datepicker>
+      <datepicker :open-date="openDate" @changePage="changePage"></datepicker>
+      <datepicker :open-date="openDate" @changePage="changePage"></datepicker>
       <code>
-        &lt;datepicker :disabled="disabled"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :open-date="openDate"  @changePage="changePage"&gt;&lt;/datepicker&gt;
       </code>
       <div class="settings">
         <h5>Settings</h5>
         <div class="form-group">
           <label>Open date:</label>
-          <datepicker v-model="openDate"></datepicker>
+          <datepicker @input="changeOpendate"></datepicker>
         </div>
         <pre>openDate: {{ openDate }}</pre>
       </div>
@@ -206,43 +207,55 @@
       </code>
     </div>
 
+
     <div class="example">
-      <h3>Day view only</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'"></datepicker>
+      <h3>Custom columns count</h3>
+      <datepicker :cols="3"></datepicker>
       <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :cols="'3'" &gt;&lt;/datepicker&gt;
       </code>
     </div>
 
     <div class="example">
-      <h3>Day view only RTL</h3>
-      <datepicker :minimumView="'day'" :maximumView="'day'" :language="languages.he"></datepicker>
+      <h3>Custom rows count</h3>
+      <datepicker :rows="2" :cols="1"></datepicker>
       <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'day'" language="languages.he"&gt;&lt;/datepicker&gt;
+        &lt;datepicker :rows="'2'" :cols="'1'" &gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+
+    <div class="example">
+      <h3>Custom date content slot</h3>
+      <datepicker>
+        <template v-slot:dayCellContent="{day, classes, dayEvents}">
+          <span :class="classes" v-on="dayEvents">H{{day.date}}</span>
+        </template>
+      </datepicker>
+
+      <code v-pre>
+        &lt;datepicker&gt;<br/>
+          &nbsp;&nbsp;&nbsp;&lt;template v-slot:dayCellContent="{day, classes, dayEvents}"&gt;<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span :class="classes" v-on="dayEvents"&gt;H{{day.date}}&lt;/span&gt;<br/>
+          &nbsp;&nbsp;&nbsp;&lt;/template&gt;<br/>
+        &lt;/datepicker&gt;
       </code>
     </div>
 
     <div class="example">
-      <h3>Month view only</h3>
-      <datepicker :minimumView="'month'" :maximumView="'month'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'month'" :maximumView="'month'"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
+      <h3>Before calendar header slot</h3>
+      <datepicker>
+        <template v-slot:beforeCalendarHeader>
+          Hello world
+        </template>
+      </datepicker>
 
-    <div class="example">
-      <h3>Day and month view only</h3>
-      <datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'day'" :maximumView="'month'" :initialView="'month'"&gt;&lt;/datepicker&gt;
-      </code>
-    </div>
-
-    <div class="example">
-      <h3>Year and month view only</h3>
-      <datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"></datepicker>
-      <code>
-        &lt;datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"&gt;&lt;/datepicker&gt;
+      <code v-pre>
+        &lt;datepicker&gt;<br/>
+          &nbsp;&nbsp;&nbsp;&lt;template v-slot:beforeCalendarHeader&gt;<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hello world<br/>
+          &nbsp;&nbsp;&nbsp;&lt;/template&gt;<br/>
+        &lt;/datepicker&gt;
       </code>
     </div>
 
@@ -357,6 +370,12 @@ export default {
         }
       }
       this.disabledDates.from = val
+    },
+    changePage (pageTimestamp){
+      this.openDate = pageTimestamp;
+    },
+    changeOpendate(date){
+      this.openDate = date.getTime();
     }
   }
 }
@@ -377,9 +396,6 @@ input, select {
     width: 100%
 }
 
-select {
-    height: 2.5em;
-}
 
 .example {
     background: #f2f2f2;

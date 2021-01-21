@@ -1,32 +1,68 @@
 .rtl
     direction rtl
-.vdp-datepicker
+.dvdp-datepicker
     position relative
     text-align left
     *
         box-sizing border-box
+    &:focus
+        background red
 
-.vdp-datepicker__calendar
+.dvdp-datepicker__calendar
     position absolute
     z-index 100
     background white
-    width 300px
     border 1px solid #ccc
+    width max-content
+    height max-content
+    user-select none
+
     header
         display block
         line-height 40px
+        position relative
+        &.navigation
+            position static
+            
         span
-            display inline-block
             text-align center
-            width (100 - (100/7)*2)%
-            float left
+            &.day__month_btn
+                display inline-block
+                width 100%
+                float none
+        
+        .monthes-select
+            position absolute
+            left 0
+            right 0
+            top 0
+            bottom 0
+            opacity 0
+            width 100%
+            cursor pointer
+
+
+
 
         .prev
         .next
-            width (100/7)%
-            float left
-            text-indent -10000px
-            position relative
+            width auto
+            position absolute
+            float none
+            background #fff
+            border-radius 50%
+            border 1px solid #0c73fe
+            width 40px
+            height 40px
+            // top 50%
+            // сделан четкий отступ в пикселях что бы при переключении кнопки не прыгали по высоте
+            top 150px 
+            left -20px
+            margin-top -20px
+            
+            &.disabled
+                border-color #dcdcdc
+
             &:after
                 content ''
                 position absolute
@@ -34,6 +70,9 @@
                 top 50%
                 transform translateX(-50%) translateY(-50%)
                 border 6px solid transparent
+        .next
+            left auto
+            right -20px
 
         .prev
             &:after
@@ -88,6 +127,10 @@
             background #cae5ed
             &.disabled
                 color: #a3a3a3
+            &.highlight-start
+                background #4bd
+            &.highlight-end
+                background #4bd
         &.grey
             color #888
 
@@ -106,8 +149,15 @@
     .year
         width 33.333%
 
-.vdp-datepicker__clear-button
-.vdp-datepicker__calendar-button
+    .monthes-grid
+        display grid
+
+    .calendar
+        width 310px
+        padding 5px 20px
+
+.dvdp-datepicker__clear-button
+.dvdp-datepicker__calendar-button
     cursor pointer
     font-style normal
     &.disabled

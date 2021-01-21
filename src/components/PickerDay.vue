@@ -1,28 +1,25 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
-    <slot name="beforeCalendarHeader"></slot>
+  <div>
     <header>
-      <span
-        @click="isRtl ? nextMonth() : previousMonth()"
-        class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
-      <span
-        @click="isRtl ? previousMonth() : nextMonth()"
-        class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+      <span class="day__month_btn">
+        <span>
+          {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
+          <svg width="6" height="9" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4l1-1-3-3-3 3 1 1 2-2 2 2zM1 5L0 6l3 3 3-3-1-1-2 2-2-2z" fill="currentColor"></path></svg>
+        </span>
+      </span>
+      <slot name="monthes-select"></slot>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
       <template v-if="blankDays > 0">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
-      --><span class="cell day"
-          v-for="day in days"
-          :key="day.timestamp"
-          :class="dayClasses(day)"
-          v-html="dayCellContent(day)"
-          @click="selectDate(day)"></span>
+      --><template
+          v-for="day in days">
+            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)" :dayEvents="{click: function(){selectDate(day)}}">
+              <span :class="dayClasses(day)" @click="selectDate(day)">{{day.date}}</span>
+            </slot>
+          </template>
     </div>
   </div>
 </template>
@@ -30,20 +27,12 @@
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
-    showDayView: Boolean,
     selectedDate: Date,
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
-    allowedToShowView: Function,
-    dayCellContent: {
-      type: Function,
-      default: day => day.date
-    },
     disabledDates: Object,
     highlighted: Object,
-    calendarClass: [String, Object, Array],
-    calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
@@ -96,6 +85,7 @@ export default {
       let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
       for (let i = 0; i < daysInMonth; i++) {
         days.push({
+          key: this.utils.dateTimeToString(dObj),
           date: this.utils.getDate(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
@@ -134,24 +124,6 @@ export default {
      */
     isYmd () {
       return this.translation.ymd && this.translation.ymd === true
-    },
-    /**
-     * Is the left hand navigation button disabled?
-     * @return {Boolean}
-     */
-    isLeftNavDisabled () {
-      return this.isRtl
-        ? this.isNextMonthDisabled(this.pageTimestamp)
-        : this.isPreviousMonthDisabled(this.pageTimestamp)
-    },
-    /**
-     * Is the right hand navigation button disabled?
-     * @return {Boolean}
-     */
-    isRightNavDisabled () {
-      return this.isRtl
-        ? this.isPreviousMonthDisabled(this.pageTimestamp)
-        : this.isNextMonthDisabled(this.pageTimestamp)
     }
   },
   methods: {
@@ -167,61 +139,6 @@ export default {
      */
     getPageMonth () {
       return this.utils.getMonth(this.pageDate)
-    },
-    /**
-     * Emit an event to show the month picker
-     */
-    showMonthCalendar () {
-      this.$emit('showMonthCalendar')
-    },
-    /**
-     * Change the page month
-     * @param {Number} incrementBy
-     */
-    changeMonth (incrementBy) {
-      let date = this.pageDate
-      this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
-      this.$emit('changedMonth', date)
-    },
-    /**
-     * Decrement the page month
-     */
-    previousMonth () {
-      if (!this.isPreviousMonthDisabled()) {
-        this.changeMonth(-1)
-      }
-    },
-    /**
-     * Is the previous month disabled?
-     * @return {Boolean}
-     */
-    isPreviousMonthDisabled () {
-      if (!this.disabledDates || !this.disabledDates.to) {
-        return false
-      }
-      let d = this.pageDate
-      return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
-        this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d)
-    },
-    /**
-     * Increment the current page month
-     */
-    nextMonth () {
-      if (!this.isNextMonthDisabled()) {
-        this.changeMonth(+1)
-      }
-    },
-    /**
-     * Is the next month disabled?
-     * @return {Boolean}
-     */
-    isNextMonthDisabled () {
-      if (!this.disabledDates || !this.disabledDates.from) {
-        return false
-      }
-      let d = this.pageDate
-      return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
-        this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
     /**
      * Whether a day is selected
@@ -323,9 +240,11 @@ export default {
     },
     dayClasses (day) {
       return {
+        'cell': true,
+        'day': true,
         'selected': day.isSelected,
         'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
+        'highlighted': day.isHighlighted || day.isHighlightStart || day.isHighlightEnd,
         'today': day.isToday,
         'weekend': day.isWeekend,
         'sat': day.isSaturday,
@@ -341,7 +260,7 @@ export default {
      * @return {Boolean}
      */
     isHighlightStart (date) {
-      return this.isHighlightedDate(date) &&
+      return this.highlighted &&
         (this.highlighted.from instanceof Date) &&
         (this.utils.getFullYear(this.highlighted.from) === this.utils.getFullYear(date)) &&
         (this.utils.getMonth(this.highlighted.from) === this.utils.getMonth(date)) &&
@@ -354,7 +273,7 @@ export default {
      * @return {Boolean}
      */
     isHighlightEnd (date) {
-      return this.isHighlightedDate(date) &&
+      return this.highlighted &&
         (this.highlighted.to instanceof Date) &&
         (this.utils.getFullYear(this.highlighted.to) === this.utils.getFullYear(date)) &&
         (this.utils.getMonth(this.highlighted.to) === this.utils.getMonth(date)) &&

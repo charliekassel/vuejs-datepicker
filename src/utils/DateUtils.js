@@ -240,6 +240,19 @@ const utils = {
    */
   validateDateInput (val) {
     return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+  },
+
+  /**
+   * Return new Date object without day of month and without time
+   * @param {*} val
+   * @return {Boolean}
+   */
+  getUtcMonthDate (val) {
+    return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), 1));
+  },
+  intlFormatter: new Intl.DateTimeFormat('ru-Ru'),
+  dateTimeToString (val){
+    return this.intlFormatter.format(val);
   }
 }
 
