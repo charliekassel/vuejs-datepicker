@@ -24,12 +24,8 @@
         &.navigation
             position static
             
-        span
+        .day__month_btn
             text-align center
-            &.day__month_btn
-                display inline-block
-                width 100%
-                float none
         
         .monthes-select
             position absolute
@@ -46,56 +42,40 @@
 
         .prev
         .next
-            width auto
             position absolute
-            float none
             background #fff
             border-radius 50%
-            border 1px solid #0c73fe
+            border 1px solid #cccccc
+            display flex
             width 40px
             height 40px
-            // top 50%
-            // сделан четкий отступ в пикселях что бы при переключении кнопки не прыгали по высоте
             top 150px 
-            left -20px
-            margin-top -20px
             
             &.disabled
                 border-color #dcdcdc
 
-            &:after
-                content ''
-                position absolute
-                left 50%
-                top 50%
-                transform translateX(-50%) translateY(-50%)
-                border 6px solid transparent
-        .next
-            left auto
-            right -20px
-
         .prev
-            &:after
-                border-right 10px solid #000
-                margin-left -5px
-            &.disabled:after
-                border-right 10px solid #ddd
         .next
-            &:after
-                border-left 10px solid #000
-                margin-left 5px
-            &.disabled:after
-                border-left 10px solid #ddd
+            &.disabled path
+                fill #ddd
+            svg
+                margin auto
+        .prev
+            left -20px
+            svg
+                transform translateX(-1px)
+        .next
+            right -20px
+            svg
+                transform translateX(1px)
 
         .prev:not(.disabled)
         .next:not(.disabled)
-        .up:not(.disabled)
             cursor pointer
             &:hover
-                background #eee
+                border-color #4bd
 
     .disabled
-        color #ddd
         cursor default
     .flex-rtl
         display flex

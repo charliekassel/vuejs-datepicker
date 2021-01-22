@@ -3,15 +3,19 @@
         :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header class="navigation">
-      <span
+      <div
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
+        :class="{'disabled': isLeftNavDisabled}">
+          <svg width="11" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.7,15.8 3.9,9 10.7,2.2 8.9,0.4 0.3,9 8.9,17.6z" fill="currentColor"></path></svg>
+        </div>
       
-      <span
+      <div
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">
+          <svg width="11" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.3,2.2 7.1,9 0.3,15.8 2.1,17.6 10.7,9 2.1,0.4z" fill="currentColor"></path></svg>
+        </div>
     </header>
     <div class="monthes-grid" :style="gridStyle">
       <div class="calendar" v-for="month in months" :key="month.timestamp">
