@@ -30,6 +30,7 @@
           :isRtl="isRtl"
           :mondayFirst="mondayFirst"
           :use-utc="useUtc"
+          :show-monthes-select="showMonthesSelect"
           @changedMonth="handleChangedMonthFromDayPicker"
           @selectDate="selectDate"
           @selectedDisabled="selectDisabledDate">
@@ -73,7 +74,8 @@ export default {
     mondayFirst: Boolean,
     useUtc: Boolean,
     cols: Number,
-    rows: Number
+    rows: Number,
+    showMonthesSelect: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)

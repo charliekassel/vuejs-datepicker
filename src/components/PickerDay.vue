@@ -3,9 +3,9 @@
     <header>
       <div class="day__month_btn">
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
-        <svg width="6" height="9" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4l1-1-3-3-3 3 1 1 2-2 2 2zM1 5L0 6l3 3 3-3-1-1-2 2-2-2z" fill="currentColor"></path></svg>
+        <svg v-if="showMonthesSelect" width="6" height="9" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4l1-1-3-3-3 3 1 1 2-2 2 2zM1 5L0 6l3 3 3-3-1-1-2 2-2-2z" fill="currentColor"></path></svg>
       </div>
-      <slot name="monthes-select"></slot>
+      <slot name="monthes-select" v-if="showMonthesSelect"></slot>
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
@@ -34,7 +34,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    showMonthesSelect: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)

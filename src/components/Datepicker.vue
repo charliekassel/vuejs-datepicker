@@ -49,6 +49,7 @@
       :use-utc="useUtc"
       :cols="cols"
       :rows="rows"
+      :show-monthes-select="showMonthesSelect"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @selectedDisabled="selectDisabledDate">
@@ -112,7 +113,8 @@ export default {
     rows: {
       type: Number,
       default: () => 1
-    }
+    },
+    showMonthesSelect: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
