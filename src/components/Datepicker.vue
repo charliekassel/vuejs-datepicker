@@ -63,6 +63,7 @@
       :showMonthView="showMonthView"
       :allowedToShowView="allowedToShowView"
       :disabledDates="disabledDates"
+      :fullMonthName="fullMonthName"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
