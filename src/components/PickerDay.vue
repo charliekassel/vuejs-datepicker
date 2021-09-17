@@ -12,10 +12,17 @@
       <template v-if="blankDays > 0">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
-      --><template
-          v-for="day in days">
-            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)" :dayEvents="{click: function(){selectDate(day)}}">
-              <span :class="dayClasses(day)" @click="selectDate(day)">{{day.date}}</span>
+      --><template v-for="day in days">
+            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)" :dayEvents="{click: function(){selectDate(day)}, mouseover: function(){hoverDate(day)}}">
+              <span v-bind:key="day.key" :class="dayClasses(day)" @click="selectDate(day)" @mouseover="hoverDate(day)">
+                <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start" @mousedown="rangeSliderDown(day, 0)">
+                  <span class="arrow"></span>
+                </span>
+                {{day.date}}
+                <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end" @mousedown="rangeSliderDown(day, 1)">
+                  <span class="arrow"></span>
+                </span>
+              </span>
             </slot>
           </template>
     </div>
@@ -25,7 +32,9 @@
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
-    selectedDate: Date,
+    selectedDate: {
+      validator: val =>  val instanceof Date || val instanceof Array
+    },
     pageDate: Date,
     pageTimestamp: Number,
     fullMonthName: Boolean,
@@ -35,7 +44,11 @@ export default {
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean,
-    showMonthesSelect: Boolean
+    showMonthesSelect: Boolean,
+
+    mouseOverDateTimestamp: Number,
+    indexOfRange: Number,
+    isRange: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -88,6 +101,9 @@ export default {
           date: this.utils.getDate(dObj),
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedDate(dObj),
+          isInRange: this.isInRange(dObj),
+          isRangeStart: this.isRangeStart(dObj),
+          isRangeEnd: this.isRangeEnd(dObj),
           isDisabled: this.isDisabledDate(dObj),
           isHighlighted: this.isHighlightedDate(dObj),
           isHighlightStart: this.isHighlightStart(dObj),
@@ -95,7 +111,8 @@ export default {
           isToday: this.utils.compareDates(dObj, new Date()),
           isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
           isSaturday: this.utils.getDay(dObj) === 6,
-          isSunday: this.utils.getDay(dObj) === 0
+          isSunday: this.utils.getDay(dObj) === 0,
+          isInHoverRange: this.isInHoverRange(dObj)
         })
         this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
       }
@@ -126,12 +143,31 @@ export default {
     }
   },
   methods: {
+    /**
+     * Выбрать дату
+     * @param {Object} date 
+     */
     selectDate (date) {
       if (date.isDisabled) {
         this.$emit('selectedDisabled', date)
         return false
       }
-      this.$emit('selectDate', date)
+      this.$emit('selectDate', date);
+    },
+    /**
+     * Навели на дату
+     * @param {Object} date 
+     */
+    hoverDate (date){
+      this.$emit('mouseOverDate', date);
+    },
+    /**
+     * Нажали на слайдер range-a
+     * @param {Object} date 
+     * @param {Number} sliderPosition позиция слайдера (0 - начало, 1 - конец)
+     */
+    rangeSliderDown (date, sliderPosition){
+      this.$emit('rangeSliderDown', date, sliderPosition);
     },
     /**
      * @return {Number}
@@ -145,7 +181,71 @@ export default {
      * @return {Boolean}
      */
     isSelectedDate (dObj) {
+      if (this.selectedDate instanceof Array){
+        return this.selectedDate.some(d=>
+          this.utils.compareDates(d, dObj)
+        );
+      }
       return this.selectedDate && this.utils.compareDates(this.selectedDate, dObj)
+    },
+    /**
+     * Если это range - находится ли дата внутри range-a
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isInRange (dObj) {
+      if (!this.isRange) return false;
+      if (!(this.selectedDate instanceof Array)) return false;
+
+      let dObjTime = this.utils.getCompareTime(dObj);
+      return dObjTime >= this.utils.getCompareTime(this.selectedDate[0])
+        && dObjTime <= this.utils.getCompareTime(this.selectedDate[1]);
+    },
+    /**
+     * Если это range - является ли это началом range-a
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isRangeStart (date) {
+      if (!this.isRange) return false;
+      if (!(this.selectedDate instanceof Array)) return false;
+
+      return (this.utils.getFullYear(this.selectedDate[0]) === this.utils.getFullYear(date)) &&
+             (this.utils.getMonth(this.selectedDate[0]) === this.utils.getMonth(date)) &&
+             (this.utils.getDate(this.selectedDate[0]) === this.utils.getDate(date))
+    },
+    /**
+     * Если это range - является ли это концом range-a
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isRangeEnd (date) {
+      if (!this.isRange) return false;
+      if (!(this.selectedDate instanceof Array)) return false;
+
+      return (this.utils.getFullYear(this.selectedDate[1]) === this.utils.getFullYear(date)) &&
+             (this.utils.getMonth(this.selectedDate[1]) === this.utils.getMonth(date)) &&
+             (this.utils.getDate(this.selectedDate[1]) === this.utils.getDate(date))
+    },
+    /**
+     * Если эта дата находится внутри rang-a при ховере
+     * @param {Date}
+     * @return {Boolean}
+     */
+    isInHoverRange (dObj){
+      if (!this.isRange) return false;
+      if (!(this.selectedDate instanceof Array)) return false;
+      if (this.indexOfRange === 0 || !this.mouseOverDateTimestamp) return false;
+
+      let dateStart = this.utils.getCompareTime(this.selectedDate[0]);
+      let dateEnd = this.mouseOverDateTimestamp;
+      if (dateStart > dateEnd){
+        let tmp = dateStart;
+        dateStart = dateEnd;
+        dateEnd = tmp;
+      }
+      
+      return dObj.getTime() >= dateStart && dObj.getTime() <= dateEnd;
     },
     /**
      * Whether a day is disabled
@@ -242,6 +342,10 @@ export default {
         'cell': true,
         'day': true,
         'selected': day.isSelected,
+        'in-range': day.isInRange || day.isRangeStart || day.isRangeEnd,
+        'range-start': day.isRangeStart,
+        'range-end': day.isRangeEnd,
+        'in-hover-range' : day.isInHoverRange && !day.isDisabled,
         'disabled': day.isDisabled,
         'highlighted': day.isHighlighted || day.isHighlightStart || day.isHighlightEnd,
         'today': day.isToday,

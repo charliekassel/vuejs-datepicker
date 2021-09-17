@@ -85,17 +85,23 @@ const utils = {
    * @param {Date} date2
    */
   compareDates (date1, date2) {
-    const d1 = new Date(date1.getTime())
-    const d2 = new Date(date2.getTime())
+    return this.getCompareTime(date1) === this.getCompareTime(date2);
+  },
 
+  /**
+   * Получает дату для сравнения (без сравнения времени)
+   * @see https://stackoverflow.com/a/6202196/4455925
+   * @param {Date} date
+   * @return {Number} timespan
+   */
+  getCompareTime (date) {
+    const d = new Date(date.getTime())
     if (this.useUtc) {
-      d1.setUTCHours(0, 0, 0, 0)
-      d2.setUTCHours(0, 0, 0, 0)
+      d.setUTCHours(0, 0, 0, 0)
     } else {
-      d1.setHours(0, 0, 0, 0)
-      d2.setHours(0, 0, 0, 0)
+      d.setHours(0, 0, 0, 0)
     }
-    return d1.getTime() === d2.getTime()
+    return d.getTime();
   },
 
   /**
@@ -239,7 +245,7 @@ const utils = {
    * @return {Boolean}
    */
   validateDateInput (val) {
-    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number' || val instanceof Array
   },
 
   /**

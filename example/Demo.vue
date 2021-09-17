@@ -259,6 +259,23 @@
       </code>
     </div>
 
+
+    <div class="example">
+      <h3>Range calendar</h3>
+      <datepicker v-model="vModelRangeExample" is-range :highlighted="highlighted" :disabledDates="rangeDisabled"></datepicker>
+      {{ vModelRangeExample }}
+      <code v-pre>
+        &lt;datepicker v-model="vModelRangeExample" is-range&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
+      <h3>With monthes select</h3>
+      <datepicker :show-monthes-select="true"/>
+      <code>
+          &lt;datepicker :show-monthes-select="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
   </div>
 </template>
 
@@ -269,6 +286,12 @@ import * as lang from '../src/locale/index.js'
 const state = {
   date1: new Date()
 }
+var dateWeek = new Date();
+dateWeek.setDate(dateWeek.getDate() + 7);
+var dateBefore = new Date();
+dateBefore.setDate(dateBefore.getDate() - 7);
+var date3weeks = new Date();
+date3weeks.setDate(date3weeks.getDate() + 28);
 
 export default {
   name: 'demo',
@@ -299,6 +322,14 @@ export default {
       eventMsg: null,
       state: state,
       vModelExample: null,
+      vModelRangeExample: [
+        new Date(),
+        dateWeek
+      ],
+      rangeDisabled: {
+        to: dateBefore,
+        from: date3weeks
+      },
       languages: lang,
       language: 'en'
     }

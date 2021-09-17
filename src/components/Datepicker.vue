@@ -1,5 +1,5 @@
 <template>
-  <div class="dvdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
+  <div class="dvdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']" @mouseleave="onMouseleave" @mouseup="onMouseup">
     <date-input
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
@@ -44,14 +44,19 @@
       :calendarStyle="calendarStyle"
       :translation="translation"
       :pageTimestamp="pageTimestamp"
+      :indexOfRange="indexOfRange"
+      :mouseOverDateTimestamp="mouseOverDateTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
       :use-utc="useUtc"
       :cols="cols"
       :rows="rows"
       :show-monthes-select="showMonthesSelect"
+      :is-range="isRange"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
+      @mouseOverDate="mouseOverDate"
+      @rangeSliderDown="rangeSliderDown"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
@@ -114,7 +119,8 @@ export default {
       type: Number,
       default: () => 1
     },
-    showMonthesSelect: Boolean
+    showMonthesSelect: Boolean,
+    isRange: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -142,7 +148,20 @@ export default {
        */
       calendarHeight: 0,
       resetTypedDate: new Date(),
-      utils: constructedDateUtils
+      utils: constructedDateUtils,
+
+      /*
+       * Номер текущего выбираемого элемента (если диапазон)
+       */
+      indexOfRange: 0,
+      /*
+       * Timestamp даты, на которую навели курсором
+       */
+      mouseOverDateTimestamp: undefined,
+      /*
+       * Если включился режим "ползунка" для даты range-a, здесь храним 0 или 1 в зависимости от начало/конец диапазона
+       */
+      rangeSliderMode: undefined
     }
   },
   watch: {
@@ -221,6 +240,7 @@ export default {
      * Sets the initial picker page view: day, month or year
      */
     setInitialView () {
+      this.indexOfRange = 0;
       this.showDayCalendar()
     },
     /**
@@ -235,14 +255,27 @@ export default {
     /**
      * Set the selected date
      * @param {Number} timestamp
+     * @param {Number} indexOfRange если range - индекс устанавливаемого значения (0 - начало, 1 - конец)
      */
-    setDate (timestamp) {
+    setDate (timestamp, indexOfRange = 0) {
       const date = new Date(timestamp)
-      this.selectedDate = date
+      if (this.selectedDate instanceof Array) {
+        //Если range
+        if (indexOfRange == 0){
+          //Если устанавливаем первую дату range-a, то автоматом сбрасываем вторую дату
+          this.$set(this.selectedDate, 0, date);
+          this.$set(this.selectedDate, 1, date);
+        }else{
+          this.selectedDate[indexOfRange] = date;
+          this.selectedDate = this.selectedDate.sort(function(a,b){return a.getTime() - b.getTime()});
+        }
+      }else{
+        this.selectedDate = date
+      }
       //Не меняем дату страницы, т.к. прыгает при нескольких календарях
       //this.setPageDate(date)
-      this.$emit('selected', date)
-      this.$emit('input', date)
+      this.$emit('selected', this.selectedDate)
+      this.$emit('input', this.selectedDate)
     },
     /**
      * Clear the selected date
@@ -258,17 +291,52 @@ export default {
      * @param {Object} date
      */
     selectDate (date) {
-      this.setDate(date.timestamp)
-      if (!this.isInline) {
+      this.setDate(date.timestamp, this.indexOfRange);
+      if (!this.isInline && (!this.isRange || this.indexOfRange == 1)) {
         this.close(true)
       }
-      this.resetTypedDate = new Date()
+      this.resetTypedDate = new Date();
+      this.indexOfRange++;
+      if (this.indexOfRange > 1) this.indexOfRange = 0;
     },
     /**
      * @param {Object} date
      */
     selectDisabledDate (date) {
       this.$emit('selectedDisabled', date)
+    },
+    /**
+     * Навели на дату курсор
+     * @param {Object} date
+     */
+    mouseOverDate (date) {
+      if (typeof(this.rangeSliderMode) !== 'undefined'){
+          //Если включен режим перетягивания ползунка range-a
+          let d = new Date(date.timestamp);
+          //Проверяем, что бы дата не выходила на макс/мин диапазоны
+          if (typeof this.disabledDates !== 'undefined') {
+            if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to && d.getTime() < this.disabledDates.to) {
+              d = new Date(this.utils.getCompareTime(this.disabledDates.to));
+              d.setDate(d.getDate() + 1);
+            }
+            if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from && d.getTime() > this.disabledDates.from) {
+              d = new Date(this.utils.getCompareTime(this.disabledDates.from));
+            }
+          }
+          this.selectedDate[this.rangeSliderMode] = d;
+          this.selectedDate = this.selectedDate.sort(function(a,b){return a.getTime() - b.getTime()});
+          this.rangeSliderMode = this.selectedDate.indexOf(d);
+      }else{
+        this.mouseOverDateTimestamp = date.timestamp;
+      }
+    },
+    /**
+     * Нажали на слайдер rang-a -- включаем ползунок для смены даты
+     * @param {Object} date
+     * @param {Number} sliderPosition 0 - начало, 1 - конец range-a
+     */
+    rangeSliderDown (date, sliderPosition){
+      this.rangeSliderMode = sliderPosition;
     },
     /**
      * Set the datepicker value
@@ -293,6 +361,8 @@ export default {
      * Sets the date that the calendar should open on
      */
     setPageDate (date) {
+      if (date instanceof Array) date = date[0];
+
       if (!date) {
         if (this.openDate) {
           date = new Date(this.openDate)
@@ -338,6 +408,20 @@ export default {
       if (this.isInline) {
         this.setInitialView()
       }
+    },
+
+    /**
+     * При уходе мышки с компонента в целом
+     */
+    onMouseleave () {
+      this.mouseOverDateTimestamp = undefined;
+      this.rangeSliderMode = undefined;
+    },
+    /**
+     * Если "отжали" клавишу мышки на компоненте в целом
+     */
+    onMouseup () {
+      this.rangeSliderMode = undefined;
     }
   },
   mounted () {
