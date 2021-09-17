@@ -43,7 +43,9 @@
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
-    selectedDate: Date,
+    selectedDate: {
+      validator: val =>  val instanceof Date || val instanceof Array
+    },
     resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
@@ -82,9 +84,15 @@ export default {
       if (this.typedDate) {
         return this.typedDate
       }
-      return typeof this.format === 'function'
-        ? this.format(this.selectedDate)
-        : this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation)
+      if (typeof this.format === 'function')
+        return this.format(this.selectedDate);
+      
+      if (this.selectedDate instanceof Array)
+        return  [...new Set(this.selectedDate.map(d=> 
+          this.utils.formatDate(new Date(d), this.format, this.translation)
+          ))].join(" - ");
+
+      return this.utils.formatDate(new Date(this.selectedDate), this.format, this.translation);
     },
 
     computedInputClass () {

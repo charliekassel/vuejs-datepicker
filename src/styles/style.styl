@@ -77,6 +77,7 @@
 
     .disabled
         cursor default
+        color #d8d8d8
     .flex-rtl
         display flex
         width inherit
@@ -84,6 +85,7 @@
 
     .cell
         display inline-block
+        position relative
         padding 0 5px
         width (100/7)%
         height 40px
@@ -116,6 +118,13 @@
 
             &:hover
                 background inherit
+        &.in-range
+            background #b1d5b1
+        &.in-hover-range
+            background: #b1d5b1
+        &.range-start
+        &.range-end
+            background green
 
 
         &.day-header
@@ -124,6 +133,48 @@
             cursor inherit
             &:hover
                 background inherit
+                
+        .range-slider-start
+        .range-slider-end
+            position absolute
+            height 100%
+            width 18px
+            top 0
+            bottom 0
+            display inline-flex
+            align-items center
+            cursor w-resize
+            z-index 1
+            .arrow
+                display inline-block
+                height 0
+                width 0
+                border-radius 2px
+                border-top 11px solid transparent
+                border-bottom 11px solid transparent
+
+        .range-slider-start
+            left -10px
+            padding-right 9px
+            .arrow
+                border-left none
+                border-right 7px solid #287dfa
+                margin-left 1px
+
+        .range-slider-end
+            right -10px
+            padding-left 11px
+            .arrow
+                border-right none
+                margin-left -1px
+                border-left 7px solid #287dfa
+        &:hover
+            .range-slider-start
+            .range-slider-end
+                .arrow
+                    animation-duration 0.8s
+                    animation-name arrow
+                    animation-iteration-count infinite
 
     .month,
     .year
@@ -143,3 +194,11 @@
     &.disabled
       color #999
       cursor default
+
+@keyframes arrow 
+    from
+        margin-left 1px
+    50%
+        margin-left: -1px
+    to
+        margin-left: 1px

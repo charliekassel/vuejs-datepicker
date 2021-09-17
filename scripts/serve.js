@@ -13,7 +13,7 @@ export default {
     file: path.join(__dirname, '..', 'example', 'demo.js'),
     format: 'iife',
     name: 'demo',
-    sourcemap: true
+    sourcemap: false
   },
   plugins: [
     vue({

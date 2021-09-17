@@ -31,15 +31,20 @@
           :mondayFirst="mondayFirst"
           :use-utc="useUtc"
           :show-monthes-select="showMonthesSelect"
+          :indexOfRange="indexOfRange"
+          :mouseOverDateTimestamp="mouseOverDateTimestamp"
+          :is-range="isRange"
           @changedMonth="handleChangedMonthFromDayPicker"
           @selectDate="selectDate"
+          @mouseOverDate="mouseOverDate"
+          @rangeSliderDown="rangeSliderDown"
           @selectedDisabled="selectDisabledDate">
           <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
 
           <template v-slot:monthes-select>
             <select class="monthes-select" v-model="month.selectedOption" @change="onSelectChange(month)" tabindex="-1" @mousedown.stop>
               <template v-for="(value, name) in monthesSelectOptions">
-                <option disabled>{{name}}</option>
+                <option disabled v-bind:key="name">{{name}}</option>
                 <option v-for="option in value" v-bind:key="option.key" :value="option.key">
                   {{option.name}}
                 </option>
@@ -64,18 +69,23 @@ export default {
 
     // To PickerDay
     pageDate: Date,
-    selectedDate: Date,
+    selectedDate: {
+      validator: val =>  val instanceof Date || val instanceof Array
+    },
     fullMonthName: Boolean,
     disabledDates: Object,
     highlighted: Object,
     translation: Object,
     pageTimestamp: Number,
+    indexOfRange: Number,
+    mouseOverDateTimestamp: Number,
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean,
     cols: Number,
     rows: Number,
-    showMonthesSelect: Boolean
+    showMonthesSelect: Boolean,
+    isRange: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -84,7 +94,9 @@ export default {
     }
   },
   computed: {
-    //Отображаемые блоки с месяцами
+    /**
+     * Отображаемые блоки с месяцами
+     */
     months () {
       const d = this.pageDate
       let months = []
@@ -104,7 +116,9 @@ export default {
       }
       return months
     },
-    //Опции для select-бокса выбора месяца
+    /**
+     * Опции для select-бокса выбора месяца
+     */
     monthesSelectOptions(){
       const d = this.pageDate;
 
@@ -199,6 +213,7 @@ export default {
       this.$emit('changedMonth', date)
     },
     /**
+     * Выбрать дату
      * @param {Object} date
      */
     selectDate (date) {
@@ -206,6 +221,12 @@ export default {
     },
     selectDisabledDate (date) {
       this.$emit('selectDisabledDate', date)
+    },
+    mouseOverDate (date) {
+      this.$emit('mouseOverDate', date)
+    },
+    rangeSliderDown (date, sliderPosition) {
+      this.$emit('rangeSliderDown', date, sliderPosition)
     },
     /**
      * Increment the current page month
@@ -262,7 +283,10 @@ export default {
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
       this.$emit('changedMonth', date)
     },
-    //При смене значения селектбокса
+    /**
+     * При смене значения селектбокса
+     * @param {Object} month
+     */
     onSelectChange (month){
       let data = this.monthesSelectOptions;
       let option;
