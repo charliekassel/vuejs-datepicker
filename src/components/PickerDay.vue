@@ -13,17 +13,17 @@
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><template v-for="day in days">
-            <slot name="dayCellContent" :day="day" :classes="dayClasses(day)" :dayEvents="{click: function(){selectDate(day)}, mouseover: function(){hoverDate(day)}}">
-              <span v-bind:key="day.key" :class="dayClasses(day)" @click="selectDate(day)" @mouseover="hoverDate(day)">
-                <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start" @mousedown="rangeSliderDown(day, 0)">
-                  <span class="arrow"></span>
-                </span>
-                {{day.date}}
-                <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end" @mousedown="rangeSliderDown(day, 1)">
-                  <span class="arrow"></span>
-                </span>
+            <span v-bind:key="day.key" :class="dayClasses(day)" @click="selectDate(day)" @mouseover="hoverDate(day)">
+              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start" @mousedown="rangeSliderDown(day, 0)">
+                <span class="arrow"></span>
               </span>
-            </slot>
+              <slot name="dayCellContent" :day="day">
+                {{day.date}}
+              </slot>
+              <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end" @mousedown="rangeSliderDown(day, 1)">
+                <span class="arrow"></span>
+              </span>
+            </span>
           </template>
     </div>
   </div>
