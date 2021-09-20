@@ -268,13 +268,15 @@ export default {
         }else{
           this.selectedDate[indexOfRange] = date;
           this.selectedDate = this.selectedDate.sort(function(a,b){return a.getTime() - b.getTime()});
+          this.$emit('selected', this.selectedDate)
         }
       }else{
+        
         this.selectedDate = date
+        this.$emit('selected', this.selectedDate)
       }
       //Не меняем дату страницы, т.к. прыгает при нескольких календарях
       //this.setPageDate(date)
-      this.$emit('selected', this.selectedDate)
       this.$emit('input', this.selectedDate)
     },
     /**
