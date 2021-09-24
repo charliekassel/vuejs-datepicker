@@ -13,14 +13,15 @@
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><template v-for="day in days">
-            <span v-bind:key="day.key" :class="dayClasses(day)" @click="selectDate(day)" @mouseover="hoverDate(day)">
-              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start" @mousedown="rangeSliderDown(day, 0)">
+            <span v-bind:key="day.key" :class="dayClasses(day)" 
+              @mousedown="mouseDown(day)" @mouseup="mouseUp(day)" @mouseover="hoverDate(day)">
+              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
                 <span class="arrow"></span>
               </span>
               <slot name="dayCellContent" :day="day">
                 {{day.date}}
               </slot>
-              <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end" @mousedown="rangeSliderDown(day, 1)">
+              <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end">
                 <span class="arrow"></span>
               </span>
             </span>
@@ -48,7 +49,8 @@ export default {
 
     mouseOverDateTimestamp: Number,
     indexOfRange: Number,
-    isRange: Boolean
+    isRange: Boolean,
+    rangeSliderMode: Number
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -144,30 +146,24 @@ export default {
   },
   methods: {
     /**
-     * Выбрать дату
-     * @param {Object} date 
-     */
-    selectDate (date) {
-      if (date.isDisabled) {
-        this.$emit('selectedDisabled', date)
-        return false
-      }
-      this.$emit('selectDate', date);
-    },
-    /**
      * Навели на дату
      * @param {Object} date 
      */
     hoverDate (date){
       this.$emit('mouseOverDate', date);
     },
-    /**
-     * Нажали на слайдер range-a
-     * @param {Object} date 
-     * @param {Number} sliderPosition позиция слайдера (0 - начало, 1 - конец)
-     */
-    rangeSliderDown (date, sliderPosition){
-      this.$emit('rangeSliderDown', date, sliderPosition);
+    mouseDown (date) {
+      this.$emit('dayMouseDown', date);
+    },
+    mouseUp (date){
+      this.$emit('dayMouseUp', date);
+      if (typeof(this.rangeSliderMode) === "undefined"){
+        if (date.isDisabled) {
+          this.$emit('selectedDisabled', date)
+          return false
+        }
+        this.$emit('selectDate', date);
+      }
     },
     /**
      * @return {Number}

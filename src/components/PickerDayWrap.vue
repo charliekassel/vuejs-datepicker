@@ -34,10 +34,12 @@
           :indexOfRange="indexOfRange"
           :mouseOverDateTimestamp="mouseOverDateTimestamp"
           :is-range="isRange"
+          :rangeSliderMode="rangeSliderMode"
           @changedMonth="handleChangedMonthFromDayPicker"
           @selectDate="selectDate"
           @mouseOverDate="mouseOverDate"
-          @rangeSliderDown="rangeSliderDown"
+          @dayMouseDown="dayMouseDown"
+          @dayMouseUp="dayMouseUp"
           @selectedDisabled="selectDisabledDate">
           <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
 
@@ -85,7 +87,8 @@ export default {
     cols: Number,
     rows: Number,
     showMonthesSelect: Boolean,
-    isRange: Boolean
+    isRange: Boolean,
+    rangeSliderMode: Number
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -225,8 +228,11 @@ export default {
     mouseOverDate (date) {
       this.$emit('mouseOverDate', date)
     },
-    rangeSliderDown (date, sliderPosition) {
-      this.$emit('rangeSliderDown', date, sliderPosition)
+    dayMouseDown (date) {
+      this.$emit('dayMouseDown', date)
+    },
+    dayMouseUp (date) {
+      this.$emit('dayMouseUp', date)
     },
     /**
      * Increment the current page month

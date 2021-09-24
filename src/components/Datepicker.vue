@@ -53,10 +53,12 @@
       :rows="rows"
       :show-monthes-select="showMonthesSelect"
       :is-range="isRange"
+      :rangeSliderMode="rangeSliderMode"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @mouseOverDate="mouseOverDate"
-      @rangeSliderDown="rangeSliderDown"
+      @dayMouseDown="dayMouseDown"
+      @dayMouseUp="dayMouseUp"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
@@ -161,7 +163,8 @@ export default {
       /*
        * Если включился режим "ползунка" для даты range-a, здесь храним 0 или 1 в зависимости от начало/конец диапазона
        */
-      rangeSliderMode: undefined
+      rangeSliderMode: undefined,
+      mouseClickOnDate: undefined
     }
   },
   watch: {
@@ -312,6 +315,13 @@ export default {
      * @param {Object} date
      */
     mouseOverDate (date) {
+      if (!!this.mouseClickOnDate && typeof(this.rangeSliderMode) === "undefined"){
+        if (this.mouseClickOnDate.isRangeStart){
+          this.rangeSliderMode = 0;
+        }else if (this.mouseClickOnDate.isRangeEnd){
+          this.rangeSliderMode = 1;
+        }
+      }
       if (typeof(this.rangeSliderMode) !== 'undefined'){
           //Если включен режим перетягивания ползунка range-a
           let d = new Date(date.timestamp);
@@ -332,13 +342,13 @@ export default {
         this.mouseOverDateTimestamp = date.timestamp;
       }
     },
-    /**
-     * Нажали на слайдер rang-a -- включаем ползунок для смены даты
-     * @param {Object} date
-     * @param {Number} sliderPosition 0 - начало, 1 - конец range-a
-     */
-    rangeSliderDown (date, sliderPosition){
-      this.rangeSliderMode = sliderPosition;
+    dayMouseDown (date) {
+      this.mouseClickOnDate = date;
+      //this.rangeSliderMode = sliderPosition;
+    },
+    dayMouseUp (date) {
+      this.mouseClickOnDate = undefined;
+      //this.rangeSliderMode = sliderPosition;
     },
     /**
      * Set the datepicker value
@@ -356,7 +366,8 @@ export default {
       }
       this.selectedDate = date
       //Не меняем дату страницы, если установлена общая дата страницы (для нескольких календарей)
-      if (!this.openDate) 
+      //Не меняем страницу, если включен режим "ползунков", т.е. перемещения дат
+      if (!this.openDate && typeof(this.rangeSliderMode) === "undefined") 
         this.setPageDate(date)
     },
     /**
@@ -364,7 +375,6 @@ export default {
      */
     setPageDate (date) {
       if (date instanceof Array) date = date[0];
-
       if (!date) {
         if (this.openDate) {
           date = new Date(this.openDate)
@@ -422,8 +432,9 @@ export default {
     /**
      * Если "отжали" клавишу мышки на компоненте в целом
      */
-    onMouseup () {
+    onMouseup (e) {
       this.rangeSliderMode = undefined;
+      this.mouseClickOnDate = undefined;
     }
   },
   mounted () {
