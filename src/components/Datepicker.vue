@@ -122,14 +122,15 @@ export default {
       default: () => 1
     },
     showMonthesSelect: Boolean,
-    isRange: Boolean
+    isRange: Boolean,
+    isMobile: Boolean
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
     const constructedDateUtils = makeDateUtils(this.useUtc)
     const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
-      /*
+      /**
        * Vue cannot observe changes to a Date Object so date must be stored as a timestamp
        * This represents the first day of the current viewing month
        * {Number}
@@ -140,30 +141,33 @@ export default {
        * {Date}
        */
       selectedDate: null,
-      /*
+      /**
        * Flags to show calendar views
        * {Boolean}
        */
       showDayView: false,
-      /*
+      /**
        * Positioning
        */
       calendarHeight: 0,
       resetTypedDate: new Date(),
       utils: constructedDateUtils,
 
-      /*
+      /**
        * Номер текущего выбираемого элемента (если диапазон)
        */
       indexOfRange: 0,
-      /*
+      /**
        * Timestamp даты, на которую навели курсором
        */
       mouseOverDateTimestamp: undefined,
-      /*
+      /**
        * Если включился режим "ползунка" для даты range-a, здесь храним 0 или 1 в зависимости от начало/конец диапазона
        */
       rangeSliderMode: undefined,
+      /**
+       * Запоминаем дату, на которую изначально "нажали" курсором
+       */
       mouseClickOnDate: undefined
     }
   },
@@ -301,8 +305,10 @@ export default {
         this.close(true)
       }
       this.resetTypedDate = new Date();
-      this.indexOfRange++;
-      if (this.indexOfRange > 1) this.indexOfRange = 0;
+      if (this.isRange){
+        if (!this.isMobile) this.indexOfRange++;
+        if (this.indexOfRange > 1) this.indexOfRange = 0;
+      }
     },
     /**
      * @param {Object} date
@@ -311,7 +317,7 @@ export default {
       this.$emit('selectedDisabled', date)
     },
     /**
-     * Навели на дату курсор
+     * Навели на дату курсором
      * @param {Object} date
      */
     mouseOverDate (date) {
@@ -342,13 +348,21 @@ export default {
         this.mouseOverDateTimestamp = date.timestamp;
       }
     },
+    /**
+     * Нажали клавишу мыши на дате
+     * @param {Object} date
+     */
     dayMouseDown (date) {
       this.mouseClickOnDate = date;
       //this.rangeSliderMode = sliderPosition;
     },
+    /**
+     * Отпустили клавишу мыши на дате
+     * @param {Object} date
+     */
     dayMouseUp (date) {
       this.mouseClickOnDate = undefined;
-      //this.rangeSliderMode = sliderPosition;
+      this.rangeSliderMode = undefined;
     },
     /**
      * Set the datepicker value
@@ -435,6 +449,7 @@ export default {
     onMouseup (e) {
       this.rangeSliderMode = undefined;
       this.mouseClickOnDate = undefined;
+      this.mouseOverDateTimestamp = undefined;
     }
   },
   mounted () {

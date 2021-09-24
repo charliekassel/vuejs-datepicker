@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-component>
     <header>
       <div class="day__month_btn">
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
@@ -13,9 +13,9 @@
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><template v-for="day in days">
-            <span v-bind:key="day.key" :class="dayClasses(day)" 
+            <span v-bind:key="day.key" :class="dayClasses(day)" :data-key="day.key"
               @mousedown="mouseDown(day)" @mouseup="mouseUp(day)" @mouseover="hoverDate(day)">
-              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
+              <span v-show="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
                 <span class="arrow"></span>
               </span>
               <slot name="dayCellContent" :day="day">
@@ -152,9 +152,17 @@ export default {
     hoverDate (date){
       this.$emit('mouseOverDate', date);
     },
+    /**
+     * Нажали кнопкой мыши на дате
+     * @param {Object} date 
+     */
     mouseDown (date) {
       this.$emit('dayMouseDown', date);
     },
+    /**
+     * Отпустили кнопку мыши на дате
+     * @param {Object} date 
+     */
     mouseUp (date){
       this.$emit('dayMouseUp', date);
       if (typeof(this.rangeSliderMode) === "undefined"){

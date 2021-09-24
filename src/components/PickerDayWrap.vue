@@ -225,12 +225,24 @@ export default {
     selectDisabledDate (date) {
       this.$emit('selectDisabledDate', date)
     },
+    /**
+     * Hover на дату
+     * @param {Object} date
+     */
     mouseOverDate (date) {
       this.$emit('mouseOverDate', date)
     },
+    /**
+     * Нажали кнопкой мыши на дату
+     * @param {Object} date
+     */
     dayMouseDown (date) {
       this.$emit('dayMouseDown', date)
     },
+    /**
+     * Отпустили кнопку мыши на дате
+     * @param {Object} date
+     */
     dayMouseUp (date) {
       this.$emit('dayMouseUp', date)
     },
@@ -290,7 +302,7 @@ export default {
       this.$emit('changedMonth', date)
     },
     /**
-     * При смене значения селектбокса
+     * При смене значения селектбокса месяца
      * @param {Object} month
      */
     onSelectChange (month){
@@ -315,5 +327,50 @@ export default {
       this.changeMonth(diffInMonthes);
     }
   },
+  mounted: function() {
+    // inline функция для получения объекта даты из DOM элемента
+    const getDateElement = (elem) =>{
+      if (!elem) return;
+      const dataKey = elem.getAttribute("data-key");
+      if (!dataKey) return;
+      const component = elem.closest("[data-component]").__vue__;
+      return component.days.find(d=>
+        d.key === dataKey
+      );
+    }
+
+    /*
+     * Далее идет набор touch событий, которые мы перехватываем на глобальном календаре
+     * для отслеживания перетаскивания range-ей дат.
+     * 
+     * Необходимо для мобильных устройств
+     */
+
+    this.$el.addEventListener("touchstart", (ev) => {
+      const date = getDateElement(ev.target);
+      if (date) this.$emit('dayMouseDown', date);
+      //console.log('touchstart', date, ev.target);
+    }, false);
+    this.$el.addEventListener("touchend", (ev) => {
+      var changedTouch = ev.changedTouches[0];
+      var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+
+      const date = getDateElement(elem);
+      this.$emit('dayMouseUp', date);
+      //console.log('touchend', date);
+    }, false);
+    this.$el.addEventListener("touchcancel", (ev) => {
+      //console.log('touch cancel');
+    }, false);
+    this.$el.addEventListener("touchmove", (ev) => {
+      //console.log('touchmove', ev)
+      ev.preventDefault();
+
+      var changedTouch = ev.changedTouches[0];
+      var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+      const date = getDateElement(elem);
+      if (date) this.$emit('mouseOverDate', date);
+    }, false);
+  }
 }
 </script>
