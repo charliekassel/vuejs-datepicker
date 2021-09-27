@@ -11,21 +11,32 @@
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
       <template v-if="blankDays > 0">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-      </template><!--
-      --><template v-for="day in days">
-            <span v-bind:key="day.key" :class="dayClasses(day)" :data-key="day.key"
-              @mousedown.prevent="mouseDown(day)" @mouseup.prevent="mouseUp(day)" @mouseover="hoverDate(day)">
-              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
-                <span class="arrow"></span>
-              </span>
-              <slot name="dayCellContent" :day="day">
-                {{day.date}}
-              </slot>
-              <span v-if="day.isRangeEnd && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-end">
-                <span class="arrow"></span>
-              </span>
-            </span>
-          </template>
+      </template>
+      <template v-for="day in days">
+        <span v-bind:key="day.key" :class="dayClasses(day)" :data-key="day.key"
+          @mousedown.prevent="mouseDown(day)" @mouseup.prevent="mouseUp(day)" @mouseover="hoverDate(day)">
+          {{ /* Стрелка сдвига, отображаем для 
+              *  - начала диапазона;
+              *  - для даты, на которую кликнули (но скрываем, т.к. необходим DOM элемент для корректного отслеживания touchmove события) 
+              *  - для десктопа, если уже дважды кликнули
+              */ }}
+          <span v-if="(day.isRangeStart || (!!mouseClickOnDate && day.key === mouseClickOnDate.key)) && (indexOfRange === 0 || !mouseOverDateTimestamp)" 
+              v-show="day.isRangeStart"
+              class="range-slider-start" 
+              :data-key="day.key">
+            <span class="arrow"></span>
+          </span>
+          <slot name="dayCellContent" :day="day">
+            {{day.date}}
+          </slot>
+          <span v-if="(day.isRangeEnd || (!!mouseClickOnDate && day.key === mouseClickOnDate.key)) && (indexOfRange === 0 || !mouseOverDateTimestamp)" 
+              v-show="day.isRangeEnd"
+              class="range-slider-end" 
+              :data-key="day.key">
+            <span class="arrow"></span>
+          </span>
+        </span>
+      </template>
     </div>
   </div>
 </template>
@@ -50,7 +61,8 @@ export default {
     mouseOverDateTimestamp: Number,
     indexOfRange: Number,
     isRange: Boolean,
-    rangeSliderMode: Number
+    rangeSliderMode: Number,
+    mouseClickOnDate: Object
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)

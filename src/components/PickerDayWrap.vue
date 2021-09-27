@@ -35,6 +35,7 @@
           :mouseOverDateTimestamp="mouseOverDateTimestamp"
           :is-range="isRange"
           :rangeSliderMode="rangeSliderMode"
+          :mouseClickOnDate="mouseClickOnDate"
           @changedMonth="handleChangedMonthFromDayPicker"
           @mouseOverDate="mouseOverDate"
           @dayMouseDown="dayMouseDown"

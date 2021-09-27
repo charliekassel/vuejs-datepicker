@@ -98,7 +98,8 @@
         &:not(.blank):not(.disabled).year
             cursor pointer
             &:hover
-                border 1px solid #4bd
+                @media (min-width: 576px)
+                    border 1px solid #4bd
         &.selected
             background #4bd
             &:hover
@@ -151,6 +152,7 @@
             align-items center
             cursor w-resize
             z-index 1
+            pointer-events auto
             .arrow
                 display inline-block
                 height 0
