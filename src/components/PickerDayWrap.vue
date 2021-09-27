@@ -342,7 +342,7 @@ export default {
       if (date) this.$emit('dayMouseDown', date);
     }, false);
     this.$el.addEventListener("touchend", (ev) => {
-      if (!touchMoved || (this.mouseClickOnDate && this.mouseClickOnDate.isInRange))
+      if (!touchMoved || (this.mouseClickOnDate && (this.mouseClickOnDate.isRangeStart || this.mouseClickOnDate.isRangeEnd)))
       {
         ev.preventDefault();
         var changedTouch = ev.changedTouches[0];
@@ -357,7 +357,7 @@ export default {
     }, false);
     this.$el.addEventListener("touchmove", (ev) => {
       touchMoved = true;
-      if (this.mouseClickOnDate && this.mouseClickOnDate.isInRange)
+      if (this.mouseClickOnDate && (this.mouseClickOnDate.isRangeStart || this.mouseClickOnDate.isRangeEnd))
       {
         ev.preventDefault();
       }
