@@ -1,5 +1,5 @@
 <template>
-  <div class="dvdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']" @mouseleave="onMouseleave" @mouseup="onMouseup">
+  <div class="dvdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']" @mouseleave="onMouseleave" @mouseup.prevent="onMouseup">
     <date-input
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
@@ -54,12 +54,11 @@
       :show-monthes-select="showMonthesSelect"
       :is-range="isRange"
       :rangeSliderMode="rangeSliderMode"
+      :mouseClickOnDate="mouseClickOnDate"
       @changedMonth="handleChangedMonthFromDayPicker"
-      @selectDate="selectDate"
       @mouseOverDate="mouseOverDate"
       @dayMouseDown="dayMouseDown"
-      @dayMouseUp="dayMouseUp"
-      @selectedDisabled="selectDisabledDate">
+      @dayMouseUp="dayMouseUp">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
     </picker-day-wrap>
@@ -311,12 +310,6 @@ export default {
       }
     },
     /**
-     * @param {Object} date
-     */
-    selectDisabledDate (date) {
-      this.$emit('selectedDisabled', date)
-    },
-    /**
      * Навели на дату курсором
      * @param {Object} date
      */
@@ -361,6 +354,15 @@ export default {
      * @param {Object} date
      */
     dayMouseUp (date) {
+      if (!date || !this.mouseClickOnDate) return;
+
+      if (typeof(this.rangeSliderMode) === "undefined"){
+        if (date.isDisabled) {
+          this.$emit('selectedDisabled', date)
+        }else{
+          this.selectDate(date);
+        }
+      }
       this.mouseClickOnDate = undefined;
       this.rangeSliderMode = undefined;
     },

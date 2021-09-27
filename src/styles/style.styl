@@ -133,7 +133,13 @@
             cursor inherit
             &:hover
                 background inherit
-                
+        
+        @media (max-width: 575px)
+            /* Для мобильной версии отключаем перехватывание клика на дочерних элементах даты, т.к. не срабатывает событие выбора даты */
+            *
+                pointer-events none
+        
+
         .range-slider-start
         .range-slider-end
             position absolute

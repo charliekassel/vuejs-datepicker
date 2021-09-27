@@ -36,11 +36,9 @@
           :is-range="isRange"
           :rangeSliderMode="rangeSliderMode"
           @changedMonth="handleChangedMonthFromDayPicker"
-          @selectDate="selectDate"
           @mouseOverDate="mouseOverDate"
           @dayMouseDown="dayMouseDown"
-          @dayMouseUp="dayMouseUp"
-          @selectedDisabled="selectDisabledDate">
+          @dayMouseUp="dayMouseUp">
           <slot name="dayCellContent" slot="dayCellContent" slot-scope="slotData" v-bind="slotData"></slot>
 
           <template v-slot:monthes-select>
@@ -88,7 +86,8 @@ export default {
     rows: Number,
     showMonthesSelect: Boolean,
     isRange: Boolean,
-    rangeSliderMode: Number
+    rangeSliderMode: Number,
+    mouseClickOnDate: Object
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -216,16 +215,6 @@ export default {
       this.$emit('changedMonth', date)
     },
     /**
-     * Выбрать дату
-     * @param {Object} date
-     */
-    selectDate (date) {
-      this.$emit('selectDate', date)
-    },
-    selectDisabledDate (date) {
-      this.$emit('selectDisabledDate', date)
-    },
-    /**
      * Hover на дату
      * @param {Object} date
      */
@@ -345,26 +334,33 @@ export default {
      * 
      * Необходимо для мобильных устройств
      */
-
+    let touchMoved = false;
     this.$el.addEventListener("touchstart", (ev) => {
+      touchMoved = false;
       const date = getDateElement(ev.target);
       if (date) this.$emit('dayMouseDown', date);
-      //console.log('touchstart', date, ev.target);
     }, false);
     this.$el.addEventListener("touchend", (ev) => {
-      var changedTouch = ev.changedTouches[0];
-      var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+      if (!touchMoved || (this.mouseClickOnDate && this.mouseClickOnDate.isInRange))
+      {
+        ev.preventDefault();
+        var changedTouch = ev.changedTouches[0];
+        var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
 
-      const date = getDateElement(elem);
-      this.$emit('dayMouseUp', date);
-      //console.log('touchend', date);
+        const date = getDateElement(elem);
+        this.$emit('dayMouseUp', date);
+      }
     }, false);
     this.$el.addEventListener("touchcancel", (ev) => {
       //console.log('touch cancel');
     }, false);
     this.$el.addEventListener("touchmove", (ev) => {
-      //console.log('touchmove', ev)
-      ev.preventDefault();
+      touchMoved = true;
+      if (this.mouseClickOnDate && this.mouseClickOnDate.isInRange)
+      {
+        ev.preventDefault();
+      }
+      //console.log('touchmove', ev, this.mouseClickOnDate)
 
       var changedTouch = ev.changedTouches[0];
       var elem = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);

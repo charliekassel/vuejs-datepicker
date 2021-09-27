@@ -14,8 +14,8 @@
       </template><!--
       --><template v-for="day in days">
             <span v-bind:key="day.key" :class="dayClasses(day)" :data-key="day.key"
-              @mousedown="mouseDown(day)" @mouseup="mouseUp(day)" @mouseover="hoverDate(day)">
-              <span v-show="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
+              @mousedown.prevent="mouseDown(day)" @mouseup.prevent="mouseUp(day)" @mouseover="hoverDate(day)">
+              <span v-if="day.isRangeStart && (indexOfRange === 0 || !mouseOverDateTimestamp)" class="range-slider-start">
                 <span class="arrow"></span>
               </span>
               <slot name="dayCellContent" :day="day">
@@ -165,13 +165,6 @@ export default {
      */
     mouseUp (date){
       this.$emit('dayMouseUp', date);
-      if (typeof(this.rangeSliderMode) === "undefined"){
-        if (date.isDisabled) {
-          this.$emit('selectedDisabled', date)
-          return false
-        }
-        this.$emit('selectDate', date);
-      }
     },
     /**
      * @return {Number}

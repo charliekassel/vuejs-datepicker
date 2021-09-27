@@ -262,7 +262,8 @@
 
     <div class="example">
       <h3>Range calendar</h3>
-      <datepicker v-model="vModelRangeExample" is-range :highlighted="highlighted" :disabledDates="rangeDisabled"></datepicker>
+      <datepicker v-model="vModelRangeExample" is-range :highlighted="highlighted" :disabledDates="rangeDisabled"
+        :is-mobile="IsMobile"></datepicker>
       {{ vModelRangeExample }}
       <code v-pre>
         &lt;datepicker v-model="vModelRangeExample" is-range&gt;&lt;/datepicker&gt;
@@ -331,7 +332,8 @@ export default {
         from: date3weeks
       },
       languages: lang,
-      language: 'en'
+      language: 'en',
+      IsMobile: window.innerWidth <= 575
     }
   },
   computed: {
