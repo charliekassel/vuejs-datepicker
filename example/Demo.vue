@@ -206,6 +206,15 @@
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>
     </div>
+
+    <div class="example">
+      <h3>Inline datepicker side-by-side</h3>
+      <datepicker :inline="true" :side-by-side="true"></datepicker>
+      <code>
+        &lt;datepicker :inline="true" :side-by-side="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
     <div class="example">
       <h3>RTL datepicker</h3>
       <datepicker :language="languages.he"></datepicker>

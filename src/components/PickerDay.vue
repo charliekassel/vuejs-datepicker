@@ -1,29 +1,47 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[calendarClass, 'vdp-datepicker__calendar', {'vdp-datepicker__calendar--side-by-side': sideBySide}]" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+        {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
+      </span>
+      <span v-if="sideBySide" class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+        {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
+      </span>
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
         :class="{'disabled': isRightNavDisabled}">&gt;</span>
     </header>
-    <div :class="isRtl ? 'flex-rtl' : ''">
-      <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-      <template v-if="blankDays > 0">
-        <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
-      </template><!--
-      --><span class="cell day"
-          v-for="day in days"
-          :key="day.timestamp"
-          :class="dayClasses(day)"
-          v-html="dayCellContent(day)"
-          @mouseover="highlightOnMouseover(day)"
-          @click="selectDate(day)"></span>
+    <div class="day-grids-wrapper">
+      <DaysGrid
+        :class="isRtl ? 'flex-rtl' : ''"
+        :day-cell-content="dayCellContent"
+        :days="days"
+        :monday-first="mondayFirst"
+        :start-date="pageDate"
+        :translation="translation"
+        :use-utc="useUtc"
+        :utils="utils"
+        @select="selectDate"
+        @mouseover="highlightOnMouseover"
+      />
+      <DaysGrid
+        v-if="sideBySide"
+        :class="isRtl ? 'flex-rtl' : ''"
+        :day-cell-content="dayCellContent"
+        :days="nextMonthDays"
+        :monday-first="mondayFirst"
+        :start-date="nextMonthPageDate"
+        :translation="translation"
+        :use-utc="useUtc"
+        :utils="utils"
+        @select="selectDate"
+      />
     </div>
     <div>
       <Footer
@@ -41,8 +59,9 @@
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
 import Footer from './Footer.vue'
+import DaysGrid from './DaysGrid.vue'
 export default {
-  components: { Footer },
+  components: { Footer, DaysGrid },
   props: {
     showFooter: Boolean,
     showDayView: Boolean,
@@ -68,7 +87,11 @@ export default {
     isRtl: Boolean,
     mondayFirst: Boolean,
     useUtc: Boolean,
-    highlightDate: Function
+    highlightDate: Function,
+    sideBySide: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -77,62 +100,6 @@ export default {
     }
   },
   computed: {
-    /**
-     * Returns an array of day names
-     * @return {String[]}
-     */
-    daysOfWeek () {
-      if (this.mondayFirst) {
-        const tempDays = this.translation.days.slice()
-        tempDays.push(tempDays.shift())
-        return tempDays
-      }
-      return this.translation.days
-    },
-    /**
-     * Returns the day number of the week less one for the first of the current month
-     * Used to show amount of empty cells before the first in the day calendar layout
-     * @return {Number}
-     */
-    blankDays () {
-      const d = this.pageDate
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
-        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      if (this.mondayFirst) {
-        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
-      }
-      return this.utils.getDay(dObj)
-    },
-    /**
-     * @return {Object[]}
-     */
-    days () {
-      const d = this.pageDate
-      let days = []
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
-        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
-      for (let i = 0; i < daysInMonth; i++) {
-        days.push({
-          date: this.utils.getDate(dObj),
-          timestamp: dObj.getTime(),
-          isSelected: this.isSelectedDate(dObj),
-          isDisabled: this.isDisabledDate(dObj),
-          isHighlighted: this.isHighlightedDate(dObj),
-          isHighlightStart: this.isHighlightStart(dObj),
-          isHighlightEnd: this.isHighlightEnd(dObj),
-          isToday: this.utils.compareDates(dObj, new Date()),
-          isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
-          isSaturday: this.utils.getDay(dObj) === 6,
-          isSunday: this.utils.getDay(dObj) === 0
-        })
-        this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
-      }
-      return days
-    },
     /**
      * Gets the name of the month the current page is on
      * @return {String}
@@ -148,6 +115,37 @@ export default {
     currYearName () {
       const yearSuffix = this.translation.yearSuffix
       return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`
+    },
+    /**
+     * Gets the name of the month next to the current one
+     * @return {String}
+     */
+    nextMonthName () {
+      const monthName = this.fullMonthName ? this.translation.months : this.translation.monthsAbbr
+      return this.utils.getMonthNameAbbr(this.utils.getMonth(this.nextMonthPageDate), monthName)
+    },
+    /**
+     * Gets the name of the year that current page is on
+     * @return {Number}
+     */
+    nextMonthYearName () {
+      const yearSuffix = this.translation.yearSuffix
+      return `${this.utils.getFullYear(this.nextMonthPageDate)}${yearSuffix}`
+    },
+    /**
+     * @return {Object[]}
+     */
+    days () {
+      const d = this.pageDate
+      return this.getMonthDays(d)
+    },
+    nextMonthPageDate () {
+      const d = new Date(this.pageDate)
+      this.utils.setMonth(d, this.utils.getMonth(d) + 1)
+      return d
+    },
+    nextMonthDays () {
+      return this.getMonthDays(this.nextMonthPageDate)
     },
     /**
      * Is this translation using year/month/day format?
@@ -176,6 +174,34 @@ export default {
     }
   },
   methods: {
+    getDateObject (date) {
+      return {
+        date: this.utils.getDate(date),
+        timestamp: date.getTime(),
+        isSelected: this.isSelectedDate(date),
+        isDisabled: this.isDisabledDate(date),
+        isHighlighted: this.isHighlightedDate(date),
+        isHighlightStart: this.isHighlightStart(date),
+        isHighlightEnd: this.isHighlightEnd(date),
+        isToday: this.utils.compareDates(date, new Date()),
+        isWeekend: this.utils.getDay(date) === 0 || this.utils.getDay(date) === 6,
+        isSaturday: this.utils.getDay(date) === 6,
+        isSunday: this.utils.getDay(date) === 0
+      }
+    },
+    getMonthDays (date) {
+      let days = []
+      // set up a new date object to the beginning of the current 'page'
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
+        : new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes())
+      let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
+      for (let i = 0; i < daysInMonth; i++) {
+        days.push(this.getDateObject(dObj))
+        this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
+      }
+      return days
+    },
     /**
      * Select date for today button
      */
@@ -186,27 +212,7 @@ export default {
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
         : new Date(d.getFullYear(), d.getMonth(), d.getUTCDate(), d.getHours(), d.getMinutes())
 
-      this.selectDate({
-        date: this.utils.getDate(dObj),
-        timestamp: dObj.getTime(),
-        isSelected: this.isSelectedDate(dObj),
-        isDisabled: this.isDisabledDate(dObj),
-        isHighlighted: this.isHighlightedDate(dObj),
-        isHighlightStart: this.isHighlightStart(dObj),
-        isHighlightEnd: this.isHighlightEnd(dObj),
-        isToday: this.utils.compareDates(dObj, new Date()),
-        isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
-        isSaturday: this.utils.getDay(dObj) === 6,
-        isSunday: this.utils.getDay(dObj) === 0
-      })
-    },
-    /**
-     * Emit an event to show the hovered date
-     * @param {Date} date
-     */
-    highlightOnMouseover (date) {
-      if (this.isDisabledDate(date)) return
-      this.highlightDate(date)
+      this.selectDate(this.getDateObject(dObj))
     },
     selectDate (date) {
       if (date.isDisabled) {
@@ -263,6 +269,14 @@ export default {
       if (!this.isNextMonthDisabled()) {
         this.changeMonth(+1)
       }
+    },
+    /**
+     * Emit an event to show the hovered date
+     * @param {Date} date
+     */
+    highlightOnMouseover (date) {
+      if (this.isDisabledDate(date)) return
+      this.highlightDate(date)
     },
     /**
      * Is the next month disabled?
@@ -373,19 +387,6 @@ export default {
       }
 
       return highlighted
-    },
-    dayClasses (day) {
-      return {
-        'selected': day.isSelected,
-        'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
-        'today': day.isToday,
-        'weekend': day.isWeekend,
-        'sat': day.isSaturday,
-        'sun': day.isSunday,
-        'highlight-start': day.isHighlightStart,
-        'highlight-end': day.isHighlightEnd
-      }
     },
     /**
      * Whether a day is highlighted and it is the first date

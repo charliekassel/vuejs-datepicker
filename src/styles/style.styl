@@ -12,20 +12,22 @@
     background white
     width 300px
     border 1px solid #ccc
+    .day-grids-wrapper
+        display grid
+        grid-auto-flow column
+        width 100%
     header
-        display block
+        display flex
         line-height 40px
+        flex-flow row
         span
-            display inline-block
             text-align center
-            width (100 - (100/7)*2)%
-            float left
-
+            flex 1 0 auto
         .prev
         .next
             width (100/7)%
-            float left
             text-indent -10000px
+            flex: 0 0 auto
             position relative
             &:after
                 content ''
@@ -105,6 +107,14 @@
     .month,
     .year
         width 33.333%
+
+    &--side-by-side
+      width 600px
+      header
+        .next
+        .prev
+          width (100/15)%
+
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button

@@ -60,6 +60,64 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.selectedDate.getTime()).toEqual(date.getTime())
   })
 
+  it('changes the page date when selecting a date from a different month', () => {
+    const initialDate = new Date(Date.UTC(2016, 8, 9))
+    const date = new Date(Date.UTC(2016, 9, 9))
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        format: 'yyyy-MM-dd',
+        openDate: initialDate
+      }
+    })
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+    wrapper.vm.setDate(date.getTime())
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 9, 1)))
+  })
+
+  it('does not change the page when selecting a date in the same month', () => {
+    const initialDate = new Date(Date.UTC(2016, 8, 9))
+    const date = new Date(Date.UTC(2016, 8, 11))
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        format: 'yyyy-MM-dd',
+        openDate: initialDate
+      }
+    })
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+    wrapper.vm.setDate(date.getTime())
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+  })
+
+  it('does not change the page when selecting a date in the next month for a side-by-side layout', () => {
+    const initialDate = new Date(Date.UTC(2016, 8, 9))
+    const date = new Date(Date.UTC(2016, 9, 11))
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        format: 'yyyy-MM-dd',
+        openDate: initialDate,
+        sideBySide: true
+      }
+    })
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+    wrapper.vm.setDate(date.getTime())
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+  })
+
+  it('changes the page when selecting a date in a different month for a side-by-side layout', () => {
+    const initialDate = new Date(Date.UTC(2016, 8, 9))
+    const date = new Date(Date.UTC(2016, 7, 11))
+    const wrapper = shallow(Datepicker, {
+      propsData: {
+        format: 'yyyy-MM-dd',
+        openDate: initialDate,
+        sideBySide: true
+      }
+    })
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 8, 1)))
+    wrapper.vm.setDate(date.getTime())
+    expect(wrapper.vm.pageDate).toEqual(new Date(Date.UTC(2016, 7, 1)))
+  })
+
   it('clears the date', () => {
     const date = new Date(2016, 9, 9)
     const wrapper = shallow(Datepicker)
