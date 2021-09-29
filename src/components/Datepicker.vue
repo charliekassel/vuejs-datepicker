@@ -54,6 +54,7 @@
       :today-button-class="todayButtonClass"
       :clear-button-class="clearButtonClass"
       :show-footer="showFooter"
+      :side-by-side="sideBySide"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -65,6 +66,7 @@
 
     <!-- Month View -->
     <picker-month
+      :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       v-if="allowedToShowView('month')"
       :pageDate="pageDate"
       :selectedDate="selectedDate"
@@ -85,6 +87,7 @@
 
     <!-- Year View -->
     <picker-year
+      :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       v-if="allowedToShowView('year')"
       :pageDate="pageDate"
       :selectedDate="selectedDate"
@@ -167,7 +170,11 @@ export default {
     value: {
       validator: val => utils.validateDateInput(val)
     },
-    wrapperClass: [String, Object, Array]
+    wrapperClass: [String, Object, Array],
+    sideBySide: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -342,10 +349,25 @@ export default {
      */
     setDate (timestamp) {
       const date = new Date(timestamp)
+      if (this.shouldChangePage(date)) {
+        this.setPageDate(date)
+      }
       this.selectedDate = date
-      this.setPageDate(date)
       this.$emit('selected', date)
       this.$emit('input', date)
+    },
+    shouldChangePage (date) {
+      const isSameMonthThanCurrentPage = this.utils.getMonth(this.pageDate) === this.utils.getMonth(date)
+      const isSameYearThanCurrentPage = this.utils.getFullYear(this.pageDate) === this.utils.getFullYear(date)
+      if (isSameMonthThanCurrentPage && isSameYearThanCurrentPage) return false
+
+      if (!this.sideBySide) return true
+
+      const nextMonthPageDate = new Date(this.pageDate)
+      this.utils.setMonth(nextMonthPageDate, this.utils.getMonth(nextMonthPageDate) + 1)
+      const isSameMonthThanNextPage = this.utils.getMonth(nextMonthPageDate) === this.utils.getMonth(date)
+      const isSameYearThanNextPage = this.utils.getFullYear(nextMonthPageDate) === this.utils.getFullYear(date)
+      return !isSameMonthThanNextPage || !isSameYearThanNextPage
     },
     /**
      * Clear the selected date
