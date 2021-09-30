@@ -41,6 +41,7 @@
         :use-utc="useUtc"
         :utils="utils"
         @select="selectDate"
+        @mouseover="highlightOnMouseover"
       />
     </div>
     <div>
