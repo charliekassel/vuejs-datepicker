@@ -1,6 +1,7 @@
 import PickerDay from '@/components/PickerDay.vue'
 import {shallow} from '@vue/test-utils'
 import {en} from '@/locale'
+import DaysGrid from '@/components/DaysGrid'
 
 describe('PickerDay: DOM', () => {
   let wrapper
@@ -27,6 +28,44 @@ describe('PickerDay: DOM', () => {
   it('emits an event when selected', () => {
     wrapper.vm.selectDate({isDisabled: false})
     expect(wrapper.emitted().selectDate).toBeTruthy()
+  })
+
+  it('calls the function in highlightDate when hovering on a day cell', () => {
+    wrapper.setProps({
+      highlightDate: jest.fn()
+    })
+    const daysGrids = wrapper.findAll(DaysGrid)
+    const daysGrid = daysGrids.wrappers[0]
+    expect(daysGrid.exists()).toBe(true)
+    daysGrid.vm.$emit('mouseover')
+    expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call the function in highlightDate when hovering on a disabled day cell', () => {
+    const date = new Date(2021, 8, 30)
+    wrapper.setProps({
+      highlightDate: jest.fn(),
+      disabledDates: {
+        dates: [date]
+      }
+    })
+    const daysGrids = wrapper.findAll(DaysGrid)
+    const daysGrid = daysGrids.wrappers[0]
+    expect(daysGrid.exists()).toBe(true)
+    daysGrid.vm.$emit('mouseover', date)
+    expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(0)
+  })
+
+  it('calls the function in highlightDate when hovering on a day cell in the next month of a side by side calendar', () => {
+    wrapper.setProps({
+      highlightDate: jest.fn(),
+      sideBySide: true
+    })
+    const daysGrids = wrapper.findAll(DaysGrid)
+    const daysGrid = daysGrids.wrappers[1]
+    expect(daysGrid.exists()).toBe(true)
+    daysGrid.vm.$emit('mouseover')
+    expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1)
   })
 
   it('knows the current page month', () => {
