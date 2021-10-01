@@ -62,6 +62,7 @@
       :highlightDate="highlightDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
+      <slot name="footer" slot="footer"></slot>
     </picker-day>
 
     <!-- Month View -->
