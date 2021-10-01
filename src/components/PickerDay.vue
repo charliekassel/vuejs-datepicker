@@ -45,8 +45,10 @@
       />
     </div>
     <div>
+      <slot name="afterCalendarContent"></slot>
+      <slot name="footer"></slot>
       <Footer
-        v-if="showFooter"
+        v-if="showFooter && !$slots.footer"
         :selected-date="selectedDate"
         :clear-date="clearDate"
         :set-today="setToday"
