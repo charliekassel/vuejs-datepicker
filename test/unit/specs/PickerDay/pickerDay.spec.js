@@ -2,6 +2,7 @@ import PickerDay from '@/components/PickerDay.vue'
 import {shallow} from '@vue/test-utils'
 import {en} from '@/locale'
 import DaysGrid from '@/components/DaysGrid'
+import Footer from '@/components/Footer'
 
 describe('PickerDay: DOM', () => {
   let wrapper
@@ -76,5 +77,38 @@ describe('PickerDay: DOM', () => {
     const yearBtn = wrapper.find('.day__month_btn')
     yearBtn.trigger('click')
     expect(wrapper.emitted().showMonthCalendar).toBeTruthy()
+  })
+
+  it('displays the footer if the showFooter prop is true', () => {
+    wrapper.setProps({showFooter: true})
+    const footer = wrapper.find(Footer)
+    expect(footer.exists()).toBe(true)
+  })
+
+  it('does not display the footer if the showFooter prop is false', () => {
+    wrapper.setProps({showFooter: false})
+    const footer = wrapper.find(Footer)
+    expect(footer.exists()).toBe(false)
+  })
+
+  it('displays a custom footer from a slot and hides the default footer', () => {
+    wrapper = shallow(PickerDay, {
+      propsData: {
+        allowedToShowView: () => true,
+        translation: en,
+        pageDate: new Date(2018, 1, 1),
+        selectedDate: new Date(2018, 2, 24),
+        showFooter: true
+      },
+      slots: {
+        footer: '<p class="footer">The footer</p>'
+      }
+    })
+    const footer = wrapper.find(Footer)
+    expect(footer.exists()).toBe(false)
+
+    const customFooter = wrapper.find('.footer')
+    expect(customFooter.exists()).toBe(true)
+    expect(customFooter.text()).toEqual('The footer')
   })
 })
