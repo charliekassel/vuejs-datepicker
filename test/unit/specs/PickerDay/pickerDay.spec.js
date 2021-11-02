@@ -26,8 +26,8 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.vm.isSelectedDate(new Date(2017, 1, 1))).toEqual(false);
   });
 
-  it('emits an event when selected', () => {
-    wrapper.vm.selectDate({ isDisabled: false });
+  it('emits an event when selected', async () => {
+    await wrapper.vm.selectDate({ isDisabled: false });
     expect(wrapper.emitted().selectDate).toBeTruthy();
   });
 
@@ -35,8 +35,8 @@ describe('PickerDay: DOM', () => {
     await wrapper.setProps({
       highlightDate: jest.fn(),
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
-    const daysGrid = daysGrids.wrappers[0];
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
+    const daysGrid = daysGrids[0];
     expect(daysGrid.exists()).toBe(true);
     daysGrid.vm.$emit('mouseover');
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1);
@@ -50,8 +50,8 @@ describe('PickerDay: DOM', () => {
         dates: [ date ],
       },
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
-    const daysGrid = daysGrids.wrappers[0];
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
+    const daysGrid = daysGrids[0];
     expect(daysGrid.exists()).toBe(true);
     daysGrid.vm.$emit('mouseover', date);
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(0);
@@ -62,8 +62,8 @@ describe('PickerDay: DOM', () => {
       highlightDate: jest.fn(),
       sideBySide: true,
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
-    const daysGrid = daysGrids.wrappers[1];
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
+    const daysGrid = daysGrids[1];
     expect(daysGrid.exists()).toBe(true);
     daysGrid.vm.$emit('mouseover');
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1);
@@ -95,18 +95,18 @@ describe('PickerDay: DOM', () => {
 
   it('displays the footer if the showFooter prop is true', async () => {
     await wrapper.setProps({ showFooter: true });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(true);
   });
 
   it('does not display the footer if the showFooter prop is false', async () => {
     await wrapper.setProps({ showFooter: false });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(false);
   });
 
-  it('displays a custom footer from a slot and hides the default footer', () => {
-    wrapper = shallowMount(PickerDay, {
+  it('displays a custom footer from a slot and hides the default footer', async () => {
+    wrapper = mount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,
@@ -118,7 +118,7 @@ describe('PickerDay: DOM', () => {
         footer: '<p class="footer">The footer</p>',
       },
     });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(false);
 
     const customFooter = wrapper.find('.footer');

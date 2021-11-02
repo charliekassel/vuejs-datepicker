@@ -116,9 +116,9 @@ export default {
   computed: {
     years () {
       const d = this.pageDate;
-      let years = [];
+      const years = [];
       // set up a new date object to the beginning of the current 'page'7
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
         : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
       for (let i = 0; i < 10; i++) {
@@ -231,7 +231,7 @@ export default {
       this.$emit('selectYear', year);
     },
     changeYear (incrementBy) {
-      let date = this.pageDate;
+      const date = this.pageDate;
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
       this.$emit('changedDecade', date);
     },

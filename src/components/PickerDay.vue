@@ -300,12 +300,12 @@ export default {
       };
     },
     getMonthDays (date) {
-      let days = [];
+      const days = [];
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
         : new Date(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes());
-      let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj));
+      const daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj));
       for (let i = 0; i < daysInMonth; i++) {
         days.push(this.getDateObject(dObj));
         this.utils.setDate(dObj, this.utils.getDate(dObj) + 1);
@@ -342,7 +342,7 @@ export default {
     setToday () {
       const d = new Date();
 
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
         : new Date(d.getFullYear(), d.getMonth(), d.getUTCDate(), d.getHours(), d.getMinutes());
 
@@ -372,7 +372,7 @@ export default {
      * @param {Number} incrementBy
      */
     changeMonth (incrementBy) {
-      let date = this.pageDate;
+      const date = this.pageDate;
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy);
       this.$emit('changedMonth', date);
     },
@@ -394,7 +394,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false;
       }
-      let d = this.pageDate;
+      const d = this.pageDate;
       return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d);
     },
@@ -424,7 +424,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false;
       }
-      let d = this.pageDate;
+      const d = this.pageDate;
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d);
     },

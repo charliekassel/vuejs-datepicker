@@ -31,7 +31,7 @@ describe('DaysGrid: DOM', () => {
 
   it('emits an event when selecting a cell', () => {
     const dayCells = wrapper.findAll('.cell.day:not(.blank)');
-    const firstDayCell = dayCells.wrappers[0];
+    const firstDayCell = dayCells[0];
     expect(firstDayCell.exists()).toBe(true);
 
     firstDayCell.trigger('click');
@@ -105,16 +105,16 @@ describe('DaysGrid: DOM', () => {
     const days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ];
     const dayHeaders = wrapper.findAll('.cell.day-header');
     days.forEach((day, index) => {
-      expect(dayHeaders.at(index).text()).toEqual(day);
-    });
-  });
+      expect(dayHeaders[index].text()).toEqual(day)
+    })
+  })
 
   it('displays the days of the week in the right order when Monday is the first day', async () => {
     await wrapper.setProps({ mondayFirst: true });
     const days = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
     const dayHeaders = wrapper.findAll('.cell.day-header');
     days.forEach((day, index) => {
-      expect(dayHeaders.at(index).text()).toEqual(day);
+      expect(dayHeaders[index].text()).toEqual(day);
     });
   });
 });

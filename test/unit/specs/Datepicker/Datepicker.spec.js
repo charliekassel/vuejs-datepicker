@@ -319,11 +319,11 @@ describe('Datepicker.vue using UTC', () => {
     });
     // It's important to assert the input rendered output
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString);
-      done();
-    });
-  });
-});
+      expect(wrapper.findComponent(DateInput).vm.formattedValue).toEqual(UTCString)
+      done()
+    })
+  })
+})
 
 describe('Datepicker with initial-view', () => {
   let wrapper;

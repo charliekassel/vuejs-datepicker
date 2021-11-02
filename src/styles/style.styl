@@ -1,10 +1,12 @@
 .rtl
-    direction rtl
+  direction rtl
+
 .vdp-datepicker
-    position relative
-    text-align left
-    *
-        box-sizing border-box
+  position relative
+  text-align left
+
+  *
+    box-sizing border-box
 
 .vdp-datepicker__overlay
     position fixed
@@ -17,129 +19,150 @@
     z-index: 99
 
 .vdp-datepicker__calendar
-    position absolute
-    z-index 100
-    background white
-    width 300px
-    border 1px solid #ccc
-    &.vdp-datepicker__calendar-modal
-        position: fixed
-        left: 50%
-        top: 50%
-        transform: translate(-50%, -50%)
-    .day-grids-wrapper
-        display grid
-        grid-auto-flow column
-        width 100%
+  position absolute
+  z-index 100
+  background white
+  width 300px
+  border 1px solid #ccc
+  &.vdp-datepicker__calendar-modal
+    position: fixed
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+
+  .day-grids-wrapper
+    display grid
+    grid-auto-flow column
+    width 100%
+
+  header
+    display flex
+    line-height 40px
+    flex-flow row
+
+    button
+      background none
+      border none
+      text-align center
+      flex 1 0 auto
+
+    .prev
+    .next
+      width (100 / 7) %
+      text-indent -10000px
+      flex: 0 0 auto
+      position relative
+
+      &:after
+        content ''
+        position absolute
+        left 50%
+        top 50%
+        transform translateX(-50%) translateY(-50%)
+        border 6px solid transparent
+
+    .prev
+      &:after
+        border-right 10px solid #000
+        margin-left -5px
+
+      &[disabled]:after
+        border-right 10px solid #ddd
+
+    .next
+      &:after
+        border-left 10px solid #000
+        margin-left 5px
+
+      &[disabled]:after
+        border-left 10px solid #ddd
+
+    .prev:not([disabled])
+    .next:not([disabled])
+    .up:not(.disabled)
+      cursor pointer
+
+      &:hover
+        background #eee
+
+  [disabled]
+    color #ddd
+    cursor default
+
+  .flex-rtl
+    display flex
+    width inherit
+    flex-wrap wrap
+
+  .cell
+    display inline-block
+    padding 0 5px
+    width (100 / 7) %
+    height 40px
+    line-height 40px
+    text-align center
+    vertical-align middle
+    border 1px solid transparent
+
+    &:not(.blank):not(.disabled).day
+    &:not(.blank):not(.disabled).month
+    &:not(.blank):not(.disabled).year
+      cursor pointer
+
+      &:hover
+        border 1px solid #4bd
+
+    &.selected
+      background #4bd
+
+      &:hover
+        background #4bd
+
+      &.highlighted
+        background #4bd
+
+    &.highlighted
+      background #cae5ed
+
+      &.disabled
+        color: #a3a3a3
+
+    &.grey
+      color #888
+
+      &:hover
+        background inherit
+
+    &.focused
+      border 1px solid #cae5ed
+
+
+    &.day-header
+      font-size 75%
+      white-space nowrap
+      cursor inherit
+
+      &:hover
+        background inherit
+
+  .month,
+  .year
+    width 33.333%
+
+  &--side-by-side
+    width 600px
+
     header
-        display flex
-        line-height 40px
-        flex-flow row
-        button
-            background none
-            border none
-            text-align center
-            flex 1 0 auto
-        .prev
-        .next
-            width (100/7)%
-            text-indent -10000px
-            flex: 0 0 auto
-            position relative
-            &:after
-                content ''
-                position absolute
-                left 50%
-                top 50%
-                transform translateX(-50%) translateY(-50%)
-                border 6px solid transparent
-
-        .prev
-            &:after
-                border-right 10px solid #000
-                margin-left -5px
-            &[disabled]:after
-                border-right 10px solid #ddd
-        .next
-            &:after
-                border-left 10px solid #000
-                margin-left 5px
-            &[disabled]:after
-                border-left 10px solid #ddd
-
-        .prev:not([disabled])
-        .next:not([disabled])
-        .up:not(.disabled)
-            cursor pointer
-            &:hover
-                background #eee
-
-    [disabled]
-        color #ddd
-        cursor default
-    .flex-rtl
-        display flex
-        width inherit
-        flex-wrap wrap
-
-    .cell
-        display inline-block
-        padding 0 5px
-        width (100/7)%
-        height 40px
-        line-height 40px
-        text-align center
-        vertical-align middle
-        border 1px solid transparent
-        &:not(.blank):not(.disabled).day
-        &:not(.blank):not(.disabled).month
-        &:not(.blank):not(.disabled).year
-            cursor pointer
-            &:hover
-                border 1px solid #4bd
-        &.selected
-            background #4bd
-            &:hover
-                background #4bd
-            &.highlighted
-                background #4bd
-        &.highlighted
-            background #cae5ed
-            &.disabled
-                color: #a3a3a3
-        &.grey
-            color #888
-
-            &:hover
-                background inherit
-        &.focused
-          border 1px solid #cae5ed
-
-
-
-        &.day-header
-            font-size 75%
-            white-space nowrap
-            cursor inherit
-            &:hover
-                background inherit
-
-    .month,
-    .year
-        width 33.333%
-
-    &--side-by-side
-      width 600px
-      header
-        .next
-        .prev
-          width (100/15)%
+      .next
+      .prev
+        width (100 / 15) %
 
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button
-    cursor pointer
-    font-style normal
-    &.disabled
-      color #999
-      cursor default
+  cursor pointer
+  font-style normal
+
+  &.disabled
+    color #999
+    cursor default

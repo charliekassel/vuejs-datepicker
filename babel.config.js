@@ -8,6 +8,7 @@ module.exports = {
         },
       },
     ],
+    'vue'
   ],
   'env': {
     'test': {

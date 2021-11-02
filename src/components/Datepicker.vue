@@ -32,10 +32,9 @@
       @typedDate="setTypedDate"
       @clearDate="clearDate"
     >
-      <slot
-        slot="afterDateInput"
-        name="afterDateInput"
-      />
+      <template #afterDateInput>
+        <slot name="afterDateInput" />
+      </template>
     </date-input>
 
     <div
@@ -80,19 +79,21 @@
       @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
-      <slot
-        slot="beforeCalendarHeader"
-        name="beforeCalendarHeader"
-      />
-      <slot
-        slot="afterCalendarContent"
-        name="afterCalendarContent"
-      />
-      <slot
-        slot="footer"
-        name="footer"
-        :on-tab="(event) => focusNextElement(event)"
-      />
+      <template #beforeCalendarHeader>
+        <slot
+          name="beforeCalendarHeader"
+        />
+      </template>
+      <template #afterCalendarContent>
+        <slot
+          name="afterCalendarContent"
+        />
+      </template>
+      <template #footer>
+        <slot name="footer"
+              :on-tab="(event) => focusNextElement(event)"
+        />
+      </template>
     </picker-day>
 
     <!-- Month View -->
@@ -119,14 +120,12 @@
       @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
-      <slot
-        slot="beforeCalendarHeader"
-        name="beforeCalendarHeader"
-      />
-      <slot
-        slot="afterCalendarContent"
-        name="afterCalendarContent"
-      />
+      <template #beforeCalendarHeader>
+        <slot name="beforeCalendarHeader" />
+      </template>
+      <template #afterCalendarContent>
+        <slot name="afterCalendarContent" />
+      </template>
     </picker-month>
 
     <!-- Year View -->
@@ -152,14 +151,12 @@
       @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
-      <slot
-        slot="beforeCalendarHeader"
-        name="beforeCalendarHeader"
-      />
-      <slot
-        slot="afterCalendarContent"
-        name="afterCalendarContent"
-      />
+      <template #beforeCalendarHeader>
+        <slot name="beforeCalendarHeader" />
+      </template>
+      <template #afterCalendarContent>
+        <slot name="afterCalendarContent" />
+      </template>
     </picker-year>
   </div>
 </template>
@@ -536,7 +533,7 @@ export default {
      */
     setValue (date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        let parsed = new Date(date);
+        const parsed = new Date(date);
         date = isNaN(parsed.valueOf()) ? null : parsed;
       }
       if (!date) {
@@ -613,6 +610,7 @@ export default {
 // eslint-disable-next-line
 ;
 </script>
+
 <style lang="stylus">
 @import '../styles/style'
 </style>

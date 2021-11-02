@@ -74,7 +74,7 @@ export default {
      */
     blankDays () {
       const d = this.startDate;
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
         : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
       if (this.mondayFirst) {
@@ -86,13 +86,13 @@ export default {
   methods: {
     dayClasses (day) {
       return {
-        'selected': day.isSelected,
-        'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
-        'today': day.isToday,
-        'weekend': day.isWeekend,
-        'sat': day.isSaturday,
-        'sun': day.isSunday,
+        selected: day.isSelected,
+        disabled: day.isDisabled,
+        highlighted: day.isHighlighted,
+        today: day.isToday,
+        weekend: day.isWeekend,
+        sat: day.isSaturday,
+        sun: day.isSunday,
         'highlight-start': day.isHighlightStart,
         'highlight-end': day.isHighlightEnd,
       };
