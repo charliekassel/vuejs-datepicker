@@ -26,6 +26,14 @@
     </div>
 
     <div class="example">
+      <h3>Modal datepicker</h3>
+      <datepicker placeholder="Select date" :modal="true" />
+      <code>
+          &lt;datepicker placeholder="Select date" :modal="true"&gt;&lt;/datepicker&gt;
+      </code>
+    </div>
+
+    <div class="example">
       <h3>Bootstrap styled datepicker</h3>
       <datepicker
         :bootstrapStyling="true"

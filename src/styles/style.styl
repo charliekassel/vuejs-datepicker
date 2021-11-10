@@ -6,12 +6,27 @@
     *
         box-sizing border-box
 
+.vdp-datepicker__overlay
+    position fixed
+    left: 0
+    top: 0
+    background-color: #000
+    opacity: 0.3
+    width: 100vw
+    height: 100vh
+    z-index: 99
+
 .vdp-datepicker__calendar
     position absolute
     z-index 100
     background white
     width 300px
     border 1px solid #ccc
+    &.vdp-datepicker__calendar-modal
+        position: fixed
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
     .day-grids-wrapper
         display grid
         grid-auto-flow column

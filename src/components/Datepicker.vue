@@ -29,6 +29,7 @@
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
 
+    <div v-if="modal && isOpen" class="vdp-datepicker__overlay" />
 
     <!-- Day View -->
     <picker-day
@@ -48,6 +49,7 @@
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
+      :modal="modal"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
       :footer-class="footerClass"
@@ -76,6 +78,7 @@
       :disabledDates="disabledDates"
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
+      :modal="modal"
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
@@ -98,6 +101,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :modal="modal"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectYear="selectYear"
@@ -156,6 +160,7 @@ export default {
       type: String,
       default: 'day'
     },
+    modal: Boolean,
     mondayFirst: Boolean,
     name: String,
     openDate: {
