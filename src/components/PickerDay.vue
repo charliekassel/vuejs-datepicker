@@ -1,5 +1,14 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar', {'vdp-datepicker__calendar--side-by-side': sideBySide}]" v-show="showDayView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[
+      calendarClass,
+      'vdp-datepicker__calendar',
+      {'vdp-datepicker__calendar-modal': modal},
+      {'vdp-datepicker__calendar--side-by-side': sideBySide}
+    ]" 
+    v-show="showDayView"
+    :style="calendarStyle"
+    @mousedown.prevent
+  >
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -89,6 +98,7 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
+    modal: Boolean,
     useUtc: Boolean,
     highlightDate: Function,
     sideBySide: {

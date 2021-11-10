@@ -1,5 +1,13 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" :style="calendarStyle" @mousedown.prevent>
+  <div :class="[
+      calendarClass,
+      'vdp-datepicker__calendar',
+      {'vdp-datepicker__calendar-modal': modal},
+    ]"
+    v-show="showMonthView"
+    :style="calendarStyle"
+    @mousedown.prevent
+  >
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
@@ -34,6 +42,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
+    modal: Boolean,
     isRtl: Boolean,
     allowedToShowView: Function,
     useUtc: Boolean
