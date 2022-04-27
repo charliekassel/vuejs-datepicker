@@ -26,6 +26,8 @@ https://codesandbox.io/s/mpklq49wp
 
 To view demo examples locally clone the repo and run `npm install && npm run serve`
 
+NB: [Keyboard support is not implemented yet, but here is the tracking issue to follow implementation:](https://github.com/charliekassel/vuejs-datepicker/issues/501)
+
 ## Install
 
 ``` bash
