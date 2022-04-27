@@ -46,7 +46,7 @@ export default {
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
-    mondayFirst: Boolean,
+    firstDayOfWeek: Number,
     useUtc: Boolean
   },
   data () {
@@ -61,9 +61,11 @@ export default {
      * @return {String[]}
      */
     daysOfWeek () {
-      if (this.mondayFirst) {
+      if (this.firstDayOfWeek) {
         const tempDays = this.translation.days.slice()
-        tempDays.push(tempDays.shift())
+        for (var i = 0; i < this.firstDayOfWeek; i++) {
+          tempDays.push(tempDays.shift())
+        }
         return tempDays
       }
       return this.translation.days
@@ -78,8 +80,21 @@ export default {
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
         : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      if (this.mondayFirst) {
-        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
+      if (this.firstDayOfWeek) {
+        const offset = this.utils.getDay(dObj) - this.firstDayOfWeek
+        return offset < 0 ? 7 + offset : offset
+        // This should return a number of days visible from previous month according to this table
+        // Where X is the actual dayoftheweek for the first of the month,
+        // and Y is the firstDayOfWeek prop
+        //   0 1 2 3 4 5 6 
+        // 0 0 1 2 3 4 5 6
+        // 1 6 0 1 2 3 4 5
+        // 2 5 6 0 1 2 3 4
+        // 3 4 5 6 0 1 2 3
+        // 4 3 4 5 6 0 1 2
+        // 5 2 3 4 5 6 0 1
+        // 6 1 2 3 4 5 6 0
+
       }
       return this.utils.getDay(dObj)
     },
