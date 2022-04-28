@@ -180,4 +180,11 @@ describe('UTC functions', () => {
     expect(DateUtils.setDate(date, 31)).toEqual(date.setDate(31))
     expect(utcUtils.setDate(date, 31)).toEqual(date.setUTCDate(31))
   })
+
+  it('parseDate', () => {
+    const date = '2018/11/30'
+    expect((new Date(DateUtils.parseDate(date))).getDate()).toEqual(30)
+    expect((new Date(utcUtils.parseDate(date))).getUTCDate()).toEqual(30)
+    expect(utcUtils.parseDate(date)).toEqual(DateUtils.parseDate(date) - (new Date(utcUtils.parseDate(date))).getTimezoneOffset() * 60 * 1000)
+  })
 })
