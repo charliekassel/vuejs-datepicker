@@ -20,6 +20,7 @@ describe('Datepicker unmounted', () => {
 
 describe('Datepicker mounted', () => {
   let wrapper
+
   let date
   beforeEach(() => {
     date = new Date(2016, 1, 15)
@@ -96,6 +97,18 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.isOpen).toEqual(true)
     // calendar is already open so acts as a toggle
     wrapper.vm.showCalendar()
+    expect(wrapper.vm.isOpen).toEqual(false)
+
+    wrapper.vm.showTimeCalendar()
+    expect(wrapper.vm.isOpen).toEqual(false)
+
+    wrapper.setProps({
+      time: true
+    })
+    wrapper.vm.showTimeCalendar()
+    expect(wrapper.vm.isOpen).toEqual(true)
+
+    wrapper.vm.close()
     expect(wrapper.vm.isOpen).toEqual(false)
   })
 

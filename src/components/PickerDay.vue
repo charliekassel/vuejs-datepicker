@@ -24,6 +24,13 @@
           v-html="dayCellContent(day)"
           @click="selectDate(day)"></span>
     </div>
+    <footer class="day__time_foot" v-if="time"  @click="showTimeCalendar" :class="allowedToShowView('time') ? 'up' : ''">
+      <slot name="timeButton">
+        
+        <span class="day__time_btn">{{hours}}</span>
+        
+      </slot>
+    </footer>
   </div>
 </template>
 <script>
@@ -47,7 +54,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    time: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -56,6 +64,14 @@ export default {
     }
   },
   computed: {
+
+    hours () {
+      if (!this.selectedDate) {
+        return '--:--'
+      }
+      return `${this.utils.getHours(this.selectedDate)}:${this.utils.getMinutes(this.selectedDate)}`
+    },
+
     /**
      * Returns an array of day names
      * @return {String[]}
@@ -167,6 +183,12 @@ export default {
      */
     getPageMonth () {
       return this.utils.getMonth(this.pageDate)
+    },
+    /**
+     * Emit an event to show the time picker
+     */
+    showTimeCalendar () {
+      this.$emit('showTimeCalendar')
     },
     /**
      * Emit an event to show the month picker

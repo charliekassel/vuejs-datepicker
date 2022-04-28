@@ -12,6 +12,17 @@
     background white
     width 300px
     border 1px solid #ccc
+    footer
+        display block
+        line-height 40px
+        text-align center
+        span
+            display inline-block
+            text-align center
+            width 100%
+            cursor pointer
+            &:hover
+                background #eee
     header
         display block
         line-height 40px
@@ -20,6 +31,8 @@
             text-align center
             width (100 - (100/7)*2)%
             float left
+        div
+            text-align center
 
         .prev
         .next
@@ -72,6 +85,7 @@
         text-align center
         vertical-align middle
         border 1px solid transparent
+        &:not(.blank):not(.disabled).time
         &:not(.blank):not(.disabled).day
         &:not(.blank):not(.disabled).month
         &:not(.blank):not(.disabled).year
@@ -101,10 +115,43 @@
             cursor inherit
             &:hover
                 background inherit
-
+  
     .month,
     .year
         width 33.333%
+    .time
+        width ((100/7)*3)%
+
+    .time_up
+    .time_down
+        text-indent -10000px
+        position relative
+        &:after
+            content ''
+            position absolute
+            left 50%
+            top 50%
+            transform translateX(-50%) translateY(-50%)
+            border 6px solid transparent
+
+    .time_up
+        &:after
+            border-bottom 10px solid #000
+            margin-bottom -5px
+        &.disabled:after
+            border-bottom 10px solid #ddd
+    .time_down
+        &:after
+            border-top 10px solid #000
+            margin-top 5px
+        &.disabled:after
+            border-top 10px solid #ddd
+
+    .time_up:not(.disabled)
+    .time_down:not(.disabled)
+        cursor pointer
+        &:hover
+            background #eee
 
 .vdp-datepicker__clear-button
 .vdp-datepicker__calendar-button
