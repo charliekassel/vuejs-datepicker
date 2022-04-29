@@ -147,7 +147,7 @@ Inline always open version
 | open-date                     | Date\|String    |             | If set, open on that date                |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
-
+| date-input-visible            | Boolean         | true        | Sets visibility of DateInput             |
 
 ## Events
 
