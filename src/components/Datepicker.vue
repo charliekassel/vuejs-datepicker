@@ -250,6 +250,8 @@ export default {
       }
       if (this.isOpen) {
         return this.close(true)
+      } else {
+        this.$emit('opened', null)
       }
       this.setInitialView()
     },
