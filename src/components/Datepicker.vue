@@ -53,6 +53,8 @@
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <slot name="nextIntervalBtn" slot="nextIntervalBtn"></slot>
+      <slot name="prevIntervalBtn" slot="prevIntervalBtn"></slot>
     </picker-day>
 
     <!-- Month View -->
@@ -72,6 +74,8 @@
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <slot name="nextIntervalBtn" slot="nextIntervalBtn"></slot>
+      <slot name="prevIntervalBtn" slot="prevIntervalBtn"></slot>
     </picker-month>
 
     <!-- Year View -->
@@ -90,6 +94,8 @@
       @selectYear="selectYear"
       @changedDecade="setPageDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <slot name="nextIntervalBtn" slot="nextIntervalBtn"></slot>
+      <slot name="prevIntervalBtn" slot="prevIntervalBtn"></slot>
     </picker-year>
   </div>
 </template>
