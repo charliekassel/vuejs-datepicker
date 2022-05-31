@@ -20,6 +20,7 @@
       :calendarButtonIconContent="calendarButtonIconContent"
       :disabled="disabled"
       :required="required"
+      :tabindex="tabindex"
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
       @showCalendar="showCalendar"
@@ -144,6 +145,7 @@ export default {
     initialView: String,
     disabled: Boolean,
     required: Boolean,
+    tabindex: [Number, String],
     typeable: Boolean,
     useUtc: Boolean,
     minimumView: {
