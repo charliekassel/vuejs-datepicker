@@ -89,21 +89,13 @@
     </div>
 
     <div class="example">
+      <h3>Disabled dates</h3>
       <div class="settings">
         <h5>Settings</h5>
         <div class="form-group">
           <label>Disabled Function:</label>
         </div>
-        <pre>
-          disabledDates: {
-            customPredictor: function (date) {
-              // disables every day of a month which is a multiple of 3
-              if (date.getDate() % 3 === 0) {
-                return true
-              }
-            }
-          }
-        </pre>
+        <pre>{{ disabledFnContent }}</pre>
         <h5>Resulting Date picker</h5>
         <datepicker :disabledDates="disabledFn"></datepicker>
       </div>
@@ -270,11 +262,44 @@ export default {
       openDate: null,
       disabledFn: {
         customPredictor (date) {
-          if (date.getDate() % 3 === 0) {
+          const year = date.getFullYear()
+          const month = date.getMonth()
+          const day = date.getDate()
+
+          // disable every years that are a multiple of 2
+          if (year % 2 === 0) {
+            return true
+          }
+          // disable every months that are a multiple of 3
+          if (month % 3 === 0) {
+            return true
+          }
+          // disable first half of the month when it is a multiple of 2
+          if (month % 2 !== 0 && day < 15) {
             return true
           }
         }
       },
+      disabledFnContent: `disabledDates: {
+  customPredictor: function (date) {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDate()
+
+    // disable every years that are a multiple of 2
+    if (year % 2 === 0) {
+      return true
+    }
+    // disable every months that are a multiple of 3
+    if (month % 3 === 0) {
+      return true
+    }
+    // disable first half of the month when it is a multiple of 2
+    if (month % 2 !== 0 && day < 15) {
+      return true
+    }
+  }
+}`,
       highlightedFn: {
         customPredictor (date) {
           if (date.getDate() % 4 === 0) {
