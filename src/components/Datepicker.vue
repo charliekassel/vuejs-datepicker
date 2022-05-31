@@ -1,5 +1,5 @@
 <template>
-  <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
+  <div class="vdp-datepicker" :class="isRtl ? 'rtl' : ''">
     <date-input
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
@@ -21,6 +21,7 @@
       :disabled="disabled"
       :required="required"
       :bootstrapStyling="bootstrapStyling"
+      :wrapperClass="wrapperClass"
       :use-utc="useUtc"
       @showCalendar="showCalendar"
       @closeCalendar="close"
