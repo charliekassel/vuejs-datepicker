@@ -193,7 +193,13 @@
 
     <div class="example">
       <h3>Inline datepicker</h3>
-      <datepicker :inline="true"></datepicker>
+      <datepicker :inline="true"
+                  @opened="testFunction"
+                  @selected="testFunction"
+                  @selectedDisabled="testFunction"
+                  :disabledDates="disabledFn"
+                  :dayCustomClasses="dayCustomClasses"
+      ></datepicker>
       <code>
           &lt;datepicker :inline="true"&gt;&lt;/datepicker&gt;
       </code>
@@ -357,6 +363,14 @@ export default {
         }
       }
       this.disabledDates.from = val
+    },
+    testFunction (e) {
+      console.log('test', e)
+    },
+    dayCustomClasses (day) {
+      return {
+        'custom': Math.random() >= 0.5
+      }
     }
   }
 }
@@ -416,5 +430,9 @@ h5 {
 .form-group label {
     font-size: 80%;
     display: block;
+}
+
+.custom {
+  background-color: aliceblue;
 }
 </style>
