@@ -14,7 +14,7 @@
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
       <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
-      <template v-if="blankDays > 0">
+      <template v-if="!showNeighborMonths && (blankDays > 0)">
         <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
       </template><!--
       --><span class="cell day"
@@ -47,7 +47,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     mondayFirst: Boolean,
-    useUtc: Boolean
+    useUtc: Boolean,
+    showNeighborMonths: Boolean
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -74,43 +75,60 @@ export default {
      * @return {Number}
      */
     blankDays () {
-      const d = this.pageDate
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
-        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      if (this.mondayFirst) {
-        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
-      }
-      return this.utils.getDay(dObj)
+      return this.getBlankDays(this.pageDate)
     },
     /**
      * @return {Object[]}
      */
     days () {
-      const d = this.pageDate
-      let days = []
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
-        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
-      for (let i = 0; i < daysInMonth; i++) {
-        days.push({
-          date: this.utils.getDate(dObj),
-          timestamp: dObj.getTime(),
-          isSelected: this.isSelectedDate(dObj),
-          isDisabled: this.isDisabledDate(dObj),
-          isHighlighted: this.isHighlightedDate(dObj),
-          isHighlightStart: this.isHighlightStart(dObj),
-          isHighlightEnd: this.isHighlightEnd(dObj),
-          isToday: this.utils.compareDates(dObj, new Date()),
-          isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
-          isSaturday: this.utils.getDay(dObj) === 6,
-          isSunday: this.utils.getDay(dObj) === 0
-        })
-        this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
+      const getNeighborDate = (d, monthShift) => {
+        const newMonth = (this.useUtc ? d.getUTCMonth() : this.utils.getMonth(d)) + monthShift
+        return this.useUtc
+          ? new Date(Date.UTC(d.getUTCFullYear(), newMonth, 1))
+          : new Date(d.getFullYear(), newMonth, 1, d.getHours(), d.getMinutes())
       }
-      return days
+
+      const getPrevMonthDate = d => getNeighborDate(d, -1)
+      const getNextMonthDate = d => getNeighborDate(d, 1)
+
+      const getMonthDates = (d, isFaded) => {
+        const days = []
+        let dObj = this.useUtc
+          ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
+          : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+
+        let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
+        for (let i = 0; i < daysInMonth; i++) {
+          days.push({
+            date: this.utils.getDate(dObj),
+            timestamp: dObj.getTime(),
+            isSelected: this.isSelectedDate(dObj),
+            isDisabled: this.isDisabledDate(dObj),
+            isFaded,
+            isHighlighted: this.isHighlightedDate(dObj),
+            isHighlightStart: this.isHighlightStart(dObj),
+            isHighlightEnd: this.isHighlightEnd(dObj),
+            isToday: this.utils.compareDates(dObj, new Date()),
+            isWeekend: this.utils.getDay(dObj) === 0 || this.utils.getDay(dObj) === 6,
+            isSaturday: this.utils.getDay(dObj) === 6,
+            isSunday: this.utils.getDay(dObj) === 0
+          })
+          this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
+        }
+        return days
+      }
+
+      const currentMonthDates = getMonthDates(this.pageDate, false)
+      if (!this.showNeighborMonths) return currentMonthDates
+
+      const prevMonthDates = getMonthDates(getPrevMonthDate(this.pageDate), true)
+      const nextMonthDates = getMonthDates(getNextMonthDate(this.pageDate), true)
+      return prevMonthDates
+        .slice(-this.getBlankDays(this.pageDate) || prevMonthDates.length)
+        .concat(currentMonthDates)
+        .concat(nextMonthDates
+          .slice(0, 7 - this.getBlankDays(getNextMonthDate(this.pageDate)))
+        )
     },
     /**
      * Gets the name of the month the current page is on
@@ -155,6 +173,20 @@ export default {
     }
   },
   methods: {
+    /**
+       * Returns the day number of the week less one for the first of the current month
+       * Used to show amount of empty cells before the first in the day calendar layout
+       * @return {Number}
+     */
+    getBlankDays (d) {
+      let dObj = this.useUtc
+        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
+        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+      if (this.mondayFirst) {
+        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
+      }
+      return this.utils.getDay(dObj)
+    },
     selectDate (date) {
       if (date.isDisabled) {
         this.$emit('selectedDisabled', date)
@@ -325,6 +357,7 @@ export default {
       return {
         'selected': day.isSelected,
         'disabled': day.isDisabled,
+        'grey': (!day.isToday && !day.isHighlighted) && day.isFaded,
         'highlighted': day.isHighlighted,
         'today': day.isToday,
         'weekend': day.isWeekend,
