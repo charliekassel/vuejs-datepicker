@@ -161,7 +161,7 @@ export default {
         }
       }
 
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date, 'year')) {
         disabledDates = true
       }
 
