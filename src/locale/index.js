@@ -32,6 +32,7 @@ import mk from './translations/mk'
 import mn from './translations/mn'
 import nbNO from './translations/nb-NO'
 import nl from './translations/nl'
+import oc from './translations/oc'
 import pl from './translations/pl'
 import ptBR from './translations/pt-BR'
 import ro from './translations/ro'
@@ -84,6 +85,7 @@ export {
   mn,
   nbNO,
   nl,
+  oc,
   pl,
   ptBR,
   ro,
