@@ -10,22 +10,22 @@
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
-      <span
+      <button
         @click="isRtl ? nextDecade() : previousDecade()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span>{{ getPageDecade }}</span>
-      <span
+        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
+      <button>{{ getPageDecade }}</button>
+      <button
         @click="isRtl ? previousDecade() : nextDecade()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
-    <span
+    <button
       class="cell year"
       v-for="year in years"
       :key="year.timestamp"
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-      @click.stop="selectYear(year)">{{ year.year }}</span>
+      @click.stop="selectYear(year)">{{ year.year }}</button>
     <div>
       <slot name="afterCalendarContent"></slot>
     </div>

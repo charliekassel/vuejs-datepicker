@@ -75,9 +75,4 @@ describe('DateInput', () => {
     })
     expect(wrapper.find('input').element.value).toEqual('!')
   })
-
-  it('triggers closeCalendar on blur', () => {
-    wrapper.find('input').trigger('blur')
-    expect(wrapper.emitted('closeCalendar')).toBeTruthy()
-  })
 })

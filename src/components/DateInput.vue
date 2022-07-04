@@ -25,6 +25,7 @@
       :readonly="!typeable"
       @click="showCalendar"
       @keyup="parseTypedDate"
+      @keydown.down="showCalendar"
       @blur="inputBlurred"
       autocomplete="off">
     <!-- Clear Button -->
@@ -135,8 +136,6 @@ export default {
         this.input.value = null
         this.typedDate = null
       }
-
-      this.$emit('closeCalendar')
     },
     /**
      * emit a clearDate event

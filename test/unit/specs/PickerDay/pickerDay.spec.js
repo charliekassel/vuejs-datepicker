@@ -1,5 +1,5 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
+import {mount, shallow} from '@vue/test-utils'
 import {en} from '@/locale'
 import DaysGrid from '@/components/DaysGrid'
 import Footer from '@/components/Footer'
@@ -110,5 +110,40 @@ describe('PickerDay: DOM', () => {
     const customFooter = wrapper.find('.footer')
     expect(customFooter.exists()).toBe(true)
     expect(customFooter.text()).toEqual('The footer')
+  })
+
+  describe('Day grids', () => {
+    const getFirstGrid = (wrapper) => wrapper.find('[data-test-id="first-grid"]')
+    const getSecondGrid = (wrapper) => wrapper.find('[data-test-id="second-grid"]')
+
+    it('should render only one grid if it is not side by side', () => {
+      wrapper = mount(PickerDay, {
+        propsData: {
+          allowedToShowView: () => true,
+          translation: en,
+          pageDate: new Date(2018, 1, 1),
+          selectedDate: new Date(2018, 2, 24),
+          showFooter: true,
+          sideBySide: false
+        }
+      })
+      expect(getFirstGrid(wrapper).exists()).toBe(true)
+      expect(getSecondGrid(wrapper).exists()).toBe(false)
+    })
+
+    it('should render the second grid if it is side by side', () => {
+      wrapper = mount(PickerDay, {
+        propsData: {
+          allowedToShowView: () => true,
+          translation: en,
+          pageDate: new Date(2018, 1, 1),
+          selectedDate: new Date(2018, 2, 24),
+          showFooter: true,
+          sideBySide: true
+        },
+      })
+      expect(getFirstGrid(wrapper).exists()).toBe(true)
+      expect(getSecondGrid(wrapper).exists()).toBe(true)
+    })
   })
 })

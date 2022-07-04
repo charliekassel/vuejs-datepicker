@@ -134,7 +134,7 @@ describe('Datepicker mounted', () => {
     expect(d.getDate()).toEqual(1)
   })
 
-  it('should open and close the calendar', () => {
+  it('should open and close the calendar', async () => {
     wrapper.vm.close()
     expect(wrapper.vm.isOpen).toEqual(false)
 
@@ -153,7 +153,7 @@ describe('Datepicker mounted', () => {
     wrapper.vm.showDayCalendar()
     expect(wrapper.vm.isOpen).toEqual(true)
     // calendar is already open so acts as a toggle
-    wrapper.vm.showCalendar()
+    await wrapper.vm.showCalendar()
     expect(wrapper.vm.isOpen).toEqual(false)
   })
 
@@ -349,38 +349,50 @@ describe('Datepicker.vue using UTC', () => {
 
 describe('Datepicker with initial-view', () => {
   let wrapper
-  it('should open in Day view', () => {
+  it('should open in Day view', async () => {
     wrapper = shallow(Datepicker)
-    wrapper.vm.showCalendar()
+    await wrapper.vm.showCalendar()
     expect(wrapper.vm.computedInitialView).toEqual('day')
     expect(wrapper.vm.showDayView).toEqual(true)
     expect(wrapper.vm.showMonthView).toEqual(false)
     expect(wrapper.vm.showYearView).toEqual(false)
   })
 
-  it('should open in Month view', () => {
+  it('should open in Month view', async () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         initialView: 'month'
       }
     })
-    wrapper.vm.showCalendar()
+    await wrapper.vm.showCalendar()
     expect(wrapper.vm.computedInitialView).toEqual('month')
     expect(wrapper.vm.showDayView).toEqual(false)
     expect(wrapper.vm.showMonthView).toEqual(true)
     expect(wrapper.vm.showYearView).toEqual(false)
   })
 
-  it('should open in Year view', () => {
+  it('should open in Year view', async () => {
     wrapper = shallow(Datepicker, {
       propsData: {
         initialView: 'year'
       }
     })
-    wrapper.vm.showCalendar()
+    await wrapper.vm.showCalendar()
     expect(wrapper.vm.computedInitialView).toEqual('year')
     expect(wrapper.vm.showDayView).toEqual(false)
     expect(wrapper.vm.showMonthView).toEqual(false)
     expect(wrapper.vm.showYearView).toEqual(true)
+  })
+})
+
+describe('Focus after opening the datepicker', () => {
+  describe('Days', () => {
+    it('should focus on the current day', async () => {
+      const wrapper = mount(Datepicker, {attachToDocument: true})
+      const today = new Date()
+      await wrapper.vm.showCalendar()
+      expect(document.activeElement.textContent).toEqual(today.getDate().toString())
+      wrapper.destroy();
+    })
   })
 })
