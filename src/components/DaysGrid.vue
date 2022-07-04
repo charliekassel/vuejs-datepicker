@@ -8,8 +8,14 @@
                v-for="day in days"
                :key="day.timestamp"
                :class="dayClasses(day)"
+               :tabindex="isFocused(day) ? 0 : -1"
                v-html="dayCellContent(day)"
                @mouseover="mouseOver(day)"
+               @keydown.left.prevent="$emit('focus-previous-day')"
+               @keydown.right.prevent="$emit('focus-next-day')"
+               @keydown.up.prevent="$emit('focus-previous-week')"
+               @keydown.down.prevent="$emit('focus-next-week')"
+               @keydown="$emit('keydown', $event)"
                @click="selectDate(day)"></span>
   </div>
 </template>
@@ -23,6 +29,9 @@ export default {
       default: day => day.date
     },
     days: Array,
+    focusedDate: {
+      type: Number,
+    },
     mondayFirst: Boolean,
     translation: Object,
     startDate: Date,
@@ -58,6 +67,15 @@ export default {
       return this.utils.getDay(dObj)
     }
   },
+  watch: {
+    async focusedDate () {
+      await this.$nextTick();
+      const focusableDay = this.$el.querySelector('[tabindex="0"]')
+      if (focusableDay) {
+        focusableDay.focus()
+      }
+    },
+  },
   methods: {
     dayClasses (day) {
       return {
@@ -69,8 +87,13 @@ export default {
         'sat': day.isSaturday,
         'sun': day.isSunday,
         'highlight-start': day.isHighlightStart,
-        'highlight-end': day.isHighlightEnd
+        'highlight-end': day.isHighlightEnd,
       }
+    },
+    isFocused(day) {
+      const date = new Date(day.timestamp);
+      const focusedDate = new Date(this.focusedDate);
+      return this.utils.compareDates(date, focusedDate);
     },
     mouseOver (date) {
       this.$emit('mouseover', date)

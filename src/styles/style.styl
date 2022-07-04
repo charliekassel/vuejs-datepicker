@@ -35,7 +35,9 @@
         display flex
         line-height 40px
         flex-flow row
-        span
+        button
+            background none
+            border none
             text-align center
             flex 1 0 auto
         .prev
@@ -110,6 +112,9 @@
 
             &:hover
                 background inherit
+        &.focused
+          border 1px solid #cae5ed
+
 
 
         &.day-header

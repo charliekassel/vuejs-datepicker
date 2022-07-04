@@ -10,21 +10,21 @@
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
-      <span
+      <button
         @click="isRtl ? nextYear() : previousYear()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
-      <span
+        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
+      <button class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</button>
+      <button
         @click="isRtl ? previousYear() : nextYear()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
-    <span class="cell month"
+    <button class="cell month"
       v-for="month in months"
       :key="month.timestamp"
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
-      @click.stop="selectMonth(month)">{{ month.month }}</span>
+      @click.stop="selectMonth(month)">{{ month.month }}</button>
     <div>
       <slot name="afterCalendarContent"></slot>
     </div>

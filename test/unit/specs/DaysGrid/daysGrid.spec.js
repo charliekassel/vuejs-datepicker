@@ -1,5 +1,5 @@
 import DaysGrid from '@/components/DaysGrid.vue'
-import {shallow} from '@vue/test-utils'
+import {mount, shallow} from '@vue/test-utils'
 import {en} from '@/locale'
 import {makeDateUtils} from '@/utils/DateUtils'
 
@@ -12,21 +12,25 @@ const days = [
 describe('DaysGrid: DOM', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(DaysGrid, {
+    wrapper = mount(DaysGrid, {
       propsData: {
         mondayFirst: false,
         translation: en,
         startDate: new Date(Date.UTC(2018, 1, 1)),
         utils: constructedDateUtils,
         useUtc: true,
-        days
-      }
+        days,
+      },
+      attachToDocument: true,
     })
+  })
+
+  afterEach(() => {
+    wrapper.destroy();
   })
 
   it('emits an event when selecting a cell', () => {
     const dayCells = wrapper.findAll('.cell.day:not(.blank)')
-    console.log(dayCells)
     const firstDayCell = dayCells.wrappers[0]
     expect(firstDayCell.exists()).toBe(true)
 
@@ -47,6 +51,56 @@ describe('DaysGrid: DOM', () => {
     expect(wrapper.emitted().mouseover[0]).toEqual([days[0]])
   })
 
+  it('focuses on the next day when pressing the left arrow on a cell', () => {
+    const dayCells = wrapper.findAll('.cell.day:not(.blank)')
+    const firstDayCell = dayCells.wrappers[0]
+    expect(firstDayCell.exists()).toBe(true)
+
+    firstDayCell.trigger('keydown', {keyCode: 37})
+
+    expect(wrapper.emitted('focus-previous-day')).toBeTruthy()
+  })
+
+  it('focuses on the previous day when pressing the right arrow on a cell', () => {
+    const dayCells = wrapper.findAll('.cell.day:not(.blank)')
+    const firstDayCell = dayCells.wrappers[0]
+    expect(firstDayCell.exists()).toBe(true)
+
+    firstDayCell.trigger('keydown', {keyCode: 39})
+
+    expect(wrapper.emitted('focus-next-day')).toBeTruthy()
+  })
+
+  it('focuses on the next week when pressing the left arrow on a cell',  () => {
+    const dayCells = wrapper.findAll('.cell.day:not(.blank)')
+    const firstDayCell = dayCells.wrappers[0]
+    expect(firstDayCell.exists()).toBe(true)
+
+    firstDayCell.trigger('keydown', {keyCode: 38})
+
+    expect(wrapper.emitted('focus-previous-week')).toBeTruthy()
+  })
+
+  it('focuses on the previous week when pressing the right arrow on a cell',  () => {
+    const dayCells = wrapper.findAll('.cell.day:not(.blank)')
+    const firstDayCell = dayCells.wrappers[0]
+    expect(firstDayCell.exists()).toBe(true)
+
+    firstDayCell.trigger('keydown', {keyCode: 40})
+
+    expect(wrapper.emitted('focus-next-week')).toBeTruthy()
+  })
+
+  it('propagates the keydown event', () => {
+    const dayCells = wrapper.findAll('.cell.day:not(.blank)')
+    const firstDayCell = dayCells.wrappers[0]
+    expect(firstDayCell.exists()).toBe(true)
+
+    firstDayCell.trigger('keydown', {keyCode: 50})
+
+    expect(wrapper.emitted('keydown')).toBeTruthy()
+  })
+
   it('displays the days of the week in the right order', () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const dayHeaders = wrapper.findAll('.cell.day-header')
@@ -63,6 +117,17 @@ describe('DaysGrid: DOM', () => {
       expect(dayHeaders.at(index).text()).toEqual(day)
     })
   })
+
+  it('focuses on the new focused date after it changes', async () => {
+    const date = new Date(Date.UTC(2021, 9, 1));
+    await wrapper.setProps({focusedDate: date.getTime()})
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).toEqual('1')
+    date.setDate(2)
+    await wrapper.setProps({focusedDate: date.getTime()})
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).toEqual('2')
+  })
 })
 
 function getDateObject (year, month, day) {
@@ -70,7 +135,7 @@ function getDateObject (year, month, day) {
   const timestamp = date.getTime()
 
   return {
-    date,
+    date: constructedDateUtils.getDate(date),
     timestamp
   }
 }

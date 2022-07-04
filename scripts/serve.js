@@ -26,7 +26,7 @@ export default {
       mainFields: ['module', 'main']
     }),
     common(),
-    babel({exclude: 'node_modules/**'}),
+    babel({exclude: 'node_modules/**', runtimeHelpers: true}),
     serve({
       open: true,
       contentBase: path.join(__dirname, '..', 'example'),

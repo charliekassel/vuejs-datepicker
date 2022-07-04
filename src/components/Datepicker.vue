@@ -47,6 +47,7 @@
       :calendarStyle="calendarStyle"
       :translation="translation"
       :pageTimestamp="pageTimestamp"
+      :focused-date.sync="focusedDate"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
       :modal="modal"
@@ -61,6 +62,7 @@
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate"
+      @keydown.esc.prevent="close"
       :highlightDate="highlightDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
@@ -118,6 +120,7 @@ import PickerDay from './PickerDay.vue'
 import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
+import {ELEMENT_IDS} from '../config/ElementIds'
 export default {
   components: {
     DateInput,
@@ -184,6 +187,7 @@ export default {
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
+    const focusedDate = startDate.getTime();
     const constructedDateUtils = makeDateUtils(this.useUtc)
     const pageTimestamp = constructedDateUtils.setDate(startDate, 1)
     return {
@@ -192,6 +196,7 @@ export default {
        * This represents the first day of the current viewing month
        * {Number}
        */
+      focusedDate,
       pageTimestamp,
       /*
        * Selected Date
@@ -210,7 +215,7 @@ export default {
        */
       calendarHeight: 0,
       resetTypedDate: new Date(),
-      utils: constructedDateUtils
+      utils: constructedDateUtils,
     }
   },
   watch: {
@@ -225,6 +230,12 @@ export default {
     }
   },
   computed: {
+    activeGridId() {
+      if (this.showDayView) return ELEMENT_IDS.dayGrid;
+      if (this.showMonthView) return ELEMENT_IDS.monthGrid;
+      if (this.showYearView) return ELEMENT_IDS.yearGrid;
+      return null
+    },
     computedInitialView () {
       if (!this.initialView) {
         return this.minimumView
@@ -271,7 +282,7 @@ export default {
      * Effectively a toggle to show/hide the calendar
      * @return {mixed}
      */
-    showCalendar () {
+    async showCalendar () {
       if (this.disabled || this.isInline) {
         return false
       }
@@ -279,6 +290,9 @@ export default {
         return this.close(true)
       }
       this.setInitialView()
+      await this.$nextTick()
+      const activeCell = this.$el.querySelector(`.${this.activeGridId} [tabindex="0"]`);
+      if (activeCell) activeCell.focus();
     },
     /**
      * Sets the initial picker page view: day, month or year

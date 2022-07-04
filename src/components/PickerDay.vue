@@ -4,53 +4,69 @@
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
       {'vdp-datepicker__calendar--side-by-side': sideBySide}
-    ]" 
+    ]"
     v-show="showDayView"
     :style="calendarStyle"
     @mousedown.prevent
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
-      <span
+      <button
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+        @keydown="$emit('keydown', $event)"
+        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
+      <button class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
-      </span>
-      <span v-if="sideBySide" class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+      </button>
+      <button v-if="sideBySide" class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
         {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
-      </span>
-      <span
+      </button>
+      <button
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        @keydown="$emit('keydown', $event)"
+        :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
     <div class="day-grids-wrapper">
       <DaysGrid
-        :class="isRtl ? 'flex-rtl' : ''"
+        data-test-id="first-grid"
+        :class="[isRtl ? 'flex-rtl' : '', daysGridId]"
         :day-cell-content="dayCellContent"
         :days="days"
+        :focused-date="focusedDate"
         :monday-first="mondayFirst"
         :start-date="pageDate"
         :translation="translation"
         :use-utc="useUtc"
         :utils="utils"
         @select="selectDate"
+        @focus-next-day="focusNextDay"
+        @focus-previous-day="focusPreviousDay"
+        @focus-next-week="focusNextWeek"
+        @focus-previous-week="focusPreviousWeek"
         @mouseover="highlightOnMouseover"
+        @keydown="$emit('keydown', $event)"
       />
       <DaysGrid
+        data-test-id="second-grid"
         v-if="sideBySide"
         :class="isRtl ? 'flex-rtl' : ''"
         :day-cell-content="dayCellContent"
         :days="nextMonthDays"
+        :focused-date="focusedDate"
         :monday-first="mondayFirst"
         :start-date="nextMonthPageDate"
         :translation="translation"
         :use-utc="useUtc"
         :utils="utils"
         @select="selectDate"
+        @focus-next-day="focusNextDay"
+        @focus-previous-day="focusPreviousDay"
+        @focus-next-week="focusNextWeek"
+        @focus-previous-week="focusPreviousWeek"
         @mouseover="highlightOnMouseover"
+        @keydown="$emit('keydown', $event)"
       />
     </div>
     <div>
@@ -72,9 +88,11 @@
 import { makeDateUtils } from '../utils/DateUtils'
 import Footer from './Footer.vue'
 import DaysGrid from './DaysGrid.vue'
+import {ELEMENT_IDS} from '../config/ElementIds'
 export default {
   components: { Footer, DaysGrid },
   props: {
+    focusedDate: Number,
     showFooter: Boolean,
     showDayView: Boolean,
     selectedDate: Date,
@@ -109,6 +127,7 @@ export default {
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
+      daysGridId: ELEMENT_IDS.dayGrid,
       utils: constructedDateUtils
     }
   },
@@ -173,8 +192,8 @@ export default {
      */
     isLeftNavDisabled () {
       return this.isRtl
-        ? this.isNextMonthDisabled(this.pageTimestamp)
-        : this.isPreviousMonthDisabled(this.pageTimestamp)
+        ? this.isNextMonthDisabled()
+        : this.isPreviousMonthDisabled()
     },
     /**
      * Is the right hand navigation button disabled?
@@ -182,11 +201,31 @@ export default {
      */
     isRightNavDisabled () {
       return this.isRtl
-        ? this.isPreviousMonthDisabled(this.pageTimestamp)
-        : this.isNextMonthDisabled(this.pageTimestamp)
+        ? this.isPreviousMonthDisabled()
+        : this.isNextMonthDisabled()
     }
   },
   methods: {
+    focusNextDay() {
+      const newDate = new Date(this.focusedDate);
+      newDate.setDate(newDate.getDate() + 1);
+      this.moveFocus(newDate)
+    },
+    focusPreviousDay () {
+      const newDate = new Date(this.focusedDate);
+      newDate.setDate(newDate.getDate() - 1);
+      this.moveFocus(newDate)
+    },
+    focusNextWeek() {
+      const newDate = new Date(this.focusedDate);
+      newDate.setDate(newDate.getDate() + 7);
+      this.moveFocus(newDate)
+    },
+    focusPreviousWeek () {
+      const newDate = new Date(this.focusedDate);
+      newDate.setDate(newDate.getDate() - 7);
+      this.moveFocus(newDate)
+    },
     getDateObject (date) {
       return {
         date: this.utils.getDate(date),
@@ -214,6 +253,16 @@ export default {
         this.utils.setDate(dObj, this.utils.getDate(dObj) + 1)
       }
       return days
+    },
+    moveFocus(newDate) {
+      const monthsDifference = this.utils.getMonth(newDate)  - this.utils.getMonth(this.pageDate);
+      const yearsDifference = this.utils.getFullYear(newDate) - this.utils.getFullYear(this.pageDate);
+      const shouldChangePage = monthsDifference !== 0 && !(this.sideBySide && monthsDifference === 1);
+      if (shouldChangePage) {
+        this.changeMonth(monthsDifference + yearsDifference * 12);
+      }
+
+      this.$emit('update:focusedDate', newDate.getTime());
     },
     /**
      * Select date for today button

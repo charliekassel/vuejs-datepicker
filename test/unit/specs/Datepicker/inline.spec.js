@@ -11,8 +11,8 @@ describe('Datepicker.vue inline', () => {
     })
   })
 
-  it('should not showCalendar as already open', () => {
-    expect(wrapper.vm.showCalendar()).toEqual(false)
+  it('should not showCalendar as already open', async () => {
+    expect(await wrapper.vm.showCalendar()).toEqual(false)
     expect(wrapper.vm.isInline).toEqual(true)
   })
 
