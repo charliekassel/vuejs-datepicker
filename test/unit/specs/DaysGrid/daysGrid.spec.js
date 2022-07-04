@@ -117,17 +117,6 @@ describe('DaysGrid: DOM', () => {
       expect(dayHeaders.at(index).text()).toEqual(day)
     })
   })
-
-  it('focuses on the new focused date after it changes', async () => {
-    const date = new Date(Date.UTC(2021, 9, 1));
-    await wrapper.setProps({focusedDate: date.getTime()})
-    await wrapper.vm.$nextTick()
-    expect(document.activeElement.textContent).toEqual('1')
-    date.setDate(2)
-    await wrapper.setProps({focusedDate: date.getTime()})
-    await wrapper.vm.$nextTick()
-    expect(document.activeElement.textContent).toEqual('2')
-  })
 })
 
 function getDateObject (year, month, day) {
