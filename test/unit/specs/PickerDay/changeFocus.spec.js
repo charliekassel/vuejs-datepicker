@@ -1,11 +1,11 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerDay: changing focus', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = mount(PickerDay, {
       propsData: {
         translation: en,
         allowedToShowView: () => true,
@@ -13,8 +13,13 @@ describe('PickerDay: changing focus', () => {
         pageDate: new Date(Date.UTC(2018, 1, 1)),
         focusedDate: new Date(Date.UTC(2018, 1, 15)).getTime(),
         useUtc: true,
-      }
+      },
+      attachToDocument: true
     })
+  })
+
+  afterEach(() => {
+    wrapper.destroy()
   })
 
   describe('focusNextDay', () => {
@@ -47,6 +52,23 @@ describe('PickerDay: changing focus', () => {
       wrapper.vm.focusNextDay();
       expect(wrapper.emitted('update:focusedDate')).toEqual([[new Date(Date.UTC(2018, 2, 1)).getTime()]])
       expect(wrapper.emitted('changedMonth')).toBeUndefined()
+    })
+
+
+    it('focuses on the new focused date after it changes', async () => {
+      wrapper.vm.focusNextDay()
+      // fake the .sync prop update
+      wrapper.setProps({
+        focusedDate: new Date(Date.UTC(2018, 1, 16)).getTime()
+      })
+      await wrapper.vm.$nextTick()
+      expect(document.activeElement.textContent).toEqual('16')
+      wrapper.vm.focusNextDay()
+      wrapper.setProps({
+        focusedDate: new Date(Date.UTC(2018, 1, 17)).getTime()
+      })
+      await wrapper.vm.$nextTick()
+      expect(document.activeElement.textContent).toEqual('17')
     })
   })
 

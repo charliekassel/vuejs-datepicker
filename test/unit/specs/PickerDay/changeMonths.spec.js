@@ -9,7 +9,8 @@ describe('PickerDay: changing months', () => {
       propsData: {
         translation: en,
         allowedToShowView: () => true,
-        selectedDate: new Date(2018, 2, 24),
+        selectedDate: new Date(2018, 1, 24),
+        focusedDate: new Date(2018, 1, 24),
         pageDate: new Date(2018, 1, 1)
       }
     })
@@ -25,5 +26,17 @@ describe('PickerDay: changing months', () => {
     wrapper.vm.previousMonth()
     expect(wrapper.emitted().changedMonth).toBeTruthy()
     expect(wrapper.emitted().changedMonth[0][0].getMonth()).toEqual(0)
+  })
+
+  it('changes the focused to the next month', () => {
+    wrapper.vm.nextMonth()
+    expect(wrapper.emitted('update:focusedDate')).toBeTruthy()
+    expect(wrapper.emitted('update:focusedDate')[0]).toEqual([new Date(2018, 2, 24).getTime()])
+  })
+
+  it('changes the focused to the next month', () => {
+    wrapper.vm.previousMonth()
+    expect(wrapper.emitted('update:focusedDate')).toBeTruthy()
+    expect(wrapper.emitted('update:focusedDate')[0]).toEqual([new Date(2018, 0, 24).getTime()])
   })
 })

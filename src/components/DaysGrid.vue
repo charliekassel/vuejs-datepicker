@@ -67,15 +67,6 @@ export default {
       return this.utils.getDay(dObj)
     }
   },
-  watch: {
-    async focusedDate () {
-      await this.$nextTick();
-      const focusableDay = this.$el.querySelector('[tabindex="0"]')
-      if (focusableDay) {
-        focusableDay.focus()
-      }
-    },
-  },
   methods: {
     dayClasses (day) {
       return {

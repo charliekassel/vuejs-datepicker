@@ -254,7 +254,7 @@ export default {
       }
       return days
     },
-    moveFocus(newDate) {
+    async moveFocus(newDate, focusCell = true) {
       const monthsDifference = this.utils.getMonth(newDate)  - this.utils.getMonth(this.pageDate);
       const yearsDifference = this.utils.getFullYear(newDate) - this.utils.getFullYear(this.pageDate);
       const shouldChangePage = monthsDifference !== 0 && !(this.sideBySide && monthsDifference === 1);
@@ -263,6 +263,14 @@ export default {
       }
 
       this.$emit('update:focusedDate', newDate.getTime());
+
+      if (focusCell) {
+        await this.$nextTick();
+        const focusableDay = this.$el.querySelector('.day-grids-wrapper [tabindex="0"]')
+        if (focusableDay) {
+          focusableDay.focus()
+        }
+      }
     },
     /**
      * Select date for today button
@@ -309,7 +317,9 @@ export default {
      */
     previousMonth () {
       if (!this.isPreviousMonthDisabled()) {
-        this.changeMonth(-1)
+        const focusedDate = new Date(this.focusedDate);
+        this.utils.setMonth(focusedDate, this.utils.getMonth(focusedDate) - 1, this.useUtc);
+        this.moveFocus(focusedDate, false);
       }
     },
     /**
@@ -329,7 +339,9 @@ export default {
      */
     nextMonth () {
       if (!this.isNextMonthDisabled()) {
-        this.changeMonth(+1)
+        const focusedDate = new Date(this.focusedDate);
+        this.utils.setMonth(focusedDate, this.utils.getMonth(focusedDate) + 1, this.useUtc);
+        this.moveFocus(focusedDate, false);
       }
     },
     /**
