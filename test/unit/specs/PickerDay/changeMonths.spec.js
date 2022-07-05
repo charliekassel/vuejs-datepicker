@@ -10,7 +10,7 @@ describe('PickerDay: changing months', () => {
         translation: en,
         allowedToShowView: () => true,
         selectedDate: new Date(2018, 1, 24),
-        focusedDate: new Date(2018, 1, 24),
+        focusedDate: new Date(2018, 1, 24).getTime(),
         pageDate: new Date(2018, 1, 1)
       }
     })

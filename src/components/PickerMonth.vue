@@ -3,6 +3,7 @@
       calendarClass,
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
+      monthsGridId,
     ]"
     v-show="showMonthView"
     :style="calendarStyle"
@@ -12,18 +13,33 @@
     <header>
       <button
         @click="isRtl ? nextYear() : previousYear()"
+        @keydown="$emit('keydown', $event)"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}">&lt;</button>
-      <button class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</button>
+      <button
+        @click="showYearCalendar"
+        @keydown="$emit('keydown', $event)"
+        class="month__year_btn"
+        :class="allowedToShowView('year') ? 'up' : ''"
+      >
+        {{ pageYearName }}
+      </button>
       <button
         @click="isRtl ? previousYear() : nextYear()"
+        @keydown="$emit('keydown', $event)"
         class="next"
         :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
     <button class="cell month"
       v-for="month in months"
+      :tabindex="month.isFocused ? 0 : -1"
       :key="month.timestamp"
       :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
+      @keydown.right.prevent="focusNextMonth"
+      @keydown.left.prevent="focusPreviousMonth"
+      @keydown.down.prevent="focusNextQuarter"
+      @keydown.up.prevent="focusPreviousQuarter"
+      @keydown="$emit('keydown', $event)"
       @click.stop="selectMonth(month)">{{ month.month }}</button>
     <div>
       <slot name="afterCalendarContent"></slot>
@@ -32,8 +48,10 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import {ELEMENT_IDS} from '../config/ElementIds'
 export default {
   props: {
+    focusedDate: Number,
     showMonthView: Boolean,
     selectedDate: Date,
     pageDate: Date,
@@ -50,6 +68,7 @@ export default {
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
+      monthsGridId: ELEMENT_IDS.monthGrid,
       utils: constructedDateUtils
     }
   },
@@ -65,6 +84,7 @@ export default {
         months.push({
           month: this.utils.getMonthName(i, this.translation.months),
           timestamp: dObj.getTime(),
+          isFocused: this.isFocusedMonth(dObj),
           isSelected: this.isSelectedMonth(dObj),
           isDisabled: this.isDisabledMonth(dObj)
         })
@@ -99,7 +119,41 @@ export default {
         : this.isNextYearDisabled(this.pageTimestamp)
     }
   },
+  watch: {
+    showMonthView() {
+      if (this.showMonthView) {
+        this.focusMonthCell()
+      }
+    }
+  },
   methods: {
+    async focusMonthCell() {
+      await this.$nextTick();
+      const focusableMonth = this.$el.querySelector('.month[tabindex="0"]')
+      if (focusableMonth) {
+        focusableMonth.focus()
+      }
+    },
+    focusNextMonth() {
+      const newDate = new Date(this.focusedDate);
+      this.utils.setMonth(newDate,newDate.getMonth() + 1, this.useUtc);
+      this.moveFocus(newDate)
+    },
+    focusPreviousMonth () {
+      const newDate = new Date(this.focusedDate);
+      this.utils.setMonth(newDate,newDate.getMonth() - 1, this.useUtc);
+      this.moveFocus(newDate)
+    },
+    focusNextQuarter() {
+      const newDate = new Date(this.focusedDate);
+      this.utils.setMonth(newDate,newDate.getMonth() + 3, this.useUtc);
+      this.moveFocus(newDate)
+    },
+    focusPreviousQuarter () {
+      const newDate = new Date(this.focusedDate);
+      this.utils.setMonth(newDate,newDate.getMonth() - 3, this.useUtc);
+      this.moveFocus(newDate)
+    },
     /**
      * Emits a selectMonth event
      * @param {Object} month
@@ -124,7 +178,9 @@ export default {
      */
     previousYear () {
       if (!this.isPreviousYearDisabled()) {
-        this.changeYear(-1)
+        const focusedDate = new Date(this.focusedDate);
+        this.utils.setFullYear(focusedDate, this.utils.getFullYear(focusedDate) - 1, this.useUtc);
+        this.moveFocus(focusedDate, false);
       }
     },
     /**
@@ -142,7 +198,9 @@ export default {
      */
     nextYear () {
       if (!this.isNextYearDisabled()) {
-        this.changeYear(1)
+        const focusedDate = new Date(this.focusedDate);
+        this.utils.setFullYear(focusedDate, this.utils.getFullYear(focusedDate) + 1, this.useUtc);
+        this.moveFocus(focusedDate, false);
       }
     },
     /**
@@ -170,6 +228,17 @@ export default {
       return (this.selectedDate &&
         this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date) &&
         this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date))
+    },
+    /**
+     * Whether the focused date is in this month
+     * @param date {Date}
+     * @return {Boolean}
+     */
+    isFocusedMonth (date) {
+      const focusedDate = new Date(this.focusedDate);
+      return (focusedDate &&
+        this.utils.getFullYear(focusedDate) === this.utils.getFullYear(date) &&
+        this.utils.getMonth(focusedDate) === this.utils.getMonth(date))
     },
     /**
      * Whether a month is disabled
@@ -204,6 +273,18 @@ export default {
         disabledDates = true
       }
       return disabledDates
+    },
+    moveFocus(newDate, focusCell = true) {
+      const yearsDifference = this.utils.getFullYear(newDate) - this.utils.getFullYear(this.pageDate);
+      if (!!yearsDifference) {
+        this.changeYear(yearsDifference);
+      }
+
+      this.$emit('update:focusedDate', newDate.getTime());
+
+      if (focusCell) {
+        this.focusMonthCell()
+      }
     }
   }
 }

@@ -74,6 +74,7 @@
       :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       v-if="allowedToShowView('month')"
       :pageDate="pageDate"
+      :focused-date.sync="focusedDate"
       :selectedDate="selectedDate"
       :showMonthView="showMonthView"
       :allowedToShowView="allowedToShowView"
