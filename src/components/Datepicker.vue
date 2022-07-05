@@ -1,6 +1,7 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
     <date-input
+      ref="input"
       :selectedDate="selectedDate"
       :resetTypedDate="resetTypedDate"
       :format="format"
@@ -58,6 +59,7 @@
       :clear-button-class="clearButtonClass"
       :show-footer="showFooter"
       :side-by-side="sideBySide"
+      :is-initialized="isInitialized"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -85,6 +87,7 @@
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
+      :is-initialized="isInitialized"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate"
@@ -109,6 +112,7 @@
       :modal="modal"
       :isRtl="isRtl"
       :use-utc="useUtc"
+      :is-initialized="isInitialized"
       @selectYear="selectYear"
       @changedDecade="setPageDate"
       @keydown.esc.prevent="close">
@@ -220,6 +224,7 @@ export default {
       calendarHeight: 0,
       resetTypedDate: new Date(),
       utils: constructedDateUtils,
+      isInitialized : false,
     }
   },
   watch: {
@@ -228,6 +233,7 @@ export default {
     },
     openDate () {
       this.setPageDate()
+      this.focusedDate = this.openDate.getTime()
     },
     initialView () {
       this.setInitialView()
@@ -497,23 +503,31 @@ export default {
      */
     close (emitEvent) {
       this.showDayView = this.showMonthView = this.showYearView = false
-      if (!this.isInline) {
-        if (emitEvent) {
-          this.$emit('closed')
-        }
-        document.removeEventListener('click', this.clickOutside, false)
+
+      if (this.isInline) return
+
+      if (emitEvent) {
+        this.$emit('closed')
+        const input = this.$refs.input
+        if (input && input.$el.querySelector) input.$el.querySelector('input').focus()
       }
+
+      document.removeEventListener('click', this.clickOutside, false)
     },
     /**
      * Initiate the component
      */
-    init () {
+    async init () {
       if (this.value) {
         this.setValue(this.value)
       }
       if (this.isInline) {
         this.setInitialView()
       }
+
+      // Prevent from focusing inline datepickers on load
+      await this.$nextTick();
+      this.isInitialized = true;
     }
   },
   mounted () {

@@ -177,9 +177,20 @@ describe('PickerDay: changing focus', () => {
   it('focuses on the focused day when showing the day view', async () => {
     expect(document.activeElement.textContent).not.toEqual('15')
     wrapper.setProps({
+      isInitialized: true,
       showDayView: true
     })
     await wrapper.vm.$nextTick()
     expect(document.activeElement.textContent).toEqual('15')
+  })
+
+  it('does not focus on the focused day when showing the day view before initializing', async () => {
+    expect(document.activeElement.textContent).not.toEqual('15')
+    wrapper.setProps({
+      isInitialized: false,
+      showDayView: true
+    })
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).not.toEqual('15')
   })
 })

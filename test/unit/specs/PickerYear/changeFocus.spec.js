@@ -191,9 +191,20 @@ describe('PickerYear: changing focus', () => {
   it('focuses on the focused day when showing the year view', async () => {
     expect(document.activeElement.textContent).not.toEqual('2018')
     wrapper.setProps({
+      isInitialized: true,
       showYearView: true
     })
     await wrapper.vm.$nextTick()
     expect(document.activeElement.textContent).toEqual('2018')
+  })
+
+  it('does not focus on the focused day when showing the year view before initializing', async () => {
+    expect(document.activeElement.textContent).not.toEqual('2018')
+    wrapper.setProps({
+      isInitialized: false,
+      showYearView: true
+    })
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).not.toEqual('2018')
   })
 })

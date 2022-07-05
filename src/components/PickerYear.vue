@@ -3,6 +3,7 @@
       calendarClass,
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
+      yearsGridId
     ]"
     v-show="showYearView"
     :style="calendarStyle"
@@ -41,6 +42,7 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import {ELEMENT_IDS} from '../config/ElementIds'
 
 const ORPHAN_CELL_OFFSET = 4
 const LAST_TO_FIRST_OFFSET = 1
@@ -62,7 +64,11 @@ export default {
     translation: Object,
     isRtl: Boolean,
     allowedToShowView: Function,
-    useUtc: Boolean
+    useUtc: Boolean,
+    isInitialized: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     years () {
@@ -115,12 +121,13 @@ export default {
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
     return {
-      utils: constructedDateUtils
+      utils: constructedDateUtils,
+      yearsGridId: ELEMENT_IDS.yearGrid,
     }
   },
   watch: {
     showYearView() {
-      if (this.showYearView) {
+      if (this.showYearView && this.isInitialized) {
         this.focusYearCell()
       }
     }

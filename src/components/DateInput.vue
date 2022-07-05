@@ -25,7 +25,7 @@
       :readonly="!typeable"
       @click="showCalendar"
       @keyup="parseTypedDate"
-      @keydown.down="showCalendar"
+      @keydown.down.prevent="showCalendar"
       @blur="inputBlurred"
       autocomplete="off">
     <!-- Clear Button -->
