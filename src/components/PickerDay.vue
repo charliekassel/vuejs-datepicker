@@ -13,19 +13,30 @@
     <header>
       <button
         @click="isRtl ? nextMonth() : previousMonth()"
-        class="prev"
         @keydown="$emit('keydown', $event)"
+        class="prev"
         :class="{'disabled': isLeftNavDisabled}">&lt;</button>
-      <button class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+      <button
+        @click="showMonthCalendar"
+        @keydown="$emit('keydown', $event)"
+        class="day__month_btn"
+        :class="allowedToShowView('month') ? 'up' : ''"
+      >
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
       </button>
-      <button v-if="sideBySide" class="day__month_btn" @click="showMonthCalendar" :class="allowedToShowView('month') ? 'up' : ''">
+      <button
+        v-if="sideBySide"
+        @click="showMonthCalendar"
+        @keydown="$emit('keydown', $event)"
+        class="day__month_btn"
+        :class="allowedToShowView('month') ? 'up' : ''"
+      >
         {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
       </button>
       <button
         @click="isRtl ? previousMonth() : nextMonth()"
-        class="next"
         @keydown="$emit('keydown', $event)"
+        class="next"
         :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
     <div class="day-grids-wrapper">
@@ -205,25 +216,39 @@ export default {
         : this.isNextMonthDisabled()
     }
   },
+  watch: {
+    showDayView() {
+      if (this.showDayView) {
+        this.focusDayCell()
+      }
+    }
+  },
   methods: {
+    async focusDayCell() {
+      await this.$nextTick();
+      const focusableDay = this.$el.querySelector('.day-grids-wrapper [tabindex="0"]')
+      if (focusableDay) {
+        focusableDay.focus()
+      }
+    },
     focusNextDay() {
       const newDate = new Date(this.focusedDate);
-      newDate.setDate(newDate.getDate() + 1);
+      this.utils.setDate(newDate, newDate.getDate() + 1, this.useUtc);
       this.moveFocus(newDate)
     },
     focusPreviousDay () {
       const newDate = new Date(this.focusedDate);
-      newDate.setDate(newDate.getDate() - 1);
+      this.utils.setDate(newDate, newDate.getDate() - 1, this.useUtc);
       this.moveFocus(newDate)
     },
     focusNextWeek() {
       const newDate = new Date(this.focusedDate);
-      newDate.setDate(newDate.getDate() + 7);
+      this.utils.setDate(newDate, newDate.getDate() + 7, this.useUtc);
       this.moveFocus(newDate)
     },
     focusPreviousWeek () {
       const newDate = new Date(this.focusedDate);
-      newDate.setDate(newDate.getDate() - 7);
+      this.utils.setDate(newDate, newDate.getDate() - 7, this.useUtc);
       this.moveFocus(newDate)
     },
     getDateObject (date) {
@@ -265,11 +290,7 @@ export default {
       this.$emit('update:focusedDate', newDate.getTime());
 
       if (focusCell) {
-        await this.$nextTick();
-        const focusableDay = this.$el.querySelector('.day-grids-wrapper [tabindex="0"]')
-        if (focusableDay) {
-          focusableDay.focus()
-        }
+        this.focusDayCell()
       }
     },
     /**

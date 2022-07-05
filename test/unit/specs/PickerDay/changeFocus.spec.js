@@ -173,4 +173,13 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('changedMonth')).toBeUndefined()
     })
   })
+
+  it('focuses on the focused day when showing the day view', async () => {
+    expect(document.activeElement.textContent).not.toEqual('15')
+    wrapper.setProps({
+      showDayView: true
+    })
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).toEqual('15')
+  })
 })
