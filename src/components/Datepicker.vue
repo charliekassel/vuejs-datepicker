@@ -87,7 +87,8 @@
       :use-utc="useUtc"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
+      @changedYear="setPageDate"
+      @keydown.esc.prevent="close">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
     </picker-month>
@@ -97,6 +98,7 @@
       :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       v-if="allowedToShowView('year')"
       :pageDate="pageDate"
+      :focused-date.sync="focusedDate"
       :selectedDate="selectedDate"
       :showYearView="showYearView"
       :allowedToShowView="allowedToShowView"
@@ -108,7 +110,8 @@
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectYear="selectYear"
-      @changedDecade="setPageDate">
+      @changedDecade="setPageDate"
+      @keydown.esc.prevent="close">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
     </picker-year>
