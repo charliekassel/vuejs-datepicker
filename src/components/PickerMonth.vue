@@ -63,7 +63,11 @@ export default {
     modal: Boolean,
     isRtl: Boolean,
     allowedToShowView: Function,
-    useUtc: Boolean
+    useUtc: Boolean,
+    isInitialized: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -121,7 +125,7 @@ export default {
   },
   watch: {
     showMonthView() {
-      if (this.showMonthView) {
+      if (this.showMonthView && this.isInitialized) {
         this.focusMonthCell()
       }
     }

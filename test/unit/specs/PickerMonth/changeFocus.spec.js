@@ -142,9 +142,20 @@ describe('PickerMonth: changing focus', () => {
   it('focuses on the focused day when showing the month view', async () => {
     expect(document.activeElement.textContent).not.toEqual('February')
     wrapper.setProps({
-      showMonthView: true
+      isInitialized: true,
+      showMonthView: true,
     })
     await wrapper.vm.$nextTick()
     expect(document.activeElement.textContent).toEqual('February')
+  })
+
+  it('does not focus on the focused day when showing the month view before initializing', async () => {
+    expect(document.activeElement.textContent).not.toEqual('February')
+    wrapper.setProps({
+      isInitialized: false,
+      showMonthView: true
+    })
+    await wrapper.vm.$nextTick()
+    expect(document.activeElement.textContent).not.toEqual('February')
   })
 })

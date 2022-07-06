@@ -1,6 +1,10 @@
 import Datepicker from '@/components/Datepicker.vue'
 import DateInput from '@/components/DateInput.vue'
 import {shallow, mount} from '@vue/test-utils'
+import {makeDateUtils} from '@/utils/DateUtils'
+import {en} from '@/locale'
+
+const constructedDateUtils = makeDateUtils(true)
 
 describe('Datepicker unmounted', () => {
   it('has a mounted hook', () => {
@@ -394,5 +398,44 @@ describe('Focus after opening the datepicker', () => {
       expect(document.activeElement.textContent).toEqual(today.getDate().toString())
       wrapper.destroy();
     })
+  })
+  describe('Months', () => {
+    it('should focus on the current month', async () => {
+      const wrapper = mount(Datepicker, {
+        propsData: {
+          minimumView: 'month',
+        },
+        attachToDocument: true
+      })
+      const today = new Date()
+      await wrapper.vm.showCalendar()
+      expect(document.activeElement.textContent).toEqual(constructedDateUtils.getMonthName(today, en.months))
+      wrapper.destroy();
+    })
+  })
+  describe('Years', () => {
+    it('should focus on the current year', async () => {
+      const wrapper = mount(Datepicker, {
+        propsData: {
+          minimumView: 'year',
+        },
+        attachToDocument: true
+      })
+      const today = new Date()
+      await wrapper.vm.showCalendar()
+      expect(document.activeElement.textContent).toEqual(today.getFullYear().toString())
+      wrapper.destroy();
+    })
+  })
+})
+
+describe('Focus after closing the datepicker', () => {
+  it('should focus on the input', async () => {
+    const wrapper = mount(Datepicker, {attachToDocument: true})
+    await wrapper.vm.showCalendar()
+    wrapper.vm.close(true)
+    const input = wrapper.vm.$refs.input.$el.querySelector('input')
+    expect(document.activeElement).toEqual(input)
+    wrapper.destroy();
   })
 })

@@ -133,6 +133,10 @@ export default {
     sideBySide: {
       type: Boolean,
       default: false
+    },
+    isInitialized: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -218,7 +222,7 @@ export default {
   },
   watch: {
     showDayView() {
-      if (this.showDayView) {
+      if (this.showDayView && this.isInitialized) {
         this.focusDayCell()
       }
     }
