@@ -3,6 +3,7 @@
       calendarClass,
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
+      {'visible': showYearView},
       yearsGridId
     ]"
     v-show="showYearView"

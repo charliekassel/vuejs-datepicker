@@ -8,6 +8,7 @@
       :class="todayButtonClass"
       type="button"
       @click="setToday"
+      @keydown="$emit('keydown', $event)"
     >
       Today
     </button>
@@ -18,6 +19,7 @@
       :class="clearButtonClass"
       type="button"
       @click="clearDate"
+      @keydown="$emit('keydown', $event)"
     >
       Clear
     </button>
