@@ -15,7 +15,7 @@
                @keydown.right.prevent="$emit('focus-next-day')"
                @keydown.up.prevent="$emit('focus-previous-week')"
                @keydown.down.prevent="$emit('focus-next-week')"
-               @keydown.space.prevent="selectDate(day)"
+               @keydown.space.enter.prevent="selectDate(day)"
                @keydown="$emit('keydown', $event)"
                @click="selectDate(day)"></span>
   </div>

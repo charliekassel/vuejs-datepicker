@@ -3,7 +3,8 @@
       calendarClass,
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
-      {'vdp-datepicker__calendar--side-by-side': sideBySide}
+      {'vdp-datepicker__calendar--side-by-side': sideBySide},
+      {'visible': showDayView},
     ]"
     v-show="showDayView"
     :style="calendarStyle"
@@ -91,6 +92,7 @@
         :footer-class="footerClass"
         :today-button-class="todayButtonClass"
         :clear-button-class="clearButtonClass"
+        @keydown="$emit('keydown', $event)"
       />
     </div>
   </div>

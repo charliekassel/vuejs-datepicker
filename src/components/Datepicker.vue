@@ -65,6 +65,7 @@
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate"
       @keydown.esc.prevent="close"
+      @keydown.tab="focusNextElement($event)"
       :highlightDate="highlightDate">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
@@ -91,7 +92,8 @@
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate"
-      @keydown.esc.prevent="close">
+      @keydown.esc.prevent="close"
+      @keydown.tab="focusNextElement($event)">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
     </picker-month>
@@ -115,7 +117,8 @@
       :is-initialized="isInitialized"
       @selectYear="selectYear"
       @changedDecade="setPageDate"
-      @keydown.esc.prevent="close">
+      @keydown.esc.prevent="close"
+      @keydown.tab="focusNextElement($event)">
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
       <slot name="afterCalendarContent" slot="afterCalendarContent"></slot>
     </picker-year>
@@ -129,6 +132,7 @@ import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 import {ELEMENT_IDS} from '../config/ElementIds'
+import {getFocusableChildren} from '../utils/FocusableElements'
 export default {
   components: {
     DateInput,
@@ -277,6 +281,22 @@ export default {
     }
   },
   methods: {
+    focusNextElement (event) {
+      const focusableElements = getFocusableChildren(this.$el);
+      const activeFocusableElements = [...focusableElements].filter((element) => element.matches('.visible *'))
+      const lastFocusableElement = activeFocusableElements[activeFocusableElements.length - 1]
+
+      if (!event.shiftKey && lastFocusableElement === event.target) {
+        event.preventDefault();
+        activeFocusableElements[0].focus();
+        return;
+      }
+
+      if (event.shiftKey && activeFocusableElements[0] === event.target) {
+        event.preventDefault();
+        lastFocusableElement.focus();
+      }
+    },
     /**
      * Called in the event that the user navigates to date pages and
      * closes the picker without selecting a date.
