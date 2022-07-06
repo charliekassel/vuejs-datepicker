@@ -23,6 +23,8 @@
       :required="required"
       :bootstrapStyling="bootstrapStyling"
       :use-utc="useUtc"
+      :is-open="isOpen"
+      :active-grid-id="activeGridId"
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"

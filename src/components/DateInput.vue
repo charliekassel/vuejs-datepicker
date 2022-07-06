@@ -27,7 +27,14 @@
       @keyup="parseTypedDate"
       @keydown.down.prevent="showCalendar"
       @blur="inputBlurred"
-      autocomplete="off">
+      autocomplete="off"
+      role="combobox"
+      aria-haspopup="dialog"
+      :aria-expanded="`${isOpen}`"
+      aria-hidden="false"
+      aria-autocomplete="none"
+      :aria-controls="dropdownId"
+    >
     <!-- Clear Button -->
     <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
       <span :class="{'input-group-text' : bootstrapStyling}">
@@ -43,12 +50,20 @@
 import { makeDateUtils } from '../utils/DateUtils'
 export default {
   props: {
+    activeGridId: {
+      type: String,
+      default: null
+    },
     selectedDate: Date,
     resetTypedDate: [Date],
     format: [String, Function],
     translation: Object,
     inline: Boolean,
     id: String,
+    isOpen: {
+      type: Boolean,
+      default: false
+    },
     name: String,
     refName: String,
     openDate: Date,
@@ -74,6 +89,9 @@ export default {
     }
   },
   computed: {
+    dropdownId () {
+      return this.activeGridId ? `#${this.activeGridId}` : ''
+    },
     formattedValue () {
       if (!this.selectedDate) {
         return null
