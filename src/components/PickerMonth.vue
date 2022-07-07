@@ -21,6 +21,7 @@
         :class="{'disabled': isLeftNavDisabled}"
         :aria-label="isRtl ? 'Next Year' : 'Previous Year'"
         @click="isRtl ? nextYear() : previousYear()"
+        @keydown.space.enter.prevent="isRtl ? nextYear() : previousYear()"
         @keydown="$emit('keydown', $event)"
       >
         &lt;
@@ -31,6 +32,7 @@
         :class="allowedToShowView('year') ? 'up' : ''"
         aria-live="polite"
         @click="showYearCalendar"
+        @keydown.space.enter.prevent="showYearCalendar"
         @keydown="$emit('keydown', $event)"
       >
         {{ pageYearName }}
@@ -40,6 +42,7 @@
         :aria-label="isRtl ? 'Previous Year' : 'Next Year'"
         :class="{'disabled': isRightNavDisabled}"
         @click="isRtl ? previousYear() : nextYear()"
+        @keydown.space.enter.prevent="isRtl ? previousYear() : nextYear()"
         @keydown="$emit('keydown', $event)"
       >
         &gt;
