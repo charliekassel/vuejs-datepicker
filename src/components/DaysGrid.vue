@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div role="grid" aria-labelledby="month-button">
     <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
     <template v-if="blankDays > 0">
       <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
@@ -9,6 +9,7 @@
                :key="day.timestamp"
                :class="dayClasses(day)"
                :tabindex="isFocused(day) ? 0 : -1"
+               :aria-selected="day.isSelected"
                v-html="dayCellContent(day)"
                @mouseover="mouseOver(day)"
                @keydown.left.prevent="$emit('focus-previous-day')"

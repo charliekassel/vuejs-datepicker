@@ -6,9 +6,12 @@
       {'vdp-datepicker__calendar--side-by-side': sideBySide},
       {'visible': showDayView},
     ]"
-    v-show="showDayView"
-    :style="calendarStyle"
-    @mousedown.prevent
+       v-show="showDayView"
+       :style="calendarStyle"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Choose Date"
+       @mousedown.prevent
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
@@ -16,12 +19,16 @@
         @click="isRtl ? nextMonth() : previousMonth()"
         @keydown="$emit('keydown', $event)"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
+        :aria-label="isRtl ? 'Next Month' : 'Previous Month'"
+        :class="{'disabled': isLeftNavDisabled}">&lt;
+      </button>
       <button
         @click="showMonthCalendar"
         @keydown="$emit('keydown', $event)"
         class="day__month_btn"
         :class="allowedToShowView('month') ? 'up' : ''"
+        aria-live="polite"
+        id="month-button"
       >
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
       </button>
@@ -31,6 +38,7 @@
         @keydown="$emit('keydown', $event)"
         class="day__month_btn"
         :class="allowedToShowView('month') ? 'up' : ''"
+        aria-live="polite"
       >
         {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
       </button>
@@ -38,6 +46,7 @@
         @click="isRtl ? previousMonth() : nextMonth()"
         @keydown="$emit('keydown', $event)"
         class="next"
+        :aria-label="isRtl ? 'Previous Month' : 'Next Month'"
         :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
     <div class="day-grids-wrapper">

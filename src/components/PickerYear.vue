@@ -6,9 +6,12 @@
       {'visible': showYearView},
       yearsGridId
     ]"
-    v-show="showYearView"
-    :style="calendarStyle"
-    @mousedown.prevent
+       v-show="showYearView"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Choose Year"
+       :style="calendarStyle"
+       @mousedown.prevent
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
@@ -16,26 +19,38 @@
         @click="isRtl ? nextDecade() : previousDecade()"
         @keydown="$emit('keydown', $event)"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
-      <button>{{ getPageDecade }}</button>
+        :class="{'disabled': isLeftNavDisabled}"
+        :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'">&lt;
+      </button>
+      <button
+        aria-live="polite"
+        id="decade-button"
+      >{{ getPageDecade }}
+      </button>
       <button
         @click="isRtl ? previousDecade() : nextDecade()"
         @keydown="$emit('keydown', $event)"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</button>
+        :aria-label="isRtl ? 'Previous Decade' : 'Next Decade'"
+        :class="{'disabled': isRightNavDisabled}">&gt;
+      </button>
     </header>
-    <button
-      class="cell year"
-      v-for="year in years"
-      :tabindex="year.isFocused ? 0 : -1"
-      :key="year.timestamp"
-      :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-      @click.stop="selectYear(year)"
-      @keydown.right.prevent="focusNextYear"
-      @keydown.left.prevent="focusPreviousYear"
-      @keydown.down.prevent="focusNextRow"
-      @keydown.up.prevent="focusPreviousRow"
-      @keydown="$emit('keydown', $event)">{{ year.year }}</button>
+    <div role="grid" aria-labelledby="decade-button">
+      <button
+        class="cell year"
+        v-for="year in years"
+        :tabindex="year.isFocused ? 0 : -1"
+        :key="year.timestamp"
+        :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+        :aria-selected="year.isSelected"
+        @click.stop="selectYear(year)"
+        @keydown.right.prevent="focusNextYear"
+        @keydown.left.prevent="focusPreviousYear"
+        @keydown.down.prevent="focusNextRow"
+        @keydown.up.prevent="focusPreviousRow"
+        @keydown="$emit('keydown', $event)"
+      >{{ year.year }}</button>
+    </div>
     <div>
       <slot name="afterCalendarContent"></slot>
     </div>

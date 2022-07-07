@@ -6,9 +6,12 @@
       {'visible': showMonthView},
       monthsGridId,
     ]"
-    v-show="showMonthView"
-    :style="calendarStyle"
-    @mousedown.prevent
+       v-show="showMonthView"
+       :style="calendarStyle"
+       @mousedown.prevent
+       role="dialog"
+       aria-modal="true"
+       aria-label="Choose Month"
   >
     <slot name="beforeCalendarHeader"></slot>
     <header>
@@ -16,12 +19,16 @@
         @click="isRtl ? nextYear() : previousYear()"
         @keydown="$emit('keydown', $event)"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</button>
+        :class="{'disabled': isLeftNavDisabled}"
+        :aria-label="isRtl ? 'Next Year' : 'Previous Year'">&lt;
+      </button>
       <button
         @click="showYearCalendar"
         @keydown="$emit('keydown', $event)"
         class="month__year_btn"
         :class="allowedToShowView('year') ? 'up' : ''"
+        aria-live="polite"
+        id="year-button"
       >
         {{ pageYearName }}
       </button>
@@ -29,19 +36,23 @@
         @click="isRtl ? previousYear() : nextYear()"
         @keydown="$emit('keydown', $event)"
         class="next"
+        :aria-label="isRtl ? 'Previous Year' : 'Next Year'"
         :class="{'disabled': isRightNavDisabled}">&gt;</button>
     </header>
-    <button class="cell month"
-      v-for="month in months"
-      :tabindex="month.isFocused ? 0 : -1"
-      :key="month.timestamp"
-      :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
-      @keydown.right.prevent="focusNextMonth"
-      @keydown.left.prevent="focusPreviousMonth"
-      @keydown.down.prevent="focusNextQuarter"
-      @keydown.up.prevent="focusPreviousQuarter"
-      @keydown="$emit('keydown', $event)"
-      @click.stop="selectMonth(month)">{{ month.month }}</button>
+    <div role="grid" aria-labelledby="year-button">
+      <button class="cell month"
+        v-for="month in months"
+        :tabindex="month.isFocused ? 0 : -1"
+        :key="month.timestamp"
+        :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
+        :aria-selected="month.isSelected"
+        @keydown.right.prevent="focusNextMonth"
+        @keydown.left.prevent="focusPreviousMonth"
+        @keydown.down.prevent="focusNextQuarter"
+        @keydown.up.prevent="focusPreviousQuarter"
+        @keydown="$emit('keydown', $event)"
+        @click.stop="selectMonth(month)">{{ month.month }}</button>
+    </div>
     <div>
       <slot name="afterCalendarContent"></slot>
     </div>
