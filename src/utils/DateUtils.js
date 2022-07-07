@@ -1,4 +1,4 @@
-import en from '../locale/translations/en'
+import en from '../locale/translations/en';
 
 const utils = {
   /**
@@ -10,7 +10,7 @@ const utils = {
    * @param {Date} date
    */
   getFullYear (date) {
-    return this.useUtc ? date.getUTCFullYear() : date.getFullYear()
+    return this.useUtc ? date.getUTCFullYear() : date.getFullYear();
   },
 
   /**
@@ -18,7 +18,7 @@ const utils = {
    * @param {Date} date
    */
   getMonth (date) {
-    return this.useUtc ? date.getUTCMonth() : date.getMonth()
+    return this.useUtc ? date.getUTCMonth() : date.getMonth();
   },
 
   /**
@@ -26,7 +26,7 @@ const utils = {
    * @param {Date} date
    */
   getDate (date) {
-    return this.useUtc ? date.getUTCDate() : date.getDate()
+    return this.useUtc ? date.getUTCDate() : date.getDate();
   },
 
   /**
@@ -34,7 +34,7 @@ const utils = {
    * @param {Date} date
    */
   getDay (date) {
-    return this.useUtc ? date.getUTCDay() : date.getDay()
+    return this.useUtc ? date.getUTCDay() : date.getDay();
   },
 
   /**
@@ -42,7 +42,7 @@ const utils = {
    * @param {Date} date
    */
   getHours (date) {
-    return this.useUtc ? date.getUTCHours() : date.getHours()
+    return this.useUtc ? date.getUTCHours() : date.getHours();
   },
 
   /**
@@ -50,7 +50,7 @@ const utils = {
    * @param {Date} date
    */
   getMinutes (date) {
-    return this.useUtc ? date.getUTCMinutes() : date.getMinutes()
+    return this.useUtc ? date.getUTCMinutes() : date.getMinutes();
   },
 
   /**
@@ -58,7 +58,7 @@ const utils = {
    * @param {Date} date
    */
   setFullYear (date, value, useUtc) {
-    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value)
+    return this.useUtc ? date.setUTCFullYear(value) : date.setFullYear(value);
   },
 
   /**
@@ -66,7 +66,7 @@ const utils = {
    * @param {Date} date
    */
   setMonth (date, value, useUtc) {
-    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value)
+    return this.useUtc ? date.setUTCMonth(value) : date.setMonth(value);
   },
 
   /**
@@ -75,7 +75,7 @@ const utils = {
    * @param {Number} value
    */
   setDate (date, value, useUtc) {
-    return this.useUtc ? date.setUTCDate(value) : date.setDate(value)
+    return this.useUtc ? date.setUTCDate(value) : date.setDate(value);
   },
 
   /**
@@ -85,17 +85,17 @@ const utils = {
    * @param {Date} date2
    */
   compareDates (date1, date2) {
-    const d1 = new Date(date1.getTime())
-    const d2 = new Date(date2.getTime())
+    const d1 = new Date(date1.getTime());
+    const d2 = new Date(date2.getTime());
 
     if (this.useUtc) {
-      d1.setUTCHours(0, 0, 0, 0)
-      d2.setUTCHours(0, 0, 0, 0)
+      d1.setUTCHours(0, 0, 0, 0);
+      d2.setUTCHours(0, 0, 0, 0);
     } else {
-      d1.setHours(0, 0, 0, 0)
-      d2.setHours(0, 0, 0, 0)
+      d1.setHours(0, 0, 0, 0);
+      d2.setHours(0, 0, 0, 0);
     }
-    return d1.getTime() === d2.getTime()
+    return d1.getTime() === d2.getTime();
   },
 
   /**
@@ -105,9 +105,9 @@ const utils = {
    */
   isValidDate (date) {
     if (Object.prototype.toString.call(date) !== '[object Date]') {
-      return false
+      return false;
     }
-    return !isNaN(date.getTime())
+    return !isNaN(date.getTime());
   },
 
   /**
@@ -118,9 +118,9 @@ const utils = {
    */
   getDayNameAbbr (date, days) {
     if (typeof date !== 'object') {
-      throw TypeError('Invalid Type')
+      throw TypeError('Invalid Type');
     }
-    return days[this.getDay(date)]
+    return days[this.getDay(date)];
   },
 
   /**
@@ -131,15 +131,15 @@ const utils = {
    */
   getMonthName (month, months) {
     if (!months) {
-      throw Error('missing 2nd parameter Months array')
+      throw Error('missing 2nd parameter Months array');
     }
     if (typeof month === 'object') {
-      return months[this.getMonth(month)]
+      return months[this.getMonth(month)];
     }
     if (typeof month === 'number') {
-      return months[month]
+      return months[month];
     }
-    throw TypeError('Invalid type')
+    throw TypeError('Invalid type');
   },
 
   /**
@@ -149,15 +149,15 @@ const utils = {
    */
   getMonthNameAbbr (month, monthsAbbr) {
     if (!monthsAbbr) {
-      throw Error('missing 2nd paramter Months array')
+      throw Error('missing 2nd paramter Months array');
     }
     if (typeof month === 'object') {
-      return monthsAbbr[this.getMonth(month)]
+      return monthsAbbr[this.getMonth(month)];
     }
     if (typeof month === 'number') {
-      return monthsAbbr[month]
+      return monthsAbbr[month];
     }
-    throw TypeError('Invalid type')
+    throw TypeError('Invalid type');
   },
 
   /**
@@ -167,7 +167,7 @@ const utils = {
    * @return {Number}
    */
   daysInMonth (year, month) {
-    return /8|3|5|10/.test(month) ? 30 : month === 1 ? (!(year % 4) && year % 100) || !(year % 400) ? 29 : 28 : 31
+    return /8|3|5|10/.test(month) ? 30 : month === 1 ? (!(year % 4) && year % 100) || !(year % 400) ? 29 : 28 : 31;
   },
 
   /**
@@ -177,18 +177,18 @@ const utils = {
    */
   getNthSuffix (day) {
     switch (day) {
-      case 1:
-      case 21:
-      case 31:
-        return 'st'
-      case 2:
-      case 22:
-        return 'nd'
-      case 3:
-      case 23:
-        return 'rd'
-      default:
-        return 'th'
+    case 1:
+    case 21:
+    case 31:
+      return 'st';
+    case 2:
+    case 22:
+      return 'nd';
+    case 3:
+    case 23:
+      return 'rd';
+    default:
+      return 'th';
     }
   },
 
@@ -200,11 +200,11 @@ const utils = {
    * @return {String}
    */
   formatDate (date, format, translation) {
-    translation = (!translation) ? en : translation
-    let year = this.getFullYear(date)
-    let month = this.getMonth(date) + 1
-    let day = this.getDate(date)
-    let str = format
+    translation = (!translation) ? en : translation;
+    const year = this.getFullYear(date);
+    const month = this.getMonth(date) + 1;
+    const day = this.getDate(date);
+    const str = format
       .replace(/dd/, ('0' + day).slice(-2))
       .replace(/d/, day)
       .replace(/yyyy/, year)
@@ -214,8 +214,8 @@ const utils = {
       .replace(/MM/, ('0' + month).slice(-2))
       .replace(/M(?!a|ä|e)/, month)
       .replace(/su/, this.getNthSuffix(this.getDate(date)))
-      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days))
-    return str
+      .replace(/D(?!e|é|i)/, this.getDayNameAbbr(date, translation.days));
+    return str;
   },
 
   /**
@@ -225,12 +225,12 @@ const utils = {
    * @return {Array}
    */
   createDateArray (start, end) {
-    let dates = []
+    const dates = [];
     while (start <= end) {
-      dates.push(new Date(start))
-      start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1)
+      dates.push(new Date(start));
+      start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1);
     }
-    return dates
+    return dates;
   },
 
   /**
@@ -239,14 +239,14 @@ const utils = {
    * @return {Boolean}
    */
   validateDateInput (val) {
-    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number'
-  }
-}
+    return val === null || val instanceof Date || typeof val === 'string' || typeof val === 'number';
+  },
+};
 
-export const makeDateUtils = useUtc => ({...utils, useUtc})
+export const makeDateUtils = useUtc => ({ ...utils, useUtc });
 
 export default {
-  ...utils
+  ...utils,
 }
 // eslint-disable-next-line
 ;

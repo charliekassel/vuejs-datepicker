@@ -11,6 +11,6 @@ const FOCUSABLE_ELEMENTS_SELECTOR = `
   [contentEditable=true]:not([tabindex^='-'])
 `;
 
-export function getFocusableChildren(parent = document.body) {
+export function getFocusableChildren (parent = document.body) {
   return parent.querySelectorAll(FOCUSABLE_ELEMENTS_SELECTOR);
 }

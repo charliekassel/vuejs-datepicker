@@ -1,46 +1,55 @@
 <template>
-  <div :class="[
+  <div
+    v-show="showYearView"
+    :class="[
       calendarClass,
       'vdp-datepicker__calendar',
       {'vdp-datepicker__calendar-modal': modal},
       {'visible': showYearView},
       yearsGridId
     ]"
-       v-show="showYearView"
-       role="dialog"
-       aria-modal="true"
-       aria-label="Choose Year"
-       :style="calendarStyle"
-       @mousedown.prevent
+    role="dialog"
+    aria-modal="true"
+    aria-label="Choose Year"
+    :style="calendarStyle"
+    @mousedown.prevent
   >
-    <slot name="beforeCalendarHeader"></slot>
+    <slot name="beforeCalendarHeader" />
     <header>
       <button
-        @click="isRtl ? nextDecade() : previousDecade()"
-        @keydown="$emit('keydown', $event)"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}"
-        :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'">&lt;
-      </button>
-      <button
-        aria-live="polite"
-        id="decade-button"
-      >{{ getPageDecade }}
-      </button>
-      <button
-        @click="isRtl ? previousDecade() : nextDecade()"
+        :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'"
+        @click="isRtl ? nextDecade() : previousDecade()"
         @keydown="$emit('keydown', $event)"
+      >
+        &lt;
+      </button>
+      <button
+        id="decade-button"
+        aria-live="polite"
+      >
+        {{ getPageDecade }}
+      </button>
+      <button
         class="next"
         :aria-label="isRtl ? 'Previous Decade' : 'Next Decade'"
-        :class="{'disabled': isRightNavDisabled}">&gt;
+        :class="{'disabled': isRightNavDisabled}"
+        @click="isRtl ? previousDecade() : nextDecade()"
+        @keydown="$emit('keydown', $event)"
+      >
+        &gt;
       </button>
     </header>
-    <div role="grid" aria-labelledby="decade-button">
+    <div
+      role="grid"
+      aria-labelledby="decade-button"
+    >
       <button
-        class="cell year"
         v-for="year in years"
-        :tabindex="year.isFocused ? 0 : -1"
         :key="year.timestamp"
+        class="cell year"
+        :tabindex="year.isFocused ? 0 : -1"
         :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
         :aria-selected="year.isSelected"
         @click.stop="selectYear(year)"
@@ -49,21 +58,23 @@
         @keydown.down.prevent="focusNextRow"
         @keydown.up.prevent="focusPreviousRow"
         @keydown="$emit('keydown', $event)"
-      >{{ year.year }}</button>
+      >
+        {{ year.year }}
+      </button>
     </div>
     <div>
-      <slot name="afterCalendarContent"></slot>
+      <slot name="afterCalendarContent" />
     </div>
   </div>
 </template>
 <script>
-import { makeDateUtils } from '../utils/DateUtils'
-import {ELEMENT_IDS} from '../config/ElementIds'
+import { makeDateUtils } from '../utils/DateUtils';
+import { ELEMENT_IDS } from '../config/ElementIds';
 
-const ORPHAN_CELL_OFFSET = 4
-const LAST_TO_FIRST_OFFSET = 1
-const STANDARD_ROW_OFFSET = 3
-const DECADE_OFFSET = 10
+const ORPHAN_CELL_OFFSET = 4;
+const LAST_TO_FIRST_OFFSET = 1;
+const STANDARD_ROW_OFFSET = 3;
+const DECADE_OFFSET = 10;
 
 export default {
   props: {
@@ -74,7 +85,7 @@ export default {
     pageTimestamp: Number,
     disabledDates: Object,
     highlighted: Object,
-    calendarClass: [String, Object, Array],
+    calendarClass: [ String, Object, Array ],
     calendarStyle: Object,
     modal: Boolean,
     translation: Object,
@@ -83,37 +94,44 @@ export default {
     useUtc: Boolean,
     isInitialized: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+  },
+  data () {
+    const constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils,
+      yearsGridId: ELEMENT_IDS.yearGrid,
+    };
   },
   computed: {
     years () {
-      const d = this.pageDate
-      let years = []
+      const d = this.pageDate;
+      let years = [];
       // set up a new date object to the beginning of the current 'page'7
       let dObj = this.useUtc
         ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
-        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes());
       for (let i = 0; i < 10; i++) {
         years.push({
           year: this.utils.getFullYear(dObj),
           timestamp: dObj.getTime(),
           isFocused: this.isFocusedYear(dObj),
           isSelected: this.isSelectedYear(dObj),
-          isDisabled: this.isDisabledYear(dObj)
-        })
-        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1)
+          isDisabled: this.isDisabledYear(dObj),
+        });
+        this.utils.setFullYear(dObj, this.utils.getFullYear(dObj) + 1);
       }
-      return years
+      return years;
     },
     /**
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
-      const decadeEnd = decadeStart + 9
-      const yearSuffix = this.translation.yearSuffix
-      return `${decadeStart} - ${decadeEnd}${yearSuffix}`
+      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      const decadeEnd = decadeStart + 9;
+      const yearSuffix = this.translation.yearSuffix;
+      return `${decadeStart} - ${decadeEnd}${yearSuffix}`;
     },
     /**
      * Is the left hand navigation button disabled?
@@ -122,7 +140,7 @@ export default {
     isLeftNavDisabled () {
       return this.isRtl
         ? this.isNextDecadeDisabled(this.pageTimestamp)
-        : this.isPreviousDecadeDisabled(this.pageTimestamp)
+        : this.isPreviousDecadeDisabled(this.pageTimestamp);
     },
     /**
      * Is the right hand navigation button disabled?
@@ -131,40 +149,33 @@ export default {
     isRightNavDisabled () {
       return this.isRtl
         ? this.isPreviousDecadeDisabled(this.pageTimestamp)
-        : this.isNextDecadeDisabled(this.pageTimestamp)
-    }
-  },
-  data () {
-    const constructedDateUtils = makeDateUtils(this.useUtc)
-    return {
-      utils: constructedDateUtils,
-      yearsGridId: ELEMENT_IDS.yearGrid,
-    }
+        : this.isNextDecadeDisabled(this.pageTimestamp);
+    },
   },
   watch: {
     showYearView() {
       if (this.showYearView && this.isInitialized) {
-        this.focusYearCell()
+        this.focusYearCell();
       }
-    }
+    },
   },
   methods: {
     async focusYearCell() {
       await this.$nextTick();
-      const focusableYear = this.$el.querySelector('.year[tabindex="0"]')
+      const focusableYear = this.$el.querySelector('.year[tabindex="0"]');
       if (focusableYear) {
-        focusableYear.focus()
+        focusableYear.focus();
       }
     },
     focusNextYear() {
       const newDate = new Date(this.focusedDate);
-      this.utils.setFullYear(newDate,this.utils.getFullYear(newDate) + 1, this.useUtc);
-      this.moveFocus(newDate)
+      this.utils.setFullYear(newDate, this.utils.getFullYear(newDate) + 1, this.useUtc);
+      this.moveFocus(newDate);
     },
     focusPreviousYear () {
       const newDate = new Date(this.focusedDate);
-      this.utils.setFullYear(newDate,this.utils.getFullYear(newDate) - 1, this.useUtc);
-      this.moveFocus(newDate)
+      this.utils.setFullYear(newDate, this.utils.getFullYear(newDate) - 1, this.useUtc);
+      this.moveFocus(newDate);
     },
     /*
     For row navigation, we have a dangling cell that requires some adaptation, so we can't just add or subtract 3
@@ -172,9 +183,9 @@ export default {
      */
     focusNextRow() {
       const newDate = new Date(this.focusedDate);
-      const focusedYear = this.utils.getFullYear(newDate)
-      const lastDigit = focusedYear % 10
-      const isOrphan = [7, 8].includes(lastDigit);
+      const focusedYear = this.utils.getFullYear(newDate);
+      const lastDigit = focusedYear % 10;
+      const isOrphan = [ 7, 8 ].includes(lastDigit);
       const isLast = lastDigit === 9;
       let offset;
       if (isOrphan) {
@@ -184,14 +195,14 @@ export default {
       } else {
         offset = STANDARD_ROW_OFFSET;
       }
-      this.utils.setFullYear(newDate, focusedYear + offset, this.useUtc)
-      this.moveFocus(newDate)
+      this.utils.setFullYear(newDate, focusedYear + offset, this.useUtc);
+      this.moveFocus(newDate);
     },
     focusPreviousRow () {
       const newDate = new Date(this.focusedDate);
-      const focusedYear = this.utils.getFullYear(newDate)
-      const lastDigit = focusedYear % 10
-      const linksToOrphan = [1, 2].includes(lastDigit);
+      const focusedYear = this.utils.getFullYear(newDate);
+      const lastDigit = focusedYear % 10;
+      const linksToOrphan = [ 1, 2 ].includes(lastDigit);
       const isFirst = lastDigit === 0;
       let offset;
       if (linksToOrphan) {
@@ -201,47 +212,47 @@ export default {
       } else {
         offset = STANDARD_ROW_OFFSET;
       }
-      this.utils.setFullYear(newDate,focusedYear - offset, this.useUtc)
-      this.moveFocus(newDate)
+      this.utils.setFullYear(newDate, focusedYear - offset, this.useUtc);
+      this.moveFocus(newDate);
     },
     selectYear (year) {
       if (year.isDisabled) {
-        return false
+        return false;
       }
-      this.$emit('selectYear', year)
+      this.$emit('selectYear', year);
     },
     changeYear (incrementBy) {
-      let date = this.pageDate
-      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
-      this.$emit('changedDecade', date)
+      let date = this.pageDate;
+      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
+      this.$emit('changedDecade', date);
     },
     previousDecade () {
       if (this.isPreviousDecadeDisabled()) {
-        return false
+        return false;
       }
-      this.changeYear(-DECADE_OFFSET)
+      this.changeYear(-DECADE_OFFSET);
     },
     isPreviousDecadeDisabled () {
       if (!this.disabledDates || !this.disabledDates.to) {
-        return false
+        return false;
       }
-      const disabledYear = this.utils.getFullYear(this.disabledDates.to)
-      const lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1
-      return disabledYear > lastYearInPreviousPage
+      const disabledYear = this.utils.getFullYear(this.disabledDates.to);
+      const lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1;
+      return disabledYear > lastYearInPreviousPage;
     },
     nextDecade () {
       if (this.isNextDecadeDisabled()) {
-        return false
+        return false;
       }
-      this.changeYear(DECADE_OFFSET)
+      this.changeYear(DECADE_OFFSET);
     },
     isNextDecadeDisabled () {
       if (!this.disabledDates || !this.disabledDates.from) {
-        return false
+        return false;
       }
-      const disabledYear = this.utils.getFullYear(this.disabledDates.from)
-      const firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
-      return disabledYear < firstYearInNextPage
+      const disabledYear = this.utils.getFullYear(this.disabledDates.from);
+      const firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10;
+      return disabledYear < firstYearInNextPage;
     },
     /**
      * Whether the focused date is in this year
@@ -251,7 +262,7 @@ export default {
     isFocusedYear (date) {
       const focusedDate = new Date(this.focusedDate);
       return (focusedDate &&
-        this.utils.getFullYear(focusedDate) === this.utils.getFullYear(date))
+        this.utils.getFullYear(focusedDate) === this.utils.getFullYear(date));
     },
     /**
      * Whether the selected date is in this year
@@ -259,7 +270,7 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
+      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date);
     },
     /**
      * Whether a year is disabled
@@ -267,44 +278,44 @@ export default {
      * @return {Boolean}
      */
     isDisabledYear (date) {
-      let disabledDates = false
+      let disabledDates = false;
       if (typeof this.disabledDates === 'undefined' || !this.disabledDates) {
-        return false
+        return false;
       }
 
       if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
         if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
-          disabledDates = true
+          disabledDates = true;
         }
       }
       if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
         if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
-          disabledDates = true
+          disabledDates = true;
         }
       }
 
       if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
-        disabledDates = true
+        disabledDates = true;
       }
 
-      return disabledDates
+      return disabledDates;
     },
     moveFocus(newDate, focusCell = true) {
-      const decadeFirstYear = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
+      const decadeFirstYear = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10;
       const yearsDifference = this.utils.getFullYear(newDate) - decadeFirstYear;
       if (yearsDifference < 0) {
         this.changeYear(-DECADE_OFFSET);
       } else if (yearsDifference >= DECADE_OFFSET) {
-        this.changeYear(DECADE_OFFSET)
+        this.changeYear(DECADE_OFFSET);
       }
 
       this.$emit('update:focusedDate', newDate.getTime());
 
       if (focusCell) {
-        this.focusYearCell()
+        this.focusYearCell();
       }
-    }
-  }
+    },
+  },
 }
 // eslint-disable-next-line
 ;

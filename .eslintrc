@@ -1,0 +1,87 @@
+{
+  "extends": [
+    "plugin:vue/recommended"
+  ],
+  // 2: reports an error, breaking the build.
+  // 1: report a warning.
+  // 0: disables rule.
+  "rules": {
+    "array-bracket-spacing": [
+      2,
+      "always"
+    ],
+    "comma-dangle": [
+      2,
+      "always-multiline"
+    ],
+    "comma-spacing": [
+      2,
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "curly": [
+      0,
+      "multi"
+    ],
+    "eol-last": 2,
+    "indent": [
+      2,
+      2
+    ],
+    "new-cap": 1,
+    "no-caller": 2,
+    "no-console": 1,
+    "no-cond-assign": 0,
+    "no-debugger": 2,
+    "no-new": 0,
+    "no-return-assign": 0,
+    "no-underscore-dangle": 0,
+    "no-use-before-define": 0,
+    "object-curly-spacing": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      2,
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "semi": 2,
+    "strict": 0,
+    "valid-jsdoc": [
+      // TODO: CHANGE TO 2
+      1,
+      {
+        "requireReturn": false
+      }
+    ],
+    "valid-typeof": 2,
+    "wrap-iife": [
+      2,
+      "inside"
+    ]
+  },
+  "globals": {
+    "__dirname": false,
+    "console": false,
+    "document": false,
+    "exports": false,
+    "google": false,
+    "module": false,
+    "process": false,
+    "require": false,
+    "window": false
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "modules": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  }
+}

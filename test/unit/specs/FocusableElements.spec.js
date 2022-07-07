@@ -97,21 +97,21 @@ function mountAllElements (parent) {
 }
 
 // a
-function createFocusableAnchor() {
+function createFocusableAnchor () {
   const element = document.createElement('a');
   element.setAttribute('href', 'https://test.reedsy.local');
   element.setAttribute('data-test-id', 'focusable-anchor');
   return element;
 }
 
-function createNonFocusableAnchorByHref() {
+function createNonFocusableAnchorByHref () {
   // An anchor that does not have href is not focusable
   const element = document.createElement('a');
   element.setAttribute('data-test-id', 'non-focusable-anchor-href');
   return element;
 }
 
-function createNonFocusableAnchorByTabindex() {
+function createNonFocusableAnchorByTabindex () {
   const element = createFocusableAnchor();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-anchor-tabindex');
@@ -119,21 +119,21 @@ function createNonFocusableAnchorByTabindex() {
 }
 
 // area
-function createFocusableArea() {
+function createFocusableArea () {
   const element = document.createElement('area');
   element.setAttribute('href', 'https://test.reedsy.local');
   element.setAttribute('data-test-id', 'focusable-area');
   return element;
 }
 
-function createNonFocusableAreaByHref() {
+function createNonFocusableAreaByHref () {
   // An area that does not have href is not focusable
   const element = document.createElement('area');
   element.setAttribute('data-test-id', 'non-focusable-area-href');
   return element;
 }
 
-function createNonFocusableAreaByTabindex() {
+function createNonFocusableAreaByTabindex () {
   const element = createFocusableArea();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-area-tabindex');
@@ -141,20 +141,20 @@ function createNonFocusableAreaByTabindex() {
 }
 
 // input
-function createFocusableInput() {
+function createFocusableInput () {
   const element = document.createElement('input');
   element.setAttribute('data-test-id', 'focusable-input');
   return element;
 }
 
-function createNonFocusableInputByDisabled() {
+function createNonFocusableInputByDisabled () {
   const element = createFocusableInput();
   element.setAttribute('disabled', 'disabled');
   element.setAttribute('data-test-id', 'non-focusable-input-disabled');
   return element;
 }
 
-function createNonFocusableInputByTabindex() {
+function createNonFocusableInputByTabindex () {
   const element = createFocusableInput();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-input-tabindex');
@@ -162,20 +162,20 @@ function createNonFocusableInputByTabindex() {
 }
 
 // select
-function createFocusableSelect() {
+function createFocusableSelect () {
   const element = document.createElement('select');
   element.setAttribute('data-test-id', 'focusable-select');
   return element;
 }
 
-function createNonFocusableSelectByDisabled() {
+function createNonFocusableSelectByDisabled () {
   const element = createFocusableSelect();
   element.setAttribute('disabled', 'disabled');
   element.setAttribute('data-test-id', 'non-focusable-select-disabled');
   return element;
 }
 
-function createNonFocusableSelectByTabindex() {
+function createNonFocusableSelectByTabindex () {
   const element = createFocusableSelect();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-select-tabindex');
@@ -183,20 +183,20 @@ function createNonFocusableSelectByTabindex() {
 }
 
 // textarea
-function createFocusableTextarea() {
+function createFocusableTextarea () {
   const element = document.createElement('textarea');
   element.setAttribute('data-test-id', 'focusable-textarea');
   return element;
 }
 
-function createNonFocusableTextareaByDisabled() {
+function createNonFocusableTextareaByDisabled () {
   const element = createFocusableTextarea();
   element.setAttribute('disabled', 'disabled');
   element.setAttribute('data-test-id', 'non-focusable-textarea-disabled');
   return element;
 }
 
-function createNonFocusableTextareaByTabindex() {
+function createNonFocusableTextareaByTabindex () {
   const element = createFocusableTextarea();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-textarea-tabindex');
@@ -204,20 +204,20 @@ function createNonFocusableTextareaByTabindex() {
 }
 
 // button
-function createFocusableButton() {
+function createFocusableButton () {
   const element = document.createElement('button');
   element.setAttribute('data-test-id', 'focusable-button');
   return element;
 }
 
-function createNonFocusableButtonByDisabled() {
+function createNonFocusableButtonByDisabled () {
   const element = createFocusableButton();
   element.setAttribute('disabled', 'disabled');
   element.setAttribute('data-test-id', 'non-focusable-button-disabled');
   return element;
 }
 
-function createNonFocusableButtonByTabindex() {
+function createNonFocusableButtonByTabindex () {
   const element = createFocusableButton();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-button-tabindex');
@@ -225,13 +225,13 @@ function createNonFocusableButtonByTabindex() {
 }
 
 // iframe
-function createFocusableIframe() {
+function createFocusableIframe () {
   const element = document.createElement('iframe');
   element.setAttribute('data-test-id', 'focusable-iframe');
   return element;
 }
 
-function createNonFocusableIframeByTabindex() {
+function createNonFocusableIframeByTabindex () {
   const element = createFocusableIframe();
   element.setAttribute('tabindex', '-1');
   element.setAttribute('data-test-id', 'non-focusable-iframe-tabindex');

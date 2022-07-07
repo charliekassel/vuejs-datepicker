@@ -1,24 +1,38 @@
 <template>
-  <div role="grid" aria-labelledby="month-button">
-    <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+  <div
+    role="grid"
+    aria-labelledby="month-button"
+  >
+    <span
+      v-for="d in daysOfWeek"
+      :key="d.timestamp"
+      class="cell day-header"
+    >{{ d }}</span>
     <template v-if="blankDays > 0">
-      <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+      <span
+        v-for="d in blankDays"
+        :key="d.timestamp"
+        class="cell day blank"
+      />
     </template><!--
-      --><span class="cell day"
-               v-for="day in days"
-               :key="day.timestamp"
-               :class="dayClasses(day)"
-               :tabindex="isFocused(day) ? 0 : -1"
-               :aria-selected="day.isSelected"
-               v-html="dayCellContent(day)"
-               @mouseover="mouseOver(day)"
-               @keydown.left.prevent="$emit('focus-previous-day')"
-               @keydown.right.prevent="$emit('focus-next-day')"
-               @keydown.up.prevent="$emit('focus-previous-week')"
-               @keydown.down.prevent="$emit('focus-next-week')"
-               @keydown.space.enter.prevent="selectDate(day)"
-               @keydown="$emit('keydown', $event)"
-               @click="selectDate(day)"></span>
+      --><span
+            v-for="day in days"
+            :key="day.timestamp"
+            class="cell day"
+            :class="dayClasses(day)"
+            :tabindex="isFocused(day) ? 0 : -1"
+            :aria-selected="day.isSelected"
+            @mouseover="mouseOver(day)"
+            @focus="mouseOver(day)"
+            @keydown.left.prevent="$emit('focus-previous-day')"
+            @keydown.right.prevent="$emit('focus-next-day')"
+            @keydown.up.prevent="$emit('focus-previous-week')"
+            @keydown.down.prevent="$emit('focus-next-week')"
+            @keydown.space.enter.prevent="selectDate(day)"
+            @keydown="$emit('keydown', $event)"
+            @click="selectDate(day)"
+            v-html="dayCellContent(day)"
+          />
   </div>
 </template>
 
@@ -28,7 +42,7 @@ export default {
   props: {
     dayCellContent: {
       type: Function,
-      default: day => day.date
+      default: day => day.date,
     },
     days: Array,
     focusedDate: {
@@ -38,7 +52,7 @@ export default {
     translation: Object,
     startDate: Date,
     useUtc: Boolean,
-    utils: Object
+    utils: Object,
   },
   computed: {
     /**
@@ -47,11 +61,11 @@ export default {
      */
     daysOfWeek () {
       if (this.mondayFirst) {
-        const tempDays = this.translation.days.slice()
-        tempDays.push(tempDays.shift())
-        return tempDays
+        const tempDays = this.translation.days.slice();
+        tempDays.push(tempDays.shift());
+        return tempDays;
       }
-      return this.translation.days
+      return this.translation.days;
     },
     /**
      * Returns the day number of the week less one for the first of the current month
@@ -59,15 +73,15 @@ export default {
      * @return {Number}
      */
     blankDays () {
-      const d = this.startDate
+      const d = this.startDate;
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
-        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
+        : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes());
       if (this.mondayFirst) {
-        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6
+        return this.utils.getDay(dObj) > 0 ? this.utils.getDay(dObj) - 1 : 6;
       }
-      return this.utils.getDay(dObj)
-    }
+      return this.utils.getDay(dObj);
+    },
   },
   methods: {
     dayClasses (day) {
@@ -81,7 +95,7 @@ export default {
         'sun': day.isSunday,
         'highlight-start': day.isHighlightStart,
         'highlight-end': day.isHighlightEnd,
-      }
+      };
     },
     isFocused(day) {
       const date = new Date(day.timestamp);
@@ -89,13 +103,13 @@ export default {
       return this.utils.compareDates(date, focusedDate);
     },
     mouseOver (date) {
-      this.$emit('mouseover', date)
+      this.$emit('mouseover', date);
     },
     selectDate (date) {
-      this.$emit('select', date)
-    }
-  }
-}
+      this.$emit('select', date);
+    },
+  },
+};
 </script>
 
 <style scoped>

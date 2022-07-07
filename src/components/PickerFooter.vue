@@ -32,11 +32,11 @@ export default {
     selectedDate: Date,
     clearDate: Function,
     setToday: Function,
-    footerClass: [String, Object, Array],
-    todayButtonClass: [String, Object, Array],
-    clearButtonClass: [String, Object, Array]
-  }
-}
+    footerClass: [ String, Object, Array ],
+    todayButtonClass: [ String, Object, Array ],
+    clearButtonClass: [ String, Object, Array ],
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
