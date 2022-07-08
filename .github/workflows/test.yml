@@ -20,7 +20,7 @@ jobs:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
       - name: Install
         # Skip post-install to avoid malicious scripts stealing PAT
