@@ -1,13 +1,13 @@
 module.exports = {
   'presets': [
-    ['@babel/preset-env']
-  ],
-  "plugins": [
-    ["@babel/transform-runtime"]
+    [ '@babel/preset-env' ],
   ],
   'env': {
     'test': {
-      'plugins': ['@babel/plugin-transform-modules-commonjs',]
-    }
-  }
-}
+      'plugins': [
+        '@babel/plugin-transform-modules-commonjs',
+        '@babel/transform-runtime',
+      ],
+    },
+  },
+};
