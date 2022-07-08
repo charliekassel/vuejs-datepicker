@@ -21,6 +21,7 @@
         :aria-label="isRtl ? 'Next Month' : 'Previous Month'"
         :class="{'disabled': isLeftNavDisabled}"
         @click="isRtl ? nextMonth() : previousMonth()"
+        @keydown.space.enter.prevent="isRtl ? nextMonth() : previousMonth()"
         @keydown="$emit('keydown', $event)"
       >
         &lt;
@@ -31,6 +32,7 @@
         :class="allowedToShowView('month') ? 'up' : ''"
         aria-live="polite"
         @click="showMonthCalendar"
+        @keydown.space.enter.prevent="showMonthCalendar"
         @keydown="$emit('keydown', $event)"
       >
         {{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}
@@ -41,6 +43,7 @@
         :class="allowedToShowView('month') ? 'up' : ''"
         aria-live="polite"
         @click="showMonthCalendar"
+        @keydown.space.enter.prevent="showMonthCalendar"
         @keydown="$emit('keydown', $event)"
       >
         {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
@@ -50,6 +53,7 @@
         :aria-label="isRtl ? 'Previous Month' : 'Next Month'"
         :class="{'disabled': isRightNavDisabled}"
         @click="isRtl ? previousMonth() : nextMonth()"
+        @keydown.space.enter.prevent="isRtl ? previousMonth() : nextMonth()"
         @keydown="$emit('keydown', $event)"
       >
         &gt;

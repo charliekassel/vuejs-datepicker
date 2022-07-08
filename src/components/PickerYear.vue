@@ -21,6 +21,7 @@
         :class="{'disabled': isLeftNavDisabled}"
         :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'"
         @click="isRtl ? nextDecade() : previousDecade()"
+        @keydown.space.enter.prevent="isRtl ? nextDecade() : previousDecade()"
         @keydown="$emit('keydown', $event)"
       >
         &lt;

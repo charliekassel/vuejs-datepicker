@@ -91,6 +91,7 @@
       <slot
         slot="footer"
         name="footer"
+        :on-tab="(event) => focusNextElement(event)"
       />
     </picker-day>
 
@@ -322,8 +323,8 @@ export default {
   },
   methods: {
     focusNextElement (event) {
-      // eslint-disable-next-line no-debugger
-      debugger;
+      if (this.isInline) return;
+
       const focusableElements = getFocusableChildren(this.$el);
       const activeFocusableElements = [ ...focusableElements ].filter((element) => element.matches('.visible *'));
       const lastFocusableElement = activeFocusableElements[activeFocusableElements.length - 1];
