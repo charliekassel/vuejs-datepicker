@@ -1,11 +1,11 @@
 import PickerYear from '@/components/PickerYear.vue';
-import { shallow } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { en } from '@/locale';
 
 describe('PickerYear', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(PickerYear, {
+    wrapper = shallowMount(PickerYear, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,
@@ -29,8 +29,8 @@ describe('PickerYear', () => {
     expect(wrapper.vm.nextDecade()).toEqual(false);
   });
 
-  it('can\'t change decade when previous or next decades are disabled', () => {
-    wrapper.setProps({
+  it('can\'t change decade when previous or next decades are disabled', async () => {
+    await wrapper.setProps({
       pageDate: new Date(2016, 9, 15),
       disabledDates: {
         to: new Date(2010, 8, 6),
@@ -41,8 +41,8 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isNextDecadeDisabled()).toEqual(true);
   });
 
-  it('can change decade despite having a disabled decade', () => {
-    wrapper.setProps({
+  it('can change decade despite having a disabled decade', async () => {
+    await wrapper.setProps({
       pageDate: new Date(2016, 9, 15),
       disabledDates: {
         to: new Date(2010, 11, 19),
@@ -53,8 +53,8 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isNextDecadeDisabled()).toEqual(false);
   });
 
-  it('can accept a customPredictor to check if the year is disabled', () => {
-    wrapper.setProps({
+  it('can accept a customPredictor to check if the year is disabled', async () => {
+    await wrapper.setProps({
       disabledDates: {
         customPredictor (date) {
           if (date.getFullYear() % 3 === 0) {
@@ -70,8 +70,8 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isDisabledYear(new Date(2022, 2, 11))).toEqual(true);
   });
 
-  it('does not disable the next decade button when disabled from date is in the first year of the next decade', () => {
-    wrapper.setProps({
+  it('does not disable the next decade button when disabled from date is in the first year of the next decade', async () => {
+    await wrapper.setProps({
       pageDate: new Date(1998, 9, 15),
       disabledDates: {
         from: new Date(2000, 0, 1),
@@ -80,8 +80,8 @@ describe('PickerYear', () => {
     expect(wrapper.vm.isNextDecadeDisabled()).toEqual(false);
   });
 
-  it('does disable the next decade button when disabled from date is the last day year of the current decade', () => {
-    wrapper.setProps({
+  it('does disable the next decade button when disabled from date is the last day year of the current decade', async () => {
+    await wrapper.setProps({
       disabledDates: {
         from: new Date(1999, 12, 31),
       },

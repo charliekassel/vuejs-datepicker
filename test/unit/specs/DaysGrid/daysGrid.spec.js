@@ -1,5 +1,5 @@
 import DaysGrid from '@/components/DaysGrid.vue';
-import { mount, shallow } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { en } from '@/locale';
 import { makeDateUtils } from '@/utils/DateUtils';
 
@@ -21,7 +21,7 @@ describe('DaysGrid: DOM', () => {
         useUtc: true,
         days,
       },
-      attachToDocument: true,
+      attachTo: document.body,
     });
   });
 
@@ -109,8 +109,8 @@ describe('DaysGrid: DOM', () => {
     });
   });
 
-  it('displays the days of the week in the right order when Monday is the first day', () => {
-    wrapper.setProps({ mondayFirst: true });
+  it('displays the days of the week in the right order when Monday is the first day', async () => {
+    await wrapper.setProps({ mondayFirst: true });
     const days = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
     const dayHeaders = wrapper.findAll('.cell.day-header');
     days.forEach((day, index) => {

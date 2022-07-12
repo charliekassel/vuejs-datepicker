@@ -1,5 +1,5 @@
 import PickerDay from '@/components/PickerDay.vue';
-import { mount, shallow } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { en } from '@/locale';
 import DaysGrid from '@/components/DaysGrid';
 import PickerFooter from '@/components/PickerFooter';
@@ -7,7 +7,7 @@ import PickerFooter from '@/components/PickerFooter';
 describe('PickerDay: DOM', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,
@@ -17,9 +17,9 @@ describe('PickerDay: DOM', () => {
     });
   });
 
-  it('knows the selected date', () => {
+  it('knows the selected date', async () => {
     const newDate = new Date(2016, 9, 15);
-    wrapper.setProps({
+    await wrapper.setProps({
       selectedDate: newDate,
     });
     expect(wrapper.vm.isSelectedDate(newDate)).toEqual(true);
@@ -31,8 +31,8 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.emitted().selectDate).toBeTruthy();
   });
 
-  it('calls the function in highlightDate when hovering on a day cell', () => {
-    wrapper.setProps({
+  it('calls the function in highlightDate when hovering on a day cell', async () => {
+    await wrapper.setProps({
       highlightDate: jest.fn(),
     });
     const daysGrids = wrapper.findAll(DaysGrid);
@@ -42,9 +42,9 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1);
   });
 
-  it('does not call the function in highlightDate when hovering on a disabled day cell', () => {
+  it('does not call the function in highlightDate when hovering on a disabled day cell', async () => {
     const date = new Date(2021, 8, 30);
-    wrapper.setProps({
+    await wrapper.setProps({
       highlightDate: jest.fn(),
       disabledDates: {
         dates: [ date ],
@@ -57,8 +57,8 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(0);
   });
 
-  it('calls the function in highlightDate when hovering on a day cell in the next month of a side by side calendar', () => {
-    wrapper.setProps({
+  it('calls the function in highlightDate when hovering on a day cell in the next month of a side by side calendar', async () => {
+    await wrapper.setProps({
       highlightDate: jest.fn(),
       sideBySide: true,
     });
@@ -79,20 +79,20 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.emitted().showMonthCalendar).toBeTruthy();
   });
 
-  it('displays the footer if the showFooter prop is true', () => {
-    wrapper.setProps({ showFooter: true });
+  it('displays the footer if the showFooter prop is true', async () => {
+    await wrapper.setProps({ showFooter: true });
     const footer = wrapper.find(PickerFooter);
     expect(footer.exists()).toBe(true);
   });
 
-  it('does not display the footer if the showFooter prop is false', () => {
-    wrapper.setProps({ showFooter: false });
+  it('does not display the footer if the showFooter prop is false', async () => {
+    await wrapper.setProps({ showFooter: false });
     const footer = wrapper.find(PickerFooter);
     expect(footer.exists()).toBe(false);
   });
 
   it('displays a custom footer from a slot and hides the default footer', () => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,

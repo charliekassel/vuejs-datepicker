@@ -1,5 +1,5 @@
 import DaysGrid from '@/components/DaysGrid.vue';
-import { shallow } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { en } from '@/locale';
 import { makeDateUtils } from '@/utils/DateUtils';
 
@@ -8,7 +8,7 @@ const constructedDateUtils = makeDateUtils(true);
 describe('DaysGrid: Datepicker with monday as first day of week', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(DaysGrid, {
+    wrapper = shallowMount(DaysGrid, {
       propsData: {
         mondayFirst: true,
         translation: en,
@@ -27,15 +27,15 @@ describe('DaysGrid: Datepicker with monday as first day of week', () => {
     expect(wrapper.vm.daysOfWeek[6]).toEqual('Sun');
   });
 
-  it('should have 6 blankDays when month starts from Sunday', () => {
-    wrapper.setProps({
+  it('should have 6 blankDays when month starts from Sunday', async () => {
+    await wrapper.setProps({
       startDate: new Date(Date.UTC(2018, 3, 1)),
     });
     expect(wrapper.vm.blankDays).toEqual(6);
   });
 
-  it('should have no blankDays when month starts from Monday', () => {
-    wrapper.setProps({
+  it('should have no blankDays when month starts from Monday', async () => {
+    await wrapper.setProps({
       startDate: new Date(Date.UTC(2018, 9, 1)),
     });
     expect(wrapper.vm.blankDays).toEqual(0);
