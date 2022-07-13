@@ -14,7 +14,7 @@ describe('PickerMonth: changing focus', () => {
         focusedDate: new Date(Date.UTC(2018, 1, 15)).getTime(),
         useUtc: true,
       },
-      attachToDocument: true,
+      attachTo: document.body,
     });
   });
 
@@ -28,14 +28,14 @@ describe('PickerMonth: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 2, 15)).getTime() ] ]);
     });
 
-    it('changes to the next year if the current focused date is the last month of the year', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 11, 28)).getTime() });
+    it('changes to the next year if the current focused date is the last month of the year', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 11, 28)).getTime() });
       wrapper.vm.focusNextMonth();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2019, 0, 28)).getTime() ] ]);
     });
 
-    it('displays the next year if the current focused date is the last month of the year', () => {
-      wrapper.setProps({
+    it('displays the next year if the current focused date is the last month of the year', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 1, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 11, 28)).getTime(),
@@ -46,14 +46,14 @@ describe('PickerMonth: changing focus', () => {
 
     it('focuses on the new focused month after it changes', async () => {
       // fake the .sync prop update
-      wrapper.setProps({
+      await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 2, 15)).getTime(),
       });
       wrapper.vm.focusNextMonth();
       await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('March');
       wrapper.vm.focusNextMonth();
-      wrapper.setProps({
+      await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 3, 15)).getTime(),
       });
       await wrapper.vm.$nextTick();
@@ -62,19 +62,19 @@ describe('PickerMonth: changing focus', () => {
   });
 
   describe('focusPreviousMonth', () => {
-    it('changes the focused date to the previous month', () => {
-      wrapper.vm.focusPreviousMonth();
+    it('changes the focused date to the previous month', async () => {
+      await wrapper.vm.focusPreviousMonth();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 0, 15)).getTime() ] ]);
     });
 
-    it('changes to the previous year if the current focused date is the first month of the year', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 0, 1)).getTime() });
+    it('changes to the previous year if the current focused date is the first month of the year', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 0, 1)).getTime() });
       wrapper.vm.focusPreviousMonth();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2017, 11, 1)).getTime() ] ]);
     });
 
-    it('displays the previous year if the current focused date is the first month of the year', () => {
-      wrapper.setProps({
+    it('displays the previous year if the current focused date is the first month of the year', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 0, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 0, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 0, 1)).getTime(),
@@ -85,13 +85,13 @@ describe('PickerMonth: changing focus', () => {
   });
 
   describe('focusNextQuarter', () => {
-    it('changes the focused date to the next quarter', () => {
-      wrapper.vm.focusNextQuarter();
+    it('changes the focused date to the next quarter', async () => {
+      await wrapper.vm.focusNextQuarter();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 4, 15)).getTime() ] ]);
     });
 
-    it('changes to the next year if the current focused date is the last quarter of the year', () => {
-      wrapper.setProps({
+    it('changes to the next year if the current focused date is the last quarter of the year', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 10, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 10, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 10, 11)).getTime(),
@@ -100,8 +100,8 @@ describe('PickerMonth: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2019, 1, 11)).getTime() ] ]);
     });
 
-    it('displays the next year if the current focused date is the last quarter of the year', () => {
-      wrapper.setProps({
+    it('displays the next year if the current focused date is the last quarter of the year', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 11, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 11, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 11, 26)).getTime(),
@@ -112,8 +112,8 @@ describe('PickerMonth: changing focus', () => {
   });
 
   describe('focusPreviousQuarter', () => {
-    it('changes the focused date to the previous quarter', () => {
-      wrapper.setProps({
+    it('changes the focused date to the previous quarter', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 11, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 11, 15)).getTime(),
       });
@@ -121,14 +121,14 @@ describe('PickerMonth: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 8, 15)).getTime() ] ]);
     });
 
-    it('changes to the previous year if the current focused date is the first quarter of the year', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 6)).getTime() });
+    it('changes to the previous year if the current focused date is the first quarter of the year', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 6)).getTime() });
       wrapper.vm.focusPreviousQuarter();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2017, 10, 6)).getTime() ] ]);
     });
 
-    it('displays the previous year if the current focused date is the first quarter of the year', () => {
-      wrapper.setProps({
+    it('displays the previous year if the current focused date is the first quarter of the year', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 2, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 2, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 2, 5)).getTime(),
@@ -140,7 +140,7 @@ describe('PickerMonth: changing focus', () => {
 
   it('focuses on the focused day when showing the month view', async () => {
     expect(document.activeElement.textContent.trim()).not.toEqual('February');
-    wrapper.setProps({
+    await wrapper.setProps({
       isInitialized: true,
       showMonthView: true,
     });
@@ -150,7 +150,7 @@ describe('PickerMonth: changing focus', () => {
 
   it('does not focus on the focused day when showing the month view before initializing', async () => {
     expect(document.activeElement.textContent.trim()).not.toEqual('February');
-    wrapper.setProps({
+    await wrapper.setProps({
       isInitialized: false,
       showMonthView: true,
     });

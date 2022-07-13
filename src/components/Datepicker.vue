@@ -572,7 +572,10 @@ export default {
       if (emitEvent) {
         this.$emit('closed');
         const input = this.$refs.input;
-        if (input && input.$el.querySelector) input.$el.querySelector('input').focus();
+        if (!input) return;
+        const inputEl = input.$el.querySelector('input');
+        if (!inputEl) return;
+        inputEl.focus();
       }
 
       document.removeEventListener('click', this.clickOutside, false);

@@ -1,12 +1,12 @@
 import DateInput from '@/components/DateInput.vue';
-import { shallow } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { en } from '@/locale';
 
 describe('DateInput', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(DateInput, {
+    wrapper = shallowMount(DateInput, {
       propsData: {
         format: 'dd MMM yyyy',
         translation: en,
@@ -15,14 +15,14 @@ describe('DateInput', () => {
     });
   });
 
-  it('does not format the date when typed', () => {
+  it('does not format the date when typed', async () => {
     const dateString = '2018-04-24';
     wrapper.vm.input.value = dateString;
     expect(wrapper.vm.input.value).toEqual(dateString);
-    wrapper.setData({
+    await wrapper.setData({
       typedDate: dateString,
     });
-    wrapper.setProps({
+    await wrapper.setProps({
       selectedDate: new Date(dateString),
     });
     expect(wrapper.vm.typedDate).toEqual(dateString);
@@ -44,15 +44,15 @@ describe('DateInput', () => {
     expect(blurSpy).toBeCalled();
   });
 
-  it('clears a typed date if it does not parse', () => {
+  it('clears a typed date if it does not parse', async () => {
     const input = wrapper.find('input');
-    wrapper.setData({ typedDate: 'not a date' });
+    await wrapper.setData({ typedDate: 'not a date' });
     input.trigger('blur');
     expect(wrapper.emitted().clearDate).toBeDefined();
   });
 
   it('doesn\'t emit the date if typeable=false', () => {
-    const wrapper = shallow(DateInput, {
+    const wrapper = shallowMount(DateInput, {
       propsData: {
         format: 'dd MMM yyyy',
         translation: en,

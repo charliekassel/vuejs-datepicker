@@ -1,6 +1,6 @@
 import Datepicker from '@/components/Datepicker.vue';
 import DateInput from '@/components/DateInput.vue';
-import { shallow, mount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import { makeDateUtils } from '@/utils/DateUtils';
 import { en } from '@/locale';
 
@@ -27,7 +27,7 @@ describe('Datepicker mounted', () => {
   let date;
   beforeEach(() => {
     date = new Date(2016, 1, 15);
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
         value: date,
@@ -55,7 +55,7 @@ describe('Datepicker mounted', () => {
 
   it('sets the date', () => {
     const date = new Date(2016, 9, 9);
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
       },
@@ -67,7 +67,7 @@ describe('Datepicker mounted', () => {
   it('changes the page date when selecting a date from a different month', () => {
     const initialDate = new Date(Date.UTC(2016, 8, 9));
     const date = new Date(Date.UTC(2016, 9, 9));
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
         openDate: initialDate,
@@ -81,7 +81,7 @@ describe('Datepicker mounted', () => {
   it('does not change the page when selecting a date in the same month', () => {
     const initialDate = new Date(Date.UTC(2016, 8, 9));
     const date = new Date(Date.UTC(2016, 8, 11));
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
         openDate: initialDate,
@@ -95,7 +95,7 @@ describe('Datepicker mounted', () => {
   it('does not change the page when selecting a date in the next month for a side-by-side layout', () => {
     const initialDate = new Date(Date.UTC(2016, 8, 9));
     const date = new Date(Date.UTC(2016, 9, 11));
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
         openDate: initialDate,
@@ -110,7 +110,7 @@ describe('Datepicker mounted', () => {
   it('changes the page when selecting a date in a different month for a side-by-side layout', () => {
     const initialDate = new Date(Date.UTC(2016, 8, 9));
     const date = new Date(Date.UTC(2016, 7, 11));
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy-MM-dd',
         openDate: initialDate,
@@ -124,7 +124,7 @@ describe('Datepicker mounted', () => {
 
   it('clears the date', () => {
     const date = new Date(2016, 9, 9);
-    const wrapper = shallow(Datepicker);
+    const wrapper = shallowMount(Datepicker);
     wrapper.vm.setDate(date.getTime());
     wrapper.vm.clearDate();
     expect(wrapper.vm.selectedDate).toEqual(null);
@@ -195,7 +195,7 @@ describe('Datepicker mounted', () => {
   });
 
   it('resets the default page date', () => {
-    const wrapper = shallow(Datepicker);
+    const wrapper = shallowMount(Datepicker);
     const today = new Date();
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear());
     expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth());
@@ -207,7 +207,7 @@ describe('Datepicker mounted', () => {
   });
 
   it('does not set the default page date if a date is selected', () => {
-    const wrapper = shallow(Datepicker);
+    const wrapper = shallowMount(Datepicker);
     const today = new Date();
     const pastDate = new Date(2018, 3, 20);
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear());
@@ -221,14 +221,14 @@ describe('Datepicker mounted', () => {
   });
 
   it('sets the date on typedDate event', () => {
-    const wrapper = shallow(Datepicker);
+    const wrapper = shallowMount(Datepicker);
     const today = new Date();
     wrapper.vm.setTypedDate(today);
     expect(wrapper.vm.selectedDate).toEqual(today);
   });
 
   it('watches value', done => {
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         value: '2018-01-01',
       },
@@ -242,7 +242,7 @@ describe('Datepicker mounted', () => {
   });
 
   it('watches openDate', done => {
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         openDate: new Date(2018, 0, 1),
       },
@@ -256,7 +256,7 @@ describe('Datepicker mounted', () => {
   });
 
   it('watches initialView', done => {
-    const wrapper = shallow(Datepicker, {
+    const wrapper = shallowMount(Datepicker, {
       propsData: {
         initialView: 'day',
       },
@@ -285,7 +285,7 @@ describe('Datepicker mounted', () => {
 describe('Datepicker.vue set by string', () => {
   let wrapper;
   it('can parse a string date', () => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
         value: '2016-02-20',
@@ -298,7 +298,7 @@ describe('Datepicker.vue set by string', () => {
   });
 
   it('should nullify malformed value', () => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         value: 'today',
       },
@@ -310,7 +310,7 @@ describe('Datepicker.vue set by string', () => {
 describe('Datepicker.vue set by timestamp', () => {
   let wrapper;
   it('can parse unix timestamp', () => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         format: 'yyyy MM dd',
         value: new Date(Date.UTC(2018, 0, 29)).getTime(),
@@ -354,7 +354,7 @@ describe('Datepicker.vue using UTC', () => {
 describe('Datepicker with initial-view', () => {
   let wrapper;
   it('should open in Day view', async () => {
-    wrapper = shallow(Datepicker);
+    wrapper = shallowMount(Datepicker);
     await wrapper.vm.showCalendar();
     expect(wrapper.vm.computedInitialView).toEqual('day');
     expect(wrapper.vm.showDayView).toEqual(true);
@@ -363,7 +363,7 @@ describe('Datepicker with initial-view', () => {
   });
 
   it('should open in Month view', async () => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         initialView: 'month',
       },
@@ -376,7 +376,7 @@ describe('Datepicker with initial-view', () => {
   });
 
   it('should open in Year view', async () => {
-    wrapper = shallow(Datepicker, {
+    wrapper = shallowMount(Datepicker, {
       propsData: {
         initialView: 'year',
       },
@@ -392,7 +392,7 @@ describe('Datepicker with initial-view', () => {
 describe('Focus after opening the datepicker', () => {
   describe('Days', () => {
     it('should focus on the current day', async () => {
-      const wrapper = mount(Datepicker, { attachToDocument: true });
+      const wrapper = mount(Datepicker, { attachTo: document.body });
       const today = new Date();
       await wrapper.vm.showCalendar();
       expect(document.activeElement.textContent.trim()).toEqual(today.getDate().toString());
@@ -405,7 +405,7 @@ describe('Focus after opening the datepicker', () => {
         propsData: {
           minimumView: 'month',
         },
-        attachToDocument: true,
+        attachTo: document.body,
       });
       const today = new Date();
       await wrapper.vm.showCalendar();
@@ -419,7 +419,7 @@ describe('Focus after opening the datepicker', () => {
         propsData: {
           minimumView: 'year',
         },
-        attachToDocument: true,
+        attachTo: document.body,
       });
       const today = new Date();
       await wrapper.vm.showCalendar();
@@ -431,7 +431,7 @@ describe('Focus after opening the datepicker', () => {
 
 describe('Focus after closing the datepicker', () => {
   it('should focus on the input', async () => {
-    const wrapper = mount(Datepicker, { attachToDocument: true });
+    const wrapper = mount(Datepicker, { attachTo: document.body });
     await wrapper.vm.showCalendar();
     wrapper.vm.close(true);
     const input = wrapper.vm.$refs.input.$el.querySelector('input');

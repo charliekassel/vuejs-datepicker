@@ -14,7 +14,7 @@ describe('PickerDay: changing focus', () => {
         focusedDate: new Date(Date.UTC(2018, 1, 15)).getTime(),
         useUtc: true,
       },
-      attachToDocument: true,
+      attachTo: document.body,
     });
   });
 
@@ -28,14 +28,14 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 1, 16)).getTime() ] ]);
     });
 
-    it('changes to the next month if the current focused date is the last day of the month', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 28)).getTime() });
+    it('changes to the next month if the current focused date is the last day of the month', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 28)).getTime() });
       wrapper.vm.focusNextDay();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 2, 1)).getTime() ] ]);
     });
 
-    it('displays the next month if the current focused date is the last day of the month', () => {
-      wrapper.setProps({
+    it('displays the next month if the current focused date is the last day of the month', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 1, 28)).getTime(),
       });
@@ -43,8 +43,8 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('changedMonth')).toEqual([ [ new Date(Date.UTC(2018, 2, 1)) ] ]);
     });
 
-    it('does not display the next month if it is side by side and the current focused date is the last day of the first visible month', () => {
-      wrapper.setProps({
+    it('does not display the next month if it is side by side and the current focused date is the last day of the first visible month', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 1, 28)).getTime(),
         sideBySide: true,
@@ -57,16 +57,14 @@ describe('PickerDay: changing focus', () => {
     it('focuses on the new focused date after it changes', async () => {
       wrapper.vm.focusNextDay();
       // fake the .sync prop update
-      wrapper.setProps({
+      await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 1, 16)).getTime(),
       });
-      await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('16');
       wrapper.vm.focusNextDay();
-      wrapper.setProps({
+      await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 1, 17)).getTime(),
       });
-      await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('17');
     });
   });
@@ -77,14 +75,14 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 1, 14)).getTime() ] ]);
     });
 
-    it('changes to the previous month if the current focused date is the first day of the month', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 1)).getTime() });
+    it('changes to the previous month if the current focused date is the first day of the month', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 1)).getTime() });
       wrapper.vm.focusPreviousDay();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 0, 31)).getTime() ] ]);
     });
 
-    it('displays the previous month if the current focused date is the first day of the month', () => {
-      wrapper.setProps({
+    it('displays the previous month if the current focused date is the first day of the month', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 2, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 2, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 2, 1)).getTime(),
@@ -93,8 +91,8 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('changedMonth')).toEqual([ [ new Date(Date.UTC(2018, 1, 1)) ] ]);
     });
 
-    it('does not display the previous month if it is side by side and the current focused date is the first day of the first visible month', () => {
-      wrapper.setProps({
+    it('does not display the previous month if it is side by side and the current focused date is the first day of the first visible month', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 2, 1)).getTime(),
         sideBySide: true,
@@ -111,14 +109,14 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 1, 22)).getTime() ] ]);
     });
 
-    it('changes to the next month if the current focused date is the last week of the month', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 26)).getTime() });
+    it('changes to the next month if the current focused date is the last week of the month', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 26)).getTime() });
       wrapper.vm.focusNextWeek();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 2, 5)).getTime() ] ]);
     });
 
-    it('displays the next month if the current focused date is the last week of the month', () => {
-      wrapper.setProps({
+    it('displays the next month if the current focused date is the last week of the month', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 1, 26)).getTime(),
       });
@@ -126,8 +124,8 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('changedMonth')).toEqual([ [ new Date(Date.UTC(2018, 2, 1)) ] ]);
     });
 
-    it('does not display the next month if it is side by side and the current focused date is the last week of the first visible month', () => {
-      wrapper.setProps({
+    it('does not display the next month if it is side by side and the current focused date is the last week of the first visible month', async () => {
+      await wrapper.setProps({
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 1, 26)).getTime(),
         sideBySide: true,
@@ -144,14 +142,14 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 1, 8)).getTime() ] ]);
     });
 
-    it('changes to the previous month if the current focused date is the first week of the month', () => {
-      wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 6)).getTime() });
+    it('changes to the previous month if the current focused date is the first week of the month', async () => {
+      await wrapper.setProps({ focusedDate: new Date(Date.UTC(2018, 1, 6)).getTime() });
       wrapper.vm.focusPreviousWeek();
       expect(wrapper.emitted('update:focusedDate')).toEqual([ [ new Date(Date.UTC(2018, 0, 30)).getTime() ] ]);
     });
 
-    it('displays the previous month if the current focused date is the first week of the month', () => {
-      wrapper.setProps({
+    it('displays the previous month if the current focused date is the first week of the month', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 2, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 2, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 2, 5)).getTime(),
@@ -160,8 +158,8 @@ describe('PickerDay: changing focus', () => {
       expect(wrapper.emitted('changedMonth')).toEqual([ [ new Date(Date.UTC(2018, 1, 1)) ] ]);
     });
 
-    it('does not display the previous month if it is side by side and the current focused date is the first week of the second visible month', () => {
-      wrapper.setProps({
+    it('does not display the previous month if it is side by side and the current focused date is the first week of the second visible month', async () => {
+      await wrapper.setProps({
         pageDate: new Date(Date.UTC(2018, 1, 1)),
         pageTimestamp: new Date(Date.UTC(2018, 1, 1)).getTime(),
         focusedDate: new Date(Date.UTC(2018, 2, 5)).getTime(),
@@ -175,7 +173,7 @@ describe('PickerDay: changing focus', () => {
 
   it('focuses on the focused day when showing the day view', async () => {
     expect(document.activeElement.textContent.trim()).not.toEqual('15');
-    wrapper.setProps({
+    await wrapper.setProps({
       isInitialized: true,
       showDayView: true,
     });
@@ -185,11 +183,10 @@ describe('PickerDay: changing focus', () => {
 
   it('does not focus on the focused day when showing the day view before initializing', async () => {
     expect(document.activeElement.textContent.trim()).not.toEqual('15');
-    wrapper.setProps({
+    await wrapper.setProps({
       isInitialized: false,
       showDayView: true,
     });
-    await wrapper.vm.$nextTick();
     expect(document.activeElement.textContent.trim()).not.toEqual('15');
   });
 });
