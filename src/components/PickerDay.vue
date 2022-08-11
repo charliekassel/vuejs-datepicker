@@ -17,6 +17,7 @@
     <slot name="beforeCalendarHeader" />
     <header>
       <button
+        type="button"
         class="prev"
         :aria-label="isRtl ? 'Next Month' : 'Previous Month'"
         :class="{'disabled': isLeftNavDisabled}"
@@ -28,6 +29,7 @@
       </button>
       <button
         id="month-button"
+        type="button"
         class="day__month_btn"
         :class="allowedToShowView('month') ? 'up' : ''"
         aria-live="polite"
@@ -39,6 +41,7 @@
       </button>
       <button
         v-if="sideBySide"
+        type="button"
         class="day__month_btn"
         :class="allowedToShowView('month') ? 'up' : ''"
         aria-live="polite"
@@ -49,6 +52,7 @@
         {{ isYmd ? nextMonthYearName : nextMonthName }} {{ isYmd ? nextMonthName : nextMonthYearName }}
       </button>
       <button
+        type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Month' : 'Next Month'"
         :class="{'disabled': isRightNavDisabled}"

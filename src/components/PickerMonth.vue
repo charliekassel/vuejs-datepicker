@@ -17,6 +17,7 @@
     <slot name="beforeCalendarHeader" />
     <header>
       <button
+        type="button"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}"
         :aria-label="isRtl ? 'Next Year' : 'Previous Year'"
@@ -28,6 +29,7 @@
       </button>
       <button
         id="year-button"
+        type="button"
         class="month__year_btn"
         :class="allowedToShowView('year') ? 'up' : ''"
         aria-live="polite"
@@ -38,6 +40,7 @@
         {{ pageYearName }}
       </button>
       <button
+        type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Year' : 'Next Year'"
         :class="{'disabled': isRightNavDisabled}"
@@ -55,6 +58,7 @@
       <button
         v-for="month in months"
         :key="month.timestamp"
+        type="button"
         class="cell month"
         :tabindex="month.isFocused ? 0 : -1"
         :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
