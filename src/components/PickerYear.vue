@@ -17,6 +17,7 @@
     <slot name="beforeCalendarHeader" />
     <header>
       <button
+        type="button"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}"
         :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'"
@@ -28,11 +29,13 @@
       </button>
       <button
         id="decade-button"
+        type="button"
         aria-live="polite"
       >
         {{ getPageDecade }}
       </button>
       <button
+        type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Decade' : 'Next Decade'"
         :class="{'disabled': isRightNavDisabled}"
@@ -49,6 +52,7 @@
       <button
         v-for="year in years"
         :key="year.timestamp"
+        type="button"
         class="cell year"
         :tabindex="year.isFocused ? 0 : -1"
         :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
