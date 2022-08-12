@@ -29,7 +29,6 @@
       :is-open="isOpen"
       :active-grid-id="activeGridId"
       @showCalendar="showCalendar"
-      @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate"
     >
@@ -77,7 +76,7 @@
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate"
-      @keydown.esc.prevent="close"
+      @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
       <slot
@@ -115,7 +114,7 @@
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate"
-      @keydown.esc.prevent="close"
+      @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
       <slot
@@ -147,7 +146,7 @@
       :is-initialized="isInitialized"
       @selectYear="selectYear"
       @changedDecade="setPageDate"
-      @keydown.esc.prevent="close"
+      @keydown.esc.prevent="close(true)"
       @keydown.tab="focusNextElement($event)"
     >
       <slot

@@ -1,6 +1,6 @@
 {
   "name": "@reedsy/vuejs-datepicker",
-  "version": "1.6.2-reedsy-1.6.4",
+  "version": "1.6.2-reedsy-1.6.5",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
