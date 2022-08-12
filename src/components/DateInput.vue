@@ -38,7 +38,7 @@
       :aria-controls="dropdownId"
       @click="showCalendar"
       @keyup="parseTypedDate"
-      @keydown.down.prevent="showCalendar"
+      @keydown.down.space.enter.prevent="showCalendar"
       @blur="inputBlurred"
     >
     <!-- Clear Button -->
