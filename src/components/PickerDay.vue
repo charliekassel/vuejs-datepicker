@@ -10,7 +10,7 @@
     ]"
     :style="calendarStyle"
     role="dialog"
-    aria-modal="true"
+    :aria-modal="`${!inline}`"
     aria-label="Choose Date"
     @mousedown.prevent
   >
@@ -20,7 +20,7 @@
         type="button"
         class="prev"
         :aria-label="isRtl ? 'Next Month' : 'Previous Month'"
-        :class="{'disabled': isLeftNavDisabled}"
+        :disabled="isLeftNavDisabled"
         @click="isRtl ? nextMonth() : previousMonth()"
         @keydown.space.enter.prevent="isRtl ? nextMonth() : previousMonth()"
         @keydown="$emit('keydown', $event)"
@@ -55,7 +55,7 @@
         type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Month' : 'Next Month'"
-        :class="{'disabled': isRightNavDisabled}"
+        :disabled="isRightNavDisabled"
         @click="isRtl ? previousMonth() : nextMonth()"
         @keydown.space.enter.prevent="isRtl ? previousMonth() : nextMonth()"
         @keydown="$emit('keydown', $event)"
@@ -160,6 +160,10 @@ export default {
       default: false,
     },
     isInitialized: {
+      type: Boolean,
+      default: false,
+    },
+    inline: {
       type: Boolean,
       default: false,
     },

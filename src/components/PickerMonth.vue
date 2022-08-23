@@ -10,7 +10,7 @@
     ]"
     :style="calendarStyle"
     role="dialog"
-    aria-modal="true"
+    :aria-modal="`${!inline}`"
     aria-label="Choose Month"
     @mousedown.prevent
   >
@@ -19,7 +19,7 @@
       <button
         type="button"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}"
+        :disabled="isLeftNavDisabled"
         :aria-label="isRtl ? 'Next Year' : 'Previous Year'"
         @click="isRtl ? nextYear() : previousYear()"
         @keydown.space.enter.prevent="isRtl ? nextYear() : previousYear()"
@@ -43,7 +43,7 @@
         type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Year' : 'Next Year'"
-        :class="{'disabled': isRightNavDisabled}"
+        :disabled="isRightNavDisabled"
         @click="isRtl ? previousYear() : nextYear()"
         @keydown.space.enter.prevent="isRtl ? previousYear() : nextYear()"
         @keydown="$emit('keydown', $event)"
@@ -97,6 +97,10 @@ export default {
     allowedToShowView: Function,
     useUtc: Boolean,
     isInitialized: {
+      type: Boolean,
+      default: false,
+    },
+    inline: {
       type: Boolean,
       default: false,
     },

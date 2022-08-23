@@ -73,6 +73,20 @@ describe('PickerDay: DOM', () => {
     expect(wrapper.vm.getPageMonth()).toEqual(1);
   });
 
+  it('Sets the aria-modal attribute to true for the wrapper if it is not inline', async () => {
+    await wrapper.setProps({
+      inline: false,
+    });
+    expect(wrapper.attributes('aria-modal')).toBe('true');
+  });
+
+  it('Sets the aria-modal attribute to false for the wrapper if it is inline', async () => {
+    await wrapper.setProps({
+      inline: true,
+    });
+    expect(wrapper.attributes('aria-modal')).toBe('false');
+  });
+
   it('emits show year calendar event when clicked on the year', () => {
     const yearBtn = wrapper.find('.day__month_btn');
     yearBtn.trigger('click');
