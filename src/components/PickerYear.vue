@@ -9,7 +9,7 @@
       yearsGridId
     ]"
     role="dialog"
-    aria-modal="true"
+    :aria-modal="`${!inline}`"
     aria-label="Choose Year"
     :style="calendarStyle"
     @mousedown.prevent
@@ -19,7 +19,7 @@
       <button
         type="button"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}"
+        :disabled="isLeftNavDisabled"
         :aria-label="isRtl ? 'Next Decade' : 'Previous Decade'"
         @click="isRtl ? nextDecade() : previousDecade()"
         @keydown.space.enter.prevent="isRtl ? nextDecade() : previousDecade()"
@@ -38,7 +38,7 @@
         type="button"
         class="next"
         :aria-label="isRtl ? 'Previous Decade' : 'Next Decade'"
-        :class="{'disabled': isRightNavDisabled}"
+        :disabled="isRightNavDisabled"
         @click="isRtl ? previousDecade() : nextDecade()"
         @keydown="$emit('keydown', $event)"
       >
@@ -98,6 +98,10 @@ export default {
     allowedToShowView: Function,
     useUtc: Boolean,
     isInitialized: {
+      type: Boolean,
+      default: false,
+    },
+    inline: {
       type: Boolean,
       default: false,
     },

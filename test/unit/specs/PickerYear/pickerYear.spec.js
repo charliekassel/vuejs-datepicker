@@ -34,6 +34,20 @@ describe('PickerYear', () => {
     expect(wrapper.emitted().changedDecade).toBeTruthy();
   });
 
+  it('Sets the aria-modal attribute to true for the wrapper if it is not inline', async () => {
+    await wrapper.setProps({
+      inline: false,
+    });
+    expect(wrapper.attributes('aria-modal')).toBe('true');
+  });
+
+  it('Sets the aria-modal attribute to false for the wrapper if it is inline', async () => {
+    await wrapper.setProps({
+      inline: true,
+    });
+    expect(wrapper.attributes('aria-modal')).toBe('false');
+  });
+
   it('formats the decade range', async () => {
     await wrapper.setProps({
       pageDate: new Date(2021, 1, 1),
