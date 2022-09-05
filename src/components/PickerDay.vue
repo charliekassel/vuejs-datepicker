@@ -312,17 +312,27 @@ export default {
       }
       return days;
     },
-    async moveFocus(newDate, focusCell = true) {
+    async moveFocus(newDate, config = {}) {
+      const defaultConfig = {
+        focusCell: true,
+        forceMonthChange: false,
+      };
+
+      config = {
+        ...defaultConfig,
+        ...config,
+      };
+
       const monthsDifference = this.utils.getMonth(newDate)  - this.utils.getMonth(this.pageDate);
       const yearsDifference = this.utils.getFullYear(newDate) - this.utils.getFullYear(this.pageDate);
-      const shouldChangePage = monthsDifference !== 0 && !(this.sideBySide && monthsDifference === 1);
+      const shouldChangePage = monthsDifference !== 0 && (config.forceMonthChange || !(this.sideBySide && monthsDifference === 1));
       if (shouldChangePage) {
         this.changeMonth(monthsDifference + yearsDifference * 12);
       }
 
       this.$emit('update:focusedDate', newDate.getTime());
 
-      if (focusCell) {
+      if (config.focusCell) {
         this.focusDayCell();
       }
     },
@@ -373,7 +383,7 @@ export default {
       if (!this.isPreviousMonthDisabled()) {
         const focusedDate = new Date(this.focusedDate);
         this.utils.setMonth(focusedDate, this.utils.getMonth(focusedDate) - 1, this.useUtc);
-        this.moveFocus(focusedDate, false);
+        this.moveFocus(focusedDate, { focusCell: false, forceMonthChange: true });
       }
     },
     /**
@@ -395,7 +405,7 @@ export default {
       if (!this.isNextMonthDisabled()) {
         const focusedDate = new Date(this.focusedDate);
         this.utils.setMonth(focusedDate, this.utils.getMonth(focusedDate) + 1, this.useUtc);
-        this.moveFocus(focusedDate, false);
+        this.moveFocus(focusedDate, { focusCell: false, forceMonthChange: true });
       }
     },
     /**
