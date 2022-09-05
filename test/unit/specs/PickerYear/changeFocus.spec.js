@@ -4,7 +4,7 @@ import { en } from '@/locale';
 
 describe('PickerYear: changing focus', () => {
   let wrapper;
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = mount(PickerYear, {
       propsData: {
         translation: en,
@@ -16,10 +16,8 @@ describe('PickerYear: changing focus', () => {
       },
       attachTo: document.body,
     });
-  });
 
-  afterEach(() => {
-    wrapper.destroy();
+    await wrapper.vm.$nextTick();
   });
 
   describe('focusNextYear', () => {
@@ -52,10 +50,10 @@ describe('PickerYear: changing focus', () => {
       wrapper.vm.focusNextYear();
       await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('2019');
-      wrapper.vm.focusNextYear();
       await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2020, 1, 15)).getTime(),
       });
+      wrapper.vm.focusNextYear();
       await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('2020');
     });
@@ -188,6 +186,7 @@ describe('PickerYear: changing focus', () => {
   });
 
   it('focuses on the focused day when showing the year view', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('2018');
     await wrapper.setProps({
       isInitialized: true,
@@ -198,6 +197,7 @@ describe('PickerYear: changing focus', () => {
   });
 
   it('does not focus on the focused day when showing the year view before initializing', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('2018');
     await wrapper.setProps({
       isInitialized: false,

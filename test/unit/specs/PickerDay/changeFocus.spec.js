@@ -4,7 +4,7 @@ import { en } from '@/locale';
 
 describe('PickerDay: changing focus', () => {
   let wrapper;
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = mount(PickerDay, {
       propsData: {
         translation: en,
@@ -16,10 +16,7 @@ describe('PickerDay: changing focus', () => {
       },
       attachTo: document.body,
     });
-  });
-
-  afterEach(() => {
-    wrapper.destroy();
+    await wrapper.vm.$nextTick();
   });
 
   describe('focusNextDay', () => {
@@ -55,16 +52,18 @@ describe('PickerDay: changing focus', () => {
     });
 
     it('focuses on the new focused date after it changes', async () => {
-      wrapper.vm.focusNextDay();
       // fake the .sync prop update
       await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 1, 16)).getTime(),
       });
-      expect(document.activeElement.textContent.trim()).toEqual('16');
       wrapper.vm.focusNextDay();
+      await wrapper.vm.$nextTick();
+      expect(document.activeElement.textContent.trim()).toEqual('16');
       await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 1, 17)).getTime(),
       });
+      wrapper.vm.focusNextDay();
+      await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('17');
     });
   });
@@ -172,6 +171,7 @@ describe('PickerDay: changing focus', () => {
   });
 
   it('focuses on the focused day when showing the day view', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('15');
     await wrapper.setProps({
       isInitialized: true,
@@ -182,6 +182,7 @@ describe('PickerDay: changing focus', () => {
   });
 
   it('does not focus on the focused day when showing the day view before initializing', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('15');
     await wrapper.setProps({
       isInitialized: false,

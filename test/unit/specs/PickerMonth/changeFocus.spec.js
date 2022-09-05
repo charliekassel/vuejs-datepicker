@@ -18,10 +18,6 @@ describe('PickerMonth: changing focus', () => {
     });
   });
 
-  afterEach(() => {
-    wrapper.destroy();
-  });
-
   describe('focusNextMonth', () => {
     it('changes the focused date to the next month', () => {
       wrapper.vm.focusNextMonth();
@@ -52,10 +48,10 @@ describe('PickerMonth: changing focus', () => {
       wrapper.vm.focusNextMonth();
       await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('March');
-      wrapper.vm.focusNextMonth();
       await wrapper.setProps({
         focusedDate: new Date(Date.UTC(2018, 3, 15)).getTime(),
       });
+      wrapper.vm.focusNextMonth();
       await wrapper.vm.$nextTick();
       expect(document.activeElement.textContent.trim()).toEqual('April');
     });
@@ -139,6 +135,7 @@ describe('PickerMonth: changing focus', () => {
   });
 
   it('focuses on the focused day when showing the month view', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('February');
     await wrapper.setProps({
       isInitialized: true,
@@ -149,6 +146,7 @@ describe('PickerMonth: changing focus', () => {
   });
 
   it('does not focus on the focused day when showing the month view before initializing', async () => {
+    document.activeElement.blur();
     expect(document.activeElement.textContent.trim()).not.toEqual('February');
     await wrapper.setProps({
       isInitialized: false,

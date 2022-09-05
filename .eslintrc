@@ -1,6 +1,6 @@
 {
   "extends": [
-    "plugin:vue/recommended"
+    "plugin:vue/vue3-recommended"
   ],
   // 2: reports an error, breaking the build.
   // 1: report a warning.

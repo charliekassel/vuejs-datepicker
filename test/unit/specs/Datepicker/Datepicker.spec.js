@@ -201,46 +201,46 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.selectedDate).toEqual(today);
   });
 
-  it('watches value', done => {
+  it('watches value', async () => {
     const wrapper = shallowMount(Datepicker, {
       propsData: {
         value: '2018-01-01',
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setValue');
-    wrapper.vm.value = '2018-04-26';
-    wrapper.vm.$nextTick(() => {
-      expect(spy).toBeCalled();
-      done();
+    await wrapper.setProps({
+      value: '2018-04-26',
     });
+
+    expect(spy).toBeCalled();
   });
 
-  it('watches openDate', done => {
+  it('watches openDate', async () => {
     const wrapper = shallowMount(Datepicker, {
       propsData: {
         openDate: new Date(2018, 0, 1),
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setPageDate');
-    wrapper.vm.openDate = new Date(2018, 3, 26);
-    wrapper.vm.$nextTick(() => {
-      expect(spy).toBeCalled();
-      done();
+    await wrapper.setProps({
+      openDate: new Date(2018, 3, 26),
     });
+
+    expect(spy).toBeCalled();
   });
 
-  it('watches initialView', done => {
+  it('watches initialView', async () => {
     const wrapper = shallowMount(Datepicker, {
       propsData: {
         initialView: 'day',
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setInitialView');
-    wrapper.vm.initialView = 'month';
-    wrapper.vm.$nextTick(() => {
-      expect(spy).toBeCalled();
-      done();
+    await wrapper.setProps({
+      initialView: 'month',
     });
+
+    expect(spy).toBeCalled();
   });
 
   it('should emit changedMonth on a month change received from PickerDay', () => {
@@ -319,11 +319,11 @@ describe('Datepicker.vue using UTC', () => {
     });
     // It's important to assert the input rendered output
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.findComponent(DateInput).vm.formattedValue).toEqual(UTCString)
-      done()
-    })
-  })
-})
+      expect(wrapper.findComponent(DateInput).vm.formattedValue).toEqual(UTCString);
+      done();
+    });
+  });
+});
 
 describe('Datepicker with initial-view', () => {
   let wrapper;
@@ -370,7 +370,6 @@ describe('Focus after opening the datepicker', () => {
       const today = new Date();
       await wrapper.vm.showCalendar();
       expect(document.activeElement.textContent.trim()).toEqual(today.getDate().toString());
-      wrapper.destroy();
     });
   });
   describe('Months', () => {
@@ -384,7 +383,6 @@ describe('Focus after opening the datepicker', () => {
       const today = new Date();
       await wrapper.vm.showCalendar();
       expect(document.activeElement.textContent.trim()).toEqual(constructedDateUtils.getMonthName(today, en.months));
-      wrapper.destroy();
     });
   });
   describe('Years', () => {
@@ -398,7 +396,6 @@ describe('Focus after opening the datepicker', () => {
       const today = new Date();
       await wrapper.vm.showCalendar();
       expect(document.activeElement.textContent.trim()).toEqual(today.getFullYear().toString());
-      wrapper.destroy();
     });
   });
 });
@@ -410,6 +407,5 @@ describe('Focus after closing the datepicker', () => {
     wrapper.vm.close(true);
     const input = wrapper.vm.$refs.input.$el.querySelector('input');
     expect(document.activeElement).toEqual(input);
-    wrapper.destroy();
   });
 });

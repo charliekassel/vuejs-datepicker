@@ -49,6 +49,7 @@
       :selected-date="selectedDate"
       :show-day-view="showDayView"
       :full-month-name="fullMonthName"
+      v-model:focused-date="focusedDate"
       :allowed-to-show-view="allowedToShowView"
       :clear-date="clearDate"
       :set-page-date="setPageDate"
@@ -58,7 +59,6 @@
       :calendar-style="calendarStyle"
       :translation="translation"
       :page-timestamp="pageTimestamp"
-      :focused-date.sync="focusedDate"
       :is-rtl="isRtl"
       :monday-first="mondayFirst"
       :modal="modal"
@@ -90,8 +90,9 @@
         />
       </template>
       <template #footer>
-        <slot name="footer"
-              :on-tab="(event) => focusNextElement(event)"
+        <slot
+          name="footer"
+          :on-tab="(event) => focusNextElement(event)"
         />
       </template>
     </picker-day>
@@ -99,9 +100,9 @@
     <!-- Month View -->
     <picker-month
       v-if="allowedToShowView('month')"
+      v-model:focused-date="focusedDate"
       :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       :page-date="pageDate"
-      :focused-date.sync="focusedDate"
       :selected-date="selectedDate"
       :show-month-view="showMonthView"
       :allowed-to-show-view="allowedToShowView"
@@ -131,9 +132,9 @@
     <!-- Year View -->
     <picker-year
       v-if="allowedToShowView('year')"
+      v-model:focused-date="focusedDate"
       :class="{'vdp-datepicker__calendar--side-by-side': sideBySide}"
       :page-date="pageDate"
-      :focused-date.sync="focusedDate"
       :selected-date="selectedDate"
       :show-year-view="showYearView"
       :allowed-to-show-view="allowedToShowView"
@@ -314,6 +315,7 @@ export default {
       this.focusedDate = this.openDate.getTime();
     },
     initialView () {
+      console.log('wat');
       this.setInitialView();
     },
   },
