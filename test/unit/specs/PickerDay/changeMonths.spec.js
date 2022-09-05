@@ -39,4 +39,13 @@ describe('PickerDay: changing months', () => {
     expect(wrapper.emitted('update:focusedDate')).toBeTruthy();
     expect(wrapper.emitted('update:focusedDate')[0]).toEqual([ new Date(2018, 0, 24).getTime() ]);
   });
+
+  it('changes the month when the datepicker is side-by-side and the focus is on the first month', async () => {
+    await wrapper.setProps({
+      sideBySide: true,
+    });
+    wrapper.vm.nextMonth();
+    expect(wrapper.emitted().changedMonth).toBeTruthy();
+    expect(wrapper.emitted().changedMonth[0][0].getMonth()).toEqual(2);
+  });
 });
