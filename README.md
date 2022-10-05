@@ -56,7 +56,7 @@ Or use directly from a CDN
 const app = new Vue({
   el: '#app',
   components: {
-  	vuejsDatepicker
+    vuejsDatepicker
   }
 })
 </script>
@@ -77,7 +77,7 @@ const app = new Vue({
     }
   },
   components: {
-  	vuejsDatepicker
+    vuejsDatepicker
   }
 })
 </script>
@@ -355,6 +355,7 @@ Available languages
 | el          | Greek            |          |
 | en          | English          | *Default*|
 | es          | Spanish          |          |
+| eu          | Basque (Euskera) |          |
 | fa          | Persian (Farsi)  |          |
 | fi          | Finnish          |          |
 | fo          | Faroese          |          |
