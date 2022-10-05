@@ -10,6 +10,7 @@ import ee from './translations/ee'
 import el from './translations/el'
 import en from './translations/en'
 import es from './translations/es'
+import eu from './translations/eu'
 import fa from './translations/fa'
 import fi from './translations/fi'
 import fo from './translations/fo'
@@ -62,6 +63,7 @@ export {
   el,
   en,
   es,
+  eu,
   fa,
   fi,
   fo,
