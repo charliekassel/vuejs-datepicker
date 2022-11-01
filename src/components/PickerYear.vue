@@ -1,23 +1,38 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showYearView" :style="calendarStyle" @mousedown.prevent>
+  <div
+    :class="[
+      calendarClass,
+      'vdp-datepicker__calendar',
+      openPos == 'right' ? 'open-right' : 'open-left',
+    ]"
+    v-show="showYearView"
+    :style="calendarStyle"
+    @mousedown.prevent
+  >
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
         @click="isRtl ? nextDecade() : previousDecade()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
+        :class="{ disabled: isLeftNavDisabled }"
+        >&lt;</span
+      >
       <span>{{ getPageDecade }}</span>
       <span
         @click="isRtl ? previousDecade() : nextDecade()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{ disabled: isRightNavDisabled }"
+        >&gt;</span
+      >
     </header>
     <span
       class="cell year"
       v-for="year in years"
       :key="year.timestamp"
-      :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-      @click.stop="selectYear(year)">{{ year.year }}</span>
+      :class="{ selected: year.isSelected, disabled: year.isDisabled }"
+      @click.stop="selectYear(year)"
+      >{{ year.year }}</span
+    >
   </div>
 </template>
 <script>
@@ -35,7 +50,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     allowedToShowView: Function,
-    useUtc: Boolean
+    useUtc: Boolean,
+    openPos: { String, default: 'left' }
   },
   computed: {
     years () {
@@ -43,8 +59,20 @@ export default {
       let years = []
       // set up a new date object to the beginning of the current 'page'7
       let dObj = this.useUtc
-        ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
-        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+        ? new Date(
+            Date.UTC(
+              Math.floor(d.getUTCFullYear() / 10) * 10,
+              d.getUTCMonth(),
+              d.getUTCDate()
+            )
+          )
+        : new Date(
+            Math.floor(d.getFullYear() / 10) * 10,
+            d.getMonth(),
+            d.getDate(),
+            d.getHours(),
+            d.getMinutes()
+          )
       for (let i = 0; i < 10; i++) {
         years.push({
           year: this.utils.getFullYear(dObj),
@@ -60,7 +88,8 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
+      const decadeStart =
+        Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
       const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
@@ -113,7 +142,8 @@ export default {
         return false
       }
       const disabledYear = this.utils.getFullYear(this.disabledDates.to)
-      const lastYearInPreviousPage = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1
+      const lastYearInPreviousPage =
+        Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10 - 1
       return disabledYear > lastYearInPreviousPage
     },
     nextDecade () {
@@ -127,7 +157,8 @@ export default {
         return false
       }
       const disabledYear = this.utils.getFullYear(this.disabledDates.from)
-      const firstYearInNextPage = Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
+      const firstYearInNextPage =
+        Math.ceil(this.utils.getFullYear(this.pageDate) / 10) * 10
       return disabledYear < firstYearInNextPage
     },
 
@@ -137,7 +168,11 @@ export default {
      * @return {Boolean}
      */
     isSelectedYear (date) {
-      return this.selectedDate && this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date)
+      return (
+        this.selectedDate &&
+        this.utils.getFullYear(this.selectedDate) ===
+          this.utils.getFullYear(date)
+      )
     },
     /**
      * Whether a year is disabled
@@ -150,18 +185,33 @@ export default {
         return false
       }
 
-      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
-        if (this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)) {
+      if (
+        typeof this.disabledDates.to !== 'undefined' &&
+        this.disabledDates.to
+      ) {
+        if (
+          this.utils.getFullYear(date) <
+          this.utils.getFullYear(this.disabledDates.to)
+        ) {
           disabledDates = true
         }
       }
-      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
-        if (this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)) {
+      if (
+        typeof this.disabledDates.from !== 'undefined' &&
+        this.disabledDates.from
+      ) {
+        if (
+          this.utils.getFullYear(date) >
+          this.utils.getFullYear(this.disabledDates.from)
+        ) {
           disabledDates = true
         }
       }
 
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+      if (
+        typeof this.disabledDates.customPredictor === 'function' &&
+        this.disabledDates.customPredictor(date)
+      ) {
         disabledDates = true
       }
 
@@ -170,5 +220,4 @@ export default {
   }
 }
 // eslint-disable-next-line
-;
 </script>
