@@ -145,6 +145,7 @@ Inline always open version
 | typeable                      | Boolean         | false       | If true, allow the user to type the date |
 | use-utc                       | Boolean         | false       | use UTC for time calculations            |
 | open-date                     | Date\|String    |             | If set, open on that date                |
+| openPos                       | String          | 'left'      | If 'left', calendar appears to left of date input, if 'right', calendar appears to right of date input.                 |
 | minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
 | maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
 

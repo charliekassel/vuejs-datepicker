@@ -1,22 +1,44 @@
 <template>
-  <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showMonthView" :style="calendarStyle" @mousedown.prevent>
+  <div
+    :class="[
+      calendarClass,
+      'vdp-datepicker__calendar',
+      openPos,
+      openPos == 'right' ? 'open-right' : 'open-left'
+    ]"
+    v-show="showMonthView"
+    :style="calendarStyle"
+    @mousedown.prevent
+  >
     <slot name="beforeCalendarHeader"></slot>
     <header>
       <span
         @click="isRtl ? nextYear() : previousYear()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span class="month__year_btn" @click="showYearCalendar" :class="allowedToShowView('year') ? 'up' : ''">{{ pageYearName }}</span>
+        :class="{ disabled: isLeftNavDisabled }"
+        >&lt;</span
+      >
+      <span
+        class="month__year_btn"
+        @click="showYearCalendar"
+        :class="allowedToShowView('year') ? 'up' : ''"
+        >{{ pageYearName }}</span
+      >
       <span
         @click="isRtl ? previousYear() : nextYear()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}">&gt;</span>
+        :class="{ disabled: isRightNavDisabled }"
+        >&gt;</span
+      >
     </header>
-    <span class="cell month"
+    <span
+      class="cell month"
       v-for="month in months"
       :key="month.timestamp"
-      :class="{'selected': month.isSelected, 'disabled': month.isDisabled}"
-      @click.stop="selectMonth(month)">{{ month.month }}</span>
+      :class="{ selected: month.isSelected, disabled: month.isDisabled }"
+      @click.stop="selectMonth(month)"
+      >{{ month.month }}</span
+    >
   </div>
 </template>
 <script>
@@ -33,7 +55,8 @@ export default {
     translation: Object,
     isRtl: Boolean,
     allowedToShowView: Function,
-    useUtc: Boolean
+    useUtc: Boolean,
+    openPos: { String, default: 'left' }
   },
   data () {
     const constructedDateUtils = makeDateUtils(this.useUtc)
@@ -48,7 +71,13 @@ export default {
       // set up a new date object to the beginning of the current 'page'
       let dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
-        : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
+        : new Date(
+            d.getFullYear(),
+            0,
+            d.getDate(),
+            d.getHours(),
+            d.getMinutes()
+          )
       for (let i = 0; i < 12; i++) {
         months.push({
           month: this.utils.getMonthName(i, this.translation.months),
@@ -123,7 +152,10 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      return this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(this.pageDate)
+      return (
+        this.utils.getFullYear(this.disabledDates.to) >=
+        this.utils.getFullYear(this.pageDate)
+      )
     },
     /**
      * Increments the year
@@ -141,7 +173,10 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      return this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(this.pageDate)
+      return (
+        this.utils.getFullYear(this.disabledDates.from) <=
+        this.utils.getFullYear(this.pageDate)
+      )
     },
     /**
      * Emits an event that shows the year calendar
@@ -155,9 +190,12 @@ export default {
      * @return {Boolean}
      */
     isSelectedMonth (date) {
-      return (this.selectedDate &&
-        this.utils.getFullYear(this.selectedDate) === this.utils.getFullYear(date) &&
-        this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date))
+      return (
+        this.selectedDate &&
+        this.utils.getFullYear(this.selectedDate) ===
+          this.utils.getFullYear(date) &&
+        this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date)
+      )
     },
     /**
      * Whether a month is disabled
@@ -171,24 +209,41 @@ export default {
         return false
       }
 
-      if (typeof this.disabledDates.to !== 'undefined' && this.disabledDates.to) {
+      if (
+        typeof this.disabledDates.to !== 'undefined' &&
+        this.disabledDates.to
+      ) {
         if (
-          (this.utils.getMonth(date) < this.utils.getMonth(this.disabledDates.to) && this.utils.getFullYear(date) <= this.utils.getFullYear(this.disabledDates.to)) ||
-          this.utils.getFullYear(date) < this.utils.getFullYear(this.disabledDates.to)
+          (this.utils.getMonth(date) <
+            this.utils.getMonth(this.disabledDates.to) &&
+            this.utils.getFullYear(date) <=
+              this.utils.getFullYear(this.disabledDates.to)) ||
+          this.utils.getFullYear(date) <
+            this.utils.getFullYear(this.disabledDates.to)
         ) {
           disabledDates = true
         }
       }
-      if (typeof this.disabledDates.from !== 'undefined' && this.disabledDates.from) {
+      if (
+        typeof this.disabledDates.from !== 'undefined' &&
+        this.disabledDates.from
+      ) {
         if (
-          (this.utils.getMonth(date) > this.utils.getMonth(this.disabledDates.from) && this.utils.getFullYear(date) >= this.utils.getFullYear(this.disabledDates.from)) ||
-          this.utils.getFullYear(date) > this.utils.getFullYear(this.disabledDates.from)
+          (this.utils.getMonth(date) >
+            this.utils.getMonth(this.disabledDates.from) &&
+            this.utils.getFullYear(date) >=
+              this.utils.getFullYear(this.disabledDates.from)) ||
+          this.utils.getFullYear(date) >
+            this.utils.getFullYear(this.disabledDates.from)
         ) {
           disabledDates = true
         }
       }
 
-      if (typeof this.disabledDates.customPredictor === 'function' && this.disabledDates.customPredictor(date)) {
+      if (
+        typeof this.disabledDates.customPredictor === 'function' &&
+        this.disabledDates.customPredictor(date)
+      ) {
         disabledDates = true
       }
       return disabledDates
@@ -196,5 +251,4 @@ export default {
   }
 }
 // eslint-disable-next-line
-;
 </script>

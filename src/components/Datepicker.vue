@@ -25,10 +25,10 @@
       @showCalendar="showCalendar"
       @closeCalendar="close"
       @typedDate="setTypedDate"
-      @clearDate="clearDate">
+      @clearDate="clearDate"
+    >
       <slot name="afterDateInput" slot="afterDateInput"></slot>
     </date-input>
-
 
     <!-- Day View -->
     <picker-day
@@ -48,10 +48,12 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :openPos="openPos"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
-      @selectedDisabled="selectDisabledDate">
+      @selectedDisabled="selectDisabledDate"
+    >
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-day>
 
@@ -68,9 +70,11 @@
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
+      :openPos="openPos"
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
-      @changedYear="setPageDate">
+      @changedYear="setPageDate"
+    >
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-month>
 
@@ -87,8 +91,10 @@
       :translation="translation"
       :isRtl="isRtl"
       :use-utc="useUtc"
+      :openPos="openPos"
       @selectYear="selectYear"
-      @changedDecade="setPageDate">
+      @changedDecade="setPageDate"
+    >
       <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
     </picker-year>
   </div>
@@ -153,7 +159,8 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
-    }
+    },
+    openPos: { String, default: 'left' }
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
@@ -259,7 +266,13 @@ export default {
     setInitialView () {
       const initialView = this.computedInitialView
       if (!this.allowedToShowView(initialView)) {
-        throw new Error(`initialView '${this.initialView}' cannot be rendered based on minimum '${this.minimumView}' and maximum '${this.maximumView}'`)
+        throw new Error(
+          `initialView '${
+            this.initialView
+          }' cannot be rendered based on minimum '${
+            this.minimumView
+          }' and maximum '${this.maximumView}'`
+        )
       }
       switch (initialView) {
         case 'year':
@@ -458,7 +471,6 @@ export default {
   }
 }
 // eslint-disable-next-line
-;
 </script>
 <style lang="stylus">
 @import '../styles/style'

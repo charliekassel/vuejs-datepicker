@@ -1,8 +1,10 @@
 <template>
-  <div :class="{'input-group' : bootstrapStyling}">
+  <div :class="{ 'input-group': bootstrapStyling }">
     <!-- Calendar Button -->
-    <span v-if="calendarButton" class="vdp-datepicker__calendar-button" :class="{'input-group-prepend' : bootstrapStyling}" @click="showCalendar" v-bind:style="{'cursor:not-allowed;' : disabled}">
-      <span :class="{'input-group-text' : bootstrapStyling}">
+    <span v-if="calendarButton" class="vdp-datepicker__calendar-button"
+      :class="{ 'input-group-prepend': bootstrapStyling }" @click="showCalendar"
+      v-bind:style="{ 'cursor:not-allowed;': disabled }">
+      <span :class="{ 'input-group-text': bootstrapStyling }">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
           <span v-if="!calendarButtonIcon">&hellip;</span>
@@ -10,26 +12,14 @@
       </span>
     </span>
     <!-- Input -->
-    <input
-      :type="inline ? 'hidden' : 'text'"
-      :class="computedInputClass"
-      :name="name"
-      :ref="refName"
-      :id="id"
-      :value="formattedValue"
-      :open-date="openDate"
-      :placeholder="placeholder"
-      :clear-button="clearButton"
-      :disabled="disabled"
-      :required="required"
-      :readonly="!typeable"
-      @click="showCalendar"
-      @keyup="parseTypedDate"
-      @blur="inputBlurred"
-      autocomplete="off">
+    <input :type="inline ? 'hidden' : 'text'" :class="computedInputClass" :name="name" :ref="refName" :id="id"
+      :value="formattedValue" :open-date="openDate" :placeholder="placeholder" :clear-button="clearButton"
+      :disabled="disabled" :required="required" :readonly="!typeable" @click="showCalendar" @keyup="parseTypedDate"
+      @blur="inputBlurred" autocomplete="off">
     <!-- Clear Button -->
-    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button" :class="{'input-group-append' : bootstrapStyling}" @click="clearDate()">
-      <span :class="{'input-group-text' : bootstrapStyling}">
+    <span v-if="clearButton && selectedDate" class="vdp-datepicker__clear-button"
+      :class="{ 'input-group-append': bootstrapStyling }" @click="clearDate()">
+      <span :class="{ 'input-group-text': bootstrapStyling }">
         <i :class="clearButtonIcon">
           <span v-if="!clearButtonIcon">&times;</span>
         </i>
@@ -90,7 +80,7 @@ export default {
         if (typeof this.inputClass === 'string') {
           return [this.inputClass, 'form-control'].join(' ')
         }
-        return {'form-control': true, ...this.inputClass}
+        return { 'form-control': true, ...this.inputClass }
       }
       return this.inputClass
     }
@@ -149,6 +139,6 @@ export default {
     this.input = this.$el.querySelector('input')
   }
 }
-// eslint-disable-next-line
-;
+  // eslint-disable-next-line
+  ;
 </script>

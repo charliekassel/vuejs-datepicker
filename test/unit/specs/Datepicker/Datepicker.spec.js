@@ -248,6 +248,7 @@ describe('Datepicker.vue set by timestamp', () => {
         value: new Date(Date.UTC(2018, 0, 29)).getTime()
       }
     })
+    console.log(wrapper.vm.selectedDate)
     expect(wrapper.vm.selectedDate.getFullYear()).toEqual(2018)
     expect(wrapper.vm.selectedDate.getMonth()).toEqual(0)
     expect(wrapper.vm.selectedDate.getDate()).toEqual(29)
