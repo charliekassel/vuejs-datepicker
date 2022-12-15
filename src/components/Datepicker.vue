@@ -324,6 +324,26 @@ export default {
     this.init();
   },
   methods: {
+    /**
+     * Set up an event listener for clicks outside the picker
+     */
+    addOutsideClickListener () {
+      if (this.isInline) return;
+      setTimeout(() => {
+        document.addEventListener('click', this.clickOutside, false);
+      }, 100);
+    },
+    /**
+     * Close the calendar if clicked outside the datepicker
+     * @param  {Event} event
+     */
+    clickOutside (event) {
+      if (this.$el && !this.$el.contains(event.target)) {
+        this.resetDefaultPageDate();
+        this.close(true);
+        document.removeEventListener('click', this.clickOutside, false);
+      }
+    },
     focusNextElement (event) {
       if (this.isInline) return;
 
@@ -412,6 +432,7 @@ export default {
       }
       this.close();
       this.showDayView = true;
+      this.addOutsideClickListener();
       return true;
     },
     /**
@@ -424,6 +445,7 @@ export default {
       }
       this.close();
       this.showMonthView = true;
+      this.addOutsideClickListener();
       return true;
     },
     /**
@@ -436,6 +458,7 @@ export default {
       }
       this.close();
       this.showYearView = true;
+      this.addOutsideClickListener();
       return true;
     },
     /**
