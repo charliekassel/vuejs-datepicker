@@ -1,11 +1,11 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('PickerDay: DOM', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(PickerDay, {
+    wrapper = shallowMount(PickerDay, {
       propsData: {
         allowedToShowView: () => true,
         translation: en,
@@ -15,9 +15,9 @@ describe('PickerDay: DOM', () => {
     })
   })
 
-  it('knows the selected date', () => {
+  it('knows the selected date', async () => {
     const newDate = new Date(2016, 9, 15)
-    wrapper.setProps({
+    await wrapper.setProps({
       selectedDate: newDate
     })
     expect(wrapper.vm.isSelectedDate(newDate)).toEqual(true)
@@ -34,7 +34,7 @@ describe('PickerDay: DOM', () => {
   })
 
   it('emits show year calendar event when clicked on the year', () => {
-    const yearBtn = wrapper.find('.day__month_btn')
+    const yearBtn = wrapper.findComponent('.day__month_btn')
     yearBtn.trigger('click')
     expect(wrapper.emitted().showMonthCalendar).toBeTruthy()
   })
