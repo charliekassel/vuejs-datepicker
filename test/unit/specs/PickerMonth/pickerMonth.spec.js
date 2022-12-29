@@ -46,4 +46,10 @@ describe('PickerMonth', () => {
     yearBtn.trigger('click')
     expect(wrapper.emitted().showYearCalendar).toBeTruthy()
   })
+
+  it('shows abbreviated month names when full-month-name is false', () => {
+    const firstMonth = wrapper.find('.month')
+    const abbreviatedMonth = en._monthsAbbr[0]
+    expect(firstMonth.text()).toEqual(abbreviatedMonth)
+  })
 })
