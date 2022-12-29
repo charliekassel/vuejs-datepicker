@@ -157,6 +157,7 @@ export default {
   methods: {
     selectDate (date) {
       if (date.isDisabled) {
+        this.$emit('selected-disabled', date)
         this.$emit('selectedDisabled', date)
         return false
       }
@@ -181,6 +182,7 @@ export default {
     changeMonth (incrementBy) {
       let date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
+      this.$emit('changed-month', date)
       this.$emit('changedMonth', date)
     },
     /**

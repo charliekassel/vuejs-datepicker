@@ -26,12 +26,12 @@ describe('PickerMonth', () => {
 
   it('can set the next year', () => {
     wrapper.vm.nextYear()
-    expect(wrapper.emitted().changedYear[0][0].getFullYear()).toEqual(2019)
+    expect(wrapper.emitted('changed-year')[0][0].getFullYear()).toEqual(2019)
   })
 
   it('can set the previous year', () => {
     wrapper.vm.previousYear()
-    expect(wrapper.emitted().changedYear[0][0].getFullYear()).toEqual(2017)
+    expect(wrapper.emitted('changed-year')[0][0].getFullYear()).toEqual(2017)
   })
 
   it('emits date on selection', () => {

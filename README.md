@@ -153,17 +153,19 @@ Inline always open version
 
 These events are emitted on actions in the datepicker
 
-| Event             | Output     | Description                          |
-|-------------------|------------|--------------------------------------|
-| opened            |            | The picker is opened                 |
-| closed            |            | The picker is closed                 |
-| selected          | Date\|null | A date has been selected             |
-| selectedDisabled  | Object     | A disabled date has been selected    |
-| input             | Date\|null | Input value has been modified        |
-| cleared           |            | Selected date has been cleared       |
-| changedMonth      | Object     | Month page has been changed          |
-| changedYear       | Object     | Year page has been changed           |
-| changedDecade     | Object     | Decade page has been changed         |
+| Event              | Output     | Description                          |
+|--------------------|------------|--------------------------------------|
+| opened             |            | The picker is opened                 |
+| closed             |            | The picker is closed                 |
+| selected           | Date\|null | A date has been selected             |
+| selected-disabled  | Object     | A disabled date has been selected    |
+| input              | Date\|null | Input value has been modified        |
+| cleared            |            | Selected date has been cleared       |
+| changed-month      | Object     | Month page has been changed          |
+| changed-year       | Object     | Year page has been changed           |
+| changed-decade     | Object     | Decade page has been changed         |
+
+NB. The old camel case event names may be deprecated as they do not adhere to [Vue's guidelines](https://vuejs.org/v2/guide/components-custom-events.html#Event-Names).
 
 
 ## Date formatting
