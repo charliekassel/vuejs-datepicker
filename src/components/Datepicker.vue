@@ -5,6 +5,7 @@
       :resetTypedDate="resetTypedDate"
       :format="format"
       :translation="translation"
+      :eraType="eraType"
       :inline="inline"
       :id="id"
       :name="name"
@@ -43,6 +44,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :eraType="eraType"
       :pageTimestamp="pageTimestamp"
       :isRtl="isRtl"
       :mondayFirst="mondayFirst"
@@ -66,6 +68,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :eraType="eraType"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectMonth="selectMonth"
@@ -85,6 +88,7 @@
       :calendarClass="calendarClass"
       :calendarStyle="calendarStyle"
       :translation="translation"
+      :eraType="eraType"
       :isRtl="isRtl"
       :use-utc="useUtc"
       @selectYear="selectYear"
@@ -121,6 +125,10 @@ export default {
     language: {
       type: Object,
       default: () => en
+    },
+    eraType: {
+      type: String,
+      default: 'CE'
     },
     openDate: {
       validator: val => utils.validateDateInput(val)

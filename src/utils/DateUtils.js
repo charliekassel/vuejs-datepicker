@@ -199,9 +199,9 @@ const utils = {
    * @param {Object}
    * @return {String}
    */
-  formatDate (date, format, translation) {
+  formatDate (date, format, translation, yearPlus = 0) {
     translation = (!translation) ? en : translation
-    let year = this.getFullYear(date)
+    let year = this.getFullYear(date) + yearPlus
     let month = this.getMonth(date) + 1
     let day = this.getDate(date)
     let str = format

@@ -6,7 +6,7 @@
         @click="isRtl ? nextDecade() : previousDecade()"
         class="prev"
         :class="{'disabled': isLeftNavDisabled}">&lt;</span>
-      <span>{{ getPageDecade }}</span>
+      <span style="cursor: default;">{{ getPageDecade }}</span>
       <span
         @click="isRtl ? previousDecade() : nextDecade()"
         class="next"
@@ -17,11 +17,12 @@
       v-for="year in years"
       :key="year.timestamp"
       :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
-      @click.stop="selectYear(year)">{{ year.year }}</span>
+      @click.stop="selectYear(year)">{{ year.showYear }}</span>
   </div>
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+
 export default {
   props: {
     showYearView: Boolean,
@@ -33,6 +34,7 @@ export default {
     calendarClass: [String, Object, Array],
     calendarStyle: Object,
     translation: Object,
+    eraType: String,
     isRtl: Boolean,
     allowedToShowView: Function,
     useUtc: Boolean
@@ -43,11 +45,12 @@ export default {
       let years = []
       // set up a new date object to the beginning of the current 'page'7
       let dObj = this.useUtc
-        ? new Date(Date.UTC(Math.floor(d.getUTCFullYear() / 10) * 10, d.getUTCMonth(), d.getUTCDate()))
-        : new Date(Math.floor(d.getFullYear() / 10) * 10, d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+        ? new Date(Date.UTC((Math.floor((d.getUTCFullYear() + this.eraTypeCal[this.eraType]) / 10) * 10) - this.eraTypeCal[this.eraType], d.getUTCMonth(), d.getUTCDate()))
+        : new Date(((Math.floor((d.getFullYear() + this.eraTypeCal[this.eraType]) / 10)) * 10) - this.eraTypeCal[this.eraType], d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 10; i++) {
         years.push({
           year: this.utils.getFullYear(dObj),
+          showYear: this.utils.getFullYear(dObj) + this.eraTypeCal[this.eraType],
           timestamp: dObj.getTime(),
           isSelected: this.isSelectedYear(dObj),
           isDisabled: this.isDisabledYear(dObj)
@@ -60,9 +63,9 @@ export default {
      * @return {String}
      */
     getPageDecade () {
-      const decadeStart = Math.floor(this.utils.getFullYear(this.pageDate) / 10) * 10
-      const decadeEnd = decadeStart + 9
       const yearSuffix = this.translation.yearSuffix
+      const decadeStart = Math.floor((this.utils.getFullYear(this.pageDate) + this.eraTypeCal[this.eraType]) / 10) * 10
+      const decadeEnd = decadeStart + 9
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`
     },
     /**
@@ -82,6 +85,16 @@ export default {
       return this.isRtl
         ? this.isPreviousDecadeDisabled(this.pageTimestamp)
         : this.isNextDecadeDisabled(this.pageTimestamp)
+    },
+    /**
+     * For calculate year with type
+     * @return {Object}
+     */
+    eraTypeCal () {
+      return {
+        'CE': 0,
+        'BE': 543
+      }
     }
   },
   data () {
