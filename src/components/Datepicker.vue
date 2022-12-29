@@ -48,6 +48,7 @@
       :mondayFirst="mondayFirst"
       :dayCellContent="dayCellContent"
       :use-utc="useUtc"
+      :transformCurrYearName="transformCurrYearName"
       @changedMonth="handleChangedMonthFromDayPicker"
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
@@ -153,7 +154,8 @@ export default {
     maximumView: {
       type: String,
       default: 'year'
-    }
+    },
+    transformCurrYearName: { type: Function }
   },
   data () {
     const startDate = this.openDate ? new Date(this.openDate) : new Date()
