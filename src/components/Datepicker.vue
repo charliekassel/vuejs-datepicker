@@ -339,7 +339,6 @@ export default {
      */
     clickOutside (event) {
       if (this.$el && !this.$el.contains(event.target)) {
-        this.resetDefaultPageDate();
         this.close(true);
         document.removeEventListener('click', this.clickOutside, false);
       }
@@ -361,17 +360,6 @@ export default {
         event.preventDefault();
         lastFocusableElement.focus();
       }
-    },
-    /**
-     * Called in the event that the user navigates to date pages and
-     * closes the picker without selecting a date.
-     */
-    resetDefaultPageDate () {
-      if (this.selectedDate === null) {
-        this.setPageDate();
-        return;
-      }
-      this.setPageDate(this.selectedDate);
     },
     /**
      * Effectively a toggle to show/hide the calendar

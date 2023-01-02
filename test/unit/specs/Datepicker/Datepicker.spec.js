@@ -194,32 +194,6 @@ describe('Datepicker mounted', () => {
     expect(wrapper.vm.showMonthView).toEqual(true);
   });
 
-  it('resets the default page date', () => {
-    const wrapper = shallowMount(Datepicker);
-    const today = new Date();
-    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear());
-    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth());
-    expect(wrapper.vm.pageDate.getDate()).toEqual(1);
-    wrapper.vm.resetDefaultPageDate();
-    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear());
-    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth());
-    expect(wrapper.vm.pageDate.getDate()).toEqual(1);
-  });
-
-  it('does not set the default page date if a date is selected', () => {
-    const wrapper = shallowMount(Datepicker);
-    const today = new Date();
-    const pastDate = new Date(2018, 3, 20);
-    expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear());
-    expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth());
-    expect(wrapper.vm.pageDate.getDate()).toEqual(1);
-    wrapper.vm.setDate(pastDate.getTime());
-    wrapper.vm.resetDefaultPageDate();
-    expect(wrapper.vm.pageDate.getFullYear()).toEqual(pastDate.getFullYear());
-    expect(wrapper.vm.pageDate.getMonth()).toEqual(pastDate.getMonth());
-    expect(wrapper.vm.pageDate.getDate()).toEqual(1);
-  });
-
   it('sets the date on typedDate event', () => {
     const wrapper = shallowMount(Datepicker);
     const today = new Date();
