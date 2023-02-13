@@ -208,7 +208,9 @@ describe('Datepicker mounted', () => {
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setValue');
-    wrapper.vm.value = '2018-04-26';
+    wrapper.setProps({
+      value: '2018-04-26',
+    });
     wrapper.vm.$nextTick(() => {
       expect(spy).toBeCalled();
       done();
@@ -222,7 +224,9 @@ describe('Datepicker mounted', () => {
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setPageDate');
-    wrapper.vm.openDate = new Date(2018, 3, 26);
+    wrapper.setProps({
+      openDate: new Date(2018, 3, 26),
+    });
     wrapper.vm.$nextTick(() => {
       expect(spy).toBeCalled();
       done();
@@ -236,7 +240,9 @@ describe('Datepicker mounted', () => {
       },
     });
     const spy = jest.spyOn(wrapper.vm, 'setInitialView');
-    wrapper.vm.initialView = 'month';
+    wrapper.setProps({
+      initialView: 'month',
+    });
     wrapper.vm.$nextTick(() => {
       expect(spy).toBeCalled();
       done();
@@ -319,7 +325,7 @@ describe('Datepicker.vue using UTC', () => {
     });
     // It's important to assert the input rendered output
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.find(DateInput).vm.formattedValue).toEqual(UTCString);
+      expect(wrapper.findComponent(DateInput).vm.formattedValue).toEqual(UTCString);
       done();
     });
   });
