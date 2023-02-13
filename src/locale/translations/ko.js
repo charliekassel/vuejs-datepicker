@@ -9,6 +9,4 @@ const language = new Language(
 language.yearSuffix = '년';
 language.ymd = true;
 
-export default language
-// eslint-disable-next-line
-;
+export default language;

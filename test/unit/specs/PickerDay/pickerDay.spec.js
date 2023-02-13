@@ -35,10 +35,11 @@ describe('PickerDay: DOM', () => {
     await wrapper.setProps({
       highlightDate: jest.fn(),
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
     const daysGrid = daysGrids.wrappers[0];
     expect(daysGrid.exists()).toBe(true);
-    daysGrid.vm.$emit('mouseover');
+    const dateObj = wrapper.vm.getDateObject(new Date(2016, 12, 5));
+    daysGrid.vm.$emit('mouseover', dateObj);
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1);
   });
 
@@ -50,10 +51,11 @@ describe('PickerDay: DOM', () => {
         dates: [ date ],
       },
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
     const daysGrid = daysGrids.wrappers[0];
     expect(daysGrid.exists()).toBe(true);
-    daysGrid.vm.$emit('mouseover', date);
+    const dateObj = wrapper.vm.getDateObject(date);
+    daysGrid.vm.$emit('mouseover', dateObj);
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(0);
   });
 
@@ -62,10 +64,11 @@ describe('PickerDay: DOM', () => {
       highlightDate: jest.fn(),
       sideBySide: true,
     });
-    const daysGrids = wrapper.findAll(DaysGrid);
+    const daysGrids = wrapper.findAllComponents(DaysGrid);
     const daysGrid = daysGrids.wrappers[1];
     expect(daysGrid.exists()).toBe(true);
-    daysGrid.vm.$emit('mouseover');
+    const dateObj = wrapper.vm.getDateObject(new Date(2016, 12, 5));
+    daysGrid.vm.$emit('mouseover', dateObj);
     expect(wrapper.props().highlightDate).toHaveBeenCalledTimes(1);
   });
 
@@ -95,13 +98,13 @@ describe('PickerDay: DOM', () => {
 
   it('displays the footer if the showFooter prop is true', async () => {
     await wrapper.setProps({ showFooter: true });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(true);
   });
 
   it('does not display the footer if the showFooter prop is false', async () => {
     await wrapper.setProps({ showFooter: false });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(false);
   });
 
@@ -118,7 +121,7 @@ describe('PickerDay: DOM', () => {
         footer: '<p class="footer">The footer</p>',
       },
     });
-    const footer = wrapper.find(PickerFooter);
+    const footer = wrapper.findComponent(PickerFooter);
     expect(footer.exists()).toBe(false);
 
     const customFooter = wrapper.find('.footer');
@@ -134,11 +137,13 @@ describe('PickerDay: DOM', () => {
       wrapper = mount(PickerDay, {
         propsData: {
           allowedToShowView: () => true,
-          translation: en,
+          clearDate: jest.fn(),
           pageDate: new Date(2018, 1, 1),
           selectedDate: new Date(2018, 2, 24),
+          setToday: jest.fn(),
           showFooter: true,
           sideBySide: false,
+          translation: en,
         },
       });
       expect(getFirstGrid(wrapper).exists()).toBe(true);
@@ -149,9 +154,11 @@ describe('PickerDay: DOM', () => {
       wrapper = mount(PickerDay, {
         propsData: {
           allowedToShowView: () => true,
+          clearDate: jest.fn(),
           translation: en,
           pageDate: new Date(2018, 1, 1),
           selectedDate: new Date(2018, 2, 24),
+          setToday: jest.fn(),
           showFooter: true,
           sideBySide: true,
         },

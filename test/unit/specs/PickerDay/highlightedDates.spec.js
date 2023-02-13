@@ -139,8 +139,8 @@ describe('PickerDay highlight date', () => {
     });
 
     wrapper.vm.highlightDate.mockClear();
-
-    wrapper.vm.highlightOnMouseover(new Date(Date.UTC(2016, 12, 5)));
+    const date = wrapper.vm.getDateObject(new Date(Date.UTC(2016, 12, 5)));
+    wrapper.vm.highlightOnMouseover(date);
     expect(wrapper.vm.highlightDate).not.toBeCalled();
   });
 });

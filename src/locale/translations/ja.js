@@ -11,5 +11,4 @@ language.yearSuffix = '年';
 language.ymd = true;
 
 export default language
-// eslint-disable-next-line
 ;

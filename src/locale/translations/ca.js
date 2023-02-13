@@ -5,6 +5,4 @@ export default new Language(
   [ 'Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre' ],
   [ 'Gen', 'Feb', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Des' ],
   [ 'Diu', 'Dil', 'Dmr', 'Dmc', 'Dij', 'Div', 'Dis' ],
-)
-// eslint-disable-next-line
-;
+);

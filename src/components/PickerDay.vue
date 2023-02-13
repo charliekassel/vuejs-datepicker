@@ -413,7 +413,8 @@ export default {
      * @param {Date} date
      */
     highlightOnMouseover (date) {
-      if (this.isDisabledDate(date) || !this.highlightDate) return;
+      if (date.isDisabled || !this.highlightDate) return;
+
       this.highlightDate(date);
     },
     /**
@@ -561,7 +562,5 @@ export default {
       return typeof prop !== 'undefined' && prop;
     },
   },
-}
-// eslint-disable-next-line
-;
+};
 </script>
