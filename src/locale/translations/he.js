@@ -9,6 +9,4 @@ const language = new Language(
 
 language.rtl = true;
 
-export default language
-// eslint-disable-next-line
-;
+export default language;

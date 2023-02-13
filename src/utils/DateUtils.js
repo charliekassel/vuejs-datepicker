@@ -247,6 +247,4 @@ export const makeDateUtils = useUtc => ({ ...utils, useUtc });
 
 export default {
   ...utils,
-}
-// eslint-disable-next-line
-;
+};

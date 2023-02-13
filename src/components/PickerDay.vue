@@ -561,7 +561,5 @@ export default {
       return typeof prop !== 'undefined' && prop;
     },
   },
-}
-// eslint-disable-next-line
-;
+};
 </script>

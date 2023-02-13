@@ -100,6 +100,4 @@ export {
   vi,
   zh,
   zhHK,
-}
-// eslint-disable-next-line
-;
+};

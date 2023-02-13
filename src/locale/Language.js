@@ -52,6 +52,4 @@ export default class Language {
     }
     this._days = days;
   }
-}
-// eslint-disable-next-line
-;
+};

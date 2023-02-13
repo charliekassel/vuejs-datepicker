@@ -609,9 +609,7 @@ export default {
       this.isInitialized = true;
     },
   },
-}
-// eslint-disable-next-line
-;
+};
 </script>
 <style lang="stylus">
 @import '../styles/style'

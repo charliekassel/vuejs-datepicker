@@ -176,7 +176,5 @@ export default {
       this.$emit('clearDate');
     },
   },
-}
-// eslint-disable-next-line
-;
+};
 </script>
