@@ -413,7 +413,7 @@ export default {
      * @param {Date} date
      */
     highlightOnMouseover (date) {
-      if(date.isDisabled || !this.highlightDate) return;
+      if (date.isDisabled || !this.highlightDate) return;
 
       this.highlightDate(date);
     },
