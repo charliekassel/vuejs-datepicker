@@ -4,7 +4,7 @@ import Demo from './Demo.vue'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+window.app = new Vue({
   el: '#app',
   render: h => h(Demo)
 })

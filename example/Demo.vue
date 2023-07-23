@@ -207,6 +207,22 @@
     </div>
 
     <div class="example">
+      <h3>Placement</h3>
+      <datepicker :placement="placement"></datepicker>
+      <code>
+        &lt;datepicker :placement="{{ placement }}"&gt;&lt;/datepicker&gt;
+      </code>
+      <div class="settings">
+        <h5>Settings</h5>
+        <select v-model="placement">
+          <option value="auto">Auto</option>
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="example">
       <h3>Day view only</h3>
       <datepicker :minimumView="'day'" :maximumView="'day'"></datepicker>
       <code>
@@ -245,7 +261,6 @@
         &lt;datepicker :minimumView="'month'" :maximumView="'year'" :initialView="'year'"&gt;&lt;/datepicker&gt;
       </code>
     </div>
-
   </div>
 </template>
 
@@ -287,7 +302,8 @@ export default {
       state: state,
       vModelExample: null,
       languages: lang,
-      language: 'en'
+      language: 'en',
+      placement: 'auto',
     }
   },
   computed: {
