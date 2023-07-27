@@ -2,10 +2,12 @@ import path from 'path'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 import vue from 'rollup-plugin-vue'
-import babel from 'rollup-plugin-babel'
+import babel from '@rollup/plugin-babel'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import common from 'rollup-plugin-commonjs'
+import postcss from 'rollup-plugin-postcss'
+import autoprefixer from 'autoprefixer'
 
 export default {
   input: path.join(__dirname, '..', 'example', 'main.js'),
@@ -19,6 +21,7 @@ export default {
     vue({
       css: true
     }),
+    postcss({plugins: [autoprefixer()]}),
     replace({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
@@ -30,8 +33,8 @@ export default {
     serve({
       open: true,
       contentBase: path.join(__dirname, '..', 'example'),
-      host: 'localhost',
-      port: 10001
+      host: '0.0.0.0',
+      port: 3000
     }),
     livereload({
       verbose: true,

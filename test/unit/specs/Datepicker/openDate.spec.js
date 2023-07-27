@@ -1,11 +1,12 @@
 import Datepicker from '@/components/Datepicker.vue'
-import {shallow} from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 
 describe('Datepicker with open date', () => {
   const openDate = new Date(2016, 9, 12)
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(Datepicker, {
+    wrapper = mount(Datepicker, {
+      shallow: true,
       propsData: {
         openDate: openDate
       }
@@ -34,7 +35,7 @@ describe('Datepicker with open date', () => {
   })
 
   it('should show today\'s date if no open date is set', () => {
-    wrapper = shallow(Datepicker)
+    wrapper = mount(Datepicker, { shallow: true })
     const today = new Date()
     expect(wrapper.vm.pageDate.getMonth()).toEqual(today.getMonth())
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(today.getFullYear())

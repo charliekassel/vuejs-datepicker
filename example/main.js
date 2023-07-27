@@ -1,10 +1,6 @@
-import Vue from 'vue'
+import { createApp } from 'vue';
 import Demo from './Demo.vue'
 
-Vue.config.productionTip = false
+const app = createApp(Demo);
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  render: h => h(Demo)
-})
+app.mount("#app");
