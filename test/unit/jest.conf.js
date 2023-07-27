@@ -1,6 +1,10 @@
 const path = require('path')
 
 module.exports = {
+  testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+     customExportConditions: ["node", "node-addons"],
+  },
   rootDir: path.resolve(__dirname, '../../'),
   moduleFileExtensions: [
     'js',
@@ -12,7 +16,7 @@ module.exports = {
   },
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest'
+    '.*\\.(vue)$': '@vue/vue3-jest'
   },
   setupFiles: ['<rootDir>/test/unit/setup'],
   coverageDirectory: '<rootDir>/test/unit/coverage',

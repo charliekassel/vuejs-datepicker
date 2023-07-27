@@ -108,7 +108,7 @@ export default {
     PickerYear
   },
   props: {
-    value: {
+    modelValue: {
       validator: val => utils.validateDateInput(val)
     },
     name: String,
@@ -187,7 +187,7 @@ export default {
     }
   },
   watch: {
-    value (value) {
+    modelValue (value) {
       this.setValue(value)
     },
     openDate () {
@@ -331,7 +331,7 @@ export default {
       this.selectedDate = date
       this.setPageDate(date)
       this.$emit('selected', date)
-      this.$emit('input', date)
+      this.$emit('update:modelValue', date)
     },
     /**
      * Clear the selected date
@@ -340,7 +340,7 @@ export default {
       this.selectedDate = null
       this.setPageDate()
       this.$emit('selected', null)
-      this.$emit('input', null)
+      this.$emit('update:modelValue', null)
       this.$emit('cleared')
     },
     /**
@@ -445,8 +445,8 @@ export default {
      * Initiate the component
      */
     init () {
-      if (this.value) {
-        this.setValue(this.value)
+      if (this.modelValue) {
+        this.setValue(this.modelValue)
       }
       if (this.isInline) {
         this.setInitialView()

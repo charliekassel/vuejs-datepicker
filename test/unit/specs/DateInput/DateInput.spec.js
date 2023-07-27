@@ -1,12 +1,13 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import {en} from '@/locale'
 
 describe('DateInput', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(DateInput, {
+    wrapper = mount(DateInput, {
+      shallow: true,
       propsData: {
         selectedDate: new Date(2018, 2, 24),
         format: 'dd MMM yyyy',
@@ -19,8 +20,8 @@ describe('DateInput', () => {
     expect(wrapper.findAll('input')).toHaveLength(1)
   })
 
-  it('nulls date', () => {
-    wrapper.setProps({
+  it('nulls date', async () => {
+    await wrapper.setProps({
       selectedDate: null
     })
     expect(wrapper.vm.formattedValue).toBeNull()
@@ -32,8 +33,8 @@ describe('DateInput', () => {
     expect(wrapper.find('input').element.value).toEqual('24 Mar 2018')
   })
 
-  it('delegates date formatting', () => {
-    wrapper.setProps({
+  it('delegates date formatting', async () => {
+    await wrapper.setProps({
       selectedDate: new Date(2016, 1, 15),
       format: () => '2016/1/15'
     })
@@ -46,15 +47,15 @@ describe('DateInput', () => {
     expect(wrapper.emitted().showCalendar).toBeTruthy()
   })
 
-  it('adds bootstrap classes', () => {
-    wrapper.setProps({
+  it('adds bootstrap classes', async () => {
+    await wrapper.setProps({
       bootstrapStyling: true
     })
     expect(wrapper.find('input').element.classList).toContain('form-control')
   })
 
-  it('appends bootstrap classes', () => {
-    wrapper.setProps({
+  it('appends bootstrap classes', async () => {
+    await wrapper.setProps({
       inputClass: 'someClass',
       bootstrapStyling: true
     })
@@ -62,15 +63,15 @@ describe('DateInput', () => {
     expect(wrapper.find('input').element.classList).toContain('someClass')
   })
 
-  it('can be disabled', () => {
-    wrapper.setProps({
+  it('can be disabled', async () => {
+    await wrapper.setProps({
       disabled: true
     })
     expect(wrapper.find('input').attributes().disabled).toBeDefined()
   })
 
-  it('accepts a function as a formatter', () => {
-    wrapper.setMethods({
+  it('accepts a function as a formatter', async () => {
+    await wrapper.setProps({
       format: () => '!'
     })
     expect(wrapper.find('input').element.value).toEqual('!')
