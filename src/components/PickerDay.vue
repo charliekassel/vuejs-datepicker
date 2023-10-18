@@ -75,7 +75,7 @@ export default {
      */
     blankDays () {
       const d = this.pageDate
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
         : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
       if (this.mondayFirst) {
@@ -88,12 +88,12 @@ export default {
      */
     days () {
       const d = this.pageDate
-      let days = []
+      const days = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1))
         : new Date(d.getFullYear(), d.getMonth(), 1, d.getHours(), d.getMinutes())
-      let daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
+      const daysInMonth = this.utils.daysInMonth(this.utils.getFullYear(dObj), this.utils.getMonth(dObj))
       for (let i = 0; i < daysInMonth; i++) {
         days.push({
           date: this.utils.getDate(dObj),
@@ -179,7 +179,7 @@ export default {
      * @param {Number} incrementBy
      */
     changeMonth (incrementBy) {
-      let date = this.pageDate
+      const date = this.pageDate
       this.utils.setMonth(date, this.utils.getMonth(date) + incrementBy)
       this.$emit('changedMonth', date)
     },
@@ -199,7 +199,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.to) {
         return false
       }
-      let d = this.pageDate
+      const d = this.pageDate
       return this.utils.getMonth(this.disabledDates.to) >= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.to) >= this.utils.getFullYear(d)
     },
@@ -219,7 +219,7 @@ export default {
       if (!this.disabledDates || !this.disabledDates.from) {
         return false
       }
-      let d = this.pageDate
+      const d = this.pageDate
       return this.utils.getMonth(this.disabledDates.from) <= this.utils.getMonth(d) &&
         this.utils.getFullYear(this.disabledDates.from) <= this.utils.getFullYear(d)
     },
@@ -323,13 +323,13 @@ export default {
     },
     dayClasses (day) {
       return {
-        'selected': day.isSelected,
-        'disabled': day.isDisabled,
-        'highlighted': day.isHighlighted,
-        'today': day.isToday,
-        'weekend': day.isWeekend,
-        'sat': day.isSaturday,
-        'sun': day.isSunday,
+        selected: day.isSelected,
+        disabled: day.isDisabled,
+        highlighted: day.isHighlighted,
+        today: day.isToday,
+        weekend: day.isWeekend,
+        sat: day.isSaturday,
+        sun: day.isSunday,
         'highlight-start': day.isHighlightStart,
         'highlight-end': day.isHighlightEnd
       }

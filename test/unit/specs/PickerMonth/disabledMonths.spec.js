@@ -1,6 +1,6 @@
 import PickerMonth from '@/components/PickerMonth.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerMonth', () => {
   let wrapper
@@ -20,7 +20,7 @@ describe('PickerMonth', () => {
   })
 
   it('cant select a disabled month', () => {
-    const month = {isDisabled: true}
+    const month = { isDisabled: true }
     expect(wrapper.vm.selectMonth(month)).toEqual(false)
   })
 

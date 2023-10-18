@@ -1,5 +1,5 @@
 import Datepicker from '@/components/Datepicker.vue'
-import {shallow} from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 
 describe('Datepicker with open date', () => {
   const openDate = new Date(2016, 9, 12)
@@ -7,7 +7,7 @@ describe('Datepicker with open date', () => {
   beforeEach(() => {
     wrapper = shallow(Datepicker, {
       propsData: {
-        openDate: openDate
+        openDate
       }
     })
   })
@@ -28,7 +28,7 @@ describe('Datepicker with open date', () => {
 
   it('should open with selected date if one is set', () => {
     const newDate = new Date(2018, 10, 9)
-    wrapper.vm.selectDate({timestamp: newDate.getTime()})
+    wrapper.vm.selectDate({ timestamp: newDate.getTime() })
     expect(wrapper.vm.pageDate.getMonth()).toEqual(10)
     expect(wrapper.vm.pageDate.getFullYear()).toEqual(2018)
   })

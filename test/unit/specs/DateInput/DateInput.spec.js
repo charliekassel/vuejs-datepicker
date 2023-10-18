@@ -1,6 +1,6 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('DateInput', () => {
   let wrapper

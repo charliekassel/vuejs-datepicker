@@ -201,10 +201,10 @@ const utils = {
    */
   formatDate (date, format, translation) {
     translation = (!translation) ? en : translation
-    let year = this.getFullYear(date)
-    let month = this.getMonth(date) + 1
-    let day = this.getDate(date)
-    let str = format
+    const year = this.getFullYear(date)
+    const month = this.getMonth(date) + 1
+    const day = this.getDate(date)
+    const str = format
       .replace(/dd/, ('0' + day).slice(-2))
       .replace(/d/, day)
       .replace(/yyyy/, year)
@@ -225,7 +225,7 @@ const utils = {
    * @return {Array}
    */
   createDateArray (start, end) {
-    let dates = []
+    const dates = []
     while (start <= end) {
       dates.push(new Date(start))
       start = this.setDate(new Date(start), this.getDate(new Date(start)) + 1)
@@ -243,7 +243,7 @@ const utils = {
   }
 }
 
-export const makeDateUtils = useUtc => ({...utils, useUtc})
+export const makeDateUtils = useUtc => ({ ...utils, useUtc })
 
 export default {
   ...utils

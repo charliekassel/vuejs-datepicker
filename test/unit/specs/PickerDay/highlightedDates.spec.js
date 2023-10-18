@@ -1,6 +1,6 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerDay highlight date', () => {
   let wrapper
@@ -15,7 +15,7 @@ describe('PickerDay highlight date', () => {
           from: new Date(2016, 12, 4)
         },
         disabledDates: {
-          dates: [ new Date(2016, 12, 5) ]
+          dates: [new Date(2016, 12, 5)]
         }
       }
     })

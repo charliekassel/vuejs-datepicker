@@ -1,6 +1,6 @@
 import Datepicker from '@/components/Datepicker.vue'
 import DateInput from '@/components/DateInput.vue'
-import {shallow, mount} from '@vue/test-utils'
+import { shallow, mount } from '@vue/test-utils'
 
 describe('Datepicker unmounted', () => {
   it('has a mounted hook', () => {
@@ -101,13 +101,13 @@ describe('Datepicker mounted', () => {
 
   it('should emit selectedDisabled on a disabled timestamp', () => {
     const date = new Date(2016, 9, 1)
-    wrapper.vm.selectDisabledDate({timestamp: date.getTime()})
+    wrapper.vm.selectDisabledDate({ timestamp: date.getTime() })
     expect(wrapper.emitted().selectedDisabled).toBeTruthy()
   })
 
   it('can select a day', () => {
     const date = new Date(2016, 9, 1)
-    wrapper.vm.selectDate({timestamp: date.getTime()})
+    wrapper.vm.selectDate({ timestamp: date.getTime() })
     expect(wrapper.vm.pageTimestamp).toEqual(date.getTime())
     expect(wrapper.vm.selectedDate.getMonth()).toEqual(9)
     expect(wrapper.vm.showDayView).toEqual(false)
@@ -116,7 +116,7 @@ describe('Datepicker mounted', () => {
 
   it('can select a month', () => {
     const date = new Date(2016, 9, 9)
-    wrapper.vm.selectMonth({timestamp: date.getTime()})
+    wrapper.vm.selectMonth({ timestamp: date.getTime() })
     expect(wrapper.emitted().changedMonth).toBeTruthy()
     expect(wrapper.emitted().changedMonth[0][0].timestamp).toEqual(date.getTime())
     expect(new Date(wrapper.vm.pageTimestamp).getMonth()).toEqual(date.getMonth())
@@ -125,7 +125,7 @@ describe('Datepicker mounted', () => {
 
   it('can select a year', () => {
     const date = new Date(2018, 9, 9)
-    wrapper.vm.selectYear({timestamp: date.getTime()})
+    wrapper.vm.selectYear({ timestamp: date.getTime() })
     expect(wrapper.emitted().changedYear).toBeTruthy()
     expect(wrapper.emitted().changedYear[0][0].timestamp).toEqual(date.getTime())
     expect(new Date(wrapper.vm.pageTimestamp).getFullYear()).toEqual(date.getFullYear())
@@ -209,7 +209,7 @@ describe('Datepicker mounted', () => {
 
   it('should emit changedMonth on a month change received from PickerDay', () => {
     const date = new Date(2016, 9, 1)
-    wrapper.vm.handleChangedMonthFromDayPicker({timestamp: date.getTime()})
+    wrapper.vm.handleChangedMonthFromDayPicker({ timestamp: date.getTime() })
     expect(wrapper.emitted().changedMonth).toBeTruthy()
   })
 })

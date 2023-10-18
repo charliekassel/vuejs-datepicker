@@ -1,6 +1,6 @@
 import PickerYear from '@/components/PickerYear.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerYear', () => {
   let wrapper
@@ -46,7 +46,7 @@ describe('PickerYear', () => {
   })
 
   it('emits an event when selected', () => {
-    wrapper.vm.selectYear({isDisabled: false})
+    wrapper.vm.selectYear({ isDisabled: false })
     expect(wrapper.emitted().selectYear).toBeTruthy()
   })
 })

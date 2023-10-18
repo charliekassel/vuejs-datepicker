@@ -1,6 +1,6 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerDay: changing months', () => {
   let wrapper

@@ -44,9 +44,9 @@ export default {
   computed: {
     months () {
       const d = this.pageDate
-      let months = []
+      const months = []
       // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
+      const dObj = this.useUtc
         ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
         : new Date(d.getFullYear(), 0, d.getDate(), d.getHours(), d.getMinutes())
       for (let i = 0; i < 12; i++) {
@@ -103,7 +103,7 @@ export default {
      * @param {Number} incrementBy
      */
     changeYear (incrementBy) {
-      let date = this.pageDate
+      const date = this.pageDate
       this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy)
       this.$emit('changedYear', date)
     },

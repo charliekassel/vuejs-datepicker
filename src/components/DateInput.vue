@@ -90,7 +90,7 @@ export default {
         if (typeof this.inputClass === 'string') {
           return [this.inputClass, 'form-control'].join(' ')
         }
-        return {'form-control': true, ...this.inputClass}
+        return { 'form-control': true, ...this.inputClass }
       }
       return this.inputClass
     }

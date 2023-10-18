@@ -1,6 +1,6 @@
 import PickerMonth from '@/components/PickerMonth.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerMonth', () => {
   let wrapper
@@ -36,7 +36,7 @@ describe('PickerMonth', () => {
 
   it('emits date on selection', () => {
     const time = new Date().getTime()
-    wrapper.vm.selectMonth({timestamp: time})
+    wrapper.vm.selectMonth({ timestamp: time })
     expect(wrapper.emitted().selectMonth).toBeTruthy()
     expect(wrapper.emitted().selectMonth[0][0].timestamp).toEqual(time)
   })

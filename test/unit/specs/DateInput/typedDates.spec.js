@@ -1,6 +1,6 @@
 import DateInput from '@/components/DateInput.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('DateInput', () => {
   let wrapper
@@ -40,13 +40,13 @@ describe('DateInput', () => {
   it('emits closeCalendar when return is pressed', () => {
     const input = wrapper.find('input')
     const blurSpy = jest.spyOn(input.element, 'blur')
-    input.trigger('keyup', {keyCode: 13})
+    input.trigger('keyup', { keyCode: 13 })
     expect(blurSpy).toBeCalled()
   })
 
   it('clears a typed date if it does not parse', () => {
     const input = wrapper.find('input')
-    wrapper.setData({typedDate: 'not a date'})
+    wrapper.setData({ typedDate: 'not a date' })
     input.trigger('blur')
     expect(wrapper.emitted().clearDate).toBeDefined()
   })

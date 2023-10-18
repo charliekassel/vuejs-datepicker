@@ -1,6 +1,6 @@
 import PickerDay from '@/components/PickerDay.vue'
-import {shallow} from '@vue/test-utils'
-import {en} from '@/locale'
+import { shallow } from '@vue/test-utils'
+import { en } from '@/locale'
 
 describe('PickerDay: DOM', () => {
   let wrapper
@@ -25,7 +25,7 @@ describe('PickerDay: DOM', () => {
   })
 
   it('emits an event when selected', () => {
-    wrapper.vm.selectDate({isDisabled: false})
+    wrapper.vm.selectDate({ isDisabled: false })
     expect(wrapper.emitted().selectDate).toBeTruthy()
   })
 
