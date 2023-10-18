@@ -26,9 +26,8 @@
       @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
-      <slot name="afterDateInput" slot="afterDateInput"></slot>
+      <template v-slot:afterDateInput></template>
     </date-input>
-
 
     <!-- Day View -->
     <picker-day
@@ -52,7 +51,7 @@
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template v-slot:beforeCalendarHeader></template>
     </picker-day>
 
     <!-- Month View -->
@@ -71,7 +70,7 @@
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template v-slot:beforeCalendarHeader></template>
     </picker-month>
 
     <!-- Year View -->
@@ -89,7 +88,7 @@
       :use-utc="useUtc"
       @selectYear="selectYear"
       @changedDecade="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template v-slot:beforeCalendarHeader></template>
     </picker-year>
   </div>
 </template>
@@ -391,7 +390,7 @@ export default {
      */
     setValue (date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        let parsed = new Date(date)
+        const parsed = new Date(date)
         date = isNaN(parsed.valueOf()) ? null : parsed
       }
       if (!date) {
