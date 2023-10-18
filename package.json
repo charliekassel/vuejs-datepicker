@@ -8,16 +8,16 @@
     "date-picker",
     "calendar"
   ],
-  "module": "dist/vuejs-datepicker.es.js",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/vuejs-datepicker.umd.cjs",
+  "module": "dist/vuejs-datepicker.js",
   "exports": {
     ".": {
-      "import": "./dist/vuejs-datepicker.es.js"
+      "import": "./dist/vuejs-datepicker.js",
+      "require": "./dist/vuejs-datepicker.umd.cjs"
     }
   },
-  "files": [
-    "src",
-    "dist"
-  ],
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
     "type": "git",

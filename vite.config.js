@@ -2,11 +2,11 @@ import {resolve} from 'path'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-module.exports = defineConfig({
+export default defineConfig({
   plugins: [vue()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/main.js'),
+      entry: resolve(__dirname, 'src/main.js'),
       name: 'vuejsDatepicker',
       fileName: 'vuejs-datepicker'
     }
@@ -15,8 +15,8 @@ module.exports = defineConfig({
     external: ['vue'],
     output: {
       globals: {
-        vue: 'Vue',
+        vue: 'Vue'
       }
     }
   }
-});
+})
