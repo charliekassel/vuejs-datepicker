@@ -9,7 +9,9 @@
     "calendar"
   ],
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/vuejs-datepicker.umd.cjs",
   "module": "dist/vuejs-datepicker.js",
   "exports": {
@@ -44,8 +46,7 @@
     "postcss": "^8.4.31",
     "postcss-html": "^1.5.0",
     "rimraf": "^5.0.5",
-    "stylus": "^0.60.0",
-    "vite": "^4.3.5",
+    "vite": "^4.5.0",
     "vite-plugin-eslint": "^1.8.1"
   },
   "peerDependencies": {

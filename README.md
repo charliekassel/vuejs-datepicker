@@ -5,7 +5,12 @@
 [![Coveralls github](https://img.shields.io/coveralls/github/charliekassel/vuejs-datepicker.svg)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 [![Downloads](https://img.shields.io/npm/dm/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
 
-A datepicker Vue component. Compatible with Vue 2.x
+A datepicker Vue component. Compatible with Vue 3.x
+
+## Vue 3.x Caveats
+For now only regular/beta builds 2.0.0 and upwards supports Vue 3.x.
+You may or may not need to include `dist/style.css`.
+Locales are unsupported for now (needs work with Vite config)
 
 - [Demo](#demo)
 - [Install](#install)
@@ -81,6 +86,36 @@ const app = new Vue({
   }
 })
 </script>
+```
+
+Or use directly from a CDN (modern browsers (es) only)
+```html
+<head>
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/@tunezilla/vuejs-datepicker/dist/style.css" />
+</head>
+<body>
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+        "vuejs-datepicker": "https://unpkg.com/@tunezilla/vuejs-datepicker/dist/vuejs-datepicker.js"
+      }
+    }
+  </script>
+
+  <div id="app">
+    <datepicker></datepicker>
+  </div>
+
+  <script type="module">
+    import { createApp } from 'vue'
+    import { Datepicker } from 'vuejs-datepicker'
+
+    createApp({
+      components: { Datepicker }
+    }).mount('#app')
+  </script>
+</body>
 ```
 
 ## Usage

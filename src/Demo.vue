@@ -250,8 +250,8 @@
 </template>
 
 <script>
-import Datepicker from '../src/components/Datepicker.vue'
-import * as lang from '../src/locale/index.js'
+import Datepicker from './components/Datepicker.vue'
+import * as lang from './locale/index.js'
 
 const state = {
   date1: new Date()
@@ -363,7 +363,6 @@ export default {
 </script>
 
 <style>
-
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 
 body {
