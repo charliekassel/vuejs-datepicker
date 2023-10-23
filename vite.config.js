@@ -9,8 +9,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/main.js'),
-      name: 'vuejsDatepicker',
-      fileName: 'vuejs-datepicker'
+      name: '@tunezilla/vuejs-datepicker',
+      formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: ['vue'],

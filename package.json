@@ -1,5 +1,5 @@
 {
-  "name": "vuejs-datepicker",
+  "name": "@tunezilla/vuejs-datepicker",
   "version": "2.0.0-beta.0",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
@@ -12,12 +12,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/vuejs-datepicker.umd.cjs",
+  "main": "dist/vuejs-datepicker.cjs",
   "module": "dist/vuejs-datepicker.js",
   "exports": {
     ".": {
       "import": "./dist/vuejs-datepicker.js",
-      "require": "./dist/vuejs-datepicker.umd.cjs"
+      "require": "./dist/vuejs-datepicker.cjs"
     }
   },
   "author": "Charlie Kassel <ck@charliekassel.com>",
