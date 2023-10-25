@@ -10,7 +10,8 @@
   ],
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "dist/locale"
   ],
   "main": "dist/vuejs-datepicker.cjs",
   "module": "dist/vuejs-datepicker.js",
@@ -18,7 +19,14 @@
     ".": {
       "import": "./dist/vuejs-datepicker.js",
       "require": "./dist/vuejs-datepicker.cjs"
-    }
+    },
+    "./locale": {
+      "import": "./dist/locale/index.js",
+      "require": "./dist/locale/index.cjs"
+    },
+    "./locale/*.js": "./dist/locale/*.js",
+    "./locale/*.cjs": "./dist/locale/*.cjs",
+    "./style.css": "./dist/style.css"
   },
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
