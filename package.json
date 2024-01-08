@@ -39,9 +39,6 @@
     "test"
   ],
   "dependencies": {},
-  "peerDependencies": {
-    "vue": "^2.6.10"
-  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
