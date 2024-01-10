@@ -10,8 +10,10 @@
   ],
   "main": "dist/vuejs-datepicker.js",
   "module": "dist/vuejs-datepicker.esm.js",
+  "types": "index.d.ts",
   "unpkg": "dist/vuejs-datepicker.min.js",
   "files": [
+    "index.d.ts",
     "src",
     "dist"
   ],
@@ -37,9 +39,6 @@
     "test"
   ],
   "dependencies": {},
-  "peerDependencies": {
-    "vue": "^2.6.10"
-  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
