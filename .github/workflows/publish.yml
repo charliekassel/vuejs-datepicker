@@ -7,21 +7,25 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: '20.x'
+          always-auth: true
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@reedsy"
       - name: Install
         # Skip post-install to avoid malicious scripts stealing PAT
         run: npm install --ignore-script
         env:
           # GITHUB_TOKEN can't access packages hosted in private repos,
           # even within the same organisation
-          NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.REEDSY_BOT_PERSONAL_ACCESS_TOKEN }}
       - name: Post-install
         run: npm rebuild && npm run prepare --if-present
       - name: Publish
