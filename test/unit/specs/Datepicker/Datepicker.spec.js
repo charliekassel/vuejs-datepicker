@@ -419,3 +419,19 @@ describe('Focus after closing the datepicker', () => {
     wrapper.destroy();
   });
 });
+
+describe('Modal', () => {
+  it('closes the datepicker if clicked on overlay', async () => {
+    const wrapper = mount(Datepicker, { attachTo: document.body, propsData: { modal: true } });
+    await wrapper.vm.showCalendar();
+    await wrapper.vm.$nextTick();
+
+    const overlay = wrapper.vm.$refs.overlay;
+    overlay.click();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted().closed).toBeTruthy();
+    wrapper.destroy();
+  });
+});
+
