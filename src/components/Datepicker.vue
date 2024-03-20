@@ -40,7 +40,9 @@
 
     <div
       v-if="modal && isOpen"
+      ref="overlay"
       class="vdp-datepicker__overlay"
+      @click="close(true)"
     />
 
     <!-- Day View -->
