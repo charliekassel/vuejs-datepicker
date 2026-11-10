@@ -347,6 +347,9 @@ export default {
      * @param {Object} date
      */
     selectDate (date) {
+      if (this.disabled) {
+        return
+      }
       this.setDate(date.timestamp)
       if (!this.isInline) {
         this.close(true)

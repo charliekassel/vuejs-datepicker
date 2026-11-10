@@ -114,6 +114,21 @@ describe('Datepicker mounted', () => {
     expect(wrapper.emitted().selected).toBeTruthy()
   })
 
+  it('preserves the selected date when the open picker becomes disabled', () => {
+    const picker = mount(Datepicker, {
+      propsData: {value: date, calendarButton: true}
+    })
+    picker.find('.vdp-datepicker__calendar-button').trigger('click')
+    expect(picker.vm.showDayView).toBe(true)
+
+    picker.setProps({disabled: true})
+    const nextDay = picker.findAll('.cell.day').wrappers.find(day => day.text() === '16')
+    nextDay.trigger('click')
+
+    expect(picker.vm.selectedDate).toEqual(date)
+    expect(picker.emitted().input).toBeUndefined()
+  })
+
   it('can select a month', () => {
     const date = new Date(2016, 9, 9)
     wrapper.vm.selectMonth({timestamp: date.getTime()})
